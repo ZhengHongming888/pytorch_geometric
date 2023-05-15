@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-
 import pytest
 import torch
 
@@ -9,6 +7,18 @@ from torch_geometric.data import LocalFeatureStore
 
 
 @dataclass
+class MyTensorAttrNoGroupName(TensorAttr):
+    def __init__(self, attr_name=_field_status.UNSET,
+                 index=_field_status.UNSET):
+        # Treat group_name as optional, and move it to the end
+        super().__init__(None, attr_name, index)
+
+
+class MyFeatureStoreNoGroupName(LocalFeatureStore):
+    def __init__(self):
+        super().__init__()
+        self._tensor_attr_cls = MyTensorAttrNoGroupName
+
 def test_feature_store():
     store = LocalFeatureStore()
     tensor = torch.Tensor([[0, 0, 0], [1, 1, 1], [2, 2, 2]])
@@ -29,7 +39,6 @@ def test_feature_store():
 
     assert store.update_tensor(tensor + 1, attr)
     assert torch.equal(store.get_tensor(attr), tensor + 1)
-
     store.remove_tensor(attr)
     with pytest.raises(KeyError):
         _ = store.get_tensor(attr)
@@ -69,7 +78,6 @@ def test_feature_store():
     store[group_name] = tensor
     assert isinstance(store[group_name], AttrView)
     assert torch.equal(store[group_name](), tensor)
-
     # Deletion:
     del store[group_name, attr_name, index]
     with pytest.raises(KeyError):
@@ -77,6 +85,7 @@ def test_feature_store():
     del store[group_name]
     with pytest.raises(KeyError):
         _ = store[group_name]()
+
 
 def test_feature_lookup_by_id2index():
 
@@ -90,7 +99,7 @@ def test_feature_lookup_by_id2index():
 
     whole_feat_data= torch.Tensor([[0, 0, 0], [1, 1, 1], [2, 2, 2],[3, 3, 3], [4, 4, 4], [5, 5, 5],[6, 6, 6], [7, 7, 7], [8, 8, 8]])
     # for part1 node ids
-    ids_part1 = torch.Tensor([1, 2, 3, 5, 8, 4])
+    ids_part1 = torch.tensor([1, 2, 3, 5, 8, 4], dtype=torch.int64)
     part1_feat_data = whole_feat_data[ids_part1]
 
     index = torch.arange(0, part1_feat_data.size(0), 1)
@@ -111,6 +120,6 @@ def test_feature_lookup_by_id2index():
 
 
     # lookup the features by global ids like [3, 8, 4]
-    local_ids = torch.tensor([3, 8, 4])
+    local_ids = torch.tensor([3, 8, 4], dtype=torch.int64)
 
     assert torch.equal(store.get_tensor(group_name, attr_name, index=store.id2index[local_ids]), torch.Tensor([[3, 3, 3], [8, 8, 8], [4, 4, 4]]))
