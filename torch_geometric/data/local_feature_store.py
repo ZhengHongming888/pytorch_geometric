@@ -47,6 +47,10 @@ class LocalFeatureStore(FeatureStore):
 
         self.id2index[key_name] = id2idx
 
+    def get_id2index(self, group_name: str, attr_name: str) -> Tensor:
+        key_name = (group_name, attr_name)
+        return self.id2index.get(key_name)
+
     def get_global_ids(self, group_name: str, attr_name: str) -> Tensor:
         key_name = (group_name, attr_name)
         return self.global_idx.get(key_name)
