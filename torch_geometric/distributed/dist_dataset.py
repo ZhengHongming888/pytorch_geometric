@@ -7,7 +7,7 @@ from torch_geometric.data import Data, LocalDataset
 from torch_geometric.data import LocalGraphStore as Graph
 from torch_geometric.data import LocalFeatureStore as Feature
 
-from torch_geometric.partition import load_partition, cat_feature_cache
+from torch_geometric.partition import load_partition, load_partition_glt, cat_feature_cache, _cat_feature_cache
 from torch_geometric.utils import share_memory, id2idx
 from torch_geometric.typing import (
   NodeType, EdgeType, TensorDataType,
@@ -41,6 +41,7 @@ class DistDataset(LocalDataset):
       whole_node_labels
     )
 
+    self.meta = None
     self.num_partitions = num_partitions
     self.partition_idx = partition_idx
 
@@ -62,105 +63,151 @@ class DistDataset(LocalDataset):
     self,
     root_dir: str,
     partition_idx: int,
-    graph_mode: str = 'ZERO_COPY',
-    feature_with_gpu: bool = True,
-    whole_node_label_file: Union[str, Dict[NodeType, str]] = None,
-    device: Optional[int] = None
+    node_label_file: Union[str, Dict[NodeType, str]] = None,
+    partition_format:  str = "pyg"
   ):
-    r""" Load a certain dataset partition from partitioned files and create
-    in-memory objects (``Graph``, ``Feature`` or ``torch.Tensor``).
+    r""" Load one dataset partition from partitioned files.
 
     Args:
-      root_dir (str): The directory path to load the graph and feature
-        partition data.
-      partition_idx (int): Partition idx to load.
-      graph_mode (str): Mode for creating graphlearn_torch's `Graph`, including
-        'CPU', 'ZERO_COPY' or 'CUDA'. (default: 'ZERO_COPY')
-      feature_with_gpu (bool): A Boolean value indicating whether the created
-        ``Feature`` objects of node/edge features use ``UnifiedTensor``.
-        If True, it means ``Feature`` consists of ``UnifiedTensor``, otherwise
-        ``Feature`` is a PyTorch CPU Tensor, the ``device_group_list`` and
-        ``device`` will be invliad. (default: ``True``)
-      device_group_list (List[DeviceGroup], optional): A list of device groups
-        used for feature lookups, the GPU part of feature data will be
-        replicated on each device group in this list during the initialization.
-        GPUs with peer-to-peer access to each other should be set in the same
-        device group properly.  (default: ``None``)
+      root_dir (str): The file path to load the partition data.
+      partition_idx (int): Current partition idx.
       whole_node_label_file (str): The path to the whole node labels which are
         not partitioned. (default: ``None``)
-      device: The target cuda device rank used for graph operations when graph
-        mode is not "CPU" and feature lookups when the GPU part is not None.
-        (default: ``None``)
     """
-    (
-      self.num_partitions,
-      self.partition_idx,
-      graph_data,
-      node_feat_data,
-      edge_feat_data,
-      self.node_pb,
-      self.edge_pb
-    ) = load_partition(root_dir, partition_idx)
+    if partition_format=="pyg":
+        (
+          self.meta,
+          self.num_partitions,
+          self.partition_idx,
+          graph_data,
+          node_feat_data,
+          edge_feat_data,
+          self.node_pb,
+          self.edge_pb
+        ) = load_partition(root_dir, partition_idx)
 
-    # init graph partition
-    if isinstance(graph_data, dict):
-      # heterogeneous.
-      edge_index, edge_ids = {}, {}
-      for k, v in graph_data.items():
-        edge_index[k] = v.edge_index
-        edge_ids[k] = v.eids
-    else:
-      # homogeneous.
-      edge_index = graph_data.edge_index
-      edge_ids = graph_data.eids
+        # init graph partition
+        if(self.meta["hetero_graph"]):
+          # heterogeneous.
 
-    print(f"----------- edge_index={edge_index}----------")
+          edge_attrs=graph_data.get_all_edge_attrs()
+          edge_index={}
+          edge_ids={}
+          for item in edge_attrs:
+            edge_index[item.edge_type] = graph_data.get_edge_index(item)
+            edge_ids[item.edge_type] = graph_data.get_edge_ids(item)
 
-    self.data = Data(x=node_feat_data.feats, edge_index=edge_index, num_nodes=node_feat_data.feats.size(0))
+          if node_feat_data is not None:
+              tensor_attrs = node_feat_data.get_all_tensor_attrs()
+              node_feat={}
+              node_ids={}
+              node_id2index={}
+              for item in tensor_attrs:
+                  node_feat[item.attr_name] = node_feat_data.get_tensor(item.fully_specify())
+                  node_ids[item.attr_name] = node_feat_data.get_global_ids(item.group_name, item.attr_name)
+                  node_id2index[item.attr_name] = node_feat_data.id2index
 
-    print(f"-------------- self.data ={self.data}--------------")
-    print(f"-------------- self.data.edge_index ={self.data.edge_index}--------------")
-    print(f"edge_index={edge_index}, edge_ids={edge_ids}, num_partition={self.num_partitions}, self.partition_idx={self.partition_idx}, graph_data={graph_data}, node_feat_data={node_feat_data}, edge_feat_data={edge_feat_data}, self.node_pb={self.node_pb}, self.edge_pb={self.edge_pb}")
-    print(f"--------- edge_index_len ={len(edge_index[0])}, edge_ids_size={edge_ids.size()}")
-    print(f"--------- node_feat_data.feats.size={node_feat_data.feats.size()}, node_feat_data_ids_len={len(node_feat_data.ids)} ")
-    print(f"--------- node_pb_sum ={self.node_pb.sum()}, node_pb_len ={len(self.node_pb)}, edge_pb_sum ={self.edge_pb.sum()}, edge_pb_len ={len(self.edge_pb)}")
-    
-
-    # init graph/node feature/edge feature by graphstore/featurestore
-    self.init_graph(edge_index, edge_ids, layout='COO')
-
-    if node_feat_data is not None:
-
-      node_feat = node_feat_data.feats
-      node_feat_id2idx = id2idx(node_feat_data.ids)
-      node_feat_pb = self.node_pb
-      
-      self.init_node_features(node_feat, node_feat_id2idx, self.partition_idx, dtype=None)
-      self._node_feat_pb = node_feat_pb
-
-    # load edge feature partition
-    if edge_feat_data is not None:
-
-      edge_feat = edge_feat_data.feats
-      edge_feat_id2idx = id2idx(edge_feat_data.ids)
-      edge_feat_pb = self.edge_pb
-
-      self.init_edge_features(edge_feat, edge_feat_id2idx, self.partition_idx, type=None)
-      self._edge_feat_pb = edge_feat_pb
-
-    print(f"======== init_node_features node_feat_data={node_feat_data}, node_feat_pb={node_feat_pb}, node_feat_id2idx={node_feat_id2idx} ")
-    print(f"-------- self._node_feat_pb={self._node_feat_pb}, self._edge_feat_pb={self._edge_feat_pb}")
-    print(f"-------- self.node_features={self.node_features}, self.edge_features={self.edge_features}")
+          if edge_feat_data is not None:
+              edge_attrs=graph_data.get_all_edge_attrs()
+              edge_feat={}
+              edge_ids={}
+              edge_id2index={}
+              for item in edge_attrs:
+                  edge_feat[item.edge_type] = edge_feat_data.get_tensor(item.fully_specify())
+                  edge_ids[item.edge_type] = edge_feat_data.get_global_ids(item.group_name, item.attr_name)
+                  edge_id2index[item.edge_type] = edge_feat_data.id2index
+          #self.data = Data(x=node_feat, edge_index=edge_index, num_nodes=node_feat.size(0))
 
 
+        else:
+          # homogeneous.
+          
+          edge_attrs=graph_data.get_all_edge_attrs()
+          for item in edge_attrs:
+              edge_index = graph_data.get_edge_index(item)
+              edge_ids = graph_data.get_edge_ids(item)
+
+          if node_feat_data is not None:
+              tensor_attrs = node_feat_data.get_all_tensor_attrs()
+              for item in tensor_attrs:
+                  node_feat = node_feat_data.get_tensor(item.fully_specify())
+                  node_ids = node_feat_data.get_global_ids(item.group_name, item.attr_name)
+                  #node_feat_data.set_id2index(item.group_name, item.attr_name)
+                  node_id2index = node_feat_data.id2index
+
+          if edge_feat_data is not None:
+              tensor_attrs = edge_feat_data.get_all_tensor_attrs()
+              for item in tensor_attrs:
+                  edge_feat = edge_feat_data.get_tensor(item.fully_specify())
+                  edge_ids = edge_feat_data.get_global_ids(item.group_name, item.attr_name)
+                  edge_id2index = edge_feat_data.id2index
+
+          self.data = Data(x=node_feat, edge_index=edge_index, num_nodes=node_feat.size(0))
+
+        # init graph/node feature/edge feature by graphstore/featurestore
+        self.graph = graph_data  
+  
+        # load node feature partition
+        if node_feat_data is not None:
+          self._node_feat_pb = self.node_pb
+          self.node_features = node_feat_data
+  
+        # load edge feature partition
+        if edge_feat_data is not None:
+          self._edge_feat_pb = eself.edge_pb
+          self.edge_features = edge_feat_data
+
+    # for glt partition format ..
+    else:  
+        (
+          self.num_partitions,
+          self.partition_idx,
+          graph_data,
+          node_feat_data,
+          edge_feat_data,
+          self.node_pb,
+          self.edge_pb
+        ) = load_partition_glt(root_dir, partition_idx)
+        
+        # init graph partition
+        if isinstance(graph_data, dict):
+          # heterogeneous.
+          edge_index, edge_ids = {}, {}
+          for k, v in graph_data.items():
+            edge_index[k] = v.edge_index
+            edge_ids[k] = v.eids
+        else:
+          # homogeneous.
+          edge_index = graph_data.edge_index
+          edge_ids = graph_data.eids
+
+        self.init_graph(edge_index, edge_ids, layout='COO')
+
+        # load node feature partition
+        if node_feat_data is not None:
+          node_feat_pb = self.node_pb
+          node_cache_ratio, node_feat, node_ids, node_feat_id2idx, node_feat_pb = \
+            _cat_feature_cache(partition_idx, node_feat_data, self.node_pb)
+          self.init_node_features(node_feat, node_ids, node_feat_id2idx, self.partition_idx, dtype=None)
+          self._node_feat_pb = node_feat_pb
+
+        # load edge feature partition
+        if edge_feat_data is not None:
+          edge_cache_ratio, edge_feat, edge_ids, edge_feat_id2idx, edge_feat_pb = \
+            _cat_feature_cache(partition_idx, edge_feat_data, self.edge_pb)
+          self.init_edge_features(edge_feat, edge_ids, edge_feat_id2idx, self.partition_idx, dtype=None)
+          self._edge_feat_pb = edge_feat_pb
+     
+        self.data = Data(x=node_feat, edge_index=edge_index, num_nodes=node_feat.size(0)) 
+        
     # init for labels
-    if whole_node_label_file is not None:
-      if isinstance(whole_node_label_file, dict):
+    if node_label_file is not None:
+      if isinstance(node_label_file, dict):
         whole_node_labels = {}
-        for ntype, file in whole_node_label_file.items():
+        for ntype, file in node_label_file.items():
           whole_node_labels[ntype] = torch.load(file)
       else:
-        whole_node_labels = torch.load(whole_node_label_file)
+        whole_node_labels = torch.load(node_label_file)
       self.init_node_labels(whole_node_labels)
   
   @property
