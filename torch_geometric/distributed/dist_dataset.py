@@ -108,7 +108,7 @@ class DistDataset(LocalDataset):
                         node_id2index[item.attr_name] = node_feat_data.id2index
         
                 if edge_feat_data is not None:
-                    edge_attrs=graph_data.get_all_edge_attrs()
+                    edge_attrs=edge_feat_data.get_all_edge_attrs()
                     edge_feat={}
                     edge_ids={}
                     edge_id2index={}

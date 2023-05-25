@@ -5,20 +5,6 @@ from torch_geometric.data import TensorAttr
 from torch_geometric.data.feature_store import AttrView, _field_status
 from torch_geometric.data import LocalFeatureStore
 
-
-@dataclass
-class MyTensorAttrNoGroupName(TensorAttr):
-    def __init__(self, attr_name=_field_status.UNSET,
-                 index=_field_status.UNSET):
-        # Treat group_name as optional, and move it to the end
-        super().__init__(None, attr_name, index)
-
-
-class MyFeatureStoreNoGroupName(LocalFeatureStore):
-    def __init__(self):
-        super().__init__()
-        self._tensor_attr_cls = MyTensorAttrNoGroupName
-
 def test_feature_store():
     store = LocalFeatureStore()
     tensor = torch.Tensor([[0, 0, 0], [1, 1, 1], [2, 2, 2]])
@@ -87,7 +73,7 @@ def test_feature_store():
         _ = store[group_name]()
 
 
-def test_feature_lookup_by_id2index():
+def test_feature_lookup_by_ids():
 
     # this test can verify the feature lookup based on the
     # ID mapping bewteen global ID and local ID.
@@ -106,14 +92,8 @@ def test_feature_lookup_by_id2index():
     attr = TensorAttr(group_name, attr_name, index)
 
 
-    # construct ip mapping between global ids and local index
-    max_id = torch.max(ids_part1).item()
-    id2idx = torch.zeros(max_id + 1, dtype=torch.int64)
-    id2idx[ids_part1] = torch.arange(ids_part1.size(0), dtype=torch.int64)
-
     # put the id mapping into feature store for future lookup
-    if id2idx is not None:
-        store.init_id2index(id2idx)
+    store.set_global_ids_plus_id2index(ids_part1, group_name, attr_name)
 
     # put the feature in rows [1, 2, 3, 5, 8, 4] into part 1 feature store with increasing order [0, 1, 2 ... 5]
     store.put_tensor(part1_feat_data, attr)
@@ -122,4 +102,15 @@ def test_feature_lookup_by_id2index():
     # lookup the features by global ids like [3, 8, 4]
     local_ids = torch.tensor([3, 8, 4], dtype=torch.int64)
 
-    assert torch.equal(store.get_tensor(group_name, attr_name, index=store.id2index[local_ids]), torch.Tensor([[3, 3, 3], [8, 8, 8], [4, 4, 4]]))
+    # get the id-mapping between ids and feature index
+    store_id2idx = store.get_id2index(group_name, attr_name)
+    
+    # construct ip mapping between global ids and local index
+    max_id = torch.max(ids_part1).item()
+    id2idx = torch.zeros(max_id + 1, dtype=torch.int64)
+    id2idx[ids_part1] = torch.arange(ids_part1.size(0), dtype=torch.int64)
+    
+    assert torch.equal(store_id2idx, id2idx)
+
+    # verify the feature looked up 
+    assert torch.equal(store.get_tensor(group_name, attr_name, index=store_id2idx[local_ids]), torch.Tensor([[3, 3, 3], [8, 8, 8], [4, 4, 4]]))
