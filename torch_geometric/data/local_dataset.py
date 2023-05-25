@@ -193,27 +193,27 @@ class LocalDataset(object):
         setattr(self, key, value)
     
     
-    def create_features(feature_data, ids, id2idx, partition_idx, attr_name):
-        # Initialize the node/edge feature by FeatureStore.
-        if feature_data is not None:    	    
-            if isinstance(feature_data, dict):
-                # heterogeneous.    
-                if id2idx is not None:
-                    assert isinstance(id2idx, dict)
-                else:
-                    id2idx = {}
-                features = Feature()
-                for graph_type, feat in feature_data.items():
-                    features.put_tensor(feat, group_name=f'part_{partition_idx}', attr_name=graph_type, index=None)    
-                    if ids is not None:
-                        features.set_global_ids_plus_id2index(ids[graph_type], group_name=f'part_{partition_idx}', attr_name=graph_type)
+def create_features(feature_data, ids, id2idx, partition_idx, attr_name):
+    # Initialize the node/edge feature by FeatureStore.
+    if feature_data is not None:    	    
+        if isinstance(feature_data, dict):
+            # heterogeneous.    
+            if id2idx is not None:
+                assert isinstance(id2idx, dict)
             else:
-                # homogeneous.    
-                    features = Feature()
-                    features.put_tensor(feature_data, group_name=f'part_{partition_idx}', attr_name=None, index=None)
-                    if ids is not None:
-                        features.set_global_ids_plus_id2index(ids, group_name=f'part_{partition_idx}', attr_name=None)
+                id2idx = {}
+            features = Feature()
+            for graph_type, feat in feature_data.items():
+                features.put_tensor(feat, group_name=f'part_{partition_idx}', attr_name=graph_type, index=None)    
+                if ids is not None:
+                    features.set_global_ids_plus_id2index(ids[graph_type], group_name=f'part_{partition_idx}', attr_name=graph_type)
         else:
-            features = None
-    
-        return features
+            # homogeneous.    
+                features = Feature()
+                features.put_tensor(feature_data, group_name=f'part_{partition_idx}', attr_name=None, index=None)
+                if ids is not None:
+                    features.set_global_ids_plus_id2index(ids, group_name=f'part_{partition_idx}', attr_name=None)
+    else:
+        features = None
+
+    return features
