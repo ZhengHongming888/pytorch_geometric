@@ -263,10 +263,6 @@ def as_str(type: Union[NodeType, EdgeType]) -> str:
 from typing import Dict, List, NamedTuple, Optional, Tuple, Union
 
 
-############## GLT ..
-# A representation of tensor data
-#TensorDataType = Union[torch.Tensor, np.ndarray]
-
 # Types for basic graph entity #################################################
 
 # Node-types are denoted by a single string
@@ -278,45 +274,43 @@ EdgeType = Tuple[str, str, str]
 EDGE_TYPE_STR_SPLIT = '__'
 
 def as_str(type: Union[NodeType, EdgeType]) -> str:
-  if isinstance(type, NodeType):
-    return type
-  elif isinstance(type, (list, tuple)) and len(type) == 3:
-    return EDGE_TYPE_STR_SPLIT.join(type)
-  return ''
+    if isinstance(type, NodeType):
+        return type
+    elif isinstance(type, (list, tuple)) and len(type) == 3:
+        return EDGE_TYPE_STR_SPLIT.join(type)
+    return ''
 
 def reverse_edge_type(etype: EdgeType):
-  src, edge, dst = etype
-  if not src == dst:
-    if edge.split("_", 1)[0] == 'rev': # undirected edge with `rev_` prefix.
-      edge = edge.split("_", 1)[1]
-    else:
-      edge = 'rev_' + edge
-  return (dst, edge, src)
+    src, edge, dst = etype
+    if not src == dst:
+        if edge.split("_", 1)[0] == 'rev': # undirected edge with `rev_` prefix.
+            edge = edge.split("_", 1)[1]
+        else:
+            edge = 'rev_' + edge
+    return (dst, edge, src)
 
-# A representation of tensor data
-TensorDataType = Union[torch.Tensor, np.ndarray]
 
 # Types for partition data #####################################################
 
 class GraphPartitionData(NamedTuple):
-  r""" Data and indexing info of a graph partition.
-  """
-  # edge index (rows, cols)
-  edge_index: Tuple[torch.Tensor, torch.Tensor]
-  # edge ids tensor corresponding to `edge_index`
-  eids: torch.Tensor
+    r""" Data and indexing info of a graph partition.
+    """
+    # edge index (rows, cols)
+    edge_index: Tuple[torch.Tensor, torch.Tensor]
+    # edge ids tensor corresponding to `edge_index`
+    eids: torch.Tensor
 
 class FeaturePartitionData(NamedTuple):
-  r""" Data and indexing info of a node/edge feature partition.
-  """
-  # node/edge feature tensor
-  feats: torch.Tensor
-  # node/edge ids tensor corresponding to `feats`
-  ids: torch.Tensor
-  # feature cache tensor
-  cache_feats: Optional[torch.Tensor]
-  # cached node/edge ids tensor corresponding to `cache_feats`
-  cache_ids: Optional[torch.Tensor]
+    r""" Data and indexing info of a node/edge feature partition.
+    """
+    # node/edge feature tensor
+    feats: torch.Tensor
+    # node/edge ids tensor corresponding to `feats`
+    ids: torch.Tensor
+    # feature cache tensor
+    cache_feats: Optional[torch.Tensor]
+    # cached node/edge ids tensor corresponding to `cache_feats`
+    cache_ids: Optional[torch.Tensor]
 
 HeteroGraphPartitionData = Dict[EdgeType, GraphPartitionData]
 HeteroFeaturePartitionData = Dict[Union[NodeType, EdgeType], FeaturePartitionData]
