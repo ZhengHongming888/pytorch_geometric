@@ -64,7 +64,8 @@ class DistDataset(LocalDataset):
         root_dir: str,
         partition_idx: int,
         node_label_file: Union[str, Dict[NodeType, str]] = None,
-        partition_format:  str = "pyg"
+        partition_format:  str = "pyg",
+        keep_pyg_data:  bool = True
     ):
         r""" Load one dataset partition from partitioned files.
         
@@ -86,63 +87,65 @@ class DistDataset(LocalDataset):
                 self.edge_pb
             ) = load_partition(root_dir, partition_idx)
         
-            # init graph partition
-            if(self.meta["hetero_graph"]):
-                # heterogeneous.
-        
-                edge_attrs=graph_data.get_all_edge_attrs()
-                edge_index={}
-                edge_ids={}
-                for item in edge_attrs:
-                    edge_index[item.edge_type] = graph_data.get_edge_index(item)
-                    edge_ids[item.edge_type] = graph_data.get_edge_ids(item)
-        
-                if node_feat_data is not None:
-                    tensor_attrs = node_feat_data.get_all_tensor_attrs()
-                    node_feat={}
-                    node_ids={}
-                    node_id2index={}
-                    for item in tensor_attrs:
-                        node_feat[item.attr_name] = node_feat_data.get_tensor(item.fully_specify())
-                        node_ids[item.attr_name] = node_feat_data.get_global_ids(item.group_name, item.attr_name)
-                        node_id2index[item.attr_name] = node_feat_data.id2index
-        
-                if edge_feat_data is not None:
-                    edge_attrs=edge_feat_data.get_all_edge_attrs()
-                    edge_feat={}
-                    edge_ids={}
-                    edge_id2index={}
-                    for item in edge_attrs:
-                        edge_feat[item.edge_type] = edge_feat_data.get_tensor(item.fully_specify())
-                        edge_ids[item.edge_type] = edge_feat_data.get_global_ids(item.group_name, item.attr_name)
-                        edge_id2index[item.edge_type] = edge_feat_data.id2index
-                #self.data = Data(x=node_feat, edge_index=edge_index, num_nodes=node_feat.size(0))
-        
-        
-            else:
-                # homogeneous.
+            if keep_pyg_data:
+                # This will generate the PyG Data format from Store format.
                 
-                edge_attrs=graph_data.get_all_edge_attrs()
-                for item in edge_attrs:
-                    edge_index = graph_data.get_edge_index(item)
-                    edge_ids = graph_data.get_edge_ids(item)
+                if(self.meta["hetero_graph"]):
+                    # heterogeneous.
         
-                if node_feat_data is not None:
-                    tensor_attrs = node_feat_data.get_all_tensor_attrs()
-                    for item in tensor_attrs:
-                        node_feat = node_feat_data.get_tensor(item.fully_specify())
-                        node_ids = node_feat_data.get_global_ids(item.group_name, item.attr_name)
-                        #node_feat_data.set_id2index(item.group_name, item.attr_name)
-                        node_id2index = node_feat_data.id2index
+                    edge_attrs=graph_data.get_all_edge_attrs()
+                    edge_index={}
+                    edge_ids={}
+                    for item in edge_attrs:
+                        edge_index[item.edge_type] = graph_data.get_edge_index(item)
+                        edge_ids[item.edge_type] = graph_data.get_edge_ids(item)
         
-                if edge_feat_data is not None:
-                    tensor_attrs = edge_feat_data.get_all_tensor_attrs()
-                    for item in tensor_attrs:
-                        edge_feat = edge_feat_data.get_tensor(item.fully_specify())
-                        edge_ids = edge_feat_data.get_global_ids(item.group_name, item.attr_name)
-                        edge_id2index = edge_feat_data.id2index
+                    if node_feat_data is not None:
+                        tensor_attrs = node_feat_data.get_all_tensor_attrs()
+                        node_feat={}
+                        node_ids={}
+                        node_id2index={}
+                        for item in tensor_attrs:
+                            node_feat[item.attr_name] = node_feat_data.get_tensor(item.fully_specify())
+                            node_ids[item.attr_name] = node_feat_data.get_global_ids(item.group_name, item.attr_name)
+                            node_id2index[item.attr_name] = node_feat_data.id2index
         
-                self.data = Data(x=node_feat, edge_index=edge_index, num_nodes=node_feat.size(0))
+                    if edge_feat_data is not None:
+                        edge_attrs=edge_feat_data.get_all_edge_attrs()
+                        edge_feat={}
+                        edge_ids={}
+                        edge_id2index={}
+                        for item in edge_attrs:
+                            edge_feat[item.edge_type] = edge_feat_data.get_tensor(item.fully_specify())
+                            edge_ids[item.edge_type] = edge_feat_data.get_global_ids(item.group_name, item.attr_name)
+                            edge_id2index[item.edge_type] = edge_feat_data.id2index
+                    #self.data = Data(x=node_feat, edge_index=edge_index, num_nodes=node_feat.size(0))
+        
+        
+                else:
+                    # homogeneous.
+                    
+                    edge_attrs=graph_data.get_all_edge_attrs()
+                    for item in edge_attrs:
+                        edge_index = graph_data.get_edge_index(item)
+                        edge_ids = graph_data.get_edge_ids(item)
+        
+                    if node_feat_data is not None:
+                        tensor_attrs = node_feat_data.get_all_tensor_attrs()
+                        for item in tensor_attrs:
+                            node_feat = node_feat_data.get_tensor(item.fully_specify())
+                            node_ids = node_feat_data.get_global_ids(item.group_name, item.attr_name)
+                            #node_feat_data.set_id2index(item.group_name, item.attr_name)
+                            node_id2index = node_feat_data.id2index
+        
+                    if edge_feat_data is not None:
+                        tensor_attrs = edge_feat_data.get_all_tensor_attrs()
+                        for item in tensor_attrs:
+                            edge_feat = edge_feat_data.get_tensor(item.fully_specify())
+                            edge_ids = edge_feat_data.get_global_ids(item.group_name, item.attr_name)
+                            edge_id2index = edge_feat_data.id2index
+        
+                    self.data = Data(x=node_feat, edge_index=edge_index, num_nodes=node_feat.size(0))
         
             # init graph/node feature/edge feature by graphstore/featurestore
             self.graph = graph_data  
