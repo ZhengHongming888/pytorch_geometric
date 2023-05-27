@@ -108,7 +108,7 @@ class DistDataset(LocalDataset):
                         for item in tensor_attrs:
                             node_feat[item.attr_name] = node_feat_data.get_tensor(item.fully_specify())
                             node_ids[item.attr_name] = node_feat_data.get_global_ids(item.group_name, item.attr_name)
-                            node_id2index[item.attr_name] = node_feat_data.id2index
+                            node_id2index[item.attr_name] = node_feat_data.get_id2index(item.group_name, item.attr_name)
         
                     if edge_feat_data is not None:
                         edge_attrs=edge_feat_data.get_all_edge_attrs()
@@ -118,7 +118,7 @@ class DistDataset(LocalDataset):
                         for item in edge_attrs:
                             edge_feat[item.edge_type] = edge_feat_data.get_tensor(item.fully_specify())
                             edge_ids[item.edge_type] = edge_feat_data.get_global_ids(item.group_name, item.attr_name)
-                            edge_id2index[item.edge_type] = edge_feat_data.id2index
+                            edge_id2index[item.edge_type] = edge_feat_data.get_id2index(item.group_name, item.attr_name)
                     #self.data = Data(x=node_feat, edge_index=edge_index, num_nodes=node_feat.size(0))
         
         
@@ -135,15 +135,14 @@ class DistDataset(LocalDataset):
                         for item in tensor_attrs:
                             node_feat = node_feat_data.get_tensor(item.fully_specify())
                             node_ids = node_feat_data.get_global_ids(item.group_name, item.attr_name)
-                            #node_feat_data.set_id2index(item.group_name, item.attr_name)
-                            node_id2index = node_feat_data.id2index
+                            node_id2index = node_feat_data.get_id2index(item.group_name, item.attr_name)
         
                     if edge_feat_data is not None:
                         tensor_attrs = edge_feat_data.get_all_tensor_attrs()
                         for item in tensor_attrs:
                             edge_feat = edge_feat_data.get_tensor(item.fully_specify())
                             edge_ids = edge_feat_data.get_global_ids(item.group_name, item.attr_name)
-                            edge_id2index = edge_feat_data.id2index
+                            edge_id2index = edge_feat_data.get_id2index(item.group_name, item.attr_name)
         
                     self.data = Data(x=node_feat, edge_index=edge_index, num_nodes=node_feat.size(0))
         
