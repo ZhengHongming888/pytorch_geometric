@@ -3,7 +3,7 @@ import torch
 
 from torch_geometric.data.graph_store import EdgeAttr, EdgeLayout
 from torch_geometric.testing import MyGraphStore, get_random_edge_index
-from torch_geometric.data import LocalGraphStore
+from torch_geometric.data.local_graph_store import LocalGraphStore
 
 
 def test_local_graph_store():

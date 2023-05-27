@@ -7,12 +7,16 @@ from torch_geometric.typing import EdgeTensorType
 
 
 class LocalGraphStore(GraphStore):
+    r""" This class extends from GraphStore and use the store dict to save 
+    the graph topology and also use edge_ids dict to save the global eids
+    """
     def __init__(self):
         super().__init__()
         self.store: Dict[Tuple, Tuple[Tensor, Tensor]] = {}
-
-        # save the edge ids
+        r""" save the graph topo - edge_index """
+        
         self.edge_ids: Dict[Tuple, Tuple[Tensor, Tensor]] = {}
+        r""" save the edge ids """
 
     @staticmethod
     def key(attr: EdgeAttr) -> Tuple:
