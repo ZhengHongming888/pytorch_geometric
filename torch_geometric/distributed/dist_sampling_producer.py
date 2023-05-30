@@ -320,7 +320,7 @@ class DistCollocatedSamplingProducer(object):
   def init(self):
     index = torch.arange(len(self.sampler_input))
 
-    #*print("---------------- Sampling_producer: init() before Dataloader ----------- ")
+    print("---------------- Sampling_producer: init() before Dataloader ----------- ")
     self._index_loader = DataLoader(
       index,
       batch_size=self.sampling_config.batch_size,
@@ -334,7 +334,7 @@ class DistCollocatedSamplingProducer(object):
     else:
       num_rpc_threads = self.worker_options.num_rpc_threads
 
-    #*print("---------------- Sampling_producer: init() before init_rpc() ----------- ")
+    print("---------------- Sampling_producer: init() before init_rpc() ----------- ")
     init_rpc(
       master_addr=self.worker_options.master_addr,
       master_port=self.worker_options.master_port,
@@ -342,16 +342,16 @@ class DistCollocatedSamplingProducer(object):
       rpc_timeout=self.worker_options.rpc_timeout
     )
 
-    #*print("---------------- Sampling_producer: init() before DistNeighborSampler ----------- ")
+    print("---------------- Sampling_producer: init() before DistNeighborSampler ----------- ")
     self._collocated_sampler = DistNeighborSampler(
       self.data, self.sampling_config.num_neighbors,
       self.sampling_config.with_edge, self.sampling_config.with_neg,
       self.sampling_config.collect_features,
       channel=None, concurrency=1, device=self.device
     )
-    #*print("---------------- Sampling_producer: init() before start_loop ----------- ")
+    print("---------------- Sampling_producer: init() before start_loop ----------- ")
     self._collocated_sampler.start_loop()
-    #*print("---------------- Sampling_producer: init() after start_loop ----------- ")
+    print("---------------- Sampling_producer: init() after start_loop ----------- ")
 
   def shutdown(self):
     if self._collocated_sampler is not None:

@@ -1,50 +1,27 @@
-# Copyright 2022 Alibaba Group Holding Limited. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ==============================================================================
 
-from typing import Dict, Optional, Union
 
 import torch
 
-from torch_geometric.data import LocalGraphStore as Graph
-#from torch_geometric.data import LocalFeatureStore as Feature
+from typing import Dict, Optional, Union
+from torch_geometric.distributed import LocalGraphStore as Graph
 
-
-#from torch_geometric.testing import MyGraphStore as Graph
-#from torch_geometric.testing import MyFeatureStore as Feature
-#from ..data import Graph
-
-from ..typing import (
+from torch_geometric.typing import (
   NodeType, EdgeType, PartitionBook,
   HeteroNodePartitionDict, HeteroEdgePartitionDict
 )
 
 
 class DistGraph(object):
-  r""" Simple wrapper for graph data with distributed context.
-
-  TODO: support graph operations.
+  r""" 
+  Distributed Graph with partition information
 
   Args:
-    num_partitions: Number of data partitions.
-    partition_id: Data partition idx of current process.
-    local_graph: local `Graph` instance.
-    node_pb: Partition book which records vertex ids to worker node ids.
-    edge_pb: Partition book which records edge ids to worker node ids.
+    num_partitions: Number of partitions.
+    partition_id: partition idx for current process.
+    local_graph: local Graph data.
+    node_pb: node partition book between node ids and partition ids.
+    edge_pb: edge partition book between edge ids and partition ids..
 
-  Note that`local_graph`, `node_pb` and `edge_pb` should be a dictionary
-  for hetero data.
   """
   def __init__(self,
                num_partitions: int,
@@ -52,21 +29,17 @@ class DistGraph(object):
                local_graph: Union[Graph, Dict[EdgeType, Graph]],
                node_pb: Union[PartitionBook, HeteroNodePartitionDict],
                edge_pb: Union[PartitionBook, HeteroEdgePartitionDict]):
+    
     self.num_partitions = num_partitions
     self.partition_idx = partition_idx
     self.local_graph = local_graph
+    
     if isinstance(self.local_graph, dict):
       self.data_cls = 'hetero'
-      for _, graph in self.local_graph.items():
-        graph.lazy_init()
     elif isinstance(self.local_graph, Graph):
       self.data_cls = 'homo'
-      #self.local_graph.lazy_init()
     else:
-      raise ValueError(f"'{self.__class__.__name__}': found invalid input "
-                       f"graph type '{type(self.local_graph)}'")
-    
-    print(f"--------   local_graph={local_graph} ----------- ")
+      raise ValueError("found invalid input with mismatched graph type")
 
     self.node_pb = node_pb
     if self.node_pb is not None:
@@ -75,8 +48,8 @@ class DistGraph(object):
       elif isinstance(self.node_pb, PartitionBook):
         assert self.data_cls == 'homo'
       else:
-        raise ValueError(f"'{self.__class__.__name__}': found invalid input "
-                        f"node patition book type '{type(self.node_pb)}'")
+        raise ValueError("found invalid input with mismatched graph type")
+
     self.edge_pb = edge_pb
     if self.edge_pb is not None:
       if isinstance(self.edge_pb, dict):
@@ -84,12 +57,11 @@ class DistGraph(object):
       elif isinstance(self.edge_pb, PartitionBook):
         assert self.data_cls == 'homo'
       else:
-        raise ValueError(f"'{self.__class__.__name__}': found invalid input "
-                        f"edge patition book type '{type(self.edge_pb)}'")
+        raise ValueError("found invalid input with mismatched graph type")
 
   def get_local_graph(self, etype: Optional[EdgeType]=None):
-    r""" Get a `Graph` obj of a specific edge type.
-    """
+    # Get the local graph object by edge type.
+    
     if self.data_cls == 'hetero':
       assert etype is not None
       return self.local_graph[etype]
@@ -97,8 +69,8 @@ class DistGraph(object):
 
   def get_node_partitions(self, ids: torch.Tensor,
                           ntype: Optional[NodeType]=None):
-    r""" Get the partition ids of node ids with a specific node type.
-    """
+    # Get the local partition ids of node ids with a specific node type.
+    
     if self.data_cls == 'hetero':
       assert ntype is not None
       return self.node_pb[ntype][ids]
@@ -106,8 +78,8 @@ class DistGraph(object):
 
   def get_edge_partitions(self, eids: torch.Tensor,
                           etype: Optional[EdgeType]=None):
-    r""" Get the partition ids of edge ids with a specific edge type.
-    """
+    # Get the partition ids of edge ids with a specific edge type.
+    
     if self.data_cls == 'hetero':
       assert etype is not None
       return self.edge_pb[etype][eids]

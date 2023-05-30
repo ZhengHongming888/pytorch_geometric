@@ -31,7 +31,7 @@ from ..typing import (
 )
 from ..utils import get_available_device, ensure_device, python_exit_status
 
-from .dist_client import request_server
+#from .dist_client import request_server
 from .dist_context import get_context
 from .dist_dataset import DistDataset
 from .dist_options import (
@@ -43,7 +43,7 @@ from .dist_options import (
 from .dist_sampling_producer import (
   DistMpSamplingProducer, DistCollocatedSamplingProducer
 )
-from .dist_server import DistServer
+#from .dist_server import DistServer
 from .rpc import rpc_is_initialized
 
 
@@ -257,7 +257,7 @@ class DistLoader(object):
     self._shutdowned = True
 
   def __next__(self):
-    #*print("------2222.10------ dist_loader: __next__ ")
+    print("------2222.10------ dist_loader: __next__ ")
     if self._num_recv == self._num_expected:
       raise StopIteration
 

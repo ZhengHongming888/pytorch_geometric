@@ -9,15 +9,19 @@ from .rpc import (
   rpc_global_request_async, rpc_global_request
 )
 
-from .dist_server import (
-  DistServer, get_server, init_server, wait_and_shutdown_server
-)
+#from .dist_server import (
+#  DistServer, get_server, init_server, wait_and_shutdown_server
+#)
 
-from .dist_client import (
-  init_client, shutdown_client, async_request_server, request_server
-)
+#from .dist_client import (
+#  init_client, shutdown_client, async_request_server, request_server
+#)
 
 from .dist_dataset import DistDataset
+
+from .local_graph_store import LocalGraphStore
+from .local_feature_store import LocalFeatureStore
+from .local_dataset import LocalDataset
 
 from .dist_options import (
   CollocatedDistSamplingWorkerOptions,
