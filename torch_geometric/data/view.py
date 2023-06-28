@@ -2,7 +2,7 @@ from collections.abc import Mapping
 from typing import Iterable, List
 
 
-class MappingView:
+class MappingView(object):
     def __init__(self, mapping: Mapping, *args: List[str]):
         self._mapping = mapping
         self._args = args

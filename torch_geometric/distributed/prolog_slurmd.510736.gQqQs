@@ -1,0 +1,1361 @@
+LANG=C
+LD_LIBRARY_PATH=/usr/lib64:
+PATH=/opt/slurm/current/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:
+PWD=/var/log
+QUEUE=cnvq
+SHLVL=1
+SLURMD_NODENAME=einv012
+SLURM_CLUSTER_NAME=endeavour
+SLURM_CONF=/var/spool/slurmd/conf-cache/slurm.conf
+SLURM_JOBID=510736
+SLURM_JOB_ACCOUNT=default_account
+SLURM_JOB_CONSTRAINTS=[icx8360Ya100*2]
+SLURM_JOB_CPUS_PER_NODE=72(x2)
+SLURM_JOB_GID=24017
+SLURM_JOB_ID=510736
+SLURM_JOB_NUM_NODES=2
+SLURM_JOB_PARTITION=cnvq
+SLURM_JOB_RESTART_COUNT=0
+SLURM_JOB_UID=24017
+SLURM_JOB_USER=zhzheng4
+SLURM_JOB_WORK_DIR=/global/panfs01/users/zhzheng4/anaconda3/envs/PyGDistributed/lib/python3.8/site-packages/torch_geometric/distributed
+SLURM_NODELIST=einv[012,015]
+SLURM_SCRIPT_CONTEXT=prolog_slurmd
+SLURM_UID=24017
+SPANK_Resource_List_CRTDC_PROJECTCODE=O:
+_=/bin/printenv
+SLURM_WORKDIR:        /global/panfs01/users/zhzheng4/anaconda3/envs/PyGDistributed/lib/python3.8/site-packages/torch_geometric/distributed
+SLURM_BATCHHOST:      ecompile7
+SLURM_JOBFEATURES:    [icx8360Ya100*2]
+NODEFEATURES:         einv[012,015] icx8360Ya100,reconfig,DAOS,IBSTACK=mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+SLURM_USER:           zhzheng4
+SLURM_NODES:          einv[012,015]
+SLURM_NODES_EXPANDED: einv012 einv015
+QUEUE                 cnvq
+
+LANG=C
+LD_LIBRARY_PATH=/usr/lib64:
+PATH=/opt/slurm/current/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:
+PDSH_SSH_ARGS=-o LogLevel=ERROR -o StrictHostKeyChecking=no
+PWD=/var/log
+QUEUE=cnvq
+SHLVL=1
+SLURMD_NODENAME=einv012
+SLURM_CLUSTER_NAME=endeavour
+SLURM_CONF=/var/spool/slurmd/conf-cache/slurm.conf
+SLURM_JOBID=510736
+SLURM_JOB_ACCOUNT=default_account
+SLURM_JOB_CONSTRAINTS=[icx8360Ya100*2]
+SLURM_JOB_CPUS_PER_NODE=72(x2)
+SLURM_JOB_GID=24017
+SLURM_JOB_ID=510736
+SLURM_JOB_NUM_NODES=2
+SLURM_JOB_PARTITION=cnvq
+SLURM_JOB_RESTART_COUNT=0
+SLURM_JOB_UID=24017
+SLURM_JOB_USER=zhzheng4
+SLURM_JOB_WORK_DIR=/global/panfs01/users/zhzheng4/anaconda3/envs/PyGDistributed/lib/python3.8/site-packages/torch_geometric/distributed
+SLURM_NODELIST=einv[012,015]
+SLURM_NODELIST_EXPANDED=einv012 einv015
+SLURM_SCRIPT_CONTEXT=prolog_slurmd
+SLURM_UID=24017
+SPANK_Resource_List_CRTDC_PROJECTCODE=O:
+_=/bin/printenv
+Resource_List_CRTDC_PROJECTCODE=O:
+SPANK_Resource_List_CRTDC_PROJECTCODE=O:
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  2.6  0.0 239128 11564 ?        Ss   21:44   0:08 /usr/lib/systemd/systemd --switched-root --system --deserialize 16
+root        1685  0.1  0.0  97756 11268 ?        Ss   21:44   0:00 /usr/lib/systemd/systemd-journald
+root        1724  0.2  0.0  99904 10712 ?        Ss   21:44   0:00 /usr/lib/systemd/systemd-udevd
+root        4022  0.0  0.0  81920  1976 ?        Ss   21:44   0:00 /sbin/dhclient -1 -q -lf /var/lib/dhclient/dhclient--eth0.lease -pf /run/dhclient-eth0.pid eth0
+root        4392  0.0  0.0  14856  3240 ?        Ss   21:44   0:00 /bin/bash /etc/rc.d/rc.local start
+root       18801  108  0.0  31000 14648 ?        R    21:49   0:02  \_ nvidia-smi
+root        4404  0.0  0.0   9820  2060 tty1     Ss+  21:44   0:00 /sbin/agetty -o -p -- \u --noclear --keep-baud console 115200,38400,9600 linux
+root        4406  0.0  0.0   9488  2108 ttyS0    Ss+  21:44   0:00 /sbin/agetty -o -p -- \u --keep-baud 115200,38400,9600 ttyS0 vt220
+munge       4408  0.0  0.0 241032  4132 ?        Sl   21:44   0:00 /usr/sbin/munged
+root        4802  0.0  0.0  76648  7536 ?        Ss   21:44   0:00 /usr/sbin/sshd -D -oCiphers=aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes256-cbc,aes128-gcm@openssh.com,aes128-ctr,aes128-cbc -oMACs=hmac-sha2-256-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha1,umac-128@openssh.com,hmac-sha2-512 -oGSSAPIKexAlgorithms=gss-curve25519-sha256-,gss-nistp256-sha256-,gss-group14-sha256-,gss-group16-sha512-,gss-gex-sha1-,gss-group14-sha1- -oKexAlgorithms=curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1 -oHostKeyAlgorithms=ecdsa-sha2-nistp256,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp521-cert-v01@openssh.com,ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,rsa-sha2-256,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-512-cert-v01@openssh.com,ssh-rsa,ssh-rsa-cert-v01@openssh.com -oPubkeyAcceptedKeyTypes=ecdsa-sha2-nistp256,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp521-cert-v01@openssh.com,ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,rsa-sha2-256,rsa-sha2-256-cert-v01@openssh.com,rsa-sha2-512,rsa-sha2-512-cert-v01@openssh.com,ssh-rsa,ssh-rsa-cert-v01@openssh.com -oCASignatureAlgorithms=ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,ssh-ed25519,rsa-sha2-256,rsa-sha2-512,ssh-rsa
+chrony      4925  0.0  0.0 117236  3492 ?        S    21:44   0:00 /usr/sbin/chronyd -4
+root       18779  0.0  0.0 155324  6300 ?        Sl   21:48   0:00 /opt/slurm/current/sbin/slurmd -v -L /var/log/slurmd.log --conf-server eslurm1:6817
+root       18813  0.0  0.0  11928  2888 ?        S    21:49   0:00  \_ /bin/bash /opt/slurm/current/etc/prolog.d/wrapper.XXXlog.sh
+root       19395  0.0  0.0  46976  5436 ?        R    21:49   0:00      \_ ps aux --forest
+GENERAL: INFO Mon Jun 26 21:49:14 2023
+GENERAL: INFO Starting prologue, please be patient
+GENERAL: INFO Starting prologue, please be patient
+GENERAL: INFO Resource_List_CRTDC_PROJECTCODE=O:
+GENERAL: INFO Resource_List_EIST=0
+
+/usr/lib64:
+GENERAL: INFO node list       : einv012 einv015
+GENERAL: INFO number of nodes : 2
+starting configBIOS
+['prolog_slurmd', '', '', '', '', '', '', '', 'cnvq']
+['prolog_slurmd', '', '', '', '', '', '', '', 'cnvq']
+
+
+**************************************************
+einv015
+einv015 
+einv015 + hostname
+einv015 + grep -q '^eea'
+einv015 + BIOS_SETTINGS='
+einv015 Sub_NUMA Cluster
+einv015 IMC Interleaving
+einv015 Intel(R) Hyper-Threading Tech
+einv015 Memory Operating Speed Selection
+einv015 SNC (Sub NUMA)
+einv015 SNC
+einv015 Enable LP [Global]
+einv015 '
+einv015 + ICSMOKE=/var/lib/icsmoke3/
+einv015 + SLURM_SCRIPT_CONTEXT=prolog_slurmd
+einv015 + Resource_List_Sub_NUMA_Cluster=
+einv015 + Resource_List_SNC=
+einv015 + Resource_List_SPECIAL_KERNEL=
+einv015 + Resource_List_Hyper_Threading=
+einv015 + Resource_List_Enable_LP=
+einv015 + Resource_List_Memory_Speed=
+einv015 + Resource_List_Disable_HW_prefetch=
+einv015 + QUEUE=cnvq
+einv015 + echo prolog_slurmd
+einv015 + grep prolog
+einv015 prolog_slurmd
+einv015 + export prologue=1
+einv015 + prologue=1
+einv015 + REBOOT_REQUIRED=no
+einv015 ++ hostname
+einv015 + HOSTNAME=einv015
+einv015 + RECONFALLOWED=no
+einv015 + sinfo -n einv015 -o %f -h
+einv015 + grep -q reconfig
+einv015 + RECONFALLOWED=yes
+einv015 + test yes = yes
+einv015 + /var/lib/icsmoke3/scripts/04.checkbios einv015
+einv015 ----------------
+einv015 einv015
+einv015 ----------------
+einv015 BIOS Version:  	 SE5C620.86B.01.01.0003.2104260124     
+einv015 BIOS Release Date:  	 04/26/2021    
+einv015 
+einv015 ----------------
+einv015 einv015
+einv015 ----------------
+einv015 System Version:  	 1.0     
+einv015 
+einv015 ----------------
+einv015 einv015
+einv015 ----------------
+einv015 Processor Version:  	 Intel(R) Xeon(R) Platinum 8360Y CPU @
+einv015 Processor Version:  	 Intel(R) Xeon(R) Platinum 8360Y CPU @
+einv015 
+einv015 ----------------
+einv015 einv015
+einv015 ----------------
+einv015 IPMI Specification Version:  	 2.0    
+einv015 
+einv015 ----------------
+einv015 einv015
+einv015 ----------------
+einv015 Base Version:  	 E63448-400     
+einv015 
+einv015 ----------------
+einv015 einv015
+einv015 ----------------
+einv015    Active Op Code:......... 2.81.76F13CCC
+einv015    Active SDR Version:..... 0.35
+einv015 SDR Version Information: 
+einv015 ----------------
+einv015 einv015
+einv015 ----------------
+einv015 
+einv015 created /var/lib/icsmoke3/current/dmidecode.log
+einv015 Dumping BIOS settings via sysconfig:
+einv015 
+einv015 ----------------
+einv015 einv015
+einv015 ----------------
+einv015 
+einv015 Saving file /var/lib/icsmoke3/current/syscfg.INI in progress...
+einv015 
+einv015 Successfully Completed
+einv015 + SYSCFG=/usr/local/bin/syscfg
+einv015 + grep Manufacturer
+einv015 + dmidecode -t 1
+einv015 + grep -q Intel
+einv015 + export 'IFS=
+einv015 '
+einv015 + IFS='
+einv015 '
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Sub_NUMA Cluster'
+einv015 Bios Variable not found.
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS 'IMC Interleaving'
+einv015 Bios Variable not found.
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Intel(R) Hyper-Threading Tech'
+einv015 
+einv015 Intel(R) Hyper-Threading Tech
+einv015 =============================
+einv015 Current Value : Enabled
+einv015 -----------------------
+einv015 Possible Values
+einv015 ---------------
+einv015 Enabled : 00
+einv015 Disabled : 01
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Memory Operating Speed Selection'
+einv015 
+einv015 Memory Operating Speed Selection
+einv015 ================================
+einv015 Current Value : Auto
+einv015 --------------------
+einv015 Possible Values
+einv015 ---------------
+einv015 Auto : 00
+einv015 2400 : 0D
+einv015 2666 : 0F
+einv015 2933 : 11
+einv015 3200 : 13
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS 'SNC (Sub NUMA)'
+einv015 
+einv015 SNC (Sub NUMA)
+einv015 ==============
+einv015 Current Value : Disabled
+einv015 ------------------------
+einv015 Possible Values
+einv015 ---------------
+einv015 Disabled : 00
+einv015 Enable SNC2 (2-clusters) : 02
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS SNC
+einv015 Bios Variable not found.
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Enable LP [Global]'
+einv015 Bios Variable not found.
+einv015 + unset IFS
+einv015 + set -x
+einv015 + '[' 1 = 1 ']'
+einv015 + '[' -n '' ']'
+einv015 + export 'IFS=
+einv015 '
+einv015 + IFS='
+einv015 '
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Sub_NUMA Cluster'
+einv015 Bios Variable not found.
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS 'IMC Interleaving'
+einv015 Bios Variable not found.
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Intel(R) Hyper-Threading Tech'
+einv015 
+einv015 Intel(R) Hyper-Threading Tech
+einv015 =============================
+einv015 Current Value : Enabled
+einv015 -----------------------
+einv015 Possible Values
+einv015 ---------------
+einv015 Enabled : 00
+einv015 Disabled : 01
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Memory Operating Speed Selection'
+einv015 
+einv015 Memory Operating Speed Selection
+einv015 ================================
+einv015 Current Value : Auto
+einv015 --------------------
+einv015 Possible Values
+einv015 ---------------
+einv015 Auto : 00
+einv015 2400 : 0D
+einv015 2666 : 0F
+einv015 2933 : 11
+einv015 3200 : 13
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS 'SNC (Sub NUMA)'
+einv015 
+einv015 SNC (Sub NUMA)
+einv015 ==============
+einv015 Current Value : Disabled
+einv015 ------------------------
+einv015 Possible Values
+einv015 ---------------
+einv015 Disabled : 00
+einv015 Enable SNC2 (2-clusters) : 02
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS SNC
+einv015 Bios Variable not found.
+einv015 + for I in $BIOS_SETTINGS
+einv015 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Enable LP [Global]'
+einv015 Bios Variable not found.
+einv015 REBOOT_REQUIRED=no
+einv015 + unset IFS
+einv015 + echo REBOOT_REQUIRED=no
+
+
+**************************************************
+einv012
+einv012 
+einv012 + hostname
+einv012 + grep -q '^eea'
+einv012 + BIOS_SETTINGS='
+einv012 Sub_NUMA Cluster
+einv012 IMC Interleaving
+einv012 Intel(R) Hyper-Threading Tech
+einv012 Memory Operating Speed Selection
+einv012 SNC (Sub NUMA)
+einv012 SNC
+einv012 Enable LP [Global]
+einv012 '
+einv012 + ICSMOKE=/var/lib/icsmoke3/
+einv012 + SLURM_SCRIPT_CONTEXT=prolog_slurmd
+einv012 + Resource_List_Sub_NUMA_Cluster=
+einv012 + Resource_List_SNC=
+einv012 + Resource_List_SPECIAL_KERNEL=
+einv012 + Resource_List_Hyper_Threading=
+einv012 + Resource_List_Enable_LP=
+einv012 + Resource_List_Memory_Speed=
+einv012 + Resource_List_Disable_HW_prefetch=
+einv012 + QUEUE=cnvq
+einv012 + echo prolog_slurmd
+einv012 + grep prolog
+einv012 prolog_slurmd
+einv012 + export prologue=1
+einv012 + prologue=1
+einv012 + REBOOT_REQUIRED=no
+einv012 ++ hostname
+einv012 + HOSTNAME=einv012
+einv012 + RECONFALLOWED=no
+einv012 + sinfo -n einv012 -o %f -h
+einv012 + grep -q reconfig
+einv012 + RECONFALLOWED=yes
+einv012 + test yes = yes
+einv012 + /var/lib/icsmoke3/scripts/04.checkbios einv012
+einv012 ----------------
+einv012 einv012
+einv012 ----------------
+einv012 BIOS Version:  	 SE5C620.86B.01.01.0003.2104260124     
+einv012 BIOS Release Date:  	 04/26/2021    
+einv012 
+einv012 ----------------
+einv012 einv012
+einv012 ----------------
+einv012 System Version:  	 1.0     
+einv012 
+einv012 ----------------
+einv012 einv012
+einv012 ----------------
+einv012 Processor Version:  	 Intel(R) Xeon(R) Platinum 8360Y CPU @
+einv012 Processor Version:  	 Intel(R) Xeon(R) Platinum 8360Y CPU @
+einv012 
+einv012 ----------------
+einv012 einv012
+einv012 ----------------
+einv012 IPMI Specification Version:  	 2.0    
+einv012 
+einv012 ----------------
+einv012 einv012
+einv012 ----------------
+einv012 Base Version:  	 E63448-400     
+einv012 
+einv012 ----------------
+einv012 einv012
+einv012 ----------------
+einv012    Active Op Code:......... 2.81.76F13CCC
+einv012    Active SDR Version:..... 0.35
+einv012 SDR Version Information: 
+einv012 ----------------
+einv012 einv012
+einv012 ----------------
+einv012 
+einv012 created /var/lib/icsmoke3/current/dmidecode.log
+einv012 Dumping BIOS settings via sysconfig:
+einv012 
+einv012 ----------------
+einv012 einv012
+einv012 ----------------
+einv012 
+einv012 Saving file /var/lib/icsmoke3/current/syscfg.INI in progress...
+einv012 
+einv012 Successfully Completed
+einv012 + SYSCFG=/usr/local/bin/syscfg
+einv012 + grep Manufacturer
+einv012 + grep -q Intel
+einv012 + dmidecode -t 1
+einv012 + export 'IFS=
+einv012 '
+einv012 + IFS='
+einv012 '
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Sub_NUMA Cluster'
+einv012 Bios Variable not found.
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS 'IMC Interleaving'
+einv012 Bios Variable not found.
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Intel(R) Hyper-Threading Tech'
+einv012 
+einv012 Intel(R) Hyper-Threading Tech
+einv012 =============================
+einv012 Current Value : Enabled
+einv012 -----------------------
+einv012 Possible Values
+einv012 ---------------
+einv012 Enabled : 00
+einv012 Disabled : 01
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Memory Operating Speed Selection'
+einv012 
+einv012 Memory Operating Speed Selection
+einv012 ================================
+einv012 Current Value : Auto
+einv012 --------------------
+einv012 Possible Values
+einv012 ---------------
+einv012 Auto : 00
+einv012 2400 : 0D
+einv012 2666 : 0F
+einv012 2933 : 11
+einv012 3200 : 13
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS 'SNC (Sub NUMA)'
+einv012 
+einv012 SNC (Sub NUMA)
+einv012 ==============
+einv012 Current Value : Disabled
+einv012 ------------------------
+einv012 Possible Values
+einv012 ---------------
+einv012 Disabled : 00
+einv012 Enable SNC2 (2-clusters) : 02
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS SNC
+einv012 Bios Variable not found.
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Enable LP [Global]'
+einv012 Bios Variable not found.
+einv012 + unset IFS
+einv012 + set -x
+einv012 + '[' 1 = 1 ']'
+einv012 + '[' -n '' ']'
+einv012 + export 'IFS=
+einv012 '
+einv012 + IFS='
+einv012 '
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Sub_NUMA Cluster'
+einv012 Bios Variable not found.
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS 'IMC Interleaving'
+einv012 Bios Variable not found.
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Intel(R) Hyper-Threading Tech'
+einv012 
+einv012 Intel(R) Hyper-Threading Tech
+einv012 =============================
+einv012 Current Value : Enabled
+einv012 -----------------------
+einv012 Possible Values
+einv012 ---------------
+einv012 Enabled : 00
+einv012 Disabled : 01
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Memory Operating Speed Selection'
+einv012 
+einv012 Memory Operating Speed Selection
+einv012 ================================
+einv012 Current Value : Auto
+einv012 --------------------
+einv012 Possible Values
+einv012 ---------------
+einv012 Auto : 00
+einv012 2400 : 0D
+einv012 2666 : 0F
+einv012 2933 : 11
+einv012 3200 : 13
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS 'SNC (Sub NUMA)'
+einv012 
+einv012 SNC (Sub NUMA)
+einv012 ==============
+einv012 Current Value : Disabled
+einv012 ------------------------
+einv012 Possible Values
+einv012 ---------------
+einv012 Disabled : 00
+einv012 Enable SNC2 (2-clusters) : 02
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS SNC
+einv012 Bios Variable not found.
+einv012 + for I in $BIOS_SETTINGS
+einv012 + /usr/local/bin/syscfg /d BIOSSETTINGS 'Enable LP [Global]'
+einv012 Bios Variable not found.
+einv012 REBOOT_REQUIRED=no
+einv012 + unset IFS
+einv012 + echo REBOOT_REQUIRED=no
+GENERAL DEBUG excuting on all nodes: Resource_List_CRTDC_PROJECTCODE=O: Resource_List_EIST=0 JOBID=510736 prologue=1 SHORTPBSSCRIPT=prologue PATH=/opt/slurm/current/bin:/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin QUEUE=cnvq SLURM_JOB_USER=zhzheng4 SLURM_JOB_ID=510736 SLURM_SCRIPT_CONTEXT=prolog_slurmd IGNORE_ERRORS=0 /opt/slurm/crtdc/XXXlogue.slurm.py CLIENT
+
+
+**************************************************
+einv012 RetCode: 0 TimeUsed: 75.079310894
+einv012 + exec
+einv012 check_downclock    1.0 0  
+einv012 set_all_cpus       0.0 0  
+einv012 msr_safe           0.0 0 msr_safe module not loaded 
+einv012 set_watchdog       0.2 0  
+einv012 check_userid       1.0 0 
+einv012 uid=24017(zhzheng4) gid=24017(zhzheng4) groups=24017(zhzheng4),6097(cnvqug),6107(inspurqug) 
+einv012 clean_turbostat    1.0 0  
+einv012 set_nm_and_chassis    1.0 0 
+einv012 Redirecting to /bin/systemctl start ipmi.service
+einv012  57 01 00
+einv012 Chassis identify interval: indefinite 
+einv012 cpufreq            1.0 0 
+einv012 current value msr 0x620: 818running with default cpufreq values 
+einv012 fix_permissions    1.0 0 
+einv012 Vendor ID:           GenuineIntel
+einv012 setting default meltdown/spectre on Intel
+einv012 /sys/kernel/debug/x86/ibpb_enabled
+einv012 /bin/sh: line 6: /sys/kernel/debug/x86/ibpb_enabled: Permission denied
+einv012 /sys/kernel/debug/x86/ibrs_enabled
+einv012 /sys/kernel/debug/x86/pti_enabled
+einv012 /bin/sh: line 10: /sys/kernel/debug/x86/pti_enabled: Permission denied 
+einv012 memkind            1.0 0  
+einv012 clean_dev_shm      1.0 0  
+einv012 getmeminfo         1.0 0  
+einv012 logger             1.0 0  
+einv012 numa_balancing     1.0 0  
+einv012 DEBUG  
+einv012 root       20437  0.0  0.0   4404   252 ?        S    21:49   0:00 tee /var/local/XXXlogue.sub.rsyslog 0 1.00293397903
+einv012 rsyslog            1.0 0 
+einv012 root       20437  0.0  0.0   4404   252 ?        S    21:49   0:00 tee /var/local/XXXlogue.sub.rsyslog 
+einv012 nologin            2.0 0 
+einv012 /etc/group:nologin:x:6009:slurm,validation,djmeyer,rasandov,rdahring,bjarami,asustait,tjsahs,amanriqu,mshahrea,zhzheng4
+einv012 /root/setup.sh:sed -i /etc/group -e 's|^nologin:.*|nologin:x:6009:slurm,validation,djmeyer,rasandov,rdahring,bjarami,asustait,tjsahs,amanriqu,mshahrea,zhzheng4|'
+einv012 /etc/group:nologin:x:6009:slurm,validation,djmeyer,rasandov,rdahring,bjarami,asustait,tjsahs,amanriqu,mshahrea,zhzheng4
+einv012 /root/setup.sh:sed -i /etc/group -e 's|^nologin:.*|nologin:x:6009:slurm,validation,djmeyer,rasandov,rdahring,bjarami,asustait,tjsahs,amanriqu,mshahrea,zhzheng4|' 
+einv012 before cpuonoff getcfsinfo         5.0 -255
+einv012 sharpd             5.0 0
+einv012     + killall sharpd
+einv012     + grep Mellanox
+einv012     + /sbin/lspci
+einv012     + grep -q ConnectX
+einv012     + '[' 1 -a '' = 1 ']'
+einv012     + killall -u nobody
+einv012     + sleep 5
+einv012 CPUonline : 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+einv012 DEBUG  
+einv012 1 0 1.00247883797
+einv012 check_rogues       0.0 0
+einv012     no rogue processes found 
+einv012 clean_sep_files    1.0 0
+einv012 check_swap         1.0 0
+einv012 check_tmp_space    1.0 0
+einv012 hugepages          1.0 0
+einv012 check_ntpd         1.0 0
+einv012 set_encfs          1.0 0
+einv012 set_intel_gpu      1.0 0
+einv012     
+einv012     1
+einv012 set_thp            1.0 0
+einv012 set_truescale      1.0 0
+einv012 read_mce           1.0 0
+einv012     
+einv012     mcelog: Family 6 Model 6a CPU: only decoding architectural errors
+einv012 dev_shm_huge       1.0 0
+einv012 config_ofed        2.0 0
+einv012     
+einv012     + DEFAULT_IBSTACK=orig-477.13.1_2.12.9
+einv012     + printf '%-60s #
+einv012     ' DEFAULT_IBSTACK=orig-477.13.1_2.12.9
+einv012     DEFAULT_IBSTACK=orig-477.13.1_2.12.9                         #
+einv012     + printf '%-60s #
+einv012     ' prologue=1
+einv012     prologue=1                                                   #
+einv012     + printf '%-60s #
+einv012     ' Resource_List_HFI1_eager_buffer_size=
+einv012     Resource_List_HFI1_eager_buffer_size=                        #
+einv012     + printf '%-60s #
+einv012     ' Resource_List_HFI1_num_user_contexts=
+einv012     Resource_List_HFI1_num_user_contexts=                        #
+einv012     + printf '%-60s #
+einv012     ' Resource_List_HFI1_max_mtu=
+einv012     Resource_List_HFI1_max_mtu=                                  #
+einv012     + printf '%-60s #
+einv012     ' Resource_List_HFI1_cache_size=
+einv012     Resource_List_HFI1_cache_size=                               #
+einv012     + printf '%-60s #
+einv012     ' Resource_List_HFI1_rcvhdrcnt=
+einv012     Resource_List_HFI1_rcvhdrcnt=                                #
+einv012     + printf '%-60s #
+einv012     ' Resource_List_HFI1_cap_mask=
+einv012     Resource_List_HFI1_cap_mask=                                 #
+einv012     + printf '%-60s #
+einv012     ' Resource_List_IBSTACK=
+einv012     Resource_List_IBSTACK=                                       #
+einv012     + printf '%-60s #
+einv012     ' Resource_List_RESTART_IBSTACK=
+einv012     Resource_List_RESTART_IBSTACK=                               #
+einv012     + printf '%-60s #
+einv012     ' Resource_List_mlnx_rate=
+einv012     Resource_List_mlnx_rate=                                     #
+einv012     + printf '%-60s #
+einv012     ' Resource_List_mlnx_width=
+einv012     Resource_List_mlnx_width=                                    #
+einv012     + ERRORS=
+einv012     + NEED_RESTART=no
+einv012     ++ hostname
+einv012     + HOSTNAME=einv012
+einv012     ++ ssh -o LogLevel=ERROR -o StrictHostKeyChecking=no -q slurmmaster /opt/slurm/current/bin/sinfo -h -n einv012 -o ''\''%f'\'''
+einv012     ++ grep IBSTACK=
+einv012     ++ sed -e 's,.*IBSTACK=,,' -e 's,[ ,].*,,'
+einv012     + DEF__IBSTACK=mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv012     + test mlnx-23.04-0.5.3.3_477.13.1_2.12.9 = donotprocess
+einv012     + test -z mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv012     + test -z mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv012     + test -d /usr/local/ofed/mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv012     + printf '%-60s #
+einv012     ' 'found default IB stack: mlnx-23.04-0.5.3.3_477.13.1_2.12.9'
+einv012     found default IB stack: mlnx-23.04-0.5.3.3_477.13.1_2.12.9   #
+einv012     + WANT_IBSTACK=mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv012     + test 1 = 1 -a -n ''
+einv012     + printf '%-60s #
+einv012     ' 'restart check 1       : no'
+einv012     restart check 1       : no                                   #
+einv012     + printf '%-60s #
+einv012     ' 'want IB stack         : mlnx-23.04-0.5.3.3_477.13.1_2.12.9'
+einv012     want IB stack         : mlnx-23.04-0.5.3.3_477.13.1_2.12.9   #
+einv012     + HAVE_IBSTACK=
+einv012     + test -L /usr/local/ofed/CURRENT
+einv012     + test -e /usr/local/ofed/CURRENT
+einv012     +++ readlink -f /usr/local/ofed/CURRENT
+einv012     ++ basename /usr/local/ofed/mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv012     + HAVE_IBSTACK=mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv012     + printf '%-60s #
+einv012     ' 'have IB stack         : mlnx-23.04-0.5.3.3_477.13.1_2.12.9'
+einv012     have IB stack         : mlnx-23.04-0.5.3.3_477.13.1_2.12.9   #
+einv012     + test -d /usr/local/ofed/mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv012     + printf '%-60s #
+einv012     ' 'tested want IB stack  : mlnx-23.04-0.5.3.3_477.13.1_2.12.9'
+einv012     tested want IB stack  : mlnx-23.04-0.5.3.3_477.13.1_2.12.9   #
+einv012     + set -x
+einv012     + grep -q /etc/modprobe.d /proc/mounts
+einv012     + grep -q /etc/modprobe.d /proc/mounts
+einv012     + printf '%-60s #
+einv012     ' 'restart check 3.5     : no'
+einv012     restart check 3.5     : no                                   #
+einv012     + set +x
+einv012     restart check 2       : no                                   #
+einv012     compare module SRC ver                                       #
+einv012     restart check 3       : no                                   #
+einv012     restart check 4       : no to 'mlnx-23.04-0.5.3.3_477.13.1_2.12.9' #
+einv012     checking ibstate for link and rate changes
+einv012     ----------------
+einv012     einv012
+einv012     ----------------
+einv012     Installed IB cards
+einv012     	CA type: MT4123
+einv012     		State: Active
+einv012     		Physical state: LinkUp
+einv012     		Rate: 200
+einv012     ----------------
+einv012     einv012
+einv012     ----------------
+einv012     
+einv012     IB interface NUMA value:
+einv012         mlx5_0 0
+einv012     restart check 5       : no to 'mlnx-23.04-0.5.3.3_477.13.1_2.12.9' #
+einv012     ----------------
+einv012     einv012
+einv012     ----------------
+einv012     Installed IB cards
+einv012     	CA type: MT4123
+einv012     		State: Active
+einv012     		Physical state: LinkUp
+einv012     		Rate: 200
+einv012     ----------------
+einv012     einv012
+einv012     ----------------
+einv012     
+einv012     IB interface NUMA value:
+einv012         mlx5_0 0
+einv012     ls: cannot access '/dev/hfi1*': No such file or directory
+einv012     core file size          (blocks, -c) 0
+einv012     data seg size           (kbytes, -d) unlimited
+einv012     scheduling priority             (-e) 0
+einv012     file size               (blocks, -f) unlimited
+einv012     pending signals                 (-i) 1030229
+einv012     max locked memory       (kbytes, -l) 261000000
+einv012     max memory size         (kbytes, -m) unlimited
+einv012     open files                      (-n) 40000
+einv012     pipe size            (512 bytes, -p) 8
+einv012     POSIX message queues     (bytes, -q) 819200
+einv012     real-time priority              (-r) 0
+einv012     stack size              (kbytes, -s) unlimited
+einv012     cpu time               (seconds, -t) unlimited
+einv012     max user processes              (-u) 16384
+einv012     virtual memory          (kbytes, -v) unlimited
+einv012     file locks                      (-x) unlimited
+einv012     ERRORS=                                                      #
+einv012 set_nvidia        48.1 0
+einv012     
+einv012     All done.
+einv012     ECC support is already Enabled for GPU 00000000:4B:00.0.
+einv012     ECC support is already Enabled for GPU 00000000:B1:00.0.
+einv012     All done.
+einv012     GPU 00000000:4B:00.0 was successfully reset.
+einv012     All done.
+einv012     GPU 00000000:B1:00.0 was successfully reset.
+einv012     All done.
+einv012     
+einv012     ==============NVSMI LOG==============
+einv012     
+einv012     Timestamp                                 : Mon Jun 26 21:50:06 2023
+einv012     Driver Version                            : 525.116.04
+einv012     CUDA Version                              : 12.0
+einv012     
+einv012     Attached GPUs                             : 2
+einv012     GPU 00000000:4B:00.0
+einv012         Clocks
+einv012             Graphics                          : 765 MHz
+einv012             SM                                : 765 MHz
+einv012             Memory                            : 1215 MHz
+einv012             Video                             : 735 MHz
+einv012         Applications Clocks
+einv012             Graphics                          : 765 MHz
+einv012             Memory                            : 1215 MHz
+einv012         Default Applications Clocks
+einv012             Graphics                          : 765 MHz
+einv012             Memory                            : 1215 MHz
+einv012         Deferred Clocks
+einv012             Memory                            : N/A
+einv012         Max Clocks
+einv012             Graphics                          : 1410 MHz
+einv012             SM                                : 1410 MHz
+einv012             Memory                            : 1215 MHz
+einv012             Video                             : 1290 MHz
+einv012         Max Customer Boost Clocks
+einv012             Graphics                          : 1410 MHz
+einv012         SM Clock Samples
+einv012             Duration                          : Not Found
+einv012             Number of Samples                 : Not Found
+einv012             Max                               : Not Found
+einv012             Min                               : Not Found
+einv012             Avg                               : Not Found
+einv012         Memory Clock Samples
+einv012             Duration                          : Not Found
+einv012             Number of Samples                 : Not Found
+einv012             Max                               : Not Found
+einv012             Min                               : Not Found
+einv012             Avg                               : Not Found
+einv012         Clock Policy
+einv012             Auto Boost                        : N/A
+einv012             Auto Boost Default                : N/A
+einv012     
+einv012     GPU 00000000:B1:00.0
+einv012         Clocks
+einv012             Graphics                          : 765 MHz
+einv012             SM                                : 765 MHz
+einv012             Memory                            : 1215 MHz
+einv012             Video                             : 705 MHz
+einv012         Applications Clocks
+einv012             Graphics                          : 765 MHz
+einv012             Memory                            : 1215 MHz
+einv012         Default Applications Clocks
+einv012             Graphics                          : 765 MHz
+einv012             Memory                            : 1215 MHz
+einv012         Deferred Clocks
+einv012             Memory                            : N/A
+einv012         Max Clocks
+einv012             Graphics                          : 1410 MHz
+einv012             SM                                : 1410 MHz
+einv012             Memory                            : 1215 MHz
+einv012             Video                             : 1290 MHz
+einv012         Max Customer Boost Clocks
+einv012             Graphics                          : 1410 MHz
+einv012         SM Clock Samples
+einv012             Duration                          : Not Found
+einv012             Number of Samples                 : Not Found
+einv012             Max                               : Not Found
+einv012             Min                               : Not Found
+einv012             Avg                               : Not Found
+einv012         Memory Clock Samples
+einv012             Duration                          : Not Found
+einv012             Number of Samples                 : Not Found
+einv012             Max                               : Not Found
+einv012             Min                               : Not Found
+einv012             Avg                               : Not Found
+einv012         Clock Policy
+einv012             Auto Boost                        : N/A
+einv012             Auto Boost Default                : N/A
+einv012     
+einv012     ----------------
+einv012     einv012
+einv012     ----------------
+einv012     check nvidia cards
+einv012     4b:00.0 3D controller [0302]: NVIDIA Corporation GA100 [A100 PCIe 40GB] [10de:20f1] (rev a1)
+einv012     b1:00.0 3D controller [0302]: NVIDIA Corporation GA100 [A100 PCIe 40GB] [10de:20f1] (rev a1)
+einv012     4b:00.0 		LnkSta:	Speed 16GT/s (ok), Width x16 (ok)
+einv012     b1:00.0 		LnkSta:	Speed 16GT/s (ok), Width x16 (ok)
+einv012     
+einv012     crw-rw-rw- 1 root ....................... /dev/nvidia0
+einv012     crw-rw-rw- 1 root ....................... /dev/nvidia1
+einv012     crw-rw-rw- 1 root ....................... /dev/nvidiactl
+einv012     crw-rw-rw- 1 root ....................... /dev/nvidia-uvm
+einv012     
+einv012     persistence_mode, clocks.applications.memory [MHz], clocks.applications.graphics [MHz]
+einv012     Disabled, 1215 MHz, 765 MHz
+einv012     Disabled, 1215 MHz, 765 MHz
+einv012     /usr/local/cuda/extras/demo_suite/bandwidthTest not found, exiting
+einv012 check_mounts       1.0 0
+einv012     
+einv012     Mounts list:							Mounts list:
+einv012     36.101.81.34:/work04 /nfs/work04 nfs rw,nosuid,nodev,relatime	36.101.81.34:/work04 /nfs/work04 nfs rw,nosuid,nodev,relatime
+einv012     36.101.81.36:/home /home nfs rw,nosuid,nodev,relatime,vers=3,	36.101.81.36:/home /home nfs rw,nosuid,nodev,relatime,vers=3,
+einv012     36.101.81.38:/scratch04 /nfs/scratch04 nfs rw,nosuid,nodev,re	36.101.81.38:/scratch04 /nfs/scratch04 nfs rw,nosuid,nodev,re
+einv012     36.112.84.15@o2ib3:/lfs12 /lfs/lfs12 lustre rw,nosuid,nodev,f	36.112.84.15@o2ib3:/lfs12 /lfs/lfs12 lustre rw,nosuid,nodev,f
+einv012     36.112.88.13@o2ib3:/lfs14 /lfs/lfs14 lustre rw,nosuid,nodev,f	36.112.88.13@o2ib3:/lfs14 /lfs/lfs14 lustre rw,nosuid,nodev,f
+einv012     binfmt_misc /proc/sys/fs/binfmt_misc binfmt_misc rw,relatime 	binfmt_misc /proc/sys/fs/binfmt_misc binfmt_misc rw,relatime 
+einv012     bpf /sys/fs/bpf bpf rw,nosuid,nodev,noexec,relatime,mode=700 	bpf /sys/fs/bpf bpf rw,nosuid,nodev,noexec,relatime,mode=700 
+einv012     cgroup /sys/fs/cgroup/blkio cgroup rw,nosuid,nodev,noexec,rel	cgroup /sys/fs/cgroup/blkio cgroup rw,nosuid,nodev,noexec,rel
+einv012     cgroup /sys/fs/cgroup/cpu,cpuacct cgroup rw,nosuid,nodev,noex	cgroup /sys/fs/cgroup/cpu,cpuacct cgroup rw,nosuid,nodev,noex
+einv012     cgroup /sys/fs/cgroup/cpuset cgroup rw,nosuid,nodev,noexec,re	cgroup /sys/fs/cgroup/cpuset cgroup rw,nosuid,nodev,noexec,re
+einv012     cgroup /sys/fs/cgroup/devices cgroup rw,nosuid,nodev,noexec,r	cgroup /sys/fs/cgroup/devices cgroup rw,nosuid,nodev,noexec,r
+einv012     cgroup /sys/fs/cgroup/freezer cgroup rw,nosuid,nodev,noexec,r	cgroup /sys/fs/cgroup/freezer cgroup rw,nosuid,nodev,noexec,r
+einv012     cgroup /sys/fs/cgroup/hugetlb cgroup rw,nosuid,nodev,noexec,r	cgroup /sys/fs/cgroup/hugetlb cgroup rw,nosuid,nodev,noexec,r
+einv012     cgroup /sys/fs/cgroup/memory cgroup rw,nosuid,nodev,noexec,re	cgroup /sys/fs/cgroup/memory cgroup rw,nosuid,nodev,noexec,re
+einv012     cgroup /sys/fs/cgroup/net_cls,net_prio cgroup rw,nosuid,nodev	cgroup /sys/fs/cgroup/net_cls,net_prio cgroup rw,nosuid,nodev
+einv012     cgroup /sys/fs/cgroup/perf_event cgroup rw,nosuid,nodev,noexe	cgroup /sys/fs/cgroup/perf_event cgroup rw,nosuid,nodev,noexe
+einv012     cgroup /sys/fs/cgroup/pids cgroup rw,nosuid,nodev,noexec,rela	cgroup /sys/fs/cgroup/pids cgroup rw,nosuid,nodev,noexec,rela
+einv012     cgroup /sys/fs/cgroup/rdma cgroup rw,nosuid,nodev,noexec,rela	cgroup /sys/fs/cgroup/rdma cgroup rw,nosuid,nodev,noexec,rela
+einv012     configfs /sys/kernel/config configfs rw,relatime 0 0		configfs /sys/kernel/config configfs rw,relatime 0 0
+einv012     debugfs /sys/kernel/debug debugfs rw,relatime 0 0		debugfs /sys/kernel/debug debugfs rw,relatime 0 0
+einv012     devpts /dev/pts devpts rw,nosuid,noexec,relatime,gid=5,mode=6	devpts /dev/pts devpts rw,nosuid,noexec,relatime,gid=5,mode=6
+einv012     /dev/sda6 / ext3 rw,relatime 0 0				/dev/sda6 / ext3 rw,relatime 0 0
+einv012     /dev/sda8 /tmp xfs rw,nosuid,nodev,relatime,attr2,inode64,log	/dev/sda8 /tmp xfs rw,nosuid,nodev,relatime,attr2,inode64,log
+einv012     /dev/sda8 /var/tmp xfs rw,nosuid,nodev,relatime,attr2,inode64	/dev/sda8 /var/tmp xfs rw,nosuid,nodev,relatime,attr2,inode64
+einv012     devtmpfs /dev devtmpfs rw,nosuid,mode=755 0 0			devtmpfs /dev devtmpfs rw,nosuid,mode=755 0 0
+einv012     efivarfs /sys/firmware/efi/efivars efivarfs rw,nosuid,nodev,n	efivarfs /sys/firmware/efi/efivars efivarfs rw,nosuid,nodev,n
+einv012     hugetlbfs /dev/hugepages hugetlbfs rw,relatime,pagesize=2M 0 	hugetlbfs /dev/hugepages hugetlbfs rw,relatime,pagesize=2M 0 
+einv012     mqueue /dev/mqueue mqueue rw,relatime 0 0			mqueue /dev/mqueue mqueue rw,relatime 0 0
+einv012     none /sys/kernel/tracing tracefs rw,relatime 0 0		none /sys/kernel/tracing tracefs rw,relatime 0 0
+einv012     panfs://36.101.211.51/admin/links /panfs panfs rw,nosuid,node	panfs://36.101.211.51/admin/links /panfs panfs rw,nosuid,node
+einv012     panfs://36.101.211.51/ /global/panfs01 panfs rw,nosuid,nodev,	panfs://36.101.211.51/ /global/panfs01 panfs rw,nosuid,nodev,
+einv012     panfs://36.101.211.51/ /global/panfs panfs rw,nosuid,nodev,re	panfs://36.101.211.51/ /global/panfs panfs rw,nosuid,nodev,re
+einv012     panfs://36.101.212.1/innl /global/panfs02/innl panfs rw,nosui	panfs://36.101.212.1/innl /global/panfs02/innl panfs rw,nosui
+einv012     proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0		proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0
+einv012     pstore /sys/fs/pstore pstore rw,nosuid,nodev,noexec,relatime 	pstore /sys/fs/pstore pstore rw,nosuid,nodev,noexec,relatime 
+einv012     securityfs /sys/kernel/security securityfs rw,nosuid,nodev,no	securityfs /sys/kernel/security securityfs rw,nosuid,nodev,no
+einv012     sunrpc /var/lib/nfs/rpc_pipefs rpc_pipefs rw,relatime 0 0	sunrpc /var/lib/nfs/rpc_pipefs rpc_pipefs rw,relatime 0 0
+einv012     sysfs /sys sysfs rw,nosuid,nodev,noexec,relatime 0 0		sysfs /sys sysfs rw,nosuid,nodev,noexec,relatime 0 0
+einv012     tmpfs /dev/shm tmpfs rw,nosuid,nodev 0 0			tmpfs /dev/shm tmpfs rw,nosuid,nodev 0 0
+einv012     tmpfs /run tmpfs rw,nosuid,nodev,mode=755 0 0			tmpfs /run tmpfs rw,nosuid,nodev,mode=755 0 0
+einv012     tmpfs /sys/fs/cgroup tmpfs ro,nosuid,nodev,noexec,mode=755 0 	tmpfs /sys/fs/cgroup tmpfs ro,nosuid,nodev,noexec,mode=755 0 
+einv012     tracefs /sys/kernel/debug/tracing tracefs rw,relatime 0 0	tracefs /sys/kernel/debug/tracing tracefs rw,relatime 0 0
+einv012 config_lustre      1.0 0
+einv012 clean_dev_shm      1.0 0
+einv012 check_dev_shm      1.0 0
+einv012     
+einv012     ++ awk '/shm/{if( $3 > 0){exit 0}else{exit 1}}'
+einv012     ++ df /dev/shm
+einv012 ++ hostname
+einv012 + NODE=einv012
+einv012 ++ sinfo -n einv012 -h -o %E
+einv012 + test none = 'needs reboot'
+einv012 + '[' cnvq = itarq ']'
+
+
+**************************************************
+einv015 RetCode: 0 TimeUsed: 75.0792570114
+einv015 + exec
+einv015 check_downclock    1.0 0  
+einv015 msr_safe           0.0 0 msr_safe module not loaded 
+einv015 set_all_cpus       0.0 0  
+einv015 clean_turbostat    1.0 0  
+einv015 check_userid       1.0 0 
+einv015 uid=24017(zhzheng4) gid=24017(zhzheng4) groups=24017(zhzheng4),6097(cnvqug),6107(inspurqug) 
+einv015 cpufreq            1.0 0 
+einv015 current value msr 0x620: 818running with default cpufreq values 
+einv015 set_watchdog       1.0 0  
+einv015 set_nm_and_chassis    1.0 0 
+einv015 Redirecting to /bin/systemctl start ipmi.service
+einv015  57 01 00
+einv015 Chassis identify interval: indefinite 
+einv015 fix_permissions    1.0 0 
+einv015 Vendor ID:           GenuineIntel
+einv015 setting default meltdown/spectre on Intel
+einv015 /sys/kernel/debug/x86/ibpb_enabled
+einv015 /bin/sh: line 6: /sys/kernel/debug/x86/ibpb_enabled: Permission denied
+einv015 /sys/kernel/debug/x86/ibrs_enabled
+einv015 /sys/kernel/debug/x86/pti_enabled
+einv015 /bin/sh: line 10: /sys/kernel/debug/x86/pti_enabled: Permission denied 
+einv015 memkind            1.0 0  
+einv015 clean_dev_shm      1.0 0  
+einv015 logger             1.0 0  
+einv015 numa_balancing     1.0 0  
+einv015 getmeminfo         1.0 0  
+einv015 DEBUG  
+einv015 root       20499  0.0  0.0   4404   260 ?        S    21:49   0:00 tee /var/local/XXXlogue.sub.rsyslog 0 1.00323295593
+einv015 rsyslog            1.0 0 
+einv015 root       20499  0.0  0.0   4404   260 ?        S    21:49   0:00 tee /var/local/XXXlogue.sub.rsyslog 
+einv015 nologin            2.0 0 
+einv015 /etc/group:nologin:x:6009:slurm,validation,djmeyer,rasandov,rdahring,bjarami,asustait,tjsahs,amanriqu,mshahrea,zhzheng4
+einv015 /root/setup.sh:sed -i /etc/group -e 's|^nologin:.*|nologin:x:6009:slurm,validation,djmeyer,rasandov,rdahring,bjarami,asustait,tjsahs,amanriqu,mshahrea,zhzheng4|'
+einv015 /etc/group:nologin:x:6009:slurm,validation,djmeyer,rasandov,rdahring,bjarami,asustait,tjsahs,amanriqu,mshahrea,zhzheng4
+einv015 /root/setup.sh:sed -i /etc/group -e 's|^nologin:.*|nologin:x:6009:slurm,validation,djmeyer,rasandov,rdahring,bjarami,asustait,tjsahs,amanriqu,mshahrea,zhzheng4|' 
+einv015 before cpuonoff getcfsinfo         5.0 -255
+einv015 sharpd             5.0 0
+einv015     + killall sharpd
+einv015     + grep Mellanox
+einv015     + grep -q ConnectX
+einv015     + /sbin/lspci
+einv015     + '[' 1 -a '' = 1 ']'
+einv015     + killall -u nobody
+einv015     + sleep 5
+einv015 CPUonline : 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+einv015 DEBUG  
+einv015 1 0 1.00331997871
+einv015 check_rogues       0.0 0
+einv015     no rogue processes found 
+einv015 check_swap         1.0 0
+einv015 check_tmp_space    1.0 0
+einv015 clean_sep_files    1.0 0
+einv015 hugepages          1.0 0
+einv015 set_encfs          1.0 0
+einv015 check_ntpd         1.0 0
+einv015 set_intel_gpu      1.0 0
+einv015     
+einv015     1
+einv015 set_thp            1.0 0
+einv015 set_truescale      1.0 0
+einv015 read_mce           1.0 0
+einv015     
+einv015     mcelog: Family 6 Model 6a CPU: only decoding architectural errors
+einv015 dev_shm_huge       1.0 0
+einv015 config_ofed        2.0 0
+einv015     
+einv015     + DEFAULT_IBSTACK=orig-477.13.1_2.12.9
+einv015     + printf '%-60s #
+einv015     ' DEFAULT_IBSTACK=orig-477.13.1_2.12.9
+einv015     DEFAULT_IBSTACK=orig-477.13.1_2.12.9                         #
+einv015     + printf '%-60s #
+einv015     ' prologue=1
+einv015     prologue=1                                                   #
+einv015     + printf '%-60s #
+einv015     ' Resource_List_HFI1_eager_buffer_size=
+einv015     Resource_List_HFI1_eager_buffer_size=                        #
+einv015     + printf '%-60s #
+einv015     ' Resource_List_HFI1_num_user_contexts=
+einv015     Resource_List_HFI1_num_user_contexts=                        #
+einv015     + printf '%-60s #
+einv015     ' Resource_List_HFI1_max_mtu=
+einv015     Resource_List_HFI1_max_mtu=                                  #
+einv015     + printf '%-60s #
+einv015     ' Resource_List_HFI1_cache_size=
+einv015     Resource_List_HFI1_cache_size=                               #
+einv015     + printf '%-60s #
+einv015     ' Resource_List_HFI1_rcvhdrcnt=
+einv015     Resource_List_HFI1_rcvhdrcnt=                                #
+einv015     + printf '%-60s #
+einv015     ' Resource_List_HFI1_cap_mask=
+einv015     Resource_List_HFI1_cap_mask=                                 #
+einv015     + printf '%-60s #
+einv015     ' Resource_List_IBSTACK=
+einv015     Resource_List_IBSTACK=                                       #
+einv015     + printf '%-60s #
+einv015     ' Resource_List_RESTART_IBSTACK=
+einv015     Resource_List_RESTART_IBSTACK=                               #
+einv015     + printf '%-60s #
+einv015     ' Resource_List_mlnx_rate=
+einv015     Resource_List_mlnx_rate=                                     #
+einv015     + printf '%-60s #
+einv015     ' Resource_List_mlnx_width=
+einv015     Resource_List_mlnx_width=                                    #
+einv015     + ERRORS=
+einv015     + NEED_RESTART=no
+einv015     ++ hostname
+einv015     + HOSTNAME=einv015
+einv015     ++ grep IBSTACK=
+einv015     ++ ssh -o LogLevel=ERROR -o StrictHostKeyChecking=no -q slurmmaster /opt/slurm/current/bin/sinfo -h -n einv015 -o ''\''%f'\'''
+einv015     ++ sed -e 's,.*IBSTACK=,,' -e 's,[ ,].*,,'
+einv015     + DEF__IBSTACK=mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv015     + test mlnx-23.04-0.5.3.3_477.13.1_2.12.9 = donotprocess
+einv015     + test -z mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv015     + test -z mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv015     + test -d /usr/local/ofed/mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv015     + printf '%-60s #
+einv015     ' 'found default IB stack: mlnx-23.04-0.5.3.3_477.13.1_2.12.9'
+einv015     found default IB stack: mlnx-23.04-0.5.3.3_477.13.1_2.12.9   #
+einv015     + WANT_IBSTACK=mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv015     + test 1 = 1 -a -n ''
+einv015     + printf '%-60s #
+einv015     ' 'restart check 1       : no'
+einv015     restart check 1       : no                                   #
+einv015     + printf '%-60s #
+einv015     ' 'want IB stack         : mlnx-23.04-0.5.3.3_477.13.1_2.12.9'
+einv015     want IB stack         : mlnx-23.04-0.5.3.3_477.13.1_2.12.9   #
+einv015     + HAVE_IBSTACK=
+einv015     + test -L /usr/local/ofed/CURRENT
+einv015     + test -e /usr/local/ofed/CURRENT
+einv015     +++ readlink -f /usr/local/ofed/CURRENT
+einv015     ++ basename /usr/local/ofed/mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv015     + HAVE_IBSTACK=mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv015     + printf '%-60s #
+einv015     ' 'have IB stack         : mlnx-23.04-0.5.3.3_477.13.1_2.12.9'
+einv015     have IB stack         : mlnx-23.04-0.5.3.3_477.13.1_2.12.9   #
+einv015     + test -d /usr/local/ofed/mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+einv015     + printf '%-60s #
+einv015     ' 'tested want IB stack  : mlnx-23.04-0.5.3.3_477.13.1_2.12.9'
+einv015     tested want IB stack  : mlnx-23.04-0.5.3.3_477.13.1_2.12.9   #
+einv015     + set -x
+einv015     + grep -q /etc/modprobe.d /proc/mounts
+einv015     + grep -q /etc/modprobe.d /proc/mounts
+einv015     + printf '%-60s #
+einv015     ' 'restart check 3.5     : no'
+einv015     restart check 3.5     : no                                   #
+einv015     + set +x
+einv015     restart check 2       : no                                   #
+einv015     compare module SRC ver                                       #
+einv015     restart check 3       : no                                   #
+einv015     restart check 4       : no to 'mlnx-23.04-0.5.3.3_477.13.1_2.12.9' #
+einv015     checking ibstate for link and rate changes
+einv015     ----------------
+einv015     einv015
+einv015     ----------------
+einv015     Installed IB cards
+einv015     	CA type: MT4123
+einv015     		State: Active
+einv015     		Physical state: LinkUp
+einv015     		Rate: 200
+einv015     ----------------
+einv015     einv015
+einv015     ----------------
+einv015     
+einv015     IB interface NUMA value:
+einv015         mlx5_0 0
+einv015     restart check 5       : no to 'mlnx-23.04-0.5.3.3_477.13.1_2.12.9' #
+einv015     ----------------
+einv015     einv015
+einv015     ----------------
+einv015     Installed IB cards
+einv015     	CA type: MT4123
+einv015     		State: Active
+einv015     		Physical state: LinkUp
+einv015     		Rate: 200
+einv015     ----------------
+einv015     einv015
+einv015     ----------------
+einv015     
+einv015     IB interface NUMA value:
+einv015         mlx5_0 0
+einv015     ls: cannot access '/dev/hfi1*': No such file or directory
+einv015     core file size          (blocks, -c) 0
+einv015     data seg size           (kbytes, -d) unlimited
+einv015     scheduling priority             (-e) 0
+einv015     file size               (blocks, -f) unlimited
+einv015     pending signals                 (-i) 1030229
+einv015     max locked memory       (kbytes, -l) 261000000
+einv015     max memory size         (kbytes, -m) unlimited
+einv015     open files                      (-n) 40000
+einv015     pipe size            (512 bytes, -p) 8
+einv015     POSIX message queues     (bytes, -q) 819200
+einv015     real-time priority              (-r) 0
+einv015     stack size              (kbytes, -s) unlimited
+einv015     cpu time               (seconds, -t) unlimited
+einv015     max user processes              (-u) 16384
+einv015     virtual memory          (kbytes, -v) unlimited
+einv015     file locks                      (-x) unlimited
+einv015     ERRORS=                                                      #
+einv015 set_nvidia        48.0 0
+einv015     
+einv015     All done.
+einv015     ECC support is already Enabled for GPU 00000000:4B:00.0.
+einv015     ECC support is already Enabled for GPU 00000000:B1:00.0.
+einv015     All done.
+einv015     GPU 00000000:4B:00.0 was successfully reset.
+einv015     All done.
+einv015     GPU 00000000:B1:00.0 was successfully reset.
+einv015     All done.
+einv015     
+einv015     ==============NVSMI LOG==============
+einv015     
+einv015     Timestamp                                 : Mon Jun 26 21:50:06 2023
+einv015     Driver Version                            : 525.116.04
+einv015     CUDA Version                              : 12.0
+einv015     
+einv015     Attached GPUs                             : 2
+einv015     GPU 00000000:4B:00.0
+einv015         Clocks
+einv015             Graphics                          : 765 MHz
+einv015             SM                                : 765 MHz
+einv015             Memory                            : 1215 MHz
+einv015             Video                             : 720 MHz
+einv015         Applications Clocks
+einv015             Graphics                          : 765 MHz
+einv015             Memory                            : 1215 MHz
+einv015         Default Applications Clocks
+einv015             Graphics                          : 765 MHz
+einv015             Memory                            : 1215 MHz
+einv015         Deferred Clocks
+einv015             Memory                            : N/A
+einv015         Max Clocks
+einv015             Graphics                          : 1410 MHz
+einv015             SM                                : 1410 MHz
+einv015             Memory                            : 1215 MHz
+einv015             Video                             : 1290 MHz
+einv015         Max Customer Boost Clocks
+einv015             Graphics                          : 1410 MHz
+einv015         SM Clock Samples
+einv015             Duration                          : Not Found
+einv015             Number of Samples                 : Not Found
+einv015             Max                               : Not Found
+einv015             Min                               : Not Found
+einv015             Avg                               : Not Found
+einv015         Memory Clock Samples
+einv015             Duration                          : Not Found
+einv015             Number of Samples                 : Not Found
+einv015             Max                               : Not Found
+einv015             Min                               : Not Found
+einv015             Avg                               : Not Found
+einv015         Clock Policy
+einv015             Auto Boost                        : N/A
+einv015             Auto Boost Default                : N/A
+einv015     
+einv015     GPU 00000000:B1:00.0
+einv015         Clocks
+einv015             Graphics                          : 765 MHz
+einv015             SM                                : 765 MHz
+einv015             Memory                            : 1215 MHz
+einv015             Video                             : 735 MHz
+einv015         Applications Clocks
+einv015             Graphics                          : 765 MHz
+einv015             Memory                            : 1215 MHz
+einv015         Default Applications Clocks
+einv015             Graphics                          : 765 MHz
+einv015             Memory                            : 1215 MHz
+einv015         Deferred Clocks
+einv015             Memory                            : N/A
+einv015         Max Clocks
+einv015             Graphics                          : 1410 MHz
+einv015             SM                                : 1410 MHz
+einv015             Memory                            : 1215 MHz
+einv015             Video                             : 1290 MHz
+einv015         Max Customer Boost Clocks
+einv015             Graphics                          : 1410 MHz
+einv015         SM Clock Samples
+einv015             Duration                          : Not Found
+einv015             Number of Samples                 : Not Found
+einv015             Max                               : Not Found
+einv015             Min                               : Not Found
+einv015             Avg                               : Not Found
+einv015         Memory Clock Samples
+einv015             Duration                          : Not Found
+einv015             Number of Samples                 : Not Found
+einv015             Max                               : Not Found
+einv015             Min                               : Not Found
+einv015             Avg                               : Not Found
+einv015         Clock Policy
+einv015             Auto Boost                        : N/A
+einv015             Auto Boost Default                : N/A
+einv015     
+einv015     ----------------
+einv015     einv015
+einv015     ----------------
+einv015     check nvidia cards
+einv015     4b:00.0 3D controller [0302]: NVIDIA Corporation GA100 [A100 PCIe 40GB] [10de:20f1] (rev a1)
+einv015     b1:00.0 3D controller [0302]: NVIDIA Corporation GA100 [A100 PCIe 40GB] [10de:20f1] (rev a1)
+einv015     4b:00.0 		LnkSta:	Speed 16GT/s (ok), Width x16 (ok)
+einv015     b1:00.0 		LnkSta:	Speed 16GT/s (ok), Width x16 (ok)
+einv015     
+einv015     crw-rw-rw- 1 root ....................... /dev/nvidia0
+einv015     crw-rw-rw- 1 root ....................... /dev/nvidia1
+einv015     crw-rw-rw- 1 root ....................... /dev/nvidiactl
+einv015     crw-rw-rw- 1 root ....................... /dev/nvidia-uvm
+einv015     
+einv015     persistence_mode, clocks.applications.memory [MHz], clocks.applications.graphics [MHz]
+einv015     Disabled, 1215 MHz, 765 MHz
+einv015     Disabled, 1215 MHz, 765 MHz
+einv015     /usr/local/cuda/extras/demo_suite/bandwidthTest not found, exiting
+einv015 config_lustre      0.0 0
+einv015 check_mounts       1.0 0
+einv015     
+einv015     Mounts list:							Mounts list:
+einv015     36.101.81.34:/work04 /nfs/work04 nfs rw,nosuid,nodev,relatime	36.101.81.34:/work04 /nfs/work04 nfs rw,nosuid,nodev,relatime
+einv015     36.101.81.36:/home /home nfs rw,nosuid,nodev,relatime,vers=3,	36.101.81.36:/home /home nfs rw,nosuid,nodev,relatime,vers=3,
+einv015     36.101.81.38:/scratch04 /nfs/scratch04 nfs rw,nosuid,nodev,re	36.101.81.38:/scratch04 /nfs/scratch04 nfs rw,nosuid,nodev,re
+einv015     36.112.84.15@o2ib3:/lfs12 /lfs/lfs12 lustre rw,nosuid,nodev,f	36.112.84.15@o2ib3:/lfs12 /lfs/lfs12 lustre rw,nosuid,nodev,f
+einv015     36.112.88.13@o2ib3:/lfs14 /lfs/lfs14 lustre rw,nosuid,nodev,f	36.112.88.13@o2ib3:/lfs14 /lfs/lfs14 lustre rw,nosuid,nodev,f
+einv015     binfmt_misc /proc/sys/fs/binfmt_misc binfmt_misc rw,relatime 	binfmt_misc /proc/sys/fs/binfmt_misc binfmt_misc rw,relatime 
+einv015     bpf /sys/fs/bpf bpf rw,nosuid,nodev,noexec,relatime,mode=700 	bpf /sys/fs/bpf bpf rw,nosuid,nodev,noexec,relatime,mode=700 
+einv015     cgroup /sys/fs/cgroup/blkio cgroup rw,nosuid,nodev,noexec,rel	cgroup /sys/fs/cgroup/blkio cgroup rw,nosuid,nodev,noexec,rel
+einv015     cgroup /sys/fs/cgroup/cpu,cpuacct cgroup rw,nosuid,nodev,noex	cgroup /sys/fs/cgroup/cpu,cpuacct cgroup rw,nosuid,nodev,noex
+einv015     cgroup /sys/fs/cgroup/cpuset cgroup rw,nosuid,nodev,noexec,re	cgroup /sys/fs/cgroup/cpuset cgroup rw,nosuid,nodev,noexec,re
+einv015     cgroup /sys/fs/cgroup/devices cgroup rw,nosuid,nodev,noexec,r	cgroup /sys/fs/cgroup/devices cgroup rw,nosuid,nodev,noexec,r
+einv015     cgroup /sys/fs/cgroup/freezer cgroup rw,nosuid,nodev,noexec,r	cgroup /sys/fs/cgroup/freezer cgroup rw,nosuid,nodev,noexec,r
+einv015     cgroup /sys/fs/cgroup/hugetlb cgroup rw,nosuid,nodev,noexec,r	cgroup /sys/fs/cgroup/hugetlb cgroup rw,nosuid,nodev,noexec,r
+einv015     cgroup /sys/fs/cgroup/memory cgroup rw,nosuid,nodev,noexec,re	cgroup /sys/fs/cgroup/memory cgroup rw,nosuid,nodev,noexec,re
+einv015     cgroup /sys/fs/cgroup/net_cls,net_prio cgroup rw,nosuid,nodev	cgroup /sys/fs/cgroup/net_cls,net_prio cgroup rw,nosuid,nodev
+einv015     cgroup /sys/fs/cgroup/perf_event cgroup rw,nosuid,nodev,noexe	cgroup /sys/fs/cgroup/perf_event cgroup rw,nosuid,nodev,noexe
+einv015     cgroup /sys/fs/cgroup/pids cgroup rw,nosuid,nodev,noexec,rela	cgroup /sys/fs/cgroup/pids cgroup rw,nosuid,nodev,noexec,rela
+einv015     cgroup /sys/fs/cgroup/rdma cgroup rw,nosuid,nodev,noexec,rela	cgroup /sys/fs/cgroup/rdma cgroup rw,nosuid,nodev,noexec,rela
+einv015     configfs /sys/kernel/config configfs rw,relatime 0 0		configfs /sys/kernel/config configfs rw,relatime 0 0
+einv015     debugfs /sys/kernel/debug debugfs rw,relatime 0 0		debugfs /sys/kernel/debug debugfs rw,relatime 0 0
+einv015     devpts /dev/pts devpts rw,nosuid,noexec,relatime,gid=5,mode=6	devpts /dev/pts devpts rw,nosuid,noexec,relatime,gid=5,mode=6
+einv015     /dev/sda6 / ext3 rw,relatime 0 0				/dev/sda6 / ext3 rw,relatime 0 0
+einv015     /dev/sda8 /tmp xfs rw,nosuid,nodev,relatime,attr2,inode64,log	/dev/sda8 /tmp xfs rw,nosuid,nodev,relatime,attr2,inode64,log
+einv015     /dev/sda8 /var/tmp xfs rw,nosuid,nodev,relatime,attr2,inode64	/dev/sda8 /var/tmp xfs rw,nosuid,nodev,relatime,attr2,inode64
+einv015     devtmpfs /dev devtmpfs rw,nosuid,mode=755 0 0			devtmpfs /dev devtmpfs rw,nosuid,mode=755 0 0
+einv015     efivarfs /sys/firmware/efi/efivars efivarfs rw,nosuid,nodev,n	efivarfs /sys/firmware/efi/efivars efivarfs rw,nosuid,nodev,n
+einv015     hugetlbfs /dev/hugepages hugetlbfs rw,relatime,pagesize=2M 0 	hugetlbfs /dev/hugepages hugetlbfs rw,relatime,pagesize=2M 0 
+einv015     mqueue /dev/mqueue mqueue rw,relatime 0 0			mqueue /dev/mqueue mqueue rw,relatime 0 0
+einv015     none /sys/kernel/tracing tracefs rw,relatime 0 0		none /sys/kernel/tracing tracefs rw,relatime 0 0
+einv015     panfs://36.101.211.51/admin/links /panfs panfs rw,nosuid,node	panfs://36.101.211.51/admin/links /panfs panfs rw,nosuid,node
+einv015     panfs://36.101.211.51/ /global/panfs01 panfs rw,nosuid,nodev,	panfs://36.101.211.51/ /global/panfs01 panfs rw,nosuid,nodev,
+einv015     panfs://36.101.211.51/ /global/panfs panfs rw,nosuid,nodev,re	panfs://36.101.211.51/ /global/panfs panfs rw,nosuid,nodev,re
+einv015     panfs://36.101.212.1/innl /global/panfs02/innl panfs rw,nosui	panfs://36.101.212.1/innl /global/panfs02/innl panfs rw,nosui
+einv015     proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0		proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0
+einv015     pstore /sys/fs/pstore pstore rw,nosuid,nodev,noexec,relatime 	pstore /sys/fs/pstore pstore rw,nosuid,nodev,noexec,relatime 
+einv015     securityfs /sys/kernel/security securityfs rw,nosuid,nodev,no	securityfs /sys/kernel/security securityfs rw,nosuid,nodev,no
+einv015     sunrpc /var/lib/nfs/rpc_pipefs rpc_pipefs rw,relatime 0 0	sunrpc /var/lib/nfs/rpc_pipefs rpc_pipefs rw,relatime 0 0
+einv015     sysfs /sys sysfs rw,nosuid,nodev,noexec,relatime 0 0		sysfs /sys sysfs rw,nosuid,nodev,noexec,relatime 0 0
+einv015     tmpfs /dev/shm tmpfs rw,nosuid,nodev 0 0			tmpfs /dev/shm tmpfs rw,nosuid,nodev 0 0
+einv015     tmpfs /run tmpfs rw,nosuid,nodev,mode=755 0 0			tmpfs /run tmpfs rw,nosuid,nodev,mode=755 0 0
+einv015     tmpfs /sys/fs/cgroup tmpfs ro,nosuid,nodev,noexec,mode=755 0 	tmpfs /sys/fs/cgroup tmpfs ro,nosuid,nodev,noexec,mode=755 0 
+einv015     tracefs /sys/kernel/debug/tracing tracefs rw,relatime 0 0	tracefs /sys/kernel/debug/tracing tracefs rw,relatime 0 0
+einv015 clean_dev_shm      1.0 0
+einv015 check_dev_shm      1.0 0
+einv015     
+einv015     ++ df /dev/shm
+einv015     ++ awk '/shm/{if( $3 > 0){exit 0}else{exit 1}}'
+einv015 ++ hostname
+einv015 + NODE=einv015
+einv015 ++ sinfo -n einv015 -h -o %E
+einv015 + test none = 'needs reboot'
+einv015 + '[' cnvq = itarq ']'
+
+
+
+printout information on OPA switches used
+ 
+
+
+
+*************** REPORT ***************
+
+* Cluster   Endeavour
+* QUEUE     cnvq
+* JOBID     510736
+* Nodes     einv012 einv015
+* #Nodes    2
+* - - - - - -: einv[012,015]:
+* Kernel   : einv[012,015]:4.18.0-477.13.1.el8_8.x86_64
+* boot opts: einv[012,015]:BOOT_IMAGE=(tftp)vmlinuz-4.18.0-477.13.1.el8_8.x86_64 ro root=/dev/sda6 rd_NO_LUKS rd_NO_LVM rd_NO_DM rd_NO_MD LANG=en_US.UTF-8 SYSFONT=latarcyrheb-sun16 KEYBOARDTYPE=pc KEYTABLE=us panic=30 consoleblank=0 console=tty0 console=ttyS0,115200,8N1 console=ttyS1,115200,8N1 biosdevname=0 net.ifnames=0 ipv6.disable=1 rdshell noquiet showopts rdloaddriver=ahci selinux=0 numa_zonelist_order=N nosmap intel_pstate=disable kpti modprobe.blacklist=kvm_intel,intel_qat,qat_c3xxx,qat_c3xxxvf,qat_c62x,qat_c62xvf,intel_qat,qat_dh895xcc,qat_dh895xccvf,ast,ttm,snd_hda_intel nomodeset CRTBOOT=default edd=off eagerfpu=on processor.ignore_ppc=1 slab_common.usercopy_fallback=y drm.debug=0x1a pcie_ports=native efi=nosoftreserve pci=pcie_bus_perf i915debug_eu=1 i915.enable_hangcheck=0 i915.enable_rc6=0 i915.rc6_ignore_steppings=1 i915.force_probe=*
+* OS       : einv[012,015]:Rocky Linux release 8.8 (Green Obsidian)
+* Microcode: einv[012,015]:
+*       RPM: einv[012,015]:microcode_ctl-20220809-2.el8.x86_64
+*    loaded: einv[012,015]:microcode : 0xd000375
+* vulnerabi: einv[012,015]:
+*  itlb_multihit  : einv[012,015]:Not affected
+*  l1tf           : einv[012,015]:Not affected
+*  mds            : einv[012,015]:Not affected
+*  meltdown       : einv[012,015]:Not affected
+*  mmio_stale_data: einv[012,015]:Vulnerable: Clear CPU buffers attempted, no microcode; SMT vulnerable
+*  retbleed       : einv[012,015]:Not affected
+*  spec_store_bypass: einv[012,015]:Mitigation: Speculative Store Bypass disabled via prctl
+*  spectre_v1     : einv[012,015]:Mitigation: usercopy/swapgs barriers and __user pointer sanitization
+*  spectre_v2     : einv[012,015]:Mitigation: Enhanced IBRS, IBPB: conditional, RSB filling, PBRSB-eIBRS: SW sequence
+*  srbds          : einv[012,015]:Not affected
+*  tsx_async_abort: einv[012,015]:Not affected
+* ibrs stat: einv[012,015]:
+* ibpb stat: einv[012,015]:
+* pti  stat: einv[012,015]:
+* retp stat: einv[012,015]:
+* -        : einv[012,015]:
+* cpu      : einv[012,015]:Intel(R) Xeon(R) Platinum 8360Y CPU @ 2.40GHz
+*  cores   : einv[012,015]:CPU(s): 144
+*  threads : einv[012,015]:Thread(s) per core: 2
+* System   : einv[012,015]:WHITLEY
+* Board    : einv[012,015]:WHITLEY
+* Memory   : einv[012,015]:2637633
+* Mem manuf: einv[012,015]:Manufacturer: Hynix
+* Mem part : einv[012,015]:Part Number: HMA82GR7CJR8N-XN
+* Mem speed: einv[012,015]:Configured Memory Speed: 3200 MT/s Speed: 3200 MT/s
+* Mem type : einv[012,015]:Type: DDR4
+* BIOS_Ver : einv[012,015]:SE5C620.86B.01.01.0003.2104260124
+* FRU      : einv[012,015]:
+* ME ver   : einv[012,015]:
+* BMC Op   : einv[012,015]:2.81.76F13CCC
+* SDR Ver  : einv[012,015]:0.35 Information:
+* --       : einv[012,015]:
+* speedstep setting              : einv[012,015]:EIST=0
+*   cpuspeed daemon              : einv[012,015]:
+*   cpufreq driver               : einv[012,015]:acpi-cpufreq
+*   governor                     : einv[012,015]:userspace
+*   cpu/cpufreq/boost            : einv[012,015]:1
+*   Frequency                    : einv[012,015]:2401000
+*   disable prefetchers          : einv[012,015]:0
+*   uncore frequency             : einv[012,015]:818
+* syscfg entries: einv[012,015]:
+*   Memory Mode                  : einv[012,015]:
+*   Cluster Mode                 : einv[012,015]:
+*   Volatile Memory Mode         : einv[012,015]:Volatile Memory Mode=2LM                           ;Options: 1LM=00: 2LM=01
+* Intel speed select current level : einv[012,015]:0
+*                      lockstatus  : einv[012,015]:unlocked
+*                      profiles    : einv[012,015]:4
+* ---      : einv[012,015]:
+* OFED     : einv[012,015]:/usr/local/ofed/mlnx-23.04-0.5.3.3_477.13.1_2.12.9
+* IB_card  : einv[012,015]:Infiniband controller: Mellanox Technologies MT28908 Family [ConnectX-6]
+* IB_cardFW: einv[012,015]:20.37.1014
+* OPA driver: einv[012,015]:
+*              eager_buffer_size : einv[012,015]:
+*                        max_mtu : einv[012,015]:
+*              num_user_contexts : einv[012,015]:
+*                      rcvhdrcnt : einv[012,015]:
+*                     cache_size : einv[012,015]:
+* Lustre: einv[012,015]:
+*       llite.*.max_read_ahead_mb: einv[012,015]:64
+*              osc.*.max_dirty_mb: einv[012,015]:2000
+*                 osc.*.checksums: einv[012,015]:1
+*      max_read_ahead_per_file_mb: einv[012,015]:64
+*                   max_cached_mb: einv[012,015]:128790
+*                           debug: einv[012,015]:debug=ioctl neterror warning error emerg ha config console lfsck
+*                 subsystem_debug: einv[012,015]:subsystem_debug= undefined mdc mds osc ost class log llite rpc mgmt lnet lnd pinger filter libcfs echo ldlm lov lquota osd lfsck snapshot lmv sec gss mgc mgs fid fld
+* ----     : einv[012,015]:
+* THP      : einv[012,015]:[always] madvise never
+* numa_bal : einv[012,015]:1
+* HugePages: einv[012,015]:0
+*                 node0 1048576kB: einv[012,015]:free:0 nr:0 surplus:0
+*                 node1 1048576kB: einv[012,015]:free:0 nr:0 surplus:0
+*                    node0 2048kB: einv[012,015]:free:0 nr:0 surplus:0
+*                    node1 2048kB: einv[012,015]:free:0 nr:0 surplus:0
+* -----    : einv[012,015]:
+* irqbalance daemon              : einv[012]:Active: failed  since Mon 2023-06-26 21:44:17 MDT; 6min ago ; einv[015]:Active: failed  since Mon 2023-06-26 21:44:24 MDT; 6min ago
+* nologin group                  : einv[012,015]:nologin:x:6009:slurm,validation,djmeyer,rasandov,rdahring,bjarami,asustait,tjsahs,amanriqu,mshahrea,zhzheng4
+* nologin in setup.sh            : einv[012,015]:sed -i /etc/group -e 's|^nologin:.*|nologin:x:6009:slurm,validation,djmeyer,rasandov,rdahring,bjarami,asustait,tjsahs,amanriqu,mshahrea,zhzheng4|'
+* ------   : einv[012,015]:
+* drm driver min frequ           : einv[012,015]:
+* drm driver max frequ           : einv[012,015]:
+* nvidia persistence,mem,graphic : einv[012,015]:Disabled, 1215 MHz, 765 MHz Disabled, 1215 MHz, 765 MHz
+* -------  : einv[012,015]:
+* PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST: einv[012,015]:
+* adminq       up 60-00: einv[012]:00:0      1  alloc einv012 ; einv[015]:00:0      1  alloc einv015
+* cnvq         up 2-00: einv[012]:00:00      1  alloc einv012 ; einv[015]:00:00      1  alloc einv015
+* compq        up 2-00: einv[012,015]:00:00      0    n/a
+* egaq         up 2-00: einv[012,015]:00:00      0    n/a
+* extq         up 2-00: einv[012,015]:00:00      0    n/a
+* inteldevq    up 4-00: einv[012,015]:00:00      0    n/a
+* multigenq    up 2-00: einv[012,015]:00:00      0    n/a
+* nextgenq     up 2-00: einv[012,015]:00:00      0    n/a
+* pvcq         up 2-00: einv[012,015]:00:00      0    n/a
+* workq        up 2-00: einv[012,015]:00:00      0    n/a
+* XXXlogue.work: einv[012,015]:
+* CPUonline : einv[012,015]:111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+* COMPLETE: einv[012,015]:
+
+All Nodes:einv[012,015]
+
+Prologue finished, program starts @Mon Jun 26 21:50:41 2023
+
+Debug: removing  /var/lock/XXXlogue.510736
+RETCODE:0

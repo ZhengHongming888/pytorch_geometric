@@ -26,7 +26,6 @@ from torch_geometric.typing import EdgeType, NodeType, SparseTensor
 from torch_geometric.utils import (
     coalesce,
     contains_isolated_nodes,
-    is_torch_sparse_tensor,
     is_undirected,
 )
 
@@ -191,13 +190,7 @@ class BaseStorage(MutableMapping):
 
     def to_dict(self) -> Dict[str, Any]:
         r"""Returns a dictionary of stored key/value pairs."""
-        out_dict = copy.copy(self._mapping)
-        # Needed to preserve individual `num_nodes` attributes when calling
-        # `BaseData.collate`.
-        # TODO (matthias) Try to make this more generic.
-        if '_num_nodes' in self.__dict__:
-            out_dict['_num_nodes'] = self.__dict__['_num_nodes']
-        return out_dict
+        return copy.copy(self._mapping)
 
     def to_namedtuple(self) -> NamedTuple:
         r"""Returns a :obj:`NamedTuple` of stored key/value pairs."""
@@ -425,8 +418,6 @@ class EdgeStorage(BaseStorage):
         for value in self.values('adj', 'adj_t'):
             if isinstance(value, SparseTensor):
                 return value.nnz()
-            elif is_torch_sparse_tensor(value):
-                return value._nnz()
         return 0
 
     @property
