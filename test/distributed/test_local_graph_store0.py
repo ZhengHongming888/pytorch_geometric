@@ -72,8 +72,3 @@ def test_heterogeneous_graph_store():
         graph_store.get_edge_index(edge_type, layout='coo'),
         edge_index_dict[edge_type],
     )
-
-
-def test_init_graph_from_partition():
-
-
