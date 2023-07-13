@@ -58,6 +58,7 @@ from torch_geometric.loader import DataLoader
 from torch_geometric.loader import DataListLoader
 from torch_geometric.loader import DenseDataLoader
 
+
 NeighborSampler = deprecated("use 'loader.NeighborSampler' instead",
                              'data.NeighborSampler')(NeighborSampler)
 ClusterData = deprecated("use 'loader.ClusterData' instead",
