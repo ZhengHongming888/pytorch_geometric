@@ -175,7 +175,7 @@ def _rpc_remote_async_call(call_id, *args, **kwargs):
     return _rpc_call_pool.get(call_id).rpc_async(*args, **kwargs)
 
 
-def _rpc_remote_sync_all(call_id, *args, **kwargs):
+def _rpc_remote_sync_call(call_id, *args, **kwargs):
     r""" Entry for rpc requests """
     return _rpc_call_pool.get(call_id).rpc_sync(*args, **kwargs)
 
