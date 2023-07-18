@@ -12,7 +12,6 @@ from torch_geometric.typing import EdgeTensorType, EdgeType, NodeType
 
 
 
-
 class LocalGraphStore(GraphStore):
     r"""This class implements the :class:`torch_geometric.data.GraphStore`
     interface to act as a local graph store for distributed training."""
@@ -30,31 +29,11 @@ class LocalGraphStore(GraphStore):
         r""" edge_partition_book:  mapping between edge ids and partition idx """
         self.meta: Optional[Dict[Any, Any]] = None
         r""" meta information related to partition and graph store info """
-
+        self.labels: Union[torch.Tensor, Dict[EdgeType, torch.Tensor]] = None
 
     @staticmethod
     def key(attr: EdgeAttr) -> Tuple:
         return (attr.edge_type, attr.layout.value)
-
-    def set_num_partitions(self, num_partitions: int) -> bool:
-        self.num_partitions = num_partitions
-        return True
-
-    def set_partition_idx(self, partition_idx: int) -> bool:
-        self.partition_idx = partition_idx
-        return True
-
-    def set_node_pb(self, node_pb: Union[torch.Tensor, Dict[NodeType, torch.Tensor]]) -> bool:
-        self.node_pb = node_pb
-        return True
-
-    def set_edge_pb(self, edge_pb: Union[torch.Tensor, Dict[NodeType, torch.Tensor]]) -> bool:
-        self.edge_pb = edge_pb
-        return True
-
-    def set_partition_meta(self, partition_meta: Dict) -> bool:
-        self.meta = partition_meta
-        return True
 
     def get_partition_ids_from_nids(self, ids: torch.Tensor,
                             node_type: Optional[NodeType]=None):
@@ -180,7 +159,7 @@ class LocalGraphStore(GraphStore):
 
         if not meta['is_hetero']:
             attr = dict(edge_type=None, layout='coo', size=graph_data['size'])
-            graph_store.put_edge_index((graph_data['row'], graph_data['col']),
+            graph_store.put_edge_index(torch.stack((graph_data['row'], graph_data['col']),dim=0),
                                        **attr)
             graph_store.put_edge_id(graph_data['edge_id'], **attr)
 
@@ -188,7 +167,9 @@ class LocalGraphStore(GraphStore):
             for edge_type, data in graph_data.items():
                 attr = dict(edge_type=edge_type, layout='coo',
                             size=data['size'])
-                graph_store.put_edge_index((data['row'], data['col']), **attr)
+                graph_store.put_edge_index(torch.stack((data['row'], data['col']),dim=0),
+                                       **attr)
+                #graph_store.put_edge_index((data['row'], data['col']), **attr)
                 graph_store.put_edge_id(data['edge_id'], **attr)
 
         return graph_store
