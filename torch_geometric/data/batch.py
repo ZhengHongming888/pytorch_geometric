@@ -48,7 +48,7 @@ class DynamicInheritance(type):
         return super(DynamicInheritance, new_cls).__call__(*args, **kwargs)
 
 
-class DynamicInheritanceGetter:
+class DynamicInheritanceGetter(object):
     def __call__(self, cls, base_cls):
         return cls(_base_cls=base_cls)
 

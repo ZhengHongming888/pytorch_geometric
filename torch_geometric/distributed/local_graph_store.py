@@ -1,12 +1,15 @@
 import json
 import os.path as osp
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Union
 
 import torch
 from torch import Tensor
 
 from torch_geometric.data import EdgeAttr, GraphStore
 from torch_geometric.typing import EdgeTensorType, EdgeType, NodeType
+
+
+
 
 
 class LocalGraphStore(GraphStore):
@@ -18,9 +21,39 @@ class LocalGraphStore(GraphStore):
         self._edge_attr: Dict[Tuple, EdgeAttr] = {}
         self._edge_id: Dict[Tuple, Tensor] = {}
 
+        self.num_partitions: int = 1
+        self.partition_idx: int = 0
+        self.node_pb: Union[torch.Tensor, Dict[NodeType, torch.Tensor]] = None
+        r""" node_partition_book:  mapping between node ids and partition idx """
+        self.edge_pb: Union[torch.Tensor, Dict[EdgeType, torch.Tensor]] = None
+        r""" edge_partition_book:  mapping between edge ids and partition idx """
+        self.meta: Optional[Dict[Any, Any]] = None
+        r""" meta information related to partition and graph store info """
+        self.labels: Union[torch.Tensor, Dict[EdgeType, torch.Tensor]] = None
+
     @staticmethod
     def key(attr: EdgeAttr) -> Tuple:
         return (attr.edge_type, attr.layout.value)
+
+    def get_partition_ids_from_nids(self, ids: torch.Tensor,
+                            node_type: Optional[NodeType]=None):
+        # Get the local partition ids of node ids with a specific node type.
+        if self.meta["is_hetero"]:
+            assert node_type is not None
+            return self.node_pb[node_type][ids]
+        return self.node_pb[ids]
+
+    def get_partition_ids_from_eids(self, eids: torch.Tensor,
+                            edge_type: Optional[EdgeType]=None):
+        r""" Get the partition ids of edge ids with a specific edge type."""
+        if self.meta["is_hetero"]:
+            assert edge_type is not None
+            return self.edge_pb[edge_type][eids]
+        return self.edge_pb[eids]
+
+
+
+    # starting for graph ..
 
     def put_edge_id(self, edge_id: Tensor, *args, **kwargs) -> bool:
         edge_attr = self._edge_attr_cls.cast(*args, **kwargs)
@@ -59,6 +92,7 @@ class LocalGraphStore(GraphStore):
         edge_id: Tensor,
         edge_index: Tensor,
         num_nodes: int,
+        is_sorted: Optional[bool] = False,
     ) -> 'LocalGraphStore':
         r"""Creates a local graph store from a homogeneous :pyg:`PyG` graph.
 
@@ -71,6 +105,7 @@ class LocalGraphStore(GraphStore):
             edge_type=None,
             layout='coo',
             size=(num_nodes, num_nodes),
+            is_sorted=is_sorted,
         )
 
         graph_store = cls()
@@ -126,7 +161,7 @@ class LocalGraphStore(GraphStore):
 
         if not meta['is_hetero']:
             attr = dict(edge_type=None, layout='coo', size=graph_data['size'])
-            graph_store.put_edge_index((graph_data['row'], graph_data['col']),
+            graph_store.put_edge_index(torch.stack((graph_data['row'], graph_data['col']),dim=0),
                                        **attr)
             graph_store.put_edge_id(graph_data['edge_id'], **attr)
 
@@ -134,7 +169,9 @@ class LocalGraphStore(GraphStore):
             for edge_type, data in graph_data.items():
                 attr = dict(edge_type=edge_type, layout='coo',
                             size=data['size'])
-                graph_store.put_edge_index((data['row'], data['col']), **attr)
+                graph_store.put_edge_index(torch.stack((data['row'], data['col']),dim=0),
+                                       **attr)
+                #graph_store.put_edge_index((data['row'], data['col']), **attr)
                 graph_store.put_edge_id(data['edge_id'], **attr)
 
         return graph_store
