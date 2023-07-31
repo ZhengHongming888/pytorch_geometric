@@ -177,6 +177,44 @@ def filter_hetero_data(
 
 
 def filter_custom_store(
+      feature_store: FeatureStore,
+      graph_store: GraphStore,
+      node: Tensor,
+      row: Tensor,
+      col: Tensor,
+      edge: OptTensor,
+      custom_cls: Optional[Data] = None,
+) -> Data:
+    r"""Constructs a `Data` object from a feature store that only holds
+    nodes in `node` end edges in `edge`."""
+
+    # Construct a new `Data` object:
+    data = custom_cls() if custom_cls is not None else Data()
+
+    # Filter edge storage:
+    # TODO support edge attributes
+    for attr in graph_store.get_all_edge_attrs():
+        data.edge_index = torch.stack([row, col], dim=0)
+
+    # Filter node storage:
+    required_attrs = []
+    for attr in feature_store.get_all_tensor_attrs():
+        attr.index = node
+        required_attrs.append(attr)
+        data.num_nodes = attr.index.size(0)
+
+    # NOTE Here, we utilize `feature_store.multi_get` to give the feature store
+    # full control over optimizing how it returns features (since the call is
+    # synchronous, this amounts to giving the feature store control over all
+    # iteration).
+    tensors = feature_store.multi_get_tensor(required_attrs)
+    for i, attr in enumerate(required_attrs):
+        data[attr.attr_name] = tensors[i]
+
+    return data
+
+
+def filter_hetero_custom_store(
     feature_store: FeatureStore,
     graph_store: GraphStore,
     node_dict: Dict[str, Tensor],

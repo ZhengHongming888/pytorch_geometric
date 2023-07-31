@@ -8,6 +8,7 @@ from torch_geometric.loader.base import DataLoaderIterator
 from torch_geometric.loader.mixin import AffinityMixin
 from torch_geometric.loader.utils import (
     filter_custom_store,
+    filter_hetero_custom_store,
     filter_data,
     filter_hetero_data,
     get_input_nodes,
@@ -87,6 +88,8 @@ class NodeLoader(torch.utils.data.DataLoader, AffinityMixin):
         transform_sampler_output: Optional[Callable] = None,
         filter_per_worker: Optional[bool] = None,
         custom_cls: Optional[HeteroData] = None,
+        custom_init: Optional[Callable] = None,
+        custom_filter: Optional[Callable] = None,
         input_id: OptTensor = None,
         **kwargs,
     ):
@@ -106,6 +109,8 @@ class NodeLoader(torch.utils.data.DataLoader, AffinityMixin):
         self.transform_sampler_output = transform_sampler_output
         self.filter_per_worker = filter_per_worker
         self.custom_cls = custom_cls
+        self.filter_fn = custom_filter if custom_filter else self._filter_fn
+        self.init_fn = custom_init if custom_init else self._init_fn
 
         self.input_data = NodeSamplerInput(
             input_id=input_id,
@@ -115,7 +120,11 @@ class NodeLoader(torch.utils.data.DataLoader, AffinityMixin):
         )
 
         iterator = range(input_nodes.size(0))
-        super().__init__(iterator, collate_fn=self.collate_fn, **kwargs)
+        super().__init__(
+            iterator,
+            collate_fn=self.collate_fn,
+            worker_init_fn=self.init_fn,
+            **kwargs)
 
     def __call__(
         self,
@@ -137,8 +146,11 @@ class NodeLoader(torch.utils.data.DataLoader, AffinityMixin):
             out = self.filter_fn(out)
 
         return out
-
-    def filter_fn(
+    
+    def _init_fn(self, worker_id):
+        pass  
+      
+    def _filter_fn(
         self,
         out: Union[SamplerOutput, HeteroSamplerOutput],
     ) -> Union[Data, HeteroData]:
@@ -150,8 +162,12 @@ class NodeLoader(torch.utils.data.DataLoader, AffinityMixin):
             out = self.transform_sampler_output(out)
 
         if isinstance(out, SamplerOutput):
-            data = filter_data(self.data, out.node, out.row, out.col, out.edge,
-                               self.node_sampler.edge_permutation)
+            if isinstance(self.data, Data):
+                 data = filter_data(self.data, out.node, out.row, out.col,
+                                out.edge, self.node_sampler.edge_permutation)
+            else: # Tuple[FeatureStore, GraphStore]
+                 data = filter_custom_store(*self.data, out.node, out.row,
+                                            out.col, out.edge, self.custom_cls)
 
             if 'n_id' not in data:
                 data.n_id = out.node
@@ -172,7 +188,7 @@ class NodeLoader(torch.utils.data.DataLoader, AffinityMixin):
                                           out.col, out.edge,
                                           self.node_sampler.edge_permutation)
             else:  # Tuple[FeatureStore, GraphStore]
-                data = filter_custom_store(*self.data, out.node, out.row,
+                data = filter_hetero_custom_store(*self.data, out.node, out.row,
                                            out.col, out.edge, self.custom_cls)
 
             for key, node in out.node.items():
