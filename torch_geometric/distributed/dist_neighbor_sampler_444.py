@@ -354,7 +354,7 @@ class DistNeighborSampler():
 
     if self.channel is None:
       return res
-    self.channel.put(res)
+    self.channel.send(res)
     return None
 
   async def _sample_from_nodes(

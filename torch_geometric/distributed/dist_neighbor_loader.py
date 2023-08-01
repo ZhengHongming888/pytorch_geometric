@@ -57,25 +57,6 @@ class DistNeighborLoader(NodeLoader, DistLoader):
         nodes, and a remote channel will be created for cross-machine message
         passing. (default: ``None``).
     """
-    r"""
-    def __init__(self,
-        current_ctx: DistContext,
-        rpc_worker_names: Dict[DistRole, List[str]],
-        data: Tuple[LocalGraphStore, LocalFeatureStore],
-        num_neighbors: Union[List[int], Dict[EdgeType, List[int]]],
-        device: torch.device = None,
-        input_nodes: InputNodes = None,
-        input_time: OptTensor = None,
-        transform: Optional[Callable] = None,
-        transform_sampler_output: Optional[Callable] = None,
-        filter_per_worker: Optional[bool] = None,
-        neighbor_sampler: Optional[DistNeighborSampler] = None,
-        async_sampling: bool = True,
-        master_addr=None,
-        master_port=None,
-        **kwargs,
-        ):
-    """
     def __init__(self,
         current_ctx: DistContext,
         rpc_worker_names: Dict[DistRole, List[str]],
@@ -83,9 +64,9 @@ class DistNeighborLoader(NodeLoader, DistLoader):
         num_neighbors: Union[List[int], Dict[EdgeType, List[int]]],
         master_addr: str,
         master_port: Union[int, str],
+        neighbor_sampler: Optional[DistNeighborSampler] = None,
         input_nodes: InputNodes = None,
         input_time: OptTensor = None,
-        neighbor_sampler: Optional[DistNeighborSampler] = None,
         replace: bool = False,
         subgraph_type: Union[SubgraphType, str] = 'directional',
         disjoint: bool = False,
@@ -111,32 +92,41 @@ class DistNeighborLoader(NodeLoader, DistLoader):
 
         channel = torch.multiprocessing.Queue() if async_sampling else None
 
-
+        if neighbor_sampler is None:
+            neighbor_sampler = DistNeighborSampler(
+                data=data,
+                current_ctx=current_ctx,
+                rpc_worker_names=rpc_worker_names,
+                num_neighbors=num_neighbors,
+                device=device,
+                channel=channel,
+                with_edge=with_edge,
+                replace=replace,
+                subgraph_type=subgraph_type,
+                disjoint=disjoint,
+                temporal_strategy=temporal_strategy,
+                time_attr=time_attr,
+                is_sorted=is_sorted,
+                share_memory=kwargs.get('num_workers', 0) > 0,
+                directed=directed,
+                concurrency=kwargs.pop('worker_concurrency', 4),
+                collect_features=kwargs.pop('collect_features', True),
+            )
 
         DistLoader.__init__(self,
           current_ctx = current_ctx,
           rpc_worker_names = rpc_worker_names,
-          data = data,
-          channel = channel, 
-          num_neighbors = num_neighbors,
+          #data = data,
           neighbor_sampler = neighbor_sampler, 
-          async_sampling = async_sampling,
-          filter_per_worker = filter_per_worker,
-          device = device, 
+          channel = channel, 
           master_addr = master_addr, 
           master_port = master_port, 
           **kwargs
         )
         
-        # rm sampler & dist kwargs
-        sampler_args = ['strategy','worker_concurrency', 'collect_features', 'with_edge', 'with_neg']
-        rpc_args = ['num_rpc_threads', 'rpc_timeout']
-        for k in (sampler_args + rpc_args):
-          kwargs.pop(k, None)
-        
         NodeLoader.__init__(self,
             data=data,
-            node_sampler=self.neighbor_sampler,
+            node_sampler=neighbor_sampler,
             input_nodes=input_nodes,
             input_time=input_time,
             transform=transform,

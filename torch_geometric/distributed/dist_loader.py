@@ -66,12 +66,10 @@ class DistLoader():  # , RPCMixin):
                  neighbor_sampler: DistNeighborSampler,
                  current_ctx: DistContext,
                  rpc_worker_names: Dict[DistRole, List[str]],
-                 data: Tuple[LocalGraphStore, LocalFeatureStore],                 
-                 num_neighbors: Union[List[int], Dict[EdgeType, List[int]]],
+                 #data: Tuple[LocalGraphStore, LocalFeatureStore],                 
                  master_addr: str,
                  master_port: Union[int, str],
                  channel: mp.Queue(),
-                 #channel: Optional[Union[ChannelBase, mp.Queue()]],
                  num_rpc_threads: Optional[int] = 16,
                  rpc_timeout: Optional[int] = 180,
                  device: Optional[torch.device] = torch.device('cpu'),
@@ -79,10 +77,10 @@ class DistLoader():  # , RPCMixin):
                  ):
 
         self.neighbor_sampler = neighbor_sampler
-        self.channel =  None #channel
+        self.channel =  channel
         self.current_ctx = current_ctx
         self.rpc_worker_names = rpc_worker_names
-        self.data = data
+        #self.data = data
         if master_addr is not None:
             self.master_addr = str(master_addr)
         elif os.environ.get('MASTER_ADDR') is not None:
@@ -114,23 +112,6 @@ class DistLoader():  # , RPCMixin):
         self.num_workers = kwargs.get('num_workers', 0)
 
         self.pid = mp.current_process().pid
-
-        if neighbor_sampler is None:
-            self.neighbor_sampler = DistNeighborSampler(
-                current_ctx=self.current_ctx,
-                rpc_worker_names=self.rpc_worker_names,
-                data=self.data,
-                num_neighbors=num_neighbors,
-                device=device,
-                channel=self.channel,
-                strategy=kwargs.pop('strategy', 'random'),
-                concurrency=kwargs.pop('worker_concurrency', 4),
-                collect_features=kwargs.pop('collect_features', True),
-                with_edge=kwargs.pop('with_edge', False),
-                with_neg=kwargs.pop('with_neg', False)
-            )
-
-
 
         if self.num_workers == 0:
             self.init_fn(0)
