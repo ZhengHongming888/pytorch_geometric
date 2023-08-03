@@ -8,8 +8,9 @@ from torch_geometric.distributed import Partitioner
 
 
 def partition_dataset(ogbn_dataset: str, root_dir: str, num_partitions: int):
-    save_dir = root_dir + "/partition"
-    dataset = PygNodePropPredDataset(ogbn_dataset, root_dir)
+    save_dir = root_dir + f'/{ogbn_dataset}-' + "partitions"
+    download_dir = f'{ogbn_dataset}'
+    dataset = PygNodePropPredDataset(ogbn_dataset, download_dir)
     data = dataset[0]
 
     partitioner = Partitioner(root=save_dir, num_parts=num_partitions,

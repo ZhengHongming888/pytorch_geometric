@@ -8,7 +8,7 @@ from torch_geometric.distributed import Partitioner
 
 
 def partition_dataset(ogbn_dataset: str, root_dir: str, num_partitions: int):
-    save_dir = root_dir + "/partition"
+    save_dir = root_dir + f'/{ogbn_dataset}-' + "partitions"
     dataset = OGB_MAG(root=ogbn_dataset, preprocess='metapath2vec')
     data = dataset[0]
 
