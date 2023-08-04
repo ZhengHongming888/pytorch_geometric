@@ -1,6 +1,6 @@
 import torch.multiprocessing as mp
 import torch
-
+import numpy as np
 from math import ceil
 from dataclasses import dataclass
 from typing import Callable, Dict, List, Optional, Union, Tuple
@@ -475,7 +475,9 @@ class DistNeighborSampler():
     r""" Merge partitioned neighbor outputs into a complete one.
     """
     out_nodes = torch.cat([r.output.node for r in results])
-    out_nodes = out_nodes.unique()
+    out_nodes_numpy = out_nodes.numpy()
+    _, idx = np.unique(out_nodes_numpy, return_index=True)
+    out_nodes = torch.tensor(out_nodes_numpy[np.sort(idx)])
 
     rows_list = []
     cols_list = []
