@@ -34,7 +34,7 @@ from .rpc import (
 ##
 from torch_geometric.data import Data
 from torch_geometric.data import TensorAttr
-
+from torch_geometric.utils.map import map_index
 from .dist_context import DistRole, DistContext
 
 @dataclass
@@ -142,11 +142,9 @@ class DistNeighborSampler():
     self.temporal_strategy = kwargs.pop('temporal_strategy', 'uniform')
     self.time_attr = kwargs.pop('time_attr', None)
 
-    print(f"----------- {repr(self)}: init() END ------------- ")
 
   def register_sampler_rpc(self):
     #TODO: Check if all steps are executed correctly and inlcude edge\node info
-    print(f"-----{repr(self)}: register_rpc()")
   
     partition2workers = rpc_partition2workers(
       current_ctx = self.current_ctx,
@@ -157,10 +155,8 @@ class DistNeighborSampler():
     self.rpc_router = RpcRouter(partition2workers)
     self.dist_graph = self.graph
 
-    print(f"----{repr(self)}: self.dist_graph.num_partitions={self.dist_graph.num_partitions}, self.dist_graph.node_pb={self.dist_graph.node_pb}, self.dist_graph.meta={self.dist_graph.meta}    ")
     
     edge_index = self.graph.get_edge_index(edge_type=None, layout='coo')
-    print(f"----{repr(self)}: edge_index={edge_index}    ")
 
     self.dist_node_feature = None
     self.dist_edge_feature = None
@@ -200,7 +196,6 @@ class DistNeighborSampler():
     
     rpc_sample_callee = RpcSamplingCallee(self._sampler, self.device)
     self.rpc_sample_callee_id = rpc_register(rpc_sample_callee)
-    print(f"-----{repr(self)}: self.rpc_sample_callee_id={self.rpc_sample_callee_id} ")
     
     rpc_subgraph_callee = RpcSubGraphCallee(self._sampler, self.device)
     self.rpc_subgraph_callee_id = rpc_register(rpc_subgraph_callee)
@@ -211,18 +206,15 @@ class DistNeighborSampler():
       self.num_hops = self._sampler.num_hops
       self.edge_types = self._sampler.edge_types
 
-    print(f"-----{repr(self)}: register_rpc() END  ")
 
     
   def init_event_loop(self):
     
-    print(f"-----{repr(self)}: init_event_loop() END  ")
 
     self.event_loop = ConcurrentEventLoop(self.concurrency)
     self.event_loop._loop.call_soon_threadsafe(ensure_device, self.device)
     self.event_loop.start_loop()
     
-    print(f"----------- {repr(self)}: init_event_loop()   END ------------- ")
 
   def sample_from_nodes(
     self,
@@ -379,7 +371,16 @@ class DistNeighborSampler():
 
       for one_hop_num in self.num_neighbors:
         out = await self._sample_one_hop(srcs, one_hop_num, seed_time)
-        
+        '''print("Debug,==========================================================")
+        #print("self.graph:", self.graph)
+        #print("self.feature global id 0:", self.feature._global_id)
+        #print("self.feature global id 1:", self.feature._global_id_to_index)
+        #test_node = self.feature.get_global_id(None)[out.node]
+        print(f"Debug,===================srcs max: {srcs.max()}, shape: {srcs.shape}")
+        print(f"Debug,===================out node max: {out.node.max()}, shape: {out.node.shape}")
+        print(f"Debug,===================out row shape: {out.row.shape}")
+        print(f"Debug,===================out row: {out.row.sort().values}")
+        print(f"Debug,===================out col: {out.col.sort().values}")'''
         srcs = out.node
         out_nodes.append(out.node)
         out_rows.append(out.row)
@@ -474,8 +475,20 @@ class DistNeighborSampler():
     r""" Merge partitioned neighbor outputs into a complete one.
     """
     out_nodes = torch.cat([r.output.node for r in results])
-    out_rows = torch.cat([r.output.row for r in results])
-    out_cols = torch.cat([r.output.col for r in results])
+    out_nodes = out_nodes.unique()
+
+    rows_list = []
+    cols_list = []
+    for r in results:
+      global_rows = r.output.node[r.output.row]
+      global_cols = r.output.node[r.output.col]
+      local_rows,_ = map_index(global_rows, out_nodes, inclusive=True)
+      local_cols,_ = map_index(global_cols, out_nodes, inclusive=True)
+      rows_list.append(local_rows)
+      cols_list.append(local_cols)
+
+    out_rows = torch.cat([row for row in rows_list])
+    out_cols = torch.cat([col for col in cols_list])
     out_edge_ids = torch.cat([r.output.edge for r in results]) if self.with_edge else None
     out_batch = torch.cat([r.output.batch for r in results]) if self.disjoint else None
     out_num_sampled_nodes_per_hop = len(out_nodes)
@@ -539,6 +552,7 @@ class DistNeighborSampler():
           
           p_nbr_out = self._sampler.sample_one_hop(p_srcs, one_hop_num, seed_time, src_etype)
           partition_results.append(PartialNeighborOutput(p_nodes, p_nbr_out))
+          #print("p_nbr_out:", p_nbr_out)
         else:
           remote_nodes.append(p_nodes)
           to_worker = self.rpc_router.get_to_worker(pidx)
@@ -553,14 +567,18 @@ class DistNeighborSampler():
     res_fut_list = await wrap_torch_future(torch.futures.collect_all(futs))
     for i, res_fut in enumerate(res_fut_list):
       #*print(f"-------- DistNSampler: async _sample_one_hop() res_fut={res_fut.wait()} -------")
-      
-      partition_results.append(
+      remote_neighbor_out = PartialNeighborOutput(
+                              index=remote_nodes[i],
+                              output=res_fut.wait())
+
+      partition_results.append(remote_neighbor_out)
+      '''partition_results.append(
         PartialNeighborOutput(
           index=remote_nodes[i],
           output=res_fut.wait()
           #output=res_fut.wait().to(device)
         )
-      )
+      )'''
     
     #*print(f"-------- DistNSampler: async _sample_one_hop() before stitching -----------------  partition_results={partition_results}-------")
     #*print("\n\n\n\n")
@@ -666,12 +684,10 @@ def sample(
     sample_fn: Callable,
     _sample_fn: Callable,
     ) -> Optional[Union[SamplerOutput, HeteroSamplerOutput]]:
-  print(f"------  Sampler PID-{mp.current_process().pid}:  sample_from_nodes -------")
   return sample_fn(inputs, _sample_fn)
 
 
 def close_sampler(worker_id, sampler):
-  print(f"Closing rpc in {repr(sampler)} worker-id {worker_id}")
   try:
     sampler.event_loop.shutdown_loop()
   except AttributeError:
