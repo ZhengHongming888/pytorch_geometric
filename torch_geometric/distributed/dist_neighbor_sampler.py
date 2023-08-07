@@ -10,7 +10,7 @@ from pyparsing import Any
 from ..channel import ChannelBase, SampleMessage
 from torch_geometric.sampler import (
   NodeSamplerInput, EdgeSamplerInput,
-  NeighborOutput, SamplerOutput, HeteroSamplerOutput,
+  SamplerOutput, HeteroSamplerOutput,
   NeighborSampler, NegativeSampling, edge_sample_async
 )
 from torch_geometric.sampler.base import SubgraphType
@@ -338,7 +338,7 @@ class DistNeighborSampler():
             task_dict[etype] = self._loop.create_task(
               self._sample_one_hop(inputs, req_num, etype))
         for etype, task in task_dict.items():
-          output: NeighborOutput = await task
+          output: SamplerOutput = await task
           nbr_dict[etype] = [src_dict[etype[0]], output.nbr, output.nbr_num]
           if output.edge is not None:
             edge_dict[etype] = output.edge
@@ -362,48 +362,18 @@ class DistNeighborSampler():
     else:
 
       srcs = seed
-      batch_size = seed.numel()
       
       out_nodes = [srcs]
-      out_rows, out_cols, out_edge_ids, out_batch = [], [], [], []
       out_num_sampled_nodes_per_hop = [seed.numel()]
       out_num_sampled_edges_per_hop = [0]
-
+      sampler_output_list = []
       for one_hop_num in self.num_neighbors:
         out = await self._sample_one_hop(srcs, one_hop_num, seed_time)
-        '''print("Debug,==========================================================")
-        #print("self.graph:", self.graph)
-        #print("self.feature global id 0:", self.feature._global_id)
-        #print("self.feature global id 1:", self.feature._global_id_to_index)
-        #test_node = self.feature.get_global_id(None)[out.node]
-        print(f"Debug,===================srcs max: {srcs.max()}, shape: {srcs.shape}")
-        print(f"Debug,===================out node max: {out.node.max()}, shape: {out.node.shape}")
-        print(f"Debug,===================out row shape: {out.row.shape}")
-        print(f"Debug,===================out row: {out.row.sort().values}")
-        print(f"Debug,===================out col: {out.col.sort().values}")'''
         srcs = out.node
-        out_nodes.append(out.node)
-        out_rows.append(out.row)
-        out_cols.append(out.col)
-        out_edge_ids.append(out.edge)
-        if self.disjoint:
-          out_batch.append(out.batch)
-        if out_num_sampled_nodes_per_hop != None:
-          out_num_sampled_nodes_per_hop.append(len(out.node))
-          out_num_sampled_edges_per_hop.append(len(out.row))
+        sampler_output_list.append(out)
+      merged_sampler_output = self.merge_layer_neighbors(seed, sampler_output_list)
 
-      sample_output = SamplerOutput(
-        node=torch.cat(out_nodes),
-        row=torch.cat(out_rows),
-        col=torch.cat(out_cols),
-        edge=(torch.cat(out_edge_ids) if self.with_edge else None),
-        batch=(torch.cat(out_batch) if self.disjoint else None),
-        num_sampled_nodes=out_num_sampled_nodes_per_hop if out_num_sampled_nodes_per_hop != None else None,
-        num_sampled_edges=out_num_sampled_edges_per_hop if out_num_sampled_edges_per_hop != None else None,
-        metadata={'input_type': None, 'bs': batch_size}
-       )
-
-    return sample_output
+      return merged_sampler_output
 
   async def _subgraph(
     self,
@@ -468,11 +438,54 @@ class DistNeighborSampler():
 
       return sample_output
 
-  def merge_results(
+  def merge_layer_neighbors(
+    self,
+    seed: torch.tensor,
+    neighbors: List[SamplerOutput]
+  ) -> SamplerOutput :
+    r""" merge neighbor outputs from different layers into a complete one.
+    """
+    rows_list, cols_list, num_sampled_nodes, num_sampled_edges = [], [], [], [] 
+    num_sampled_nodes.append(seed.numel())
+
+    merged_nodes = torch.cat([layer_output.node for layer_output in neighbors])
+    merged_nodes_numpy = merged_nodes.numpy()
+    _, idx = np.unique(merged_nodes_numpy, return_index=True)
+    merged_nodes = torch.tensor(merged_nodes_numpy[np.sort(idx)])
+
+    for layer_output in neighbors:
+      layer_rows = layer_output.row
+      global_rows = layer_output.node[layer_rows]
+      layer_cols = layer_output.col
+      global_cols = layer_output.node[layer_cols]
+      local_rows, _ = map_index(global_rows, merged_nodes, inclusive = True)
+      local_cols, _ = map_index(global_cols, merged_nodes, inclusive = True)
+      rows_list.append(local_rows)
+      cols_list.append(local_cols)
+      num_sampled_nodes.append(layer_output.node.size(0))
+      num_sampled_edges.append(layer_output.row.size(0))
+
+    merged_rows = torch.cat([row for row in rows_list])
+    merged_cols = torch.cat([col for col in cols_list])
+    merged_edge_ids = torch.cat([layer_output.edge for layer_output in neighbors]) if self.with_edge else None
+    merged_batch = torch.cat([layer_output.batch for layer_output in neighbors]) if self.disjoint else None
+    return SamplerOutput(
+      merged_nodes,
+      merged_rows,
+      merged_cols,
+      merged_edge_ids,
+      merged_batch,
+      num_sampled_nodes,
+      num_sampled_edges,
+      metadata={'input_type': None, 'bs': seed.numel()}
+    )
+
+
+  def stitch_results(
     self,
     results: List[PartialNeighborOutput]
-  ) -> NeighborOutput:
-    r""" Merge partitioned neighbor outputs into a complete one.
+  ) -> SamplerOutput:
+    r""" stitch partitioned neighbor outputs into a complete one.
     """
     out_nodes = torch.cat([r.output.node for r in results])
     out_nodes_numpy = out_nodes.numpy()
@@ -484,8 +497,8 @@ class DistNeighborSampler():
     for r in results:
       global_rows = r.output.node[r.output.row]
       global_cols = r.output.node[r.output.col]
-      local_rows,_ = map_index(global_rows, out_nodes, inclusive=True)
-      local_cols,_ = map_index(global_cols, out_nodes, inclusive=True)
+      local_rows, _ = map_index(global_rows, out_nodes, inclusive=True)
+      local_cols, _ = map_index(global_cols, out_nodes, inclusive=True)
       rows_list.append(local_rows)
       cols_list.append(local_cols)
 
@@ -493,17 +506,13 @@ class DistNeighborSampler():
     out_cols = torch.cat([col for col in cols_list])
     out_edge_ids = torch.cat([r.output.edge for r in results]) if self.with_edge else None
     out_batch = torch.cat([r.output.batch for r in results]) if self.disjoint else None
-    out_num_sampled_nodes_per_hop = len(out_nodes)
-    out_num_sampled_edges_per_hop = len(out_rows)
 
     return SamplerOutput(
       out_nodes,
       out_rows,
       out_cols,
       out_edge_ids,
-      out_batch,
-      out_num_sampled_nodes_per_hop,
-      out_num_sampled_edges_per_hop)
+      out_batch)
 
   async def _sample_one_hop(
     self,
@@ -512,7 +521,6 @@ class DistNeighborSampler():
     seed_time: OptTensor = None,
     src_etype: Optional[EdgeType] = None,
   ) -> SamplerOutput:
-  #) -> NeighborOutput:
     r""" Sample one-hop neighbors and induce the coo format subgraph.
 
     Args:
@@ -574,17 +582,10 @@ class DistNeighborSampler():
                               output=res_fut.wait())
 
       partition_results.append(remote_neighbor_out)
-      '''partition_results.append(
-        PartialNeighborOutput(
-          index=remote_nodes[i],
-          output=res_fut.wait()
-          #output=res_fut.wait().to(device)
-        )
-      )'''
     
     #*print(f"-------- DistNSampler: async _sample_one_hop() before stitching -----------------  partition_results={partition_results}-------")
     #*print("\n\n\n\n")
-    return self.merge_results(partition_results)
+    return self.stitch_results(partition_results)
 
   async def _colloate_fn(
     self,
