@@ -735,7 +735,7 @@ class DistNeighborSampler():
       print(f"-------- DistNSampler: async _sample_one_hop(), partition i={i}, pidx={pidx}, p_ids={p_ids}, p_ids.shape={p_ids.shape} -----")
       if p_ids.shape[0] > 0:
         p_orders = torch.masked_select(orders, p_mask)
-        if pidx == self.dist_graph.num_partitions:
+        if pidx == self.dist_graph.partition_idx: #num_partitions:
           
           print(f"----000---- DistNSampler: async _sample_one_hop(), pidx={pidx} ------")
           p_nbr_out = self._sampler.sample_one_hop(p_ids, num_nbr, etype)
