@@ -1,4 +1,5 @@
 import os.path as osp
+import sys
 import warnings
 from itertools import repeat
 
@@ -92,8 +93,11 @@ def read_file(folder, prefix, name):
         return read_txt_array(path, dtype=torch.long)
 
     with open(path, 'rb') as f:
-        warnings.filterwarnings('ignore', '.*`scipy.sparse.csr` name.*')
-        out = pickle.load(f, encoding='latin1')
+        if sys.version_info > (3, 0):
+            warnings.filterwarnings('ignore', '.*`scipy.sparse.csr` name.*')
+            out = pickle.load(f, encoding='latin1')
+        else:
+            out = pickle.load(f)
 
     if name == 'graph':
         return out

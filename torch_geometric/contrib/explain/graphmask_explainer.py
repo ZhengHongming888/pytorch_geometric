@@ -46,9 +46,9 @@ class GraphMaskExplainer(ExplainerAlgorithm):
 
     .. note::
         For an example of using :class:`GraphMaskExplainer`,
-        see `examples/explain/graphmask_explainer.py
+        see `examples/contrib/graphmask_explainer.py
         <https://github.com/pyg-team/pytorch_geometric/blob/master/examples/
-        /explain/graphmask_explainer.py>`_.
+        /contrib/graphmask_explainer.py>`_.
 
     Args:
         num_layers (int): The number of layers to use.

@@ -91,6 +91,6 @@ def match_baseline_cfg(cfg_dict, cfg_dict_baseline, verbose=True):
         cfg_dict['gnn'] = {'dim_inner', cfg.gnn.dim_inner}
     set_cfg(cfg)
     if verbose:
-        print(f"Computational budget has matched - Baseline params: "
-              f"{stats_baseline}, Current params: {stats}")
+        print('Computational budget has matched: Baseline params {}, '
+              'Current params {}'.format(stats_baseline, stats))
     return cfg_dict

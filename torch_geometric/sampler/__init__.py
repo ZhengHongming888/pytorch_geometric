@@ -1,6 +1,6 @@
 from .base import (BaseSampler, NodeSamplerInput, EdgeSamplerInput,
                    SamplerOutput, HeteroSamplerOutput, NegativeSampling,
-                   NumNeighbors)
+                   NumNeighbors, NeighborOutput)
 from .neighbor_sampler import NeighborSampler
 from .hgt_sampler import HGTSampler
 
