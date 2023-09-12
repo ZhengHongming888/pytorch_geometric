@@ -8,20 +8,15 @@ from torch_geometric.graphgym.register import (
 
 @register_node_encoder('Integer')
 class IntegerFeatureEncoder(torch.nn.Module):
-    r"""Provides an encoder for integer node features.
+    """
+    Provides an encoder for integer node features.
 
     Args:
-        emb_dim (int): The output embedding dimension.
-        num_classes (int): The number of classes/integers.
-
-    Example:
-
-        >>> encoder = IntegerFeatureEncoder(emb_dim=16, num_classes=10)
-        >>> batch = torch.randint(0, 10, (10, 2))
-        >>> encoder(batch).size()
-        torch.Size([10, 16])
+        emb_dim (int): Output embedding dimension
+        num_classes (int): the number of classes for the
+        embedding mapping to learn from
     """
-    def __init__(self, emb_dim: int, num_classes: int):
+    def __init__(self, emb_dim, num_classes=None):
         super().__init__()
 
         self.encoder = torch.nn.Embedding(num_classes, emb_dim)
@@ -36,19 +31,14 @@ class IntegerFeatureEncoder(torch.nn.Module):
 
 @register_node_encoder('Atom')
 class AtomEncoder(torch.nn.Module):
-    r"""The atom encoder used in OGB molecule dataset.
+    """
+    The atom Encoder used in OGB molecule dataset.
 
     Args:
-        emb_dim (int): The output embedding dimension.
-
-    Example:
-
-        >>> encoder = AtomEncoder(emb_dim=16)
-        >>> batch = torch.randint(0, 10, (10, 3))
-        >>> encoder(batch).size()
-        torch.Size([10, 16])
+        emb_dim (int): Output embedding dimension
+        num_classes: None
     """
-    def __init__(self, emb_dim, *args, **kwargs):
+    def __init__(self, emb_dim, num_classes=None):
         super().__init__()
 
         from ogb.utils.features import get_atom_feature_dims
@@ -71,19 +61,13 @@ class AtomEncoder(torch.nn.Module):
 
 @register_edge_encoder('Bond')
 class BondEncoder(torch.nn.Module):
-    r"""The bond encoder used in OGB molecule dataset.
+    """
+    The bond Encoder used in OGB molecule dataset.
 
     Args:
-        emb_dim (int): The output embedding dimension.
-
-    Example:
-
-        >>> encoder = BondEncoder(emb_dim=16)
-        >>> batch = torch.randint(0, 10, (10, 3))
-        >>> encoder(batch).size()
-        torch.Size([10, 16])
+        emb_dim (int): Output edge embedding dimension
     """
-    def __init__(self, emb_dim: int):
+    def __init__(self, emb_dim):
         super().__init__()
 
         from ogb.utils.features import get_bond_feature_dims

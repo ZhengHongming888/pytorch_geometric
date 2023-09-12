@@ -604,3 +604,26 @@ class BaseSampler(ABC):
         applied, :obj:`None` is returned. For heterogeneous graphs, the
         expected return type is a permutation tensor for each edge type."""
         return None
+
+class NeighborOutput(CastMixin):
+  r""" The output of sampled neighbor results for a single hop sampling.
+
+  Args:
+    nbr (torch.Tensor): A 1D tensor of all sampled neighborhood node ids.
+    nbr_num (torch.Tensor): A 1D tensor that identify the number of
+      neighborhood nodes for each source nodes. Must be the same length as
+      the source nodes of this sampling hop.
+    nbr_num (torch.Tensor, optional): The edge ids corresponding to the sampled
+      edges (from source node to the sampled neighborhood node). Should be the
+      same length as :obj:`nbr` if provided.
+  """
+  nbr: torch.Tensor
+  nbr_num: torch.Tensor
+  edge: Optional[torch.Tensor]
+
+  def to(self, device: torch.device):
+    return NeighborOutput(
+      nbr=self.nbr.to(device),
+      nbr_num=self.nbr_num.to(device),
+      edge=(self.edge.to(device) if self.edge is not None else None)
+    )
