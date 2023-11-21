@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.MalNetTiny
+====================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: MalNetTiny
+   :show-inheritance:

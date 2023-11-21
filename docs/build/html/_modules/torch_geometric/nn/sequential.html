@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.nn.sequential &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.nn.sequential</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.nn.sequential</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">osp</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">uuid</span> <span class="kn">import</span> <span class="n">uuid1</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.nn.conv.utils.jit</span> <span class="kn">import</span> <span class="n">class_from_module_repr</span>
+
+
+<span class="k">class</span> <span class="nc">HeaderDesc</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">args</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">output</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="Sequential"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.sequential.Sequential">[docs]</a><span class="k">def</span> <span class="nf">Sequential</span><span class="p">(</span>
+    <span class="n">input_args</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">modules</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">Callable</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;An extension of the :class:`torch.nn.Sequential` container in order to</span>
+<span class="sd">    define a sequential GNN model.</span>
+
+<span class="sd">    Since GNN operators take in multiple input arguments,</span>
+<span class="sd">    :class:`torch_geometric.nn.Sequential` expects both global input</span>
+<span class="sd">    arguments, and function header definitions of individual operators.</span>
+<span class="sd">    If omitted, an intermediate module will operate on the *output* of its</span>
+<span class="sd">    preceding module:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from torch.nn import Linear, ReLU</span>
+<span class="sd">        from torch_geometric.nn import Sequential, GCNConv</span>
+
+<span class="sd">        model = Sequential(&#39;x, edge_index&#39;, [</span>
+<span class="sd">            (GCNConv(in_channels, 64), &#39;x, edge_index -&gt; x&#39;),</span>
+<span class="sd">            ReLU(inplace=True),</span>
+<span class="sd">            (GCNConv(64, 64), &#39;x, edge_index -&gt; x&#39;),</span>
+<span class="sd">            ReLU(inplace=True),</span>
+<span class="sd">            Linear(64, out_channels),</span>
+<span class="sd">        ])</span>
+
+<span class="sd">    where :obj:`&#39;x, edge_index&#39;` defines the input arguments of :obj:`model`,</span>
+<span class="sd">    and :obj:`&#39;x, edge_index -&gt; x&#39;` defines the function header, *i.e.* input</span>
+<span class="sd">    arguments *and* return types, of :class:`~torch_geometric.nn.conv.GCNConv`.</span>
+
+<span class="sd">    In particular, this also allows to create more sophisticated models,</span>
+<span class="sd">    such as utilizing :class:`~torch_geometric.nn.models.JumpingKnowledge`:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from torch.nn import Linear, ReLU, Dropout</span>
+<span class="sd">        from torch_geometric.nn import Sequential, GCNConv, JumpingKnowledge</span>
+<span class="sd">        from torch_geometric.nn import global_mean_pool</span>
+
+<span class="sd">        model = Sequential(&#39;x, edge_index, batch&#39;, [</span>
+<span class="sd">            (Dropout(p=0.5), &#39;x -&gt; x&#39;),</span>
+<span class="sd">            (GCNConv(dataset.num_features, 64), &#39;x, edge_index -&gt; x1&#39;),</span>
+<span class="sd">            ReLU(inplace=True),</span>
+<span class="sd">            (GCNConv(64, 64), &#39;x1, edge_index -&gt; x2&#39;),</span>
+<span class="sd">            ReLU(inplace=True),</span>
+<span class="sd">            (lambda x1, x2: [x1, x2], &#39;x1, x2 -&gt; xs&#39;),</span>
+<span class="sd">            (JumpingKnowledge(&quot;cat&quot;, 64, num_layers=2), &#39;xs -&gt; x&#39;),</span>
+<span class="sd">            (global_mean_pool, &#39;x, batch -&gt; x&#39;),</span>
+<span class="sd">            Linear(2 * 64, dataset.num_classes),</span>
+<span class="sd">        ])</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        input_args (str): The input arguments of the model.</span>
+<span class="sd">        modules ([(str, Callable) or Callable]): A list of modules (with</span>
+<span class="sd">            optional function header definitions). Alternatively, an</span>
+<span class="sd">            :obj:`OrderedDict` of modules (and function header definitions) can</span>
+<span class="sd">            be passed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">jinja2</span> <span class="kn">import</span> <span class="n">Template</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
+            <span class="s2">&quot;No module named &#39;jinja2&#39; found on this machine. &quot;</span>
+            <span class="s2">&quot;Run &#39;pip install jinja2&#39; to install the library.&quot;</span><span class="p">)</span>
+
+    <span class="n">input_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">input_args</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">modules</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">modules</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s1">&#39;module_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">:</span> <span class="n">module</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">module</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">modules</span><span class="p">)}</span>
+
+    <span class="c1"># We require the first entry of the input list to define arguments:</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">modules</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">first_module</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">modules</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">first_module</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span>
+
+    <span class="c1"># A list holding the callable function and the input and output names:</span>
+    <span class="n">calls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">modules</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">module</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">module</span><span class="p">,</span> <span class="n">desc</span> <span class="o">=</span> <span class="n">module</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">in_desc</span><span class="p">,</span> <span class="n">out_desc</span> <span class="o">=</span> <span class="n">parse_desc</span><span class="p">(</span><span class="n">desc</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">module</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">in_desc</span> <span class="o">=</span> <span class="n">out_desc</span> <span class="o">=</span> <span class="n">calls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">in_desc</span> <span class="o">=</span> <span class="n">out_desc</span> <span class="o">=</span> <span class="n">calls</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">calls</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">in_desc</span><span class="p">,</span> <span class="n">out_desc</span><span class="p">))</span>
+
+    <span class="n">root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s1">&#39;sequential.jinja&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+    <span class="n">cls_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Sequential_</span><span class="si">{</span><span class="n">uuid1</span><span class="p">()</span><span class="o">.</span><span class="n">hex</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">module_repr</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span>
+        <span class="n">cls_name</span><span class="o">=</span><span class="n">cls_name</span><span class="p">,</span>
+        <span class="n">input_args</span><span class="o">=</span><span class="n">input_args</span><span class="p">,</span>
+        <span class="n">calls</span><span class="o">=</span><span class="n">calls</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Instantiate a class from the rendered module representation.</span>
+    <span class="n">module</span> <span class="o">=</span> <span class="n">class_from_module_repr</span><span class="p">(</span><span class="n">cls_name</span><span class="p">,</span> <span class="n">module_repr</span><span class="p">)()</span>
+    <span class="n">module</span><span class="o">.</span><span class="n">module_headers</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">HeaderDesc</span><span class="p">(</span><span class="n">in_desc</span><span class="p">,</span> <span class="n">out_desc</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">in_desc</span><span class="p">,</span> <span class="n">out_desc</span> <span class="ow">in</span> <span class="n">calls</span>
+    <span class="p">]</span>
+    <span class="n">module</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">modules</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">submodule</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">calls</span><span class="p">:</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">submodule</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">module</span></div>
+
+
+<span class="k">def</span> <span class="nf">parse_desc</span><span class="p">(</span><span class="n">desc</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+    <span class="n">in_desc</span><span class="p">,</span> <span class="n">out_desc</span> <span class="o">=</span> <span class="n">desc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&gt;&#39;</span><span class="p">)</span>
+    <span class="n">in_desc</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">in_desc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)]</span>
+    <span class="n">out_desc</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">out_desc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">in_desc</span><span class="p">,</span> <span class="n">out_desc</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

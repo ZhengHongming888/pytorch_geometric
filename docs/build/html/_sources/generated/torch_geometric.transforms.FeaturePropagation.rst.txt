@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.FeaturePropagation
+==============================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: FeaturePropagation
+   :show-inheritance:

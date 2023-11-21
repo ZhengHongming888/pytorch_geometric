@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.BA2MotifDataset
+=========================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: BA2MotifDataset
+   :show-inheritance:

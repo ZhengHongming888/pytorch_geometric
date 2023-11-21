@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.LargestConnectedComponents
+======================================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: LargestConnectedComponents
+   :show-inheritance:

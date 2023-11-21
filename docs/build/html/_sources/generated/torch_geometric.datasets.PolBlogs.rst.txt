@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.PolBlogs
+==================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: PolBlogs
+   :show-inheritance:

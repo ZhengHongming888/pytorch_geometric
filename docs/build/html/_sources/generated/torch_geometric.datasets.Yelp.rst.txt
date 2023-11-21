@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.Yelp
+==============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: Yelp
+   :show-inheritance:

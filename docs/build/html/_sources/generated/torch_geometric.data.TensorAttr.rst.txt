@@ -1,0 +1,8 @@
+﻿torch\_geometric.data.TensorAttr
+================================
+
+.. currentmodule:: torch_geometric.data
+
+.. autoclass:: TensorAttr
+   :show-inheritance:
+   :members:

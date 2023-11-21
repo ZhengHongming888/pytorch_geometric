@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.datasets &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="torch_geometric.datasets.KarateClub" href="../generated/torch_geometric.datasets.KarateClub.html" />
+    <link rel="prev" title="torch_geometric.sampler" href="sampler.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">torch_geometric.datasets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#homogeneous-datasets">Homogeneous Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#heterogeneous-datasets">Heterogeneous Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#synthetic-datasets">Synthetic Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#graph-generators">Graph Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#motif-generators">Motif Generators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">torch_geometric.datasets</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/datasets.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="torch-geometric-datasets">
+<h1>torch_geometric.datasets<a class="headerlink" href="#torch-geometric-datasets" title="Permalink to this heading"></a></h1>
+<nav class="contents local" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#homogeneous-datasets" id="id19">Homogeneous Datasets</a></p></li>
+<li><p><a class="reference internal" href="#heterogeneous-datasets" id="id20">Heterogeneous Datasets</a></p></li>
+<li><p><a class="reference internal" href="#synthetic-datasets" id="id21">Synthetic Datasets</a></p></li>
+<li><p><a class="reference internal" href="#graph-generators" id="id22">Graph Generators</a></p></li>
+<li><p><a class="reference internal" href="#motif-generators" id="id23">Motif Generators</a></p></li>
+</ul>
+</nav>
+<section id="homogeneous-datasets">
+<h2><a class="toc-backref" href="#id19" role="doc-backlink">Homogeneous Datasets</a><a class="headerlink" href="#homogeneous-datasets" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.KarateClub.html#torch_geometric.datasets.KarateClub" title="torch_geometric.datasets.KarateClub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">KarateClub</span></code></a></p></td>
+<td><p>Zachary's karate club network from the <a class="reference external" href="http://www1.ind.ku.dk/complexLearning/zachary1977.pdf">&quot;An Information Flow Model for Conflict and Fission in Small Groups&quot;</a> paper, containing 34 nodes, connected by 156 (undirected and unweighted) edges.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.TUDataset.html#torch_geometric.datasets.TUDataset" title="torch_geometric.datasets.TUDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TUDataset</span></code></a></p></td>
+<td><p>A variety of graph kernel benchmark datasets, <em>.e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;IMDB-BINARY&quot;</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;REDDIT-BINARY&quot;</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;PROTEINS&quot;</span></code>, collected from the <a class="reference external" href="https://chrsmrrs.github.io/datasets">TU Dortmund University</a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GNNBenchmarkDataset.html#torch_geometric.datasets.GNNBenchmarkDataset" title="torch_geometric.datasets.GNNBenchmarkDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GNNBenchmarkDataset</span></code></a></p></td>
+<td><p>A variety of artificially and semi-artificially generated graph datasets from the <a class="reference external" href="https://arxiv.org/abs/2003.00982">&quot;Benchmarking Graph Neural Networks&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Planetoid.html#torch_geometric.datasets.Planetoid" title="torch_geometric.datasets.Planetoid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Planetoid</span></code></a></p></td>
+<td><p>The citation network datasets <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;Cora&quot;</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;CiteSeer&quot;</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;PubMed&quot;</span></code> from the <a class="reference external" href="https://arxiv.org/abs/1603.08861">&quot;Revisiting Semi-Supervised Learning with Graph Embeddings&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.NELL.html#torch_geometric.datasets.NELL" title="torch_geometric.datasets.NELL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NELL</span></code></a></p></td>
+<td><p>The NELL dataset, a knowledge graph from the <a class="reference external" href="https://www.cs.cmu.edu/~acarlson/papers/carlson-aaai10.pdf">&quot;Toward an Architecture for Never-Ending Language Learning&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.CitationFull.html#torch_geometric.datasets.CitationFull" title="torch_geometric.datasets.CitationFull"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CitationFull</span></code></a></p></td>
+<td><p>The full citation network datasets from the <a class="reference external" href="https://arxiv.org/abs/1707.03815">&quot;Deep Gaussian Embedding of Graphs: Unsupervised Inductive Learning via Ranking&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.CoraFull.html#torch_geometric.datasets.CoraFull" title="torch_geometric.datasets.CoraFull"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoraFull</span></code></a></p></td>
+<td><p>Alias for <a class="reference internal" href="../generated/torch_geometric.datasets.CitationFull.html#torch_geometric.datasets.CitationFull" title="torch_geometric.datasets.CitationFull"><code class="xref py py-class docutils literal notranslate"><span class="pre">CitationFull</span></code></a> with <code class="xref py py-obj docutils literal notranslate"><span class="pre">name=&quot;Cora&quot;</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Coauthor.html#torch_geometric.datasets.Coauthor" title="torch_geometric.datasets.Coauthor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Coauthor</span></code></a></p></td>
+<td><p>The Coauthor CS and Coauthor Physics networks from the <a class="reference external" href="https://arxiv.org/abs/1811.05868">&quot;Pitfalls of Graph Neural Network Evaluation&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Amazon.html#torch_geometric.datasets.Amazon" title="torch_geometric.datasets.Amazon"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Amazon</span></code></a></p></td>
+<td><p><p>The Amazon Computers and Amazon Photo networks from the <a class="reference external" href="https://arxiv.org/abs/1811.05868">&quot;Pitfalls of Graph Neural Network Evaluation&quot;</a> paper.</p>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.PPI.html#torch_geometric.datasets.PPI" title="torch_geometric.datasets.PPI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PPI</span></code></a></p></td>
+<td><p>The protein-protein interaction networks from the <a class="reference external" href="https://arxiv.org/abs/1707.04638">&quot;Predicting Multicellular Function through Multi-layer Tissue Networks&quot;</a> paper, containing positional gene sets, motif gene sets and immunological signatures as features (50 in total) and gene ontology sets as labels (121 in total).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Reddit.html#torch_geometric.datasets.Reddit" title="torch_geometric.datasets.Reddit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reddit</span></code></a></p></td>
+<td><p>The Reddit dataset from the <a class="reference external" href="https://arxiv.org/abs/1706.02216">&quot;Inductive Representation Learning on Large Graphs&quot;</a> paper, containing Reddit posts belonging to different communities.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Reddit2.html#torch_geometric.datasets.Reddit2" title="torch_geometric.datasets.Reddit2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Reddit2</span></code></a></p></td>
+<td><p>The Reddit dataset from the <a class="reference external" href="https://arxiv.org/abs/1907.04931">&quot;GraphSAINT: Graph Sampling Based Inductive Learning Method&quot;</a> paper, containing Reddit posts belonging to different communities.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Flickr.html#torch_geometric.datasets.Flickr" title="torch_geometric.datasets.Flickr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Flickr</span></code></a></p></td>
+<td><p><p>The Flickr dataset from the <a class="reference external" href="https://arxiv.org/abs/1907.04931">&quot;GraphSAINT: Graph Sampling Based Inductive Learning Method&quot;</a> paper, containing descriptions and common properties of images.</p>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Yelp.html#torch_geometric.datasets.Yelp" title="torch_geometric.datasets.Yelp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Yelp</span></code></a></p></td>
+<td><p><p>The Yelp dataset from the <a class="reference external" href="https://arxiv.org/abs/1907.04931">&quot;GraphSAINT: Graph Sampling Based Inductive Learning Method&quot;</a> paper, containing customer reviewers and their friendship.</p>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.AmazonProducts.html#torch_geometric.datasets.AmazonProducts" title="torch_geometric.datasets.AmazonProducts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AmazonProducts</span></code></a></p></td>
+<td><p><p>The Amazon dataset from the <a class="reference external" href="https://arxiv.org/abs/1907.04931">&quot;GraphSAINT: Graph Sampling Based Inductive Learning Method&quot;</a> paper, containing products and its categories.</p>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.QM7b.html#torch_geometric.datasets.QM7b" title="torch_geometric.datasets.QM7b"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QM7b</span></code></a></p></td>
+<td><p>The QM7b dataset from the <a class="reference external" href="https://arxiv.org/abs/1703.00564">&quot;MoleculeNet: A Benchmark for Molecular Machine Learning&quot;</a> paper, consisting of 7,211 molecules with 14 regression targets.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.QM9.html#torch_geometric.datasets.QM9" title="torch_geometric.datasets.QM9"><code class="xref py py-obj docutils literal notranslate"><span class="pre">QM9</span></code></a></p></td>
+<td><p><p>The QM9 dataset from the <a class="reference external" href="https://arxiv.org/abs/1703.00564">&quot;MoleculeNet: A Benchmark for Molecular Machine Learning&quot;</a> paper, consisting of about 130,000 molecules with 19 regression targets.</p>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MD17.html#torch_geometric.datasets.MD17" title="torch_geometric.datasets.MD17"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MD17</span></code></a></p></td>
+<td><p>A variety of ab-initio molecular dynamics trajectories from the authors of <a class="reference external" href="http://quantum-machine.org/gdml">sGDML</a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.ZINC.html#torch_geometric.datasets.ZINC" title="torch_geometric.datasets.ZINC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZINC</span></code></a></p></td>
+<td><p>The ZINC dataset from the <a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/acs.jcim.5b00559">ZINC database</a> and the <a class="reference external" href="https://arxiv.org/abs/1610.02415">&quot;Automatic Chemical Design Using a Data-Driven Continuous Representation of Molecules&quot;</a> paper, containing about 250,000 molecular graphs with up to 38 heavy atoms.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.AQSOL.html#torch_geometric.datasets.AQSOL" title="torch_geometric.datasets.AQSOL"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AQSOL</span></code></a></p></td>
+<td><p>The AQSOL dataset from the <a class="reference external" href="http://arxiv.org/abs/2003.00982">Benchmarking Graph Neural Networks</a> paper based on <a class="reference external" href="https://www.nature.com/articles/s41597-019-0151-1">AqSolDB</a>, a standardized database of 9,982 molecular graphs with their aqueous solubility values, collected from 9 different data sources.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MoleculeNet.html#torch_geometric.datasets.MoleculeNet" title="torch_geometric.datasets.MoleculeNet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MoleculeNet</span></code></a></p></td>
+<td><p><p>The <a class="reference external" href="http://moleculenet.org/datasets-1">MoleculeNet</a> benchmark collection  from the <a class="reference external" href="https://arxiv.org/abs/1703.00564">&quot;MoleculeNet: A Benchmark for Molecular Machine Learning&quot;</a> paper, containing datasets from physical chemistry, biophysics and physiology.</p>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.PCQM4Mv2.html#torch_geometric.datasets.PCQM4Mv2" title="torch_geometric.datasets.PCQM4Mv2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCQM4Mv2</span></code></a></p></td>
+<td><p>The PCQM4Mv2 dataset from the <a class="reference external" href="https://arxiv.org/abs/2103.09430">&quot;OGB-LSC: A Large-Scale Challenge for Machine Learning on Graphs&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Entities.html#torch_geometric.datasets.Entities" title="torch_geometric.datasets.Entities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Entities</span></code></a></p></td>
+<td><p>The relational entities networks <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;AIFB&quot;</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;MUTAG&quot;</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;BGS&quot;</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;AM&quot;</span></code> from the <a class="reference external" href="https://arxiv.org/abs/1703.06103">&quot;Modeling Relational Data with Graph Convolutional Networks&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.RelLinkPredDataset.html#torch_geometric.datasets.RelLinkPredDataset" title="torch_geometric.datasets.RelLinkPredDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RelLinkPredDataset</span></code></a></p></td>
+<td><p><p>The relational link prediction datasets from the <a class="reference external" href="https://arxiv.org/abs/1703.06103">&quot;Modeling Relational Data with Graph Convolutional Networks&quot;</a> paper.</p>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GEDDataset.html#torch_geometric.datasets.GEDDataset" title="torch_geometric.datasets.GEDDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GEDDataset</span></code></a></p></td>
+<td><p>The GED datasets from the <a class="reference external" href="https://arxiv.org/abs/1808.05689">&quot;Graph Edit Distance Computation via Graph Neural Networks&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.AttributedGraphDataset.html#torch_geometric.datasets.AttributedGraphDataset" title="torch_geometric.datasets.AttributedGraphDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AttributedGraphDataset</span></code></a></p></td>
+<td><p>A variety of attributed graph datasets from the <a class="reference external" href="https://arxiv.org/abs/2009.00826">&quot;Scaling Attributed Network Embedding to Massive Graphs&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MNISTSuperpixels.html#torch_geometric.datasets.MNISTSuperpixels" title="torch_geometric.datasets.MNISTSuperpixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MNISTSuperpixels</span></code></a></p></td>
+<td><p>MNIST superpixels dataset from the <a class="reference external" href="https://arxiv.org/abs/1611.08402">&quot;Geometric Deep Learning on Graphs and Manifolds Using Mixture Model CNNs&quot;</a> paper, containing 70,000 graphs with 75 nodes each.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.FAUST.html#torch_geometric.datasets.FAUST" title="torch_geometric.datasets.FAUST"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FAUST</span></code></a></p></td>
+<td><p>The FAUST humans dataset from the <a class="reference external" href="http://files.is.tue.mpg.de/black/papers/FAUST2014.pdf">&quot;FAUST: Dataset and Evaluation for 3D Mesh Registration&quot;</a> paper, containing 100 watertight meshes representing 10 different poses for 10 different subjects.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.DynamicFAUST.html#torch_geometric.datasets.DynamicFAUST" title="torch_geometric.datasets.DynamicFAUST"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicFAUST</span></code></a></p></td>
+<td><p>The dynamic FAUST humans dataset from the <a class="reference external" href="http://files.is.tue.mpg.de/black/papers/dfaust2017.pdf">&quot;Dynamic FAUST: Registering Human Bodies in Motion&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.ShapeNet.html#torch_geometric.datasets.ShapeNet" title="torch_geometric.datasets.ShapeNet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ShapeNet</span></code></a></p></td>
+<td><p>The ShapeNet part level segmentation dataset from the <a class="reference external" href="http://web.stanford.edu/~ericyi/papers/part_annotation_16_small.pdf">&quot;A Scalable Active Framework for Region Annotation in 3D Shape Collections&quot;</a> paper, containing about 17,000 3D shape point clouds from 16 shape categories.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.ModelNet.html#torch_geometric.datasets.ModelNet" title="torch_geometric.datasets.ModelNet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ModelNet</span></code></a></p></td>
+<td><p>The ModelNet10/40 datasets from the <a class="reference external" href="https://people.csail.mit.edu/khosla/papers/cvpr2015_wu.pdf">&quot;3D ShapeNets: A Deep Representation for Volumetric Shapes&quot;</a> paper, containing CAD models of 10 and 40 categories, respectively.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.CoMA.html#torch_geometric.datasets.CoMA" title="torch_geometric.datasets.CoMA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CoMA</span></code></a></p></td>
+<td><p>The CoMA 3D faces dataset from the <a class="reference external" href="https://arxiv.org/abs/1807.10267">&quot;Generating 3D faces using Convolutional Mesh Autoencoders&quot;</a> paper, containing 20,466 meshes of extreme expressions captured over 12 different subjects.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.SHREC2016.html#torch_geometric.datasets.SHREC2016" title="torch_geometric.datasets.SHREC2016"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SHREC2016</span></code></a></p></td>
+<td><p>The SHREC 2016 partial matching dataset from the <a class="reference external" href="http://www.dais.unive.it/~shrec2016/shrec16-partial.pdf">&quot;SHREC'16: Partial Matching of Deformable Shapes&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.TOSCA.html#torch_geometric.datasets.TOSCA" title="torch_geometric.datasets.TOSCA"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TOSCA</span></code></a></p></td>
+<td><p>The TOSCA dataset from the <a class="reference external" href="https://www.amazon.com/Numerical-Geometry-Non-Rigid-Monographs-Computer/dp/0387733000">&quot;Numerical Geometry of Non-Ridig Shapes&quot;</a> book, containing 80 meshes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.PCPNetDataset.html#torch_geometric.datasets.PCPNetDataset" title="torch_geometric.datasets.PCPNetDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PCPNetDataset</span></code></a></p></td>
+<td><p>The PCPNet dataset from the <a class="reference external" href="https://arxiv.org/abs/1710.04954">&quot;PCPNet: Learning Local Shape Properties from Raw Point Clouds&quot;</a> paper, consisting of 30 shapes, each given as a point cloud, densely sampled with 100k points.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.S3DIS.html#torch_geometric.datasets.S3DIS" title="torch_geometric.datasets.S3DIS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">S3DIS</span></code></a></p></td>
+<td><p>The (pre-processed) Stanford Large-Scale 3D Indoor Spaces dataset from the <a class="reference external" href="https://openaccess.thecvf.com/content_cvpr_2016/papers/Armeni_3D_Semantic_Parsing_CVPR_2016_paper.pdf">&quot;3D Semantic Parsing of Large-Scale Indoor Spaces&quot;</a> paper, containing point clouds of six large-scale indoor parts in three buildings with 12 semantic elements (and one clutter class).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GeometricShapes.html#torch_geometric.datasets.GeometricShapes" title="torch_geometric.datasets.GeometricShapes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GeometricShapes</span></code></a></p></td>
+<td><p>Synthetic dataset of various geometric shapes like cubes, spheres or pyramids.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.BitcoinOTC.html#torch_geometric.datasets.BitcoinOTC" title="torch_geometric.datasets.BitcoinOTC"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BitcoinOTC</span></code></a></p></td>
+<td><p>The Bitcoin-OTC dataset from the <a class="reference external" href="https://arxiv.org/abs/1902.10191">&quot;EvolveGCN: Evolving Graph Convolutional Networks for Dynamic Graphs&quot;</a> paper, consisting of 138 who-trusts-whom networks of sequential time steps.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GDELTLite.html#torch_geometric.datasets.GDELTLite" title="torch_geometric.datasets.GDELTLite"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GDELTLite</span></code></a></p></td>
+<td><p>The (reduced) version of the Global Database of Events, Language, and Tone (GDELT) dataset used in the <a class="reference external" href="http://arxiv.org/abs/2302.11636">&quot;Do We Really Need Complicated Model Architectures for Temporal Networks?&quot;</a> paper, consisting of events collected from 2016 to 2020.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.ICEWS18.html#torch_geometric.datasets.ICEWS18" title="torch_geometric.datasets.ICEWS18"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ICEWS18</span></code></a></p></td>
+<td><p>The Integrated Crisis Early Warning System (ICEWS) dataset used in the, <em>e.g.</em>, <a class="reference external" href="https://arxiv.org/abs/1904.05530">&quot;Recurrent Event Network for Reasoning over Temporal Knowledge Graphs&quot;</a> paper, consisting of events collected from 1/1/2018 to 10/31/2018 (24 hours time granularity).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GDELT.html#torch_geometric.datasets.GDELT" title="torch_geometric.datasets.GDELT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GDELT</span></code></a></p></td>
+<td><p><p>The Global Database of Events, Language, and Tone (GDELT) dataset used in the, <em>e.g.</em>, <a class="reference external" href="https://arxiv.org/abs/1904.05530">&quot;Recurrent Event Network for Reasoning over Temporal Knowledge Graphs&quot;</a> paper, consisting of events collected from 1/1/2018 to 1/31/2018 (15 minutes time granularity).</p>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.WILLOWObjectClass.html#torch_geometric.datasets.WILLOWObjectClass" title="torch_geometric.datasets.WILLOWObjectClass"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WILLOWObjectClass</span></code></a></p></td>
+<td><p>The WILLOW-ObjectClass dataset from the <a class="reference external" href="https://www.di.ens.fr/willow/pdfscurrent/cho2013.pdf">&quot;Learning Graphs to Match&quot;</a> paper, containing 10 equal keypoints of at least 40 images in each category.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.PascalVOCKeypoints.html#torch_geometric.datasets.PascalVOCKeypoints" title="torch_geometric.datasets.PascalVOCKeypoints"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PascalVOCKeypoints</span></code></a></p></td>
+<td><p>The Pascal VOC 2011 dataset with Berkely annotations of keypoints from the <a class="reference external" href="https://www2.eecs.berkeley.edu/Research/Projects/CS/vision/human/poselets_iccv09.pdf">&quot;Poselets: Body Part Detectors Trained Using 3D Human Pose Annotations&quot;</a> paper, containing 0 to 23 keypoints per example over 20 categories.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.PascalPF.html#torch_geometric.datasets.PascalPF" title="torch_geometric.datasets.PascalPF"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PascalPF</span></code></a></p></td>
+<td><p>The Pascal-PF dataset from the <a class="reference external" href="https://arxiv.org/abs/1511.05065">&quot;Proposal Flow&quot;</a> paper, containing 4 to 16 keypoints per example over 20 categories.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.SNAPDataset.html#torch_geometric.datasets.SNAPDataset" title="torch_geometric.datasets.SNAPDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SNAPDataset</span></code></a></p></td>
+<td><p>A variety of graph datasets collected from <a class="reference external" href="https://snap.stanford.edu/data">SNAP at Stanford University</a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.SuiteSparseMatrixCollection.html#torch_geometric.datasets.SuiteSparseMatrixCollection" title="torch_geometric.datasets.SuiteSparseMatrixCollection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SuiteSparseMatrixCollection</span></code></a></p></td>
+<td><p>A suite of sparse matrix benchmarks known as the <a class="reference external" href="https://sparse.tamu.edu">Suite Sparse Matrix Collection</a> collected from a wide range of applications.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.WordNet18.html#torch_geometric.datasets.WordNet18" title="torch_geometric.datasets.WordNet18"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WordNet18</span></code></a></p></td>
+<td><p>The WordNet18 dataset from the <a class="reference external" href="https://papers.nips.cc/paper/5071-translating-embeddings-for-modeling-multi-relational-data">&quot;Translating Embeddings for Modeling Multi-Relational Data&quot;</a> paper, containing 40,943 entities, 18 relations and 151,442 fact triplets, <em>e.g.</em>, furniture includes bed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.WordNet18RR.html#torch_geometric.datasets.WordNet18RR" title="torch_geometric.datasets.WordNet18RR"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WordNet18RR</span></code></a></p></td>
+<td><p>The WordNet18RR dataset from the <a class="reference external" href="https://arxiv.org/abs/1707.01476">&quot;Convolutional 2D Knowledge Graph Embeddings&quot;</a> paper, containing 40,943 entities, 11 relations and 93,003 fact triplets.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.FB15k_237.html#torch_geometric.datasets.FB15k_237" title="torch_geometric.datasets.FB15k_237"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FB15k_237</span></code></a></p></td>
+<td><p><p>The FB15K237 dataset from the <a class="reference external" href="https://papers.nips.cc/paper/5071-translating-embeddings-for-modeling-multi-relational-data">&quot;Translating Embeddings for Modeling Multi-Relational Data&quot;</a> paper, containing 14,541 entities, 237 relations and 310,116 fact triples.</p>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.WikiCS.html#torch_geometric.datasets.WikiCS" title="torch_geometric.datasets.WikiCS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WikiCS</span></code></a></p></td>
+<td><p>The semi-supervised Wikipedia-based dataset from the <a class="reference external" href="https://arxiv.org/abs/2007.02901">&quot;Wiki-CS: A Wikipedia-Based Benchmark for Graph Neural Networks&quot;</a> paper, containing 11,701 nodes, 216,123 edges, 10 classes and 20 different training splits.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.WebKB.html#torch_geometric.datasets.WebKB" title="torch_geometric.datasets.WebKB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WebKB</span></code></a></p></td>
+<td><p>The WebKB datasets used in the <a class="reference external" href="https://openreview.net/forum?id=S1e2agrFvS">&quot;Geom-GCN: Geometric Graph Convolutional Networks&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.WikipediaNetwork.html#torch_geometric.datasets.WikipediaNetwork" title="torch_geometric.datasets.WikipediaNetwork"><code class="xref py py-obj docutils literal notranslate"><span class="pre">WikipediaNetwork</span></code></a></p></td>
+<td><p>The Wikipedia networks introduced in the <a class="reference external" href="https://arxiv.org/abs/1909.13021">&quot;Multi-scale Attributed Node Embedding&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.HeterophilousGraphDataset.html#torch_geometric.datasets.HeterophilousGraphDataset" title="torch_geometric.datasets.HeterophilousGraphDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HeterophilousGraphDataset</span></code></a></p></td>
+<td><p>The heterophilous graphs <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;Roman-empire&quot;</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;Amazon-ratings&quot;</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;Minesweeper&quot;</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;Tolokers&quot;</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;Questions&quot;</span></code> from the <a class="reference external" href="https://arxiv.org/abs/2302.11640">&quot;A Critical Look at the Evaluation of GNNs under Heterophily: Are We Really Making Progress?&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Actor.html#torch_geometric.datasets.Actor" title="torch_geometric.datasets.Actor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Actor</span></code></a></p></td>
+<td><p><p>The actor-only induced subgraph of the film-director-actor-writer network used in the <a class="reference external" href="https://openreview.net/forum?id=S1e2agrFvS">&quot;Geom-GCN: Geometric Graph Convolutional Networks&quot;</a> paper.</p>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.UPFD.html#torch_geometric.datasets.UPFD" title="torch_geometric.datasets.UPFD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UPFD</span></code></a></p></td>
+<td><p>The tree-structured fake news propagation graph classification dataset from the <a class="reference external" href="https://arxiv.org/abs/2104.12259">&quot;User Preference-aware Fake News Detection&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GitHub.html#torch_geometric.datasets.GitHub" title="torch_geometric.datasets.GitHub"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GitHub</span></code></a></p></td>
+<td><p><p>The GitHub Web and ML Developers dataset introduced in the <a class="reference external" href="https://arxiv.org/abs/1909.13021">&quot;Multi-scale Attributed Node Embedding&quot;</a> paper.</p>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.FacebookPagePage.html#torch_geometric.datasets.FacebookPagePage" title="torch_geometric.datasets.FacebookPagePage"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FacebookPagePage</span></code></a></p></td>
+<td><p><p>The Facebook Page-Page network dataset introduced in the <a class="reference external" href="https://arxiv.org/abs/1909.13021">&quot;Multi-scale Attributed Node Embedding&quot;</a> paper.</p>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.LastFMAsia.html#torch_geometric.datasets.LastFMAsia" title="torch_geometric.datasets.LastFMAsia"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LastFMAsia</span></code></a></p></td>
+<td><p>The LastFM Asia Network dataset introduced in the <a class="reference external" href="https://arxiv.org/abs/2005.07959">&quot;Characteristic Functions on Graphs: Birds of a Feather, from Statistical Descriptors to Parametric Models&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.DeezerEurope.html#torch_geometric.datasets.DeezerEurope" title="torch_geometric.datasets.DeezerEurope"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DeezerEurope</span></code></a></p></td>
+<td><p><p>The Deezer Europe dataset introduced in the <a class="reference external" href="https://arxiv.org/abs/2005.07959">&quot;Characteristic Functions on Graphs: Birds of a Feather, from Statistical Descriptors to Parametric Models&quot;</a> paper.</p>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GemsecDeezer.html#torch_geometric.datasets.GemsecDeezer" title="torch_geometric.datasets.GemsecDeezer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GemsecDeezer</span></code></a></p></td>
+<td><p>The Deezer User Network datasets introduced in the <a class="reference external" href="https://arxiv.org/abs/1802.03997">&quot;GEMSEC: Graph Embedding with Self Clustering&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Twitch.html#torch_geometric.datasets.Twitch" title="torch_geometric.datasets.Twitch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Twitch</span></code></a></p></td>
+<td><p><p>The Twitch Gamer networks introduced in the <a class="reference external" href="https://arxiv.org/abs/1909.13021">&quot;Multi-scale Attributed Node Embedding&quot;</a> paper.</p>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Airports.html#torch_geometric.datasets.Airports" title="torch_geometric.datasets.Airports"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Airports</span></code></a></p></td>
+<td><p>The Airports dataset from the <a class="reference external" href="https://arxiv.org/abs/1704.03165">&quot;struc2vec: Learning Node Representations from Structural Identity&quot;</a> paper, where nodes denote airports and labels correspond to activity levels.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.LRGBDataset.html#torch_geometric.datasets.LRGBDataset" title="torch_geometric.datasets.LRGBDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LRGBDataset</span></code></a></p></td>
+<td><p>The <a class="reference external" href="https://arxiv.org/abs/2206.08164">&quot;Long Range Graph Benchmark (LRGB)&quot;</a> datasets which is a collection of 5 graph learning datasets with tasks that are based on long-range dependencies in graphs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MalNetTiny.html#torch_geometric.datasets.MalNetTiny" title="torch_geometric.datasets.MalNetTiny"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MalNetTiny</span></code></a></p></td>
+<td><p>The MalNet Tiny dataset from the <a class="reference external" href="https://openreview.net/pdf?id=1xDTDk3XPW">&quot;A Large-Scale Database for Graph Representation Learning&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.OMDB.html#torch_geometric.datasets.OMDB" title="torch_geometric.datasets.OMDB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OMDB</span></code></a></p></td>
+<td><p>The <a class="reference external" href="https://omdb.mathub.io/dataset">Organic Materials Database (OMDB)</a> of bulk organic crystals.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.PolBlogs.html#torch_geometric.datasets.PolBlogs" title="torch_geometric.datasets.PolBlogs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PolBlogs</span></code></a></p></td>
+<td><p>The Political Blogs dataset from the <a class="reference external" href="https://dl.acm.org/doi/10.1145/1134271.1134277">&quot;The Political Blogosphere and the 2004 US Election: Divided they Blog&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.EmailEUCore.html#torch_geometric.datasets.EmailEUCore" title="torch_geometric.datasets.EmailEUCore"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EmailEUCore</span></code></a></p></td>
+<td><p>An e-mail communication network of a large European research institution, taken from the <a class="reference external" href="https://www-cs.stanford.edu/~jure/pubs/mappr-kdd17.pdf">&quot;Local Higher-order Graph Clustering&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.LINKXDataset.html#torch_geometric.datasets.LINKXDataset" title="torch_geometric.datasets.LINKXDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LINKXDataset</span></code></a></p></td>
+<td><p>A variety of non-homophilous graph datasets from the <a class="reference external" href="https://arxiv.org/abs/2110.14446">&quot;Large Scale Learning on Non-Homophilous Graphs: New Benchmarks and Strong Simple Methods&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.EllipticBitcoinDataset.html#torch_geometric.datasets.EllipticBitcoinDataset" title="torch_geometric.datasets.EllipticBitcoinDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EllipticBitcoinDataset</span></code></a></p></td>
+<td><p>The Elliptic Bitcoin dataset of Bitcoin transactions from the <a class="reference external" href="https://arxiv.org/abs/1908.02591">&quot;Anti-Money Laundering in Bitcoin: Experimenting with Graph Convolutional Networks for Financial Forensics&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.EllipticBitcoinTemporalDataset.html#torch_geometric.datasets.EllipticBitcoinTemporalDataset" title="torch_geometric.datasets.EllipticBitcoinTemporalDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EllipticBitcoinTemporalDataset</span></code></a></p></td>
+<td><p><p>The time-step aware Elliptic Bitcoin dataset of Bitcoin transactions from the <a class="reference external" href="https://arxiv.org/abs/1908.02591">&quot;Anti-Money Laundering in Bitcoin: Experimenting with Graph Convolutional Networks for Financial Forensics&quot;</a> paper.</p>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.DGraphFin.html#torch_geometric.datasets.DGraphFin" title="torch_geometric.datasets.DGraphFin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DGraphFin</span></code></a></p></td>
+<td><p>The DGraphFin networks from the <a class="reference external" href="https://arxiv.org/abs/2207.03579">&quot;DGraph: A Large-Scale Financial Dataset for Graph Anomaly Detection&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.HydroNet.html#torch_geometric.datasets.HydroNet" title="torch_geometric.datasets.HydroNet"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HydroNet</span></code></a></p></td>
+<td><p>The HydroNet dataest from the <a class="reference external" href="https://arxiv.org/abs/2012.00131">&quot;HydroNet: Benchmark Tasks for Preserving Intermolecular Interactions and Structural Motifs in Predictive and Generative Models for Molecular Data&quot;</a> paper, consisting of 5 million water clusters held together by hydrogen bonding networks.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.AirfRANS.html#torch_geometric.datasets.AirfRANS" title="torch_geometric.datasets.AirfRANS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AirfRANS</span></code></a></p></td>
+<td><p>The AirfRANS dataset from the <a class="reference external" href="https://arxiv.org/abs/2212.07564">&quot;AirfRANS: High Fidelity Computational Fluid Dynamics Dataset for Approximating Reynolds-Averaged Navier-Stokes Solutions&quot;</a> paper, consisting of 1,000 simulations of steady-state aerodynamics over 2D airfoils in a subsonic flight regime.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.JODIEDataset.html#torch_geometric.datasets.JODIEDataset" title="torch_geometric.datasets.JODIEDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">JODIEDataset</span></code></a></p></td>
+<td><p>The temporal graph datasets from the <a class="reference external" href="https://cs.stanford.edu/~srijan/pubs/jodie-kdd2019.pdf">&quot;JODIE: Predicting Dynamic Embedding Trajectory in Temporal Interaction Networks&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Wikidata5M.html#torch_geometric.datasets.Wikidata5M" title="torch_geometric.datasets.Wikidata5M"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Wikidata5M</span></code></a></p></td>
+<td><p>The Wikidata-5M dataset from the <a class="reference external" href="https://arxiv.org/pdf/1911.06136.pdf">&quot;KEPLER: A Unified Model for Knowledge Embedding and Pre-trained Language Representation&quot;</a> paper, containing 4,594,485 entities, 822 relations, 20,614,279 train triples, 5,163 validation triples, and 5,133 test triples.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MyketDataset.html#torch_geometric.datasets.MyketDataset" title="torch_geometric.datasets.MyketDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MyketDataset</span></code></a></p></td>
+<td><p>The Myket Android Application Install dataset from the <a class="reference external" href="https://arxiv.org/abs/2308.06862">&quot;Effect of Choosing Loss Function when Using T-Batching for Representation Learning on Dynamic Networks&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.BrcaTcga.html#torch_geometric.datasets.BrcaTcga" title="torch_geometric.datasets.BrcaTcga"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BrcaTcga</span></code></a></p></td>
+<td><p>The breast cancer (BRCA TCGA Pan-Cancer Atlas) dataset consisting of patients with survival information and gene expression data from <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4160307/">cBioPortal</a> and a network of biological interactions between those nodes from <a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7145667/">Pathway Commons</a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.NeuroGraphDataset.html#torch_geometric.datasets.NeuroGraphDataset" title="torch_geometric.datasets.NeuroGraphDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NeuroGraphDataset</span></code></a></p></td>
+<td><p>The NeuroGraph benchmark datasets from the <a class="reference external" href="https://arxiv.org/abs/2306.06202">&quot;NeuroGraph: Benchmarks for Graph Machine Learning in Brain Connectomics&quot;</a> paper.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="heterogeneous-datasets">
+<h2><a class="toc-backref" href="#id20" role="doc-backlink">Heterogeneous Datasets</a><a class="headerlink" href="#heterogeneous-datasets" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.DBP15K.html#torch_geometric.datasets.DBP15K" title="torch_geometric.datasets.DBP15K"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DBP15K</span></code></a></p></td>
+<td><p>The DBP15K dataset from the <a class="reference external" href="https://arxiv.org/abs/1708.05045">&quot;Cross-lingual Entity Alignment via Joint Attribute-Preserving Embedding&quot;</a> paper, where Chinese, Japanese and French versions of DBpedia were linked to its English version.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.AMiner.html#torch_geometric.datasets.AMiner" title="torch_geometric.datasets.AMiner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AMiner</span></code></a></p></td>
+<td><p>The heterogeneous AMiner dataset from the <a class="reference external" href="https://ericdongyx.github.io/papers/KDD17-dong-chawla-swami-metapath2vec.pdf">&quot;metapath2vec: Scalable Representation Learning for Heterogeneous Networks&quot;</a> paper, consisting of nodes from type <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;paper&quot;</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;author&quot;</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;venue&quot;</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.OGB_MAG.html#torch_geometric.datasets.OGB_MAG" title="torch_geometric.datasets.OGB_MAG"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OGB_MAG</span></code></a></p></td>
+<td><p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">ogbn-mag</span></code> dataset from the <a class="reference external" href="https://arxiv.org/abs/2005.00687">&quot;Open Graph Benchmark: Datasets for Machine Learning on Graphs&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.DBLP.html#torch_geometric.datasets.DBLP" title="torch_geometric.datasets.DBLP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DBLP</span></code></a></p></td>
+<td><p>A subset of the DBLP computer science bibliography website, as collected in the <a class="reference external" href="https://arxiv.org/abs/2002.01680">&quot;MAGNN: Metapath Aggregated Graph Neural Network for Heterogeneous Graph Embedding&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MovieLens.html#torch_geometric.datasets.MovieLens" title="torch_geometric.datasets.MovieLens"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MovieLens</span></code></a></p></td>
+<td><p>A heterogeneous rating dataset, assembled by GroupLens Research from the <a class="reference external" href="https://movielens.org">MovieLens web site</a>, consisting of nodes of type <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;movie&quot;</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;user&quot;</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MovieLens100K.html#torch_geometric.datasets.MovieLens100K" title="torch_geometric.datasets.MovieLens100K"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MovieLens100K</span></code></a></p></td>
+<td><p>The MovieLens 100K heterogeneous rating dataset, assembled by GroupLens Research from the <a class="reference external" href="https://movielens.org">MovieLens web site</a>, consisting of movies (1,682 nodes) and users (943 nodes) with 100K ratings between them.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MovieLens1M.html#torch_geometric.datasets.MovieLens1M" title="torch_geometric.datasets.MovieLens1M"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MovieLens1M</span></code></a></p></td>
+<td><p>The MovieLens 1M heterogeneous rating dataset, assembled by GroupLens Research from the <a class="reference external" href="https://movielens.org">MovieLens web site</a>, consisting of movies (3,883 nodes) and users (6,040 nodes) with approximately 1 million ratings between them.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.IMDB.html#torch_geometric.datasets.IMDB" title="torch_geometric.datasets.IMDB"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IMDB</span></code></a></p></td>
+<td><p><p>A subset of the Internet Movie Database (IMDB), as collected in the <a class="reference external" href="https://arxiv.org/abs/2002.01680">&quot;MAGNN: Metapath Aggregated Graph Neural Network for Heterogeneous Graph Embedding&quot;</a> paper.</p>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.LastFM.html#torch_geometric.datasets.LastFM" title="torch_geometric.datasets.LastFM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LastFM</span></code></a></p></td>
+<td><p><p>A subset of the last.fm music website keeping track of users' listining information from various sources, as collected in the <a class="reference external" href="https://arxiv.org/abs/2002.01680">&quot;MAGNN: Metapath Aggregated Graph Neural Network for Heterogeneous Graph Embedding&quot;</a> paper.</p>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.HGBDataset.html#torch_geometric.datasets.HGBDataset" title="torch_geometric.datasets.HGBDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HGBDataset</span></code></a></p></td>
+<td><p>A variety of heterogeneous graph benchmark datasets from the <a class="reference external" href="http://keg.cs.tsinghua.edu.cn/jietang/publications/KDD21-Lv-et-al-HeterGNN.pdf">&quot;Are We Really Making Much Progress? Revisiting, Benchmarking, and Refining Heterogeneous Graph Neural Networks&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Taobao.html#torch_geometric.datasets.Taobao" title="torch_geometric.datasets.Taobao"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Taobao</span></code></a></p></td>
+<td><p>Taobao is a dataset of user behaviors from Taobao offered by Alibaba, provided by the <a class="reference external" href="https://tianchi.aliyun.com/dataset/649">Tianchi Alicloud platform</a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.IGMCDataset.html#torch_geometric.datasets.IGMCDataset" title="torch_geometric.datasets.IGMCDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">IGMCDataset</span></code></a></p></td>
+<td><p>The user-item heterogeneous rating datasets <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;Douban&quot;</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;Flixster&quot;</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;Yahoo-Music&quot;</span></code> from the <a class="reference external" href="https://arxiv.org/abs/1904.12058">&quot;Inductive Matrix Completion Based on Graph Neural Networks&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.AmazonBook.html#torch_geometric.datasets.AmazonBook" title="torch_geometric.datasets.AmazonBook"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AmazonBook</span></code></a></p></td>
+<td><p>A subset of the AmazonBook rating dataset from the <a class="reference external" href="https://arxiv.org/abs/2002.02126">&quot;LightGCN: Simplifying and Powering Graph Convolution Network for Recommendation&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.HM.html#torch_geometric.datasets.HM" title="torch_geometric.datasets.HM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HM</span></code></a></p></td>
+<td><p>The heterogeneous H&amp;M dataset from the <a class="reference external" href="https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations">Kaggle H&amp;M Personalized Fashion Recommendations</a> challenge.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.OSE_GVCS.html#torch_geometric.datasets.OSE_GVCS" title="torch_geometric.datasets.OSE_GVCS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OSE_GVCS</span></code></a></p></td>
+<td><p>A dataset describing the <a class="reference external" href="https://wiki.opensourceecology.org/wiki/Product_Ecologies">Product ecology</a> of the Open Source Ecology's iconoclastic <a class="reference external" href="https://wiki.opensourceecology.org/wiki/Global_Village_Construction_Set">Global Village Construction Set</a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.RCDD.html#torch_geometric.datasets.RCDD" title="torch_geometric.datasets.RCDD"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RCDD</span></code></a></p></td>
+<td><p>The risk commodity detection dataset (RCDD) from the <a class="reference external" href="http://shichuan.org/doc/156.pdf">&quot;Datasets and Interfaces for Benchmarking Heterogeneous Graph Neural Networks&quot;</a> paper.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="synthetic-datasets">
+<h2><a class="toc-backref" href="#id21" role="doc-backlink">Synthetic Datasets</a><a class="headerlink" href="#synthetic-datasets" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.FakeDataset.html#torch_geometric.datasets.FakeDataset" title="torch_geometric.datasets.FakeDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FakeDataset</span></code></a></p></td>
+<td><p>A fake dataset that returns randomly generated <a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a> objects.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.FakeHeteroDataset.html#torch_geometric.datasets.FakeHeteroDataset" title="torch_geometric.datasets.FakeHeteroDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FakeHeteroDataset</span></code></a></p></td>
+<td><p>A fake dataset that returns randomly generated <a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData" title="torch_geometric.data.HeteroData"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeteroData</span></code></a> objects.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.StochasticBlockModelDataset.html#torch_geometric.datasets.StochasticBlockModelDataset" title="torch_geometric.datasets.StochasticBlockModelDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StochasticBlockModelDataset</span></code></a></p></td>
+<td><p>A synthetic graph dataset generated by the stochastic block model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.RandomPartitionGraphDataset.html#torch_geometric.datasets.RandomPartitionGraphDataset" title="torch_geometric.datasets.RandomPartitionGraphDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">RandomPartitionGraphDataset</span></code></a></p></td>
+<td><p>The random partition graph dataset from the <a class="reference external" href="https://openreview.net/forum?id=Wi5KUNlqWty">&quot;How to Find Your Friendly Neighborhood: Graph Attention Design with Self-Supervision&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MixHopSyntheticDataset.html#torch_geometric.datasets.MixHopSyntheticDataset" title="torch_geometric.datasets.MixHopSyntheticDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixHopSyntheticDataset</span></code></a></p></td>
+<td><p>The MixHop synthetic dataset from the <a class="reference external" href="https://arxiv.org/abs/1905.00067">&quot;MixHop: Higher-Order Graph Convolutional Architectures via Sparsified Neighborhood Mixing&quot;</a> paper, containing 10 graphs, each with varying degree of homophily (ranging from 0.0 to 0.9).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.ExplainerDataset.html#torch_geometric.datasets.ExplainerDataset" title="torch_geometric.datasets.ExplainerDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExplainerDataset</span></code></a></p></td>
+<td><p>Generates a synthetic dataset for evaluating explainabilty algorithms, as described in the <a class="reference external" href="https://arxiv.org/abs/1903.03894">&quot;GNNExplainer: Generating Explanations for Graph Neural Networks&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.InfectionDataset.html#torch_geometric.datasets.InfectionDataset" title="torch_geometric.datasets.InfectionDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">InfectionDataset</span></code></a></p></td>
+<td><p>Generates a synthetic infection dataset for evaluating explainabilty algorithms, as described in the <a class="reference external" href="https://arxiv.org/abs/1905.13686">&quot;Explainability Techniques for Graph Convolutional Networks&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.BA2MotifDataset.html#torch_geometric.datasets.BA2MotifDataset" title="torch_geometric.datasets.BA2MotifDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BA2MotifDataset</span></code></a></p></td>
+<td><p>The synthetic BA-2motifs graph classification dataset for evaluating explainabilty algorithms, as described in the <a class="reference external" href="https://arxiv.org/abs/2011.04573">&quot;Parameterized Explainer for Graph Neural Network&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.BAMultiShapesDataset.html#torch_geometric.datasets.BAMultiShapesDataset" title="torch_geometric.datasets.BAMultiShapesDataset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BAMultiShapesDataset</span></code></a></p></td>
+<td><p>The synthetic BA-Multi-Shapes graph classification dataset for evaluating explainabilty algorithms, as described in the <a class="reference external" href="https://arxiv.org/abs/2210.07147">&quot;Global Explainability of GNNs via Logic Combination of Learned Concepts&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.BAShapes.html#torch_geometric.datasets.BAShapes" title="torch_geometric.datasets.BAShapes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BAShapes</span></code></a></p></td>
+<td><p>The BA-Shapes dataset from the <a class="reference external" href="https://arxiv.org/abs/1903.03894">&quot;GNNExplainer: Generating Explanations for Graph Neural Networks&quot;</a> paper, containing a Barabasi-Albert (BA) graph with 300 nodes and a set of 80 &quot;house&quot;-structured graphs connected to it.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="graph-generators">
+<h2><a class="toc-backref" href="#id22" role="doc-backlink">Graph Generators</a><a class="headerlink" href="#graph-generators" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.graph_generator.GraphGenerator.html#torch_geometric.datasets.graph_generator.GraphGenerator" title="torch_geometric.datasets.graph_generator.GraphGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphGenerator</span></code></a></p></td>
+<td><p>An abstract base class for generating synthetic graphs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.graph_generator.BAGraph.html#torch_geometric.datasets.graph_generator.BAGraph" title="torch_geometric.datasets.graph_generator.BAGraph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BAGraph</span></code></a></p></td>
+<td><p>Generates random Barabasi-Albert (BA) graphs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.graph_generator.ERGraph.html#torch_geometric.datasets.graph_generator.ERGraph" title="torch_geometric.datasets.graph_generator.ERGraph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ERGraph</span></code></a></p></td>
+<td><p>Generates random Erdos-Renyi (ER) graphs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.graph_generator.GridGraph.html#torch_geometric.datasets.graph_generator.GridGraph" title="torch_geometric.datasets.graph_generator.GridGraph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GridGraph</span></code></a></p></td>
+<td><p>Generates two-dimensional grid graphs.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="motif-generators">
+<h2><a class="toc-backref" href="#id23" role="doc-backlink">Motif Generators</a><a class="headerlink" href="#motif-generators" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.motif_generator.MotifGenerator.html#torch_geometric.datasets.motif_generator.MotifGenerator" title="torch_geometric.datasets.motif_generator.MotifGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MotifGenerator</span></code></a></p></td>
+<td><p>An abstract base class for generating a motif.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.motif_generator.CustomMotif.html#torch_geometric.datasets.motif_generator.CustomMotif" title="torch_geometric.datasets.motif_generator.CustomMotif"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CustomMotif</span></code></a></p></td>
+<td><p>Generates a motif based on a custom structure coming from a <a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.data.Data</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code> object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.motif_generator.HouseMotif.html#torch_geometric.datasets.motif_generator.HouseMotif" title="torch_geometric.datasets.motif_generator.HouseMotif"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HouseMotif</span></code></a></p></td>
+<td><p>Generates the house-structured motif from the <a class="reference external" href="https://arxiv.org/abs/1903.03894">&quot;GNNExplainer: Generating Explanations for Graph Neural Networks&quot;</a> paper, containing 5 nodes and 6 undirected edges.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.motif_generator.CycleMotif.html#torch_geometric.datasets.motif_generator.CycleMotif" title="torch_geometric.datasets.motif_generator.CycleMotif"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CycleMotif</span></code></a></p></td>
+<td><p>Generates the cycle motif from the <a class="reference external" href="https://arxiv.org/abs/1903.03894">&quot;GNNExplainer: Generating Explanations for Graph Neural Networks&quot;</a> paper.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sampler.html" class="btn btn-neutral float-left" title="torch_geometric.sampler" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../generated/torch_geometric.datasets.KarateClub.html" class="btn btn-neutral float-right" title="torch_geometric.datasets.KarateClub" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

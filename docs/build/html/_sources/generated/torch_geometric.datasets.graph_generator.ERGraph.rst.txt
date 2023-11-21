@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.graph\_generator.ERGraph
+==================================================
+
+.. currentmodule:: torch_geometric.datasets.graph_generator
+
+.. autoclass:: ERGraph
+   :show-inheritance:

@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.ToSLIC
+==================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: ToSLIC
+   :show-inheritance:

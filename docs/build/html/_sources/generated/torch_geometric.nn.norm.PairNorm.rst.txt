@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.norm.PairNorm
+=================================
+
+.. currentmodule:: torch_geometric.nn.norm
+
+.. autoclass:: PairNorm
+   :show-inheritance:
+   :members:

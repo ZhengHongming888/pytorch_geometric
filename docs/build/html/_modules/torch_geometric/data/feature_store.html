@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.data.feature_store &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.data.feature_store</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.data.feature_store</h1><div class="highlight"><pre>
+<span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;This class defines the abstraction for a backend-agnostic feature store.</span>
+<span class="sd">The goal of the feature store is to abstract away all node and edge feature</span>
+<span class="sd">memory management so that varying implementations can allow for independent</span>
+<span class="sd">scale-out.</span>
+
+<span class="sd">This particular feature store abstraction makes a few key assumptions:</span>
+<span class="sd">* The features we care about storing are node and edge features of a graph.</span>
+<span class="sd">  To this end, the attributes that the feature store supports include a</span>
+<span class="sd">  `group_name` (e.g. a heterogeneous node name or a heterogeneous edge type),</span>
+<span class="sd">  an `attr_name` (e.g. `x` or `edge_attr`), and an index.</span>
+<span class="sd">* A feature can be uniquely identified from any associated attributes specified</span>
+<span class="sd">  in `TensorAttr`.</span>
+
+<span class="sd">It is the job of a feature store implementor class to handle these assumptions</span>
+<span class="sd">properly. For example, a simple in-memory feature store implementation may</span>
+<span class="sd">concatenate all metadata values with a feature index and use this as a unique</span>
+<span class="sd">index in a KV store. More complicated implementations may choose to partition</span>
+<span class="sd">features in interesting manners based on the provided metadata.</span>
+
+<span class="sd">Major TODOs for future implementation:</span>
+<span class="sd">* Async `put` and `get` functionality</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">FeatureTensorType</span><span class="p">,</span> <span class="n">NodeType</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils.mixin</span> <span class="kn">import</span> <span class="n">CastMixin</span>
+
+<span class="c1"># We allow indexing with a tensor, numpy array, Python slicing, or a single</span>
+<span class="c1"># integer index.</span>
+<span class="n">IndexType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">_FieldStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">UNSET</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="TensorAttr"><a class="viewcode-back" href="../../../generated/torch_geometric.data.TensorAttr.html#torch_geometric.data.TensorAttr">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">TensorAttr</span><span class="p">(</span><span class="n">CastMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Defines the attributes of a :class:`FeatureStore` tensor.</span>
+<span class="sd">    It holds all the parameters necessary to uniquely identify a tensor from</span>
+<span class="sd">    the :class:`FeatureStore`.</span>
+
+<span class="sd">    Note that the order of the attributes is important; this is the order in</span>
+<span class="sd">    which attributes must be provided for indexing calls. :class:`FeatureStore`</span>
+<span class="sd">    implementations can define a different ordering by overriding</span>
+<span class="sd">    :meth:`TensorAttr.__init__`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The group name that the tensor corresponds to. Defaults to UNSET.</span>
+    <span class="n">group_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NodeType</span><span class="p">]</span> <span class="o">=</span> <span class="n">_FieldStatus</span><span class="o">.</span><span class="n">UNSET</span>
+
+    <span class="c1"># The name of the tensor within its group. Defaults to UNSET.</span>
+    <span class="n">attr_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">_FieldStatus</span><span class="o">.</span><span class="n">UNSET</span>
+
+    <span class="c1"># The node indices the rows of the tensor correspond to. Defaults to UNSET.</span>
+    <span class="n">index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">IndexType</span><span class="p">]</span> <span class="o">=</span> <span class="n">_FieldStatus</span><span class="o">.</span><span class="n">UNSET</span>
+
+    <span class="c1"># Convenience methods #####################################################</span>
+
+<div class="viewcode-block" id="TensorAttr.is_set"><a class="viewcode-back" href="../../../generated/torch_geometric.data.TensorAttr.html#torch_geometric.data.TensorAttr.is_set">[docs]</a>    <span class="k">def</span> <span class="nf">is_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Whether an attribute is set in :obj:`TensorAttr`.&quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="n">_FieldStatus</span><span class="o">.</span><span class="n">UNSET</span></div>
+
+<div class="viewcode-block" id="TensorAttr.is_fully_specified"><a class="viewcode-back" href="../../../generated/torch_geometric.data.TensorAttr.html#torch_geometric.data.TensorAttr.is_fully_specified">[docs]</a>    <span class="k">def</span> <span class="nf">is_fully_specified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Whether the :obj:`TensorAttr` has no unset fields.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">is_set</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="TensorAttr.fully_specify"><a class="viewcode-back" href="../../../generated/torch_geometric.data.TensorAttr.html#torch_geometric.data.TensorAttr.fully_specify">[docs]</a>    <span class="k">def</span> <span class="nf">fully_specify</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TensorAttr&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Sets all :obj:`UNSET` fields to :obj:`None`.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_set</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="TensorAttr.update"><a class="viewcode-back" href="../../../generated/torch_geometric.data.TensorAttr.html#torch_geometric.data.TensorAttr.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="s1">&#39;TensorAttr&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TensorAttr&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Updates an :class:`TensorAttr` with set attributes from another</span>
+<span class="sd">        :class:`TensorAttr`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">is_set</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">key</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">AttrView</span><span class="p">(</span><span class="n">CastMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Defines a view of a :class:`FeatureStore` that is obtained from a</span>
+<span class="sd">    specification of attributes on the feature store. The view stores a</span>
+<span class="sd">    reference to the backing feature store as well as a :class:`TensorAttr`</span>
+<span class="sd">    object that represents the view&#39;s state.</span>
+
+<span class="sd">    Users can create views either using the :class:`AttrView` constructor,</span>
+<span class="sd">    :meth:`FeatureStore.view`, or by incompletely indexing a feature store.</span>
+<span class="sd">    For example, the following calls all create views:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        store[group_name]</span>
+<span class="sd">        store[group_name].feat</span>
+<span class="sd">        store[group_name, feat]</span>
+
+<span class="sd">    While the following calls all materialize those views and produce tensors</span>
+<span class="sd">    by either calling the view or fully-specifying the view:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        store[group_name]()</span>
+<span class="sd">        store[group_name].feat[index]</span>
+<span class="sd">        store[group_name, feat][index]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">:</span> <span class="s1">&#39;FeatureStore&#39;</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="n">TensorAttr</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_store&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">store</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_attr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr</span>
+
+    <span class="c1"># Advanced indexing #######################################################</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;AttrView&#39;</span><span class="p">,</span> <span class="n">FeatureTensorType</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Sets the first unset field of the backing :class:`TensorAttr`</span>
+<span class="sd">        object to the attribute.</span>
+
+<span class="sd">        This allows for :class:`AttrView` to be indexed by different values of</span>
+<span class="sd">        attributes, in order.</span>
+<span class="sd">        In particular, for a feature store that we want to index by</span>
+<span class="sd">        :obj:`group_name` and :obj:`attr_name`, the following code will do so:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            store[group, attr]</span>
+<span class="sd">            store[group].attr</span>
+<span class="sd">            store.group.attr</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Find the first attribute name that is UNSET:</span>
+        <span class="n">attr_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">_attr</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">_attr</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span> <span class="o">==</span> <span class="n">_FieldStatus</span><span class="o">.</span><span class="n">UNSET</span><span class="p">:</span>
+                <span class="n">attr_name</span> <span class="o">=</span> <span class="n">field</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">attr_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot access attribute &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; on view &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">out</span><span class="si">}</span><span class="s2">&#39; as all attributes have already &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;been set in this view&quot;</span><span class="p">)</span>
+
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">_attr</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">_attr</span><span class="o">.</span><span class="n">is_fully_specified</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">_store</span><span class="o">.</span><span class="n">get_tensor</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">_attr</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="s1">&#39;AttrView&#39;</span><span class="p">,</span> <span class="n">FeatureTensorType</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Sets the first unset field of the backing :class:`TensorAttr`</span>
+<span class="sd">        object to the attribute via indexing.</span>
+
+<span class="sd">        This allows for :class:`AttrView` to be indexed by different values of</span>
+<span class="sd">        attributes, in order.</span>
+<span class="sd">        In particular, for a feature store that we want to index by</span>
+<span class="sd">        :obj:`group_name` and :obj:`attr_name`, the following code will do so:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            store[group, attr]</span>
+<span class="sd">            store[group][attr]</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattr__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="c1"># Setting attributes ######################################################</span>
+
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Supports attribute assignment to the backing :class:`TensorAttr` of</span>
+<span class="sd">        an :class:`AttrView`.</span>
+
+<span class="sd">        This allows for :class:`AttrView` objects to set their backing</span>
+<span class="sd">        attribute values.</span>
+<span class="sd">        In particular, the following operation sets the :obj:`index` of an</span>
+<span class="sd">        :class:`AttrView`:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            view = store.view(group_name)</span>
+<span class="sd">            view.index = torch.tensor([1, 2, 3])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Attempted to set nonexistent attribute &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;(acceptable attributes are &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_attr</span><span class="o">.</span><span class="n">__dataclass_fields__</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+        <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_attr</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Supports attribute assignment to the backing :class:`TensorAttr` of</span>
+<span class="sd">        an :class:`AttrView` via indexing.</span>
+
+<span class="sd">        This allows for :class:`AttrView` objects to set their backing</span>
+<span class="sd">        attribute values.</span>
+<span class="sd">        In particular, the following operation sets the `index` of an</span>
+<span class="sd">        :class:`AttrView`:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            view = store.view(TensorAttr(group_name))</span>
+<span class="sd">            view[&#39;index&#39;] = torch.tensor([1, 2, 3])</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="c1"># Miscellaneous built-ins #################################################</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FeatureTensorType</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Supports :class:`AttrView` as a callable to force retrieval from</span>
+<span class="sd">        the currently specified attributes.</span>
+
+<span class="sd">        In particular, this passes the current :class:`TensorAttr` object to a</span>
+<span class="sd">        GET call, regardless of whether all attributes have been specified.</span>
+<span class="sd">        It returns the result of this call.</span>
+<span class="sd">        In particular, the following operation returns a tensor by performing a</span>
+<span class="sd">        GET operation on the backing feature store:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            store[group_name, attr_name]()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Set all UNSET values to None:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">_attr</span><span class="o">.</span><span class="n">fully_specify</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">_store</span><span class="o">.</span><span class="n">get_tensor</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">_attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;AttrView&#39;</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">out</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">out</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_attr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_attr&#39;</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compares two :class:`AttrView` objects by checking equality of</span>
+<span class="sd">        their :class:`FeatureStore` references and :class:`TensorAttr`</span>
+<span class="sd">        attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">AttrView</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_store</span> <span class="o">==</span> <span class="n">obj</span><span class="o">.</span><span class="n">_store</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attr</span> <span class="o">==</span> <span class="n">obj</span><span class="o">.</span><span class="n">_attr</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(store=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_store</span><span class="si">}</span><span class="s1">, &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;attr=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_attr</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># TODO (manan, matthias) Ideally, we want to let `FeatureStore` inherit from</span>
+<span class="c1"># `MutableMapping` to clearly indicate its behavior and usage to the user.</span>
+<span class="c1"># However, having `MutableMapping` as a base class leads to strange behavior</span>
+<span class="c1"># in combination with PyTorch and PyTorch Lightning, in particular since these</span>
+<span class="c1"># libraries use customized logic during mini-batch for `Mapping` base classes.</span>
+
+
+<div class="viewcode-block" id="FeatureStore"><a class="viewcode-back" href="../../../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore">[docs]</a><span class="k">class</span> <span class="nc">FeatureStore</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;An abstract base class to access features from a remote feature store.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tensor_attr_cls (TensorAttr, optional): A user-defined</span>
+<span class="sd">            :class:`TensorAttr` class to customize the required attributes and</span>
+<span class="sd">            their ordering to unique identify tensor values.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor_attr_cls</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_tensor_attr_cls&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tensor_attr_cls</span> <span class="ow">or</span> <span class="n">TensorAttr</span>
+
+    <span class="c1"># Core (CRUD) #############################################################</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_put_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">:</span> <span class="n">FeatureTensorType</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="n">TensorAttr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;To be implemented by :class:`FeatureStore` subclasses.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="FeatureStore.put_tensor"><a class="viewcode-back" href="../../../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore.put_tensor">[docs]</a>    <span class="k">def</span> <span class="nf">put_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">:</span> <span class="n">FeatureTensorType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Synchronously adds a :obj:`tensor` to the :class:`FeatureStore`.</span>
+<span class="sd">        Returns whether insertion was successful.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tensor (torch.Tensor or np.ndarray): The feature tensor to be</span>
+<span class="sd">                added.</span>
+<span class="sd">            *args: Arguments passed to :class:`TensorAttr`.</span>
+<span class="sd">            **kwargs: Keyword arguments passed to :class:`TensorAttr`.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the input :class:`TensorAttr` is not fully</span>
+<span class="sd">                specified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tensor_attr_cls</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">attr</span><span class="o">.</span><span class="n">is_fully_specified</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The input TensorAttr &#39;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">&#39; is not fully &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;specified. Please fully-specify the input by &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;specifying all &#39;UNSET&#39; fields&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_put_tensor</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span></div>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_get_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="n">TensorAttr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">FeatureTensorType</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;To be implemented by :class:`FeatureStore` subclasses.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="FeatureStore.get_tensor"><a class="viewcode-back" href="../../../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore.get_tensor">[docs]</a>    <span class="k">def</span> <span class="nf">get_tensor</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="n">convert_type</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FeatureTensorType</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Synchronously obtains a :class:`tensor` from the</span>
+<span class="sd">        :class:`FeatureStore`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args: Arguments passed to :class:`TensorAttr`.</span>
+<span class="sd">            convert_type (bool, optional): Whether to convert the type of the</span>
+<span class="sd">                output tensor to the type of the attribute index.</span>
+<span class="sd">                (default: :obj:`False`)</span>
+<span class="sd">            **kwargs: Keyword arguments passed to :class:`TensorAttr`.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the input :class:`TensorAttr` is not fully</span>
+<span class="sd">                specified.</span>
+<span class="sd">            KeyError: If the tensor corresponding to the input</span>
+<span class="sd">                :class:`TensorAttr` was not found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tensor_attr_cls</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">attr</span><span class="o">.</span><span class="n">is_fully_specified</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The input TensorAttr &#39;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">&#39; is not fully &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;specified. Please fully-specify the input by &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;specifying all &#39;UNSET&#39; fields.&quot;</span><span class="p">)</span>
+
+        <span class="n">tensor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_tensor</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">tensor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;A tensor corresponding to &#39;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">&#39; was not found&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_to_type</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span> <span class="k">if</span> <span class="n">convert_type</span> <span class="k">else</span> <span class="n">tensor</span></div>
+
+    <span class="k">def</span> <span class="nf">_multi_get_tensor</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">attrs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TensorAttr</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">FeatureTensorType</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;To be implemented by :class:`FeatureStore` subclasses.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_tensor</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">]</span>
+
+<div class="viewcode-block" id="FeatureStore.multi_get_tensor"><a class="viewcode-back" href="../../../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore.multi_get_tensor">[docs]</a>    <span class="k">def</span> <span class="nf">multi_get_tensor</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">attrs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">TensorAttr</span><span class="p">],</span>
+        <span class="n">convert_type</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">FeatureTensorType</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Synchronously obtains a list of tensors from the</span>
+<span class="sd">        :class:`FeatureStore` for each tensor associated with the attributes in</span>
+<span class="sd">        :obj:`attrs`.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            The default implementation simply iterates over all calls to</span>
+<span class="sd">            :meth:`get_tensor`. Implementor classes that can provide</span>
+<span class="sd">            additional, more performant functionality are recommended to</span>
+<span class="sd">            to override this method.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            attrs (List[TensorAttr]): A list of input :class:`TensorAttr`</span>
+<span class="sd">                objects that identify the tensors to obtain.</span>
+<span class="sd">            convert_type (bool, optional): Whether to convert the type of the</span>
+<span class="sd">                output tensor to the type of the attribute index.</span>
+<span class="sd">                (default: :obj:`False`)</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If any input :class:`TensorAttr` is not fully</span>
+<span class="sd">                specified.</span>
+<span class="sd">            KeyError: If any of the tensors corresponding to the input</span>
+<span class="sd">                :class:`TensorAttr` was not found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_tensor_attr_cls</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">]</span>
+        <span class="n">bad_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">attr</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">attr</span><span class="o">.</span><span class="n">is_fully_specified</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_attrs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;The input TensorAttr(s) &#39;</span><span class="si">{</span><span class="n">bad_attrs</span><span class="si">}</span><span class="s2">&#39; are not fully &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;specified. Please fully-specify them by specifying all &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;UNSET&#39; fields&quot;</span><span class="p">)</span>
+
+        <span class="n">tensors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_multi_get_tensor</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tensors</span><span class="p">):</span>
+            <span class="n">bad_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">attrs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tensors</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tensors corresponding to attributes &quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">bad_attrs</span><span class="si">}</span><span class="s2">&#39; were not found&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_to_type</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span> <span class="k">if</span> <span class="n">convert_type</span> <span class="k">else</span> <span class="n">tensor</span>
+            <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="n">tensor</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">attrs</span><span class="p">,</span> <span class="n">tensors</span><span class="p">)</span>
+        <span class="p">]</span></div>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_remove_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="n">TensorAttr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;To be implemented by :obj:`FeatureStore` subclasses.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="FeatureStore.remove_tensor"><a class="viewcode-back" href="../../../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore.remove_tensor">[docs]</a>    <span class="k">def</span> <span class="nf">remove_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Removes a tensor from the :class:`FeatureStore`.</span>
+<span class="sd">        Returns whether deletion was successful.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args: Arguments passed to :class:`TensorAttr`.</span>
+<span class="sd">            **kwargs: Keyword arguments passed to :class:`TensorAttr`.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the input :class:`TensorAttr` is not fully</span>
+<span class="sd">                specified.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tensor_attr_cls</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">attr</span><span class="o">.</span><span class="n">is_fully_specified</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The input TensorAttr &#39;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">&#39; is not fully &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;specified. Please fully-specify the input by &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;specifying all &#39;UNSET&#39; fields.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove_tensor</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FeatureStore.update_tensor"><a class="viewcode-back" href="../../../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore.update_tensor">[docs]</a>    <span class="k">def</span> <span class="nf">update_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tensor</span><span class="p">:</span> <span class="n">FeatureTensorType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+                      <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Updates a :obj:`tensor` in the :class:`FeatureStore` with a new</span>
+<span class="sd">        value. Returns whether the update was succesful.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            Implementor classes can choose to define more efficient update</span>
+<span class="sd">            methods; the default performs a removal and insertion.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tensor (torch.Tensor or np.ndarray): The feature tensor to be</span>
+<span class="sd">                updated.</span>
+<span class="sd">            *args: Arguments passed to :class:`TensorAttr`.</span>
+<span class="sd">            **kwargs: Keyword arguments passed to :class:`TensorAttr`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tensor_attr_cls</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_tensor</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">put_tensor</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span></div>
+
+    <span class="c1"># Additional methods ######################################################</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_get_tensor_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="n">TensorAttr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="FeatureStore.get_tensor_size"><a class="viewcode-back" href="../../../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore.get_tensor_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_tensor_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Obtains the size of a tensor given its :class:`TensorAttr`, or</span>
+<span class="sd">        :obj:`None` if the tensor does not exist.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tensor_attr_cls</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">attr</span><span class="o">.</span><span class="n">is_set</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">):</span>
+            <span class="n">attr</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_tensor_size</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FeatureStore.get_all_tensor_attrs"><a class="viewcode-back" href="../../../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore.get_all_tensor_attrs">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_all_tensor_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">TensorAttr</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns all registered tensor attributes.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+    <span class="c1"># `AttrView` methods ######################################################</span>
+
+<div class="viewcode-block" id="FeatureStore.view"><a class="viewcode-back" href="../../../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore.view">[docs]</a>    <span class="k">def</span> <span class="nf">view</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AttrView</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns a view of the :class:`FeatureStore` given a not yet</span>
+<span class="sd">        fully-specified :class:`TensorAttr`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tensor_attr_cls</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">AttrView</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span></div>
+
+    <span class="c1"># Helper functions ########################################################</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_to_type</span><span class="p">(</span>
+        <span class="n">attr</span><span class="p">:</span> <span class="n">TensorAttr</span><span class="p">,</span>
+        <span class="n">tensor</span><span class="p">:</span> <span class="n">FeatureTensorType</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FeatureTensorType</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">attr</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">attr</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">tensor</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">tensor</span>
+
+    <span class="c1"># Python built-ins ########################################################</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TensorAttr</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">FeatureTensorType</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Supports :obj:`store[tensor_attr] = tensor`.&quot;&quot;&quot;</span>
+        <span class="c1"># CastMixin will handle the case of key being a tuple or TensorAttr</span>
+        <span class="c1"># object:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tensor_attr_cls</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="c1"># We need to fully-specify the key for __setitem__ as it does not make</span>
+        <span class="c1"># sense to work with a view here:</span>
+        <span class="n">key</span><span class="o">.</span><span class="n">fully_specify</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">put_tensor</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TensorAttr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Supports pythonic indexing into the :class:`FeatureStore`.</span>
+
+<span class="sd">        In particular, the following rules are followed for indexing:</span>
+
+<span class="sd">        * A fully-specified :obj:`key` will produce a tensor output.</span>
+
+<span class="sd">        * A partially-specified :obj:`key` will produce an :class:`AttrView`</span>
+<span class="sd">          output, which is a view on the :class:`FeatureStore`. If a view is</span>
+<span class="sd">          called, it will produce a tensor output from the corresponding</span>
+<span class="sd">          (partially specified) attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># CastMixin will handle the case of key being a tuple or TensorAttr:</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tensor_attr_cls</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">is_fully_specified</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tensor</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+        <span class="c1"># If the view is not fully-specified, return a :class:`AttrView`:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">TensorAttr</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Supports :obj:`del store[tensor_attr]`.&quot;&quot;&quot;</span>
+        <span class="c1"># CastMixin will handle the case of key being a tuple or TensorAttr</span>
+        <span class="c1"># object:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tensor_attr_cls</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">key</span><span class="o">.</span><span class="n">fully_specify</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_tensor</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">id</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">()&#39;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

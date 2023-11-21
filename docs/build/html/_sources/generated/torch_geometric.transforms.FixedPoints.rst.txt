@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.FixedPoints
+=======================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: FixedPoints
+   :show-inheritance:

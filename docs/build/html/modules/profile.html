@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.profile &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="GNN Cheatsheet" href="../cheatsheet/gnn_cheatsheet.html" />
+    <link rel="prev" title="torch_geometric.graphgym" href="graphgym.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">torch_geometric.profile</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/profile.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="torch-geometric-profile">
+<h1>torch_geometric.profile<a class="headerlink" href="#torch-geometric-profile" title="Permalink to this heading"></a></h1>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#torch_geometric.profile.profileit" title="torch_geometric.profile.profileit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">profileit</span></code></a></p></td>
+<td><p>A decorator to facilitate profiling a function, <em>e.g.</em>, obtaining training runtime and memory statistics of a specific model on a specific dataset.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#torch_geometric.profile.timeit" title="torch_geometric.profile.timeit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timeit</span></code></a></p></td>
+<td><p>A context decorator to facilitate timing a function, <em>e.g.</em>, obtaining the runtime of a specific model on a specific dataset.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#torch_geometric.profile.get_stats_summary" title="torch_geometric.profile.get_stats_summary"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_stats_summary</span></code></a></p></td>
+<td><p>Creates a summary of collected runtime and memory statistics.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#torch_geometric.profile.trace_handler" title="torch_geometric.profile.trace_handler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">trace_handler</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#torch_geometric.profile.print_time_total" title="torch_geometric.profile.print_time_total"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_time_total</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#torch_geometric.profile.rename_profile_file" title="torch_geometric.profile.rename_profile_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rename_profile_file</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#torch_geometric.profile.torch_profile" title="torch_geometric.profile.torch_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">torch_profile</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#torch_geometric.profile.xpu_profile" title="torch_geometric.profile.xpu_profile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">xpu_profile</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#torch_geometric.profile.count_parameters" title="torch_geometric.profile.count_parameters"><code class="xref py py-obj docutils literal notranslate"><span class="pre">count_parameters</span></code></a></p></td>
+<td><p>Given a <a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.Module.html#torch.nn.Module" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code></a>, count its trainable parameters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#torch_geometric.profile.get_model_size" title="torch_geometric.profile.get_model_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_model_size</span></code></a></p></td>
+<td><p>Given a <a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.Module.html#torch.nn.Module" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code></a>, get its actual disk size in bytes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#torch_geometric.profile.get_data_size" title="torch_geometric.profile.get_data_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data_size</span></code></a></p></td>
+<td><p>Given a <a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.data.Data</span></code></a> object, get its theoretical memory usage in bytes.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#torch_geometric.profile.get_cpu_memory_from_gc" title="torch_geometric.profile.get_cpu_memory_from_gc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_cpu_memory_from_gc</span></code></a></p></td>
+<td><p>Returns the used CPU memory in bytes, as reported by the <span class="inline-logo python">Python</span> garbage collector.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#torch_geometric.profile.get_gpu_memory_from_gc" title="torch_geometric.profile.get_gpu_memory_from_gc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_gpu_memory_from_gc</span></code></a></p></td>
+<td><p>Returns the used GPU memory in bytes, as reported by the <span class="inline-logo python">Python</span> garbage collector.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#torch_geometric.profile.get_gpu_memory_from_nvidia_smi" title="torch_geometric.profile.get_gpu_memory_from_nvidia_smi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_gpu_memory_from_nvidia_smi</span></code></a></p></td>
+<td><p>Returns the free and used GPU memory in megabytes, as reported by <code class="xref py py-obj docutils literal notranslate"><span class="pre">nivdia-smi</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#torch_geometric.profile.benchmark" title="torch_geometric.profile.benchmark"><code class="xref py py-obj docutils literal notranslate"><span class="pre">benchmark</span></code></a></p></td>
+<td><p>Benchmark a list of functions <code class="xref py py-obj docutils literal notranslate"><span class="pre">funcs</span></code> that receive the same set of arguments <code class="xref py py-obj docutils literal notranslate"><span class="pre">args</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
+<span class="target" id="module-torch_geometric.profile"></span><p>GNN profiling package.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.profileit">
+<span class="sig-name descname"><span class="pre">profileit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/profile/profile.html#profileit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.profileit" title="Permalink to this definition"></a></dt>
+<dd><p>A decorator to facilitate profiling a function, <em>e.g.</em>, obtaining
+training runtime and memory statistics of a specific model on a specific
+dataset.
+Returns a <code class="xref py py-obj docutils literal notranslate"><span class="pre">Stats</span></code> object with the attributes <a class="reference external" href="https://docs.python.org/3/library/time.html#module-time" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time</span></code></a>,
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">max_active_cuda</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">max_reserved_cuda</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">max_active_cuda</span></code>,
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">nvidia_smi_free_cuda</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">nvidia_smi_used_cuda</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@profileit</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+
+<span class="n">loss</span><span class="p">,</span> <span class="n">stats</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="torch_geometric.profile.timeit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">timeit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_time_divisor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/profile/profile.html#timeit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.timeit" title="Permalink to this definition"></a></dt>
+<dd><p>A context decorator to facilitate timing a function, <em>e.g.</em>, obtaining
+the runtime of a specific model on a specific dataset.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">timeit</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">test</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">duration</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>, will not log any runtime
+to the console. (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>)</p></li>
+<li><p><strong>avg_time_divisor</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – If set to a value greater than
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">1</span></code>, will divide the total time by this value. Useful for
+calculating the average of runtimes within a for-loop.
+(default: <code class="xref py py-obj docutils literal notranslate"><span class="pre">0</span></code>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.profile.timeit.reset">
+<span class="sig-name descname"><span class="pre">reset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/profile/profile.html#timeit.reset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.timeit.reset" title="Permalink to this definition"></a></dt>
+<dd><p>Prints the duration and resets current timer.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.get_stats_summary">
+<span class="sig-name descname"><span class="pre">get_stats_summary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stats_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Stats</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/profile/profile.html#get_stats_summary"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.get_stats_summary" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a summary of collected runtime and memory statistics.
+Returns a <code class="xref py py-obj docutils literal notranslate"><span class="pre">StatsSummary</span></code> object with the attributes <code class="xref py py-obj docutils literal notranslate"><span class="pre">time_mean</span></code>,
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">time_std</span></code>,
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">max_active_cuda</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">max_reserved_cuda</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">max_active_cuda</span></code>,
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">min_nvidia_smi_free_cuda</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">max_nvidia_smi_used_cuda</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>stats_list</strong> (<em>List</em><em>[</em><em>Stats</em><em>]</em>) – A list of <code class="xref py py-obj docutils literal notranslate"><span class="pre">Stats</span></code> objects, as returned
+by <a class="reference internal" href="#torch_geometric.profile.profileit" title="torch_geometric.profile.profileit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">profileit()</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.trace_handler">
+<span class="sig-name descname"><span class="pre">trace_handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/profile/profile.html#trace_handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.trace_handler" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.print_time_total">
+<span class="sig-name descname"><span class="pre">print_time_total</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/profile/profile.html#print_time_total"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.print_time_total" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.rename_profile_file">
+<span class="sig-name descname"><span class="pre">rename_profile_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/profile/profile.html#rename_profile_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.rename_profile_file" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.torch_profile">
+<span class="sig-name descname"><span class="pre">torch_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">export_chrome_trace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">csv_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_csv</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/profile/profile.html#torch_profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.torch_profile" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.xpu_profile">
+<span class="sig-name descname"><span class="pre">xpu_profile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">export_chrome_trace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/profile/profile.html#xpu_profile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.xpu_profile" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.count_parameters">
+<span class="sig-name descname"><span class="pre">count_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.Module.html#torch.nn.Module" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Module</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/profile/utils.html#count_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.count_parameters" title="Permalink to this definition"></a></dt>
+<dd><p>Given a <a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.Module.html#torch.nn.Module" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code></a>, count its trainable parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>torch.nn.Model</em>) – The model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.get_model_size">
+<span class="sig-name descname"><span class="pre">get_model_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.Module.html#torch.nn.Module" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Module</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/profile/utils.html#get_model_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.get_model_size" title="Permalink to this definition"></a></dt>
+<dd><p>Given a <a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.Module.html#torch.nn.Module" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Module</span></code></a>, get its actual disk size in bytes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>torch model</em>) – The model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.get_data_size">
+<span class="sig-name descname"><span class="pre">get_data_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BaseData</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/profile/utils.html#get_data_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.get_data_size" title="Permalink to this definition"></a></dt>
+<dd><p>Given a <a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.data.Data</span></code></a> object, get its theoretical
+memory usage in bytes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><em>torch_geometric.data.Data</em></a><em> or </em><a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData" title="torch_geometric.data.HeteroData"><em>torch_geometric.data.HeteroData</em></a>) – The <a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a> or
+<a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData" title="torch_geometric.data.HeteroData"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeteroData</span></code></a> graph object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.get_cpu_memory_from_gc">
+<span class="sig-name descname"><span class="pre">get_cpu_memory_from_gc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/profile/utils.html#get_cpu_memory_from_gc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.get_cpu_memory_from_gc" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the used CPU memory in bytes, as reported by the
+<span class="inline-logo python">Python</span> garbage collector.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.get_gpu_memory_from_gc">
+<span class="sig-name descname"><span class="pre">get_gpu_memory_from_gc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/profile/utils.html#get_gpu_memory_from_gc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.get_gpu_memory_from_gc" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the used GPU memory in bytes, as reported by the
+<span class="inline-logo python">Python</span> garbage collector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The GPU device identifier. (default: <code class="xref py py-obj docutils literal notranslate"><span class="pre">1</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.get_gpu_memory_from_nvidia_smi">
+<span class="sig-name descname"><span class="pre">get_gpu_memory_from_nvidia_smi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">digits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.12)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/torch_geometric/profile/utils.html#get_gpu_memory_from_nvidia_smi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.get_gpu_memory_from_nvidia_smi" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the free and used GPU memory in megabytes, as reported by
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">nivdia-smi</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">nvidia-smi</span></code> will generally overestimate the amount of memory used
+by the actual program, see <a class="reference external" href="https://pytorch.org/docs/stable/notes/faq.html#my-gpu-memory-isn-t-freed-properly">here</a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The GPU device identifier. (default: <code class="xref py py-obj docutils literal notranslate"><span class="pre">1</span></code>)</p></li>
+<li><p><strong>digits</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The number of decimals to use for megabytes.
+(default: <code class="xref py py-obj docutils literal notranslate"><span class="pre">2</span></code>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="torch_geometric.profile.benchmark">
+<span class="sig-name descname"><span class="pre">benchmark</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">funcs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.12)"><span class="pre">Callable</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.12)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.12)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">func_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_warmups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backward</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress_bar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/profile/benchmark.html#benchmark"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.profile.benchmark" title="Permalink to this definition"></a></dt>
+<dd><p>Benchmark a list of functions <code class="xref py py-obj docutils literal notranslate"><span class="pre">funcs</span></code> that receive the same set
+of arguments <code class="xref py py-obj docutils literal notranslate"><span class="pre">args</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>funcs</strong> (<em>[</em><em>Callable</em><em>]</em>) – The list of functions to benchmark.</p></li>
+<li><p><strong>args</strong> (<em>(</em><em>Any</em><em>, </em><em>) or </em><em>[</em><em>(</em><em>Any</em><em>, </em><em>)</em><em>]</em>) – The arguments to pass to the functions.
+Can be a list of arguments for each function in <code class="xref py py-obj docutils literal notranslate"><span class="pre">funcs</span></code> in
+case their headers differ.
+Alternatively, you can pass in functions that generate arguments
+on-the-fly (e.g., useful for benchmarking models on various sizes).</p></li>
+<li><p><strong>num_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The number of steps to run the benchmark.</p></li>
+<li><p><strong>func_names</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – The names of the functions. If not given,
+will try to infer the name from the function itself.
+(default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>num_warmups</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The number of warmup steps.
+(default: <code class="xref py py-obj docutils literal notranslate"><span class="pre">10</span></code>)</p></li>
+<li><p><strong>backward</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, will benchmark both
+forward and backward passes. (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>)</p></li>
+<li><p><strong>per_step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, will report runtimes
+per step. (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>)</p></li>
+<li><p><strong>progress_bar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>, will print a
+progress bar during benchmarking. (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="graphgym.html" class="btn btn-neutral float-left" title="torch_geometric.graphgym" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../cheatsheet/gnn_cheatsheet.html" class="btn btn-neutral float-right" title="GNN Cheatsheet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

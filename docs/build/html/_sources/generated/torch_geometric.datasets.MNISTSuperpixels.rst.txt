@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.MNISTSuperpixels
+==========================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: MNISTSuperpixels
+   :show-inheritance:

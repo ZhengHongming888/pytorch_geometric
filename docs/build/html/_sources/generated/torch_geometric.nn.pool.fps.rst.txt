@@ -1,0 +1,6 @@
+﻿torch\_geometric.nn.pool.fps
+============================
+
+.. currentmodule:: torch_geometric.nn.pool
+
+.. autofunction:: fps

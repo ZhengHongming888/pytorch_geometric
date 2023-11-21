@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.FacebookPagePage
+==========================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: FacebookPagePage
+   :show-inheritance:

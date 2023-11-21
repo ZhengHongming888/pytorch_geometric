@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.AddLaplacianEigenvectorPE
+=====================================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: AddLaplacianEigenvectorPE
+   :show-inheritance:

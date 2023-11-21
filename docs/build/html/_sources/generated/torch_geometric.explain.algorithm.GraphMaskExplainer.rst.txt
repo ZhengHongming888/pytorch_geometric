@@ -1,0 +1,8 @@
+﻿torch\_geometric.explain.algorithm.GraphMaskExplainer
+=====================================================
+
+.. currentmodule:: torch_geometric.explain.algorithm
+
+.. autoclass:: GraphMaskExplainer
+   :show-inheritance:
+   :members:

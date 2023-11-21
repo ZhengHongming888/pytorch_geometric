@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.CoMA
+==============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: CoMA
+   :show-inheritance:

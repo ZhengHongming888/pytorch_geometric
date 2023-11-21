@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.norm.InstanceNorm
+=====================================
+
+.. currentmodule:: torch_geometric.nn.norm
+
+.. autoclass:: InstanceNorm
+   :show-inheritance:
+   :members:

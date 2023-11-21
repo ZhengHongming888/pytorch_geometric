@@ -1,0 +1,6 @@
+﻿torch\_geometric.data.extract\_bz2
+==================================
+
+.. currentmodule:: torch_geometric.data
+
+.. autofunction:: extract_bz2

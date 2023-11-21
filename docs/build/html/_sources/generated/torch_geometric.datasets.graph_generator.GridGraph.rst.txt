@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.graph\_generator.GridGraph
+====================================================
+
+.. currentmodule:: torch_geometric.datasets.graph_generator
+
+.. autoclass:: GridGraph
+   :show-inheritance:

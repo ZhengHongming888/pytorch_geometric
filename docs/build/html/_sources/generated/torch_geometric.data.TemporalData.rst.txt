@@ -1,0 +1,10 @@
+﻿torch\_geometric.data.TemporalData
+==================================
+
+.. currentmodule:: torch_geometric.data
+
+.. autoclass:: TemporalData
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :special-members: __cat_dim__, __inc__

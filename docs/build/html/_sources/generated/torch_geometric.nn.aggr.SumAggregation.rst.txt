@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.aggr.SumAggregation
+=======================================
+
+.. currentmodule:: torch_geometric.nn.aggr
+
+.. autoclass:: SumAggregation
+   :show-inheritance:
+   :members:

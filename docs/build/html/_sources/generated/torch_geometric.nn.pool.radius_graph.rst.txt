@@ -1,0 +1,6 @@
+﻿torch\_geometric.nn.pool.radius\_graph
+======================================
+
+.. currentmodule:: torch_geometric.nn.pool
+
+.. autofunction:: radius_graph

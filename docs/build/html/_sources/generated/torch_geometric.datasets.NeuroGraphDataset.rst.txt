@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.NeuroGraphDataset
+===========================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: NeuroGraphDataset
+   :show-inheritance:

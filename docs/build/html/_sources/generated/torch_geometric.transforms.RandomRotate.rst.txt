@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.RandomRotate
+========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: RandomRotate
+   :show-inheritance:

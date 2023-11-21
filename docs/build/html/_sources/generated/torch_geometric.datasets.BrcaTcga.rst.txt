@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.BrcaTcga
+==================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: BrcaTcga
+   :show-inheritance:

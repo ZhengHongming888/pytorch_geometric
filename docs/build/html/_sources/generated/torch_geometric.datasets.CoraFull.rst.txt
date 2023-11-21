@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.CoraFull
+==================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: CoraFull
+   :show-inheritance:

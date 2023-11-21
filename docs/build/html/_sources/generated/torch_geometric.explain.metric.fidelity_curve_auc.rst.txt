@@ -1,0 +1,6 @@
+﻿torch\_geometric.explain.metric.fidelity\_curve\_auc
+====================================================
+
+.. currentmodule:: torch_geometric.explain.metric
+
+.. autofunction:: fidelity_curve_auc

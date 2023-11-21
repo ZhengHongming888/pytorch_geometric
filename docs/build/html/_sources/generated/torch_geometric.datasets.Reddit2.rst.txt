@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.Reddit2
+=================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: Reddit2
+   :show-inheritance:

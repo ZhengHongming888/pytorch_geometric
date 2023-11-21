@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.SHREC2016
+===================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: SHREC2016
+   :show-inheritance:

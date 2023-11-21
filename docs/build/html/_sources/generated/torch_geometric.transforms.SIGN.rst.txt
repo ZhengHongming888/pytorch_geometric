@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.SIGN
+================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: SIGN
+   :show-inheritance:

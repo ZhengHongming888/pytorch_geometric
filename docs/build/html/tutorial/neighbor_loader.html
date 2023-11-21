@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaling GNNs via Neighbor Sampling &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Explaining Graph Neural Networks" href="explain.html" />
+    <link rel="prev" title="Use-Cases &amp; Applications" href="application.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="application.html">Use-Cases &amp; Applications</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Scaling GNNs via Neighbor Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="explain.html">Explaining Graph Neural Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shallow_node_embeddings.html">Shallow Node Embeddings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="application.html">Use-Cases &amp; Applications</a></li>
+      <li class="breadcrumb-item active">Scaling GNNs via Neighbor Sampling</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/neighbor_loader.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="scaling-gnns-via-neighbor-sampling">
+<h1>Scaling GNNs via Neighbor Sampling<a class="headerlink" href="#scaling-gnns-via-neighbor-sampling" title="Permalink to this heading"></a></h1>
+<p>One of the challenges of Graph Neural Networks is to scale them to large graphs, <em>e.g.</em>, in industrial and social applications.
+Traditional deep neural networks are known to scale well to large amounts of data by decomposing the training loss into individual samples (called a <em>mini-batch</em>) and approximating exact gradients stochastically.
+In contrast, applying stochastic mini-batch training in GNNs is challenging since the embedding of a given node depends recursively on all its neighbor’s embeddings, leading to high inter-dependency between nodes that grows exponentially with respect to the number of layers.
+This phenomenon is often referred to as <em>neighbor explosion</em>.
+As a simple workaround, GNNs are typically executed in a full-batch fashion (see <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/gcn.py">here</a> for an example), where the GNN has access to all hidden node representations in all its layers.
+However, this is not feasible in large-scale graphs due to memory limitations and slow convergence.</p>
+<p>Scalability techniques are indispensable for applying GNNs to large-scale graphs in order to alleviate the neighbor explosion problem induced by mini-batch training, <em>i.e.</em> <strong>node-wise</strong>, <strong>layer-wise</strong> or <strong>subgraph-wise</strong> sampling techniques, or to <strong>decouple propagations from predictions</strong>.
+In this tutorial, we take a closer look at the most common node-wise sampling approach, originally introduced in the <a class="reference external" href="https://arxiv.org/abs/1706.02216">“Inductive Representation Learning on Large Graphs”</a> paper.</p>
+<section id="neighbor-sampling">
+<h2>Neighbor Sampling<a class="headerlink" href="#neighbor-sampling" title="Permalink to this heading"></a></h2>
+<p><span class="inline-logo pyg">PyG</span> implements neighbor sampling via its <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.loader.NeighborLoader</span></code></a> class.
+Neighbor sampling works by recursively sampling a fixed number of at most <span class="math notranslate nohighlight">\(k\)</span> neighbors for a node <span class="math notranslate nohighlight">\(v \in \mathcal{V}\)</span>, <em>i.e.</em> <span class="math notranslate nohighlight">\(\tilde{\mathcal{N}}(v) \subset \mathcal{N}(v)\)</span> with <span class="math notranslate nohighlight">\(|\tilde{\mathcal{N}}| \le k\)</span>, leading to an overall bounded <span class="math notranslate nohighlight">\(L\)</span>-hop neighborhood size of <span class="math notranslate nohighlight">\(\mathcal{O}(k^L)\)</span>.
+That is, starting from a set of seed nodes <span class="math notranslate nohighlight">\(\mathcal{B} \subset \mathcal{V}\)</span>, we sample at most <span class="math notranslate nohighlight">\(k\)</span> neighbors for every node in <span class="math notranslate nohighlight">\(v \in \mathcal{B}\)</span>, and then proceed to sample neighbors for every sampled node in the previous hop, and so on.
+The resulting graph structure holds a <strong>directed</strong> <span class="math notranslate nohighlight">\(L\)</span>-hop subgraph around every node in <span class="math notranslate nohighlight">\(v \in \mathcal{B}\)</span>, for which it is guaranteed that every node has at least one path of at most length <span class="math notranslate nohighlight">\(L\)</span> to at least one of the seed nodes in <span class="math notranslate nohighlight">\(\mathcal{B}\)</span>.
+As such, a message passing GNN with <span class="math notranslate nohighlight">\(L\)</span> layers will incorporate the full set of sampled nodes in its computation graph.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/neighbor_loader.png"><img alt="../_images/neighbor_loader.png" src="../_images/neighbor_loader.png" style="width: 40%;" /></a>
+</figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>It is important to note that neighbor sampling can only mitigate the neighbor explosion problem to some extend since the overall neighborhood size still increases exponentially with the number of layers.
+As a result, sampling for more than two or three iterations is generally not feasible.</p>
+<p>Often times, the number of sampled hops and the number of message passing layers is kept in sync.
+Specifically, it is very wasteful to sample for more hops than there exist message passing layers since the GNN will never be able to incorporate the features of the nodes sampled in later hops into the final node representation of its seed nodes.
+However, it is nonetheless possible to utilize deeper GNNs, but one needs to be careful to convert the sampled subgraph into a bidirectional variant to ensure correct message passing flow.
+<span class="inline-logo pyg">PyG</span> provides support for this via an additional argument in <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a>, while other mini-batch techniques are designed for this use-case out-of-the-box, <em>e.g.</em>, <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.ClusterLoader" title="torch_geometric.loader.ClusterLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClusterLoader</span></code></a>, <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.GraphSAINTSampler" title="torch_geometric.loader.GraphSAINTSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphSAINTSampler</span></code></a> and <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.ShaDowKHopSampler" title="torch_geometric.loader.ShaDowKHopSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">ShaDowKHopSampler</span></code></a>.</p>
+</section>
+<section id="basic-usage">
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In this section of the tutorial, we will learn how to utilize the <a class="reference internal" href="../generated/torch_geometric.nn.models.Node2Vec.html#torch_geometric.nn.models.Node2Vec" title="torch_geometric.nn.models.Node2Vec"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node2Vec</span></code></a> class of <span class="inline-logo pyg">PyG</span> to train GNNs on single graphs in a mini-batch fashion.
+A fully working example on large-scale real-world data is available in <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/reddit.py">examples/reddit.py</a>.</p>
+</div>
+<p>The <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> is initialized from a <span class="inline-logo pyg">PyG</span> <a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a> or <a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData" title="torch_geometric.data.HeteroData"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeteroData</span></code></a> object and defines how sampling should be performed:</p>
+<ul class="simple">
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">input_nodes</span></code> defines the set of seed nodes from which we want to start sampling from.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">num_neighbors</span></code> defines the number of neighbors to sample for each node in each hop.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">batch_size</span></code> defines the size of seed nodes we want to consider at once.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">replace</span></code> defines whether to sample with or without replacement.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffle</span></code> defines whether seed nodes should be shuffled at every epoch.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">Data</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.loader</span> <span class="kn">import</span> <span class="n">NeighborLoader</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>  <span class="c1"># Node features of shape [num_nodes, num_features]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="p">))</span>  <span class="c1"># Node labels of shape [num_nodes]</span>
+<span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]],</span>
+<span class="p">)</span>
+
+<span class="c1">#   0  1</span>
+<span class="c1">#  / \/ \</span>
+<span class="c1"># 2  3  4</span>
+<span class="c1"># |  |  |</span>
+<span class="c1"># 5  6  7</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">Data</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">edge_index</span><span class="o">=</span><span class="n">edge_index</span><span class="p">)</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">NeighborLoader</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">input_nodes</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+    <span class="n">num_neighbors</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, we initialize the <code class="xref py py-class docutils literal notranslate"><span class="pre">NeigborLoader</span></code> to sample subgraphs for the first two nodes, where we waant to sample 2 neighbors in the first hop, and 1 neighbor in the second hop.
+Our <code class="xref py py-obj docutils literal notranslate"><span class="pre">batch_size</span></code> is set to <code class="xref py py-obj docutils literal notranslate"><span class="pre">1</span></code>, such that <code class="xref py py-obj docutils literal notranslate"><span class="pre">input_nodes</span></code> will be split into chunks of size <code class="xref py py-obj docutils literal notranslate"><span class="pre">1</span></code>.</p>
+<p>In the execution of <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a>, we expect that the seed node <code class="xref py py-obj docutils literal notranslate"><span class="pre">0</span></code> samples nodes <code class="xref py py-obj docutils literal notranslate"><span class="pre">2</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">3</span></code> in the first hop. In the second hop, node <code class="xref py py-obj docutils literal notranslate"><span class="pre">2</span></code> samples node <code class="xref py py-obj docutils literal notranslate"><span class="pre">5</span></code>, and node <code class="xref py py-obj docutils literal notranslate"><span class="pre">3</span></code> samples node <code class="xref py py-obj docutils literal notranslate"><span class="pre">6</span></code>.
+Let’s confirm by looking at the output of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">loader</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">batch</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">loader</span><span class="p">))</span>
+
+<span class="n">batch</span><span class="o">.</span><span class="n">edge_index</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+
+ <span class="n">batch</span><span class="o">.</span><span class="n">n_id</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+
+ <span class="n">batch</span><span class="o">.</span><span class="n">batch_size</span>
+ <span class="o">&gt;&gt;&gt;</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> will return a <a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a> object, which contains the following attributes:</p>
+<ul class="simple">
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">batch.edge_index</span></code> contain the edge indices of the subgraph.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">batch.n_id</span></code> contains the original node indices of all the sampled nodes.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">batch.batch_size</span></code> contains the number of seed nodes/the batch size.</p></li>
+</ul>
+<p>In addition, node and edge features will be filtered to only contain the features of sampled nodes/edges, respectively.</p>
+<p>Importantly, <code class="xref py py-obj docutils literal notranslate"><span class="pre">batch.edge_index</span></code> contains the sampled subgraph with relabeled node indices, such that its indices range from <code class="xref py py-obj docutils literal notranslate"><span class="pre">0</span></code> to <code class="xref py py-obj docutils literal notranslate"><span class="pre">batch.num_nodes</span> <span class="pre">-</span> <span class="pre">1</span></code>.
+If you want to reconstruct the original node indices of <code class="xref py py-obj docutils literal notranslate"><span class="pre">batch.edge_index</span></code>, do:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">batch</span><span class="o">.</span><span class="n">n_id</span><span class="p">[</span><span class="n">batch</span><span class="o">.</span><span class="n">edge_index</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">tensor</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>Furthermore, while <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> starts sampling <em>from</em> seed nodes, the resulting subgraph will hold edges that point <em>to</em> the seed nodes.
+This aligns well with the default <span class="inline-logo pyg">PyG</span> message passing flow from source to destination nodes.</p>
+<p>Lastly, nodes in the output of <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> are guaranteed to be sorted.
+In particular, the first <code class="xref py py-obj docutils literal notranslate"><span class="pre">batch_size</span></code> sampled nodes will exactly match with the seed nodes that were used for sampling:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">batch</span><span class="o">.</span><span class="n">n_id</span><span class="p">[:</span><span class="n">batch</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Afterwards, we can use <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> as a data loading routine to train GNNs on large-scale graphs in mini-batch fashion.
+For this, let’s create a simple two-layer <a class="reference internal" href="../generated/torch_geometric.nn.models.GraphSAGE.html#torch_geometric.nn.models.GraphSAGE" title="torch_geometric.nn.models.GraphSAGE"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphSAGE</span></code></a> model:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">GraphSAGE</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">GraphSAGE</span><span class="p">(</span>
+    <span class="n">in_channels</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">hidden_channels</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+    <span class="n">out_channels</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">num_layers</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can now combine the <code class="xref py py-obj docutils literal notranslate"><span class="pre">loader</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">model</span></code> to define our training routine:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">batch</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">batch</span><span class="o">.</span><span class="n">edge_index</span><span class="p">)</span>
+
+    <span class="c1"># NOTE Only consider predictions and labels of seed nodes:</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">y</span><span class="p">[:</span><span class="n">batch</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="p">[:</span><span class="n">batch</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]</span>
+
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The training loop follows a similar design to any other <span class="inline-logo pytorch">PyTorch</span> training loop.
+The only important difference is that by default the model will output a matrix of shape <code class="xref py py-obj docutils literal notranslate"><span class="pre">[batch.num_nodes,</span> <span class="pre">*]</span></code>, while we are only interested in the predictions of the seed nodes.
+As such, we can use efficient slicing both on the node predictions and the ground-truth information <code class="xref py py-obj docutils literal notranslate"><span class="pre">batch.y</span></code> to only obtain predictions and ground-truth information of actual seed nodes.
+This ensures that we are only making use of the first <code class="xref py py-obj docutils literal notranslate"><span class="pre">batch_size</span></code> many nodes for loss and metric computation.</p>
+</section>
+<section id="hierarchical-extension">
+<h2>Hierarchical Extension<a class="headerlink" href="#hierarchical-extension" title="Permalink to this heading"></a></h2>
+<p>A drawback of <code class="xref py py-class docutils literal notranslate"><span class="pre">Neighborloader</span></code> is that it computes a representations for <em>all</em> sampled nodes at <em>all</em> depths of the network.
+However, nodes sampled in later hops no longer contribute to the node representations of seed nodes in later GNN layers, thus performing useless computation.
+<a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> will be marginally slower since we are computing node embeddings for nodes we no longer need.
+This is a trade-off we make to obtain a clean, modular and experimental-friendly GNN design, which does not tie the definition of the model to its utilized data loader routine.
+The <a class="reference external" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a> tutorial shows how to eliminate this overhead and speed up training and inference in mini-batch GNNs further.</p>
+</section>
+<section id="advanced-options">
+<h2>Advanced Options<a class="headerlink" href="#advanced-options" title="Permalink to this heading"></a></h2>
+<p><a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> provides many more features for advanced usage.
+In particular,</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> supports both sampling on homogeneous and heterogeneous graphs out-of-the-box.
+For sampling on heterogeneous graphs, simply initialize it with a <a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData" title="torch_geometric.data.HeteroData"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeteroData</span></code></a> object.
+Sampling on heterogeneous graphs via <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> allows for fine-granular control of sampling parameters, <em>e.g.</em>, it allows to specify the number of neighbors to sample for each edge type individually.
+Take a look at the <a class="reference external" href="../advanced/heterogeneous.html">Heterogeneous Graph Learning</a> tutorial for additional information.</p></li>
+<li><p>By default, <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> fuses sampled nodes across different seed nodes into a single subgraph.
+This way, shared neighbors of seed nodes will not be duplicated in the resulting subgraph and hence save memory.
+You can disable this behavior by passing the <code class="xref py py-obj docutils literal notranslate"><span class="pre">disjoint=True</span></code> option to the <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a>.</p></li>
+<li><p>By default, the subgraphs returned from <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> will be <strong>directed</strong>, which restricts its use to GNNs with equal depth to the number of sampling hops.
+If you want to utilize deeper GNNs, specify the <code class="xref py py-obj docutils literal notranslate"><span class="pre">subgraph_type</span></code> option.
+If set to <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;bidirectional&quot;</span></code>, sampled edges are converted to bidirectional edges.
+If set to <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;induced&quot;</span></code>, the returned subgraph will contain the induced subgraph of all sampled nodes.</p></li>
+<li><p><a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> is designed to perform sampling from individual seed nodes.
+As such, it is not directly applicable in a link prediction scenario.
+For this use-cases, we developed the <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.LinkNeighborLoader" title="torch_geometric.loader.LinkNeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinkNeighborLoader</span></code></a>, which expects a set of input edges, and will return subgraphs that were created via neighbor sampling from both source and destination nodes.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="application.html" class="btn btn-neutral float-left" title="Use-Cases &amp; Applications" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="explain.html" class="btn btn-neutral float-right" title="Explaining Graph Neural Networks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

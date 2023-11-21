@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.FAUST
+===============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: FAUST
+   :show-inheritance:

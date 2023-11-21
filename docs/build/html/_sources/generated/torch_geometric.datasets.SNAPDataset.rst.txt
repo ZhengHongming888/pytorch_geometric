@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.SNAPDataset
+=====================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: SNAPDataset
+   :show-inheritance:

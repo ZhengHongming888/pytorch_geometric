@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.RCDD
+==============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: RCDD
+   :show-inheritance:

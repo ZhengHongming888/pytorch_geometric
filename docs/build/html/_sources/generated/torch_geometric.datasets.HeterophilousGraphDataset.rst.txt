@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.HeterophilousGraphDataset
+===================================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: HeterophilousGraphDataset
+   :show-inheritance:

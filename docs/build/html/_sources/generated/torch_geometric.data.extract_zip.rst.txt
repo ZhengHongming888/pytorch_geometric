@@ -1,0 +1,6 @@
+﻿torch\_geometric.data.extract\_zip
+==================================
+
+.. currentmodule:: torch_geometric.data
+
+.. autofunction:: extract_zip

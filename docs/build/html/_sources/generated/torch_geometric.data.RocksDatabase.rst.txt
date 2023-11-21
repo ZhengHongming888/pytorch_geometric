@@ -1,0 +1,10 @@
+﻿torch\_geometric.data.RocksDatabase
+===================================
+
+.. currentmodule:: torch_geometric.data
+
+.. autoclass:: RocksDatabase
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :special-members: __cat_dim__, __inc__

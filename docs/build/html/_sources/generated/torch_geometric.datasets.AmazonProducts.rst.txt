@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.AmazonProducts
+========================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: AmazonProducts
+   :show-inheritance:

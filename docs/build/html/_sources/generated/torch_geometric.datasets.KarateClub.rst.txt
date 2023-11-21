@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.KarateClub
+====================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: KarateClub
+   :show-inheritance:

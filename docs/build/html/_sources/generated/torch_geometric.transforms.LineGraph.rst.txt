@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.LineGraph
+=====================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: LineGraph
+   :show-inheritance:

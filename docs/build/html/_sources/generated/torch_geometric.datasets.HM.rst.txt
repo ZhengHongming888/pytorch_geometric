@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.HM
+============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: HM
+   :show-inheritance:

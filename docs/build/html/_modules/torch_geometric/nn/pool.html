@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.nn.pool &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.nn.pool</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.nn.pool</h1><div class="highlight"><pre>
+<span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Pooling package.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="kn">import</span> <span class="nn">torch_geometric.typing</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">OptTensor</span><span class="p">,</span> <span class="n">torch_cluster</span>
+
+<span class="kn">from</span> <span class="nn">.asap</span> <span class="kn">import</span> <span class="n">ASAPooling</span>
+<span class="kn">from</span> <span class="nn">.avg_pool</span> <span class="kn">import</span> <span class="n">avg_pool</span><span class="p">,</span> <span class="n">avg_pool_neighbor_x</span><span class="p">,</span> <span class="n">avg_pool_x</span>
+<span class="kn">from</span> <span class="nn">.edge_pool</span> <span class="kn">import</span> <span class="n">EdgePooling</span>
+<span class="kn">from</span> <span class="nn">.glob</span> <span class="kn">import</span> <span class="n">global_add_pool</span><span class="p">,</span> <span class="n">global_max_pool</span><span class="p">,</span> <span class="n">global_mean_pool</span>
+<span class="kn">from</span> <span class="nn">.knn</span> <span class="kn">import</span> <span class="n">KNNIndex</span><span class="p">,</span> <span class="n">L2KNNIndex</span><span class="p">,</span> <span class="n">MIPSKNNIndex</span>
+<span class="kn">from</span> <span class="nn">.graclus</span> <span class="kn">import</span> <span class="n">graclus</span>
+<span class="kn">from</span> <span class="nn">.max_pool</span> <span class="kn">import</span> <span class="n">max_pool</span><span class="p">,</span> <span class="n">max_pool_neighbor_x</span><span class="p">,</span> <span class="n">max_pool_x</span>
+<span class="kn">from</span> <span class="nn">.mem_pool</span> <span class="kn">import</span> <span class="n">MemPooling</span>
+<span class="kn">from</span> <span class="nn">.pan_pool</span> <span class="kn">import</span> <span class="n">PANPooling</span>
+<span class="kn">from</span> <span class="nn">.sag_pool</span> <span class="kn">import</span> <span class="n">SAGPooling</span>
+<span class="kn">from</span> <span class="nn">.topk_pool</span> <span class="kn">import</span> <span class="n">TopKPooling</span>
+<span class="kn">from</span> <span class="nn">.voxel_grid</span> <span class="kn">import</span> <span class="n">voxel_grid</span>
+<span class="kn">from</span> <span class="nn">.approx_knn</span> <span class="kn">import</span> <span class="n">approx_knn</span><span class="p">,</span> <span class="n">approx_knn_graph</span>
+
+
+<div class="viewcode-block" id="fps"><a class="viewcode-back" href="../../../generated/torch_geometric.nn.pool.fps.html#torch_geometric.nn.pool.fps">[docs]</a><span class="k">def</span> <span class="nf">fps</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">batch</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="n">random_start</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;A sampling algorithm from the `&quot;PointNet++: Deep Hierarchical Feature</span>
+<span class="sd">    Learning on Point Sets in a Metric Space&quot;</span>
+<span class="sd">    &lt;https://arxiv.org/abs/1706.02413&gt;`_ paper, which iteratively samples the</span>
+<span class="sd">    most distant point with regard to the rest points.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        import torch</span>
+<span class="sd">        from torch_geometric.nn import fps</span>
+
+<span class="sd">        x = torch.tensor([[-1.0, -1.0], [-1.0, 1.0], [1.0, -1.0], [1.0, 1.0]])</span>
+<span class="sd">        batch = torch.tensor([0, 0, 0, 0])</span>
+<span class="sd">        index = fps(x, batch, ratio=0.5)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (torch.Tensor): Node feature matrix</span>
+<span class="sd">            :math:`\mathbf{X} \in \mathbb{R}^{N \times F}`.</span>
+<span class="sd">        batch (torch.Tensor, optional): Batch vector</span>
+<span class="sd">            :math:`\mathbf{b} \in {\{ 0, \ldots, B-1\}}^N`, which assigns each</span>
+<span class="sd">            node to a specific example. (default: :obj:`None`)</span>
+<span class="sd">        ratio (float, optional): Sampling ratio. (default: :obj:`0.5`)</span>
+<span class="sd">        random_start (bool, optional): If set to :obj:`False`, use the first</span>
+<span class="sd">            node in :math:`\mathbf{X}` as starting node. (default: obj:`True`)</span>
+<span class="sd">        batch_size (int, optional): The number of examples :math:`B`.</span>
+<span class="sd">            Automatically calculated if not given. (default: :obj:`None`)</span>
+
+<span class="sd">    :rtype: :class:`torch.Tensor`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_TORCH_CLUSTER_BATCH_SIZE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch_cluster</span><span class="o">.</span><span class="n">fps</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">ratio</span><span class="p">,</span> <span class="n">random_start</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch_cluster</span><span class="o">.</span><span class="n">fps</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">ratio</span><span class="p">,</span> <span class="n">random_start</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="knn"><a class="viewcode-back" href="../../../generated/torch_geometric.nn.pool.knn.html#torch_geometric.nn.pool.knn">[docs]</a><span class="k">def</span> <span class="nf">knn</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">batch_x</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">batch_y</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">cosine</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">num_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Finds for each element in :obj:`y` the :obj:`k` nearest points in</span>
+<span class="sd">    :obj:`x`.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        import torch</span>
+<span class="sd">        from torch_geometric.nn import knn</span>
+
+<span class="sd">        x = torch.tensor([[-1.0, -1.0], [-1.0, 1.0], [1.0, -1.0], [1.0, 1.0]])</span>
+<span class="sd">        batch_x = torch.tensor([0, 0, 0, 0])</span>
+<span class="sd">        y = torch.tensor([[-1.0, 0.0], [1.0, 0.0]])</span>
+<span class="sd">        batch_y = torch.tensor([0, 0])</span>
+<span class="sd">        assign_index = knn(x, y, 2, batch_x, batch_y)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (torch.Tensor): Node feature matrix</span>
+<span class="sd">            :math:`\mathbf{X} \in \mathbb{R}^{N \times F}`.</span>
+<span class="sd">        y (torch.Tensor): Node feature matrix</span>
+<span class="sd">            :math:`\mathbf{X} \in \mathbb{R}^{M \times F}`.</span>
+<span class="sd">        k (int): The number of neighbors.</span>
+<span class="sd">        batch_x (torch.Tensor, optional): Batch vector</span>
+<span class="sd">            :math:`\mathbf{b} \in {\{ 0, \ldots, B-1\}}^N`, which assigns each</span>
+<span class="sd">            node to a specific example. (default: :obj:`None`)</span>
+<span class="sd">        batch_y (torch.Tensor, optional): Batch vector</span>
+<span class="sd">            :math:`\mathbf{b} \in {\{ 0, \ldots, B-1\}}^M`, which assigns each</span>
+<span class="sd">            node to a specific example. (default: :obj:`None`)</span>
+<span class="sd">        cosine (bool, optional): If :obj:`True`, will use the cosine</span>
+<span class="sd">            distance instead of euclidean distance to find nearest neighbors.</span>
+<span class="sd">            (default: :obj:`False`)</span>
+<span class="sd">        num_workers (int, optional): Number of workers to use for computation.</span>
+<span class="sd">            Has no effect in case :obj:`batch_x` or :obj:`batch_y` is not</span>
+<span class="sd">            :obj:`None`, or the input lies on the GPU. (default: :obj:`1`)</span>
+<span class="sd">        batch_size (int, optional): The number of examples :math:`B`.</span>
+<span class="sd">            Automatically calculated if not given. (default: :obj:`None`)</span>
+
+<span class="sd">    :rtype: :class:`torch.Tensor`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_TORCH_CLUSTER_BATCH_SIZE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch_cluster</span><span class="o">.</span><span class="n">knn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">batch_x</span><span class="p">,</span> <span class="n">batch_y</span><span class="p">,</span> <span class="n">cosine</span><span class="p">,</span>
+                                 <span class="n">num_workers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch_cluster</span><span class="o">.</span><span class="n">knn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">batch_x</span><span class="p">,</span> <span class="n">batch_y</span><span class="p">,</span> <span class="n">cosine</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">,</span>
+                             <span class="n">batch_size</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="knn_graph"><a class="viewcode-back" href="../../../generated/torch_geometric.nn.pool.knn_graph.html#torch_geometric.nn.pool.knn_graph">[docs]</a><span class="k">def</span> <span class="nf">knn_graph</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">batch</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">loop</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">flow</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;source_to_target&#39;</span><span class="p">,</span>
+    <span class="n">cosine</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">num_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computes graph edges to the nearest :obj:`k` points.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        import torch</span>
+<span class="sd">        from torch_geometric.nn import knn_graph</span>
+
+<span class="sd">        x = torch.tensor([[-1.0, -1.0], [-1.0, 1.0], [1.0, -1.0], [1.0, 1.0]])</span>
+<span class="sd">        batch = torch.tensor([0, 0, 0, 0])</span>
+<span class="sd">        edge_index = knn_graph(x, k=2, batch=batch, loop=False)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (torch.Tensor): Node feature matrix</span>
+<span class="sd">            :math:`\mathbf{X} \in \mathbb{R}^{N \times F}`.</span>
+<span class="sd">        k (int): The number of neighbors.</span>
+<span class="sd">        batch (torch.Tensor, optional): Batch vector</span>
+<span class="sd">            :math:`\mathbf{b} \in {\{ 0, \ldots, B-1\}}^N`, which assigns each</span>
+<span class="sd">            node to a specific example. (default: :obj:`None`)</span>
+<span class="sd">        loop (bool, optional): If :obj:`True`, the graph will contain</span>
+<span class="sd">            self-loops. (default: :obj:`False`)</span>
+<span class="sd">        flow (str, optional): The flow direction when using in combination with</span>
+<span class="sd">            message passing (:obj:`&quot;source_to_target&quot;` or</span>
+<span class="sd">            :obj:`&quot;target_to_source&quot;`). (default: :obj:`&quot;source_to_target&quot;`)</span>
+<span class="sd">        cosine (bool, optional): If :obj:`True`, will use the cosine</span>
+<span class="sd">            distance instead of euclidean distance to find nearest neighbors.</span>
+<span class="sd">            (default: :obj:`False`)</span>
+<span class="sd">        num_workers (int, optional): Number of workers to use for computation.</span>
+<span class="sd">            Has no effect in case :obj:`batch` is not :obj:`None`, or the input</span>
+<span class="sd">            lies on the GPU. (default: :obj:`1`)</span>
+<span class="sd">        batch_size (int, optional): The number of examples :math:`B`.</span>
+<span class="sd">            Automatically calculated if not given. (default: :obj:`None`)</span>
+
+<span class="sd">    :rtype: :class:`torch.Tensor`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">batch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">device</span> <span class="o">!=</span> <span class="n">batch</span><span class="o">.</span><span class="n">device</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Input tensor &#39;x&#39; and &#39;batch&#39; are on different devices &quot;</span>
+                      <span class="s2">&quot;in &#39;knn_graph&#39;. Performing blocking device transfer&quot;</span><span class="p">)</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_TORCH_CLUSTER_BATCH_SIZE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch_cluster</span><span class="o">.</span><span class="n">knn_graph</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">loop</span><span class="p">,</span> <span class="n">flow</span><span class="p">,</span> <span class="n">cosine</span><span class="p">,</span>
+                                       <span class="n">num_workers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch_cluster</span><span class="o">.</span><span class="n">knn_graph</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">loop</span><span class="p">,</span> <span class="n">flow</span><span class="p">,</span> <span class="n">cosine</span><span class="p">,</span>
+                                   <span class="n">num_workers</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="radius"><a class="viewcode-back" href="../../../generated/torch_geometric.nn.pool.radius.html#torch_geometric.nn.pool.radius">[docs]</a><span class="k">def</span> <span class="nf">radius</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">batch_x</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">batch_y</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">max_num_neighbors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="n">num_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Finds for each element in :obj:`y` all points in :obj:`x` within</span>
+<span class="sd">    distance :obj:`r`.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        import torch</span>
+<span class="sd">        from torch_geometric.nn import radius</span>
+
+<span class="sd">        x = torch.tensor([[-1.0, -1.0], [-1.0, 1.0], [1.0, -1.0], [1.0, 1.0]])</span>
+<span class="sd">        batch_x = torch.tensor([0, 0, 0, 0])</span>
+<span class="sd">        y = torch.tensor([[-1.0, 0.0], [1.0, 0.0]])</span>
+<span class="sd">        batch_y = torch.tensor([0, 0])</span>
+<span class="sd">        assign_index = radius(x, y, 1.5, batch_x, batch_y)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (torch.Tensor): Node feature matrix</span>
+<span class="sd">            :math:`\mathbf{X} \in \mathbb{R}^{N \times F}`.</span>
+<span class="sd">        y (torch.Tensor): Node feature matrix</span>
+<span class="sd">            :math:`\mathbf{Y} \in \mathbb{R}^{M \times F}`.</span>
+<span class="sd">        r (float): The radius.</span>
+<span class="sd">        batch_x (torch.Tensor, optional): Batch vector</span>
+<span class="sd">            :math:`\mathbf{b} \in {\{ 0, \ldots, B-1\}}^N`, which assigns each</span>
+<span class="sd">            node to a specific example. (default: :obj:`None`)</span>
+<span class="sd">        batch_y (torch.Tensor, optional): Batch vector</span>
+<span class="sd">            :math:`\mathbf{b} \in {\{ 0, \ldots, B-1\}}^M`, which assigns each</span>
+<span class="sd">            node to a specific example. (default: :obj:`None`)</span>
+<span class="sd">        max_num_neighbors (int, optional): The maximum number of neighbors to</span>
+<span class="sd">            return for each element in :obj:`y`. (default: :obj:`32`)</span>
+<span class="sd">        num_workers (int, optional): Number of workers to use for computation.</span>
+<span class="sd">            Has no effect in case :obj:`batch_x` or :obj:`batch_y` is not</span>
+<span class="sd">            :obj:`None`, or the input lies on the GPU. (default: :obj:`1`)</span>
+<span class="sd">        batch_size (int, optional): The number of examples :math:`B`.</span>
+<span class="sd">            Automatically calculated if not given. (default: :obj:`None`)</span>
+
+<span class="sd">    :rtype: :class:`torch.Tensor`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_TORCH_CLUSTER_BATCH_SIZE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch_cluster</span><span class="o">.</span><span class="n">radius</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">batch_x</span><span class="p">,</span> <span class="n">batch_y</span><span class="p">,</span>
+                                    <span class="n">max_num_neighbors</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch_cluster</span><span class="o">.</span><span class="n">radius</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">batch_x</span><span class="p">,</span> <span class="n">batch_y</span><span class="p">,</span> <span class="n">max_num_neighbors</span><span class="p">,</span>
+                                <span class="n">num_workers</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="radius_graph"><a class="viewcode-back" href="../../../generated/torch_geometric.nn.pool.radius_graph.html#torch_geometric.nn.pool.radius_graph">[docs]</a><span class="k">def</span> <span class="nf">radius_graph</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">r</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">batch</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">loop</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">max_num_neighbors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="n">flow</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;source_to_target&#39;</span><span class="p">,</span>
+    <span class="n">num_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computes graph edges to all points within a given distance.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        import torch</span>
+<span class="sd">        from torch_geometric.nn import radius_graph</span>
+
+<span class="sd">        x = torch.tensor([[-1.0, -1.0], [-1.0, 1.0], [1.0, -1.0], [1.0, 1.0]])</span>
+<span class="sd">        batch = torch.tensor([0, 0, 0, 0])</span>
+<span class="sd">        edge_index = radius_graph(x, r=1.5, batch=batch, loop=False)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (torch.Tensor): Node feature matrix</span>
+<span class="sd">            :math:`\mathbf{X} \in \mathbb{R}^{N \times F}`.</span>
+<span class="sd">        r (float): The radius.</span>
+<span class="sd">        batch (torch.Tensor, optional): Batch vector</span>
+<span class="sd">            :math:`\mathbf{b} \in {\{ 0, \ldots, B-1\}}^N`, which assigns each</span>
+<span class="sd">            node to a specific example. (default: :obj:`None`)</span>
+<span class="sd">        loop (bool, optional): If :obj:`True`, the graph will contain</span>
+<span class="sd">            self-loops. (default: :obj:`False`)</span>
+<span class="sd">        max_num_neighbors (int, optional): The maximum number of neighbors to</span>
+<span class="sd">            return for each element in :obj:`y`. (default: :obj:`32`)</span>
+<span class="sd">        flow (str, optional): The flow direction when using in combination with</span>
+<span class="sd">            message passing (:obj:`&quot;source_to_target&quot;` or</span>
+<span class="sd">            :obj:`&quot;target_to_source&quot;`). (default: :obj:`&quot;source_to_target&quot;`)</span>
+<span class="sd">        num_workers (int, optional): Number of workers to use for computation.</span>
+<span class="sd">            Has no effect in case :obj:`batch` is not :obj:`None`, or the input</span>
+<span class="sd">            lies on the GPU. (default: :obj:`1`)</span>
+<span class="sd">        batch_size (int, optional): The number of examples :math:`B`.</span>
+<span class="sd">            Automatically calculated if not given. (default: :obj:`None`)</span>
+
+<span class="sd">    :rtype: :class:`torch.Tensor`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">batch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">device</span> <span class="o">!=</span> <span class="n">batch</span><span class="o">.</span><span class="n">device</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Input tensor &#39;x&#39; and &#39;batch&#39; are on different devices &quot;</span>
+                      <span class="s2">&quot;in &#39;radius_graph&#39;. Performing blocking device transfer&quot;</span><span class="p">)</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_TORCH_CLUSTER_BATCH_SIZE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch_cluster</span><span class="o">.</span><span class="n">radius_graph</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">loop</span><span class="p">,</span> <span class="n">max_num_neighbors</span><span class="p">,</span>
+                                          <span class="n">flow</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch_cluster</span><span class="o">.</span><span class="n">radius_graph</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">loop</span><span class="p">,</span> <span class="n">max_num_neighbors</span><span class="p">,</span>
+                                      <span class="n">flow</span><span class="p">,</span> <span class="n">num_workers</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="nearest"><a class="viewcode-back" href="../../../generated/torch_geometric.nn.pool.nearest.html#torch_geometric.nn.pool.nearest">[docs]</a><span class="k">def</span> <span class="nf">nearest</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">batch_x</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">batch_y</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Finds for each element in :obj:`y` the :obj:`k` nearest point in</span>
+<span class="sd">    :obj:`x`.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        import torch</span>
+<span class="sd">        from torch_geometric.nn import nearest</span>
+
+<span class="sd">        x = torch.tensor([[-1.0, -1.0], [-1.0, 1.0], [1.0, -1.0], [1.0, 1.0]])</span>
+<span class="sd">        batch_x = torch.tensor([0, 0, 0, 0])</span>
+<span class="sd">        y = torch.tensor([[-1.0, 0.0], [1.0, 0.0]])</span>
+<span class="sd">        batch_y = torch.tensor([0, 0])</span>
+<span class="sd">        cluster = nearest(x, y, batch_x, batch_y)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (torch.Tensor): Node feature matrix</span>
+<span class="sd">            :math:`\mathbf{X} \in \mathbb{R}^{N \times F}`.</span>
+<span class="sd">        y (torch.Tensor): Node feature matrix</span>
+<span class="sd">            :math:`\mathbf{Y} \in \mathbb{R}^{M \times F}`.</span>
+<span class="sd">        batch_x (torch.Tensor, optional): Batch vector</span>
+<span class="sd">            :math:`\mathbf{b} \in {\{ 0, \ldots, B-1\}}^N`, which assigns each</span>
+<span class="sd">            node to a specific example. (default: :obj:`None`)</span>
+<span class="sd">        batch_y (torch.Tensor, optional): Batch vector</span>
+<span class="sd">            :math:`\mathbf{b} \in {\{ 0, \ldots, B-1\}}^M`, which assigns each</span>
+<span class="sd">            node to a specific example. (default: :obj:`None`)</span>
+
+<span class="sd">    :rtype: :class:`torch.Tensor`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">torch_cluster</span><span class="o">.</span><span class="n">nearest</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">batch_x</span><span class="p">,</span> <span class="n">batch_y</span><span class="p">)</span></div>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;global_add_pool&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;global_mean_pool&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;global_max_pool&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;KNNIndex&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;L2KNNIndex&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;MIPSKNNIndex&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;TopKPooling&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SAGPooling&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;EdgePooling&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ASAPooling&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;PANPooling&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;MemPooling&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;max_pool&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;avg_pool&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;max_pool_x&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;max_pool_neighbor_x&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;avg_pool_x&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;avg_pool_neighbor_x&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;graclus&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;voxel_grid&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;fps&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;knn&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;knn_graph&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;approx_knn&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;approx_knn_graph&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;radius&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;radius_graph&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;nearest&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">classes</span> <span class="o">=</span> <span class="n">__all__</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

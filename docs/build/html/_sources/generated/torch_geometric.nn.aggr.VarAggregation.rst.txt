@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.aggr.VarAggregation
+=======================================
+
+.. currentmodule:: torch_geometric.nn.aggr
+
+.. autoclass:: VarAggregation
+   :show-inheritance:
+   :members:

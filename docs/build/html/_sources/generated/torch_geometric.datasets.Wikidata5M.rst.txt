@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.Wikidata5M
+====================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: Wikidata5M
+   :show-inheritance:

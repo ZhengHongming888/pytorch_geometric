@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.Flickr
+================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: Flickr
+   :show-inheritance:

@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.aggr.MulAggregation
+=======================================
+
+.. currentmodule:: torch_geometric.nn.aggr
+
+.. autoclass:: MulAggregation
+   :show-inheritance:
+   :members:

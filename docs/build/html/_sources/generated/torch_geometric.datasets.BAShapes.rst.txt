@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.BAShapes
+==================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: BAShapes
+   :show-inheritance:

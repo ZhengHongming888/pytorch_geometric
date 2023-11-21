@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.nn.conv.message_passing &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.nn.conv.message_passing</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.nn.conv.message_passing</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">osp</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">inspect</span> <span class="kn">import</span> <span class="n">Parameter</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">chain</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">List</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">Set</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+    <span class="n">get_type_hints</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">torch.utils.hooks</span> <span class="kn">import</span> <span class="n">RemovableHandle</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.nn.aggr</span> <span class="kn">import</span> <span class="n">Aggregation</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn.conv.utils.inspector</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Inspector</span><span class="p">,</span>
+    <span class="n">func_body_repr</span><span class="p">,</span>
+    <span class="n">func_header_repr</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn.conv.utils.jit</span> <span class="kn">import</span> <span class="n">class_from_module_repr</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn.conv.utils.typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">parse_types</span><span class="p">,</span>
+    <span class="n">resolve_types</span><span class="p">,</span>
+    <span class="n">sanitize</span><span class="p">,</span>
+    <span class="n">split_types_repr</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn.resolver</span> <span class="kn">import</span> <span class="n">aggregation_resolver</span> <span class="k">as</span> <span class="n">aggr_resolver</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">Adj</span><span class="p">,</span> <span class="n">Size</span><span class="p">,</span> <span class="n">SparseTensor</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_sparse</span><span class="p">,</span>
+    <span class="n">is_torch_sparse_tensor</span><span class="p">,</span>
+    <span class="n">to_edge_index</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils.sparse</span> <span class="kn">import</span> <span class="n">ptr2index</span>
+
+<span class="n">FUSE_AGGRS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;add&#39;</span><span class="p">,</span> <span class="s1">&#39;sum&#39;</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">ptr2ind</span><span class="p">(</span><span class="n">ptr</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ptr</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">ptr</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ind</span><span class="o">.</span><span class="n">repeat_interleave</span><span class="p">(</span><span class="n">ptr</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">ptr</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="MessagePassing"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing">[docs]</a><span class="k">class</span> <span class="nc">MessagePassing</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Base class for creating message passing layers.</span>
+
+<span class="sd">    Message passing layers follow the form</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \mathbf{x}_i^{\prime} = \gamma_{\mathbf{\Theta}} \left( \mathbf{x}_i,</span>
+<span class="sd">        \bigoplus_{j \in \mathcal{N}(i)} \, \phi_{\mathbf{\Theta}}</span>
+<span class="sd">        \left(\mathbf{x}_i, \mathbf{x}_j,\mathbf{e}_{j,i}\right) \right),</span>
+
+<span class="sd">    where :math:`\bigoplus` denotes a differentiable, permutation invariant</span>
+<span class="sd">    function, *e.g.*, sum, mean, min, max or mul, and</span>
+<span class="sd">    :math:`\gamma_{\mathbf{\Theta}}` and :math:`\phi_{\mathbf{\Theta}}` denote</span>
+<span class="sd">    differentiable functions such as MLPs.</span>
+<span class="sd">    See `here &lt;https://pytorch-geometric.readthedocs.io/en/latest/tutorial/</span>
+<span class="sd">    create_gnn.html&gt;`__ for the accompanying tutorial.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        aggr (str or [str] or Aggregation, optional): The aggregation scheme</span>
+<span class="sd">            to use, *e.g.*, :obj:`&quot;add&quot;`, :obj:`&quot;sum&quot;` :obj:`&quot;mean&quot;`,</span>
+<span class="sd">            :obj:`&quot;min&quot;`, :obj:`&quot;max&quot;` or :obj:`&quot;mul&quot;`.</span>
+<span class="sd">            In addition, can be any</span>
+<span class="sd">            :class:`~torch_geometric.nn.aggr.Aggregation` module (or any string</span>
+<span class="sd">            that automatically resolves to it).</span>
+<span class="sd">            If given as a list, will make use of multiple aggregations in which</span>
+<span class="sd">            different outputs will get concatenated in the last dimension.</span>
+<span class="sd">            If set to :obj:`None`, the :class:`MessagePassing` instantiation is</span>
+<span class="sd">            expected to implement its own aggregation logic via</span>
+<span class="sd">            :meth:`aggregate`. (default: :obj:`&quot;add&quot;`)</span>
+<span class="sd">        aggr_kwargs (Dict[str, Any], optional): Arguments passed to the</span>
+<span class="sd">            respective aggregation function in case it gets automatically</span>
+<span class="sd">            resolved. (default: :obj:`None`)</span>
+<span class="sd">        flow (str, optional): The flow direction of message passing</span>
+<span class="sd">            (:obj:`&quot;source_to_target&quot;` or :obj:`&quot;target_to_source&quot;`).</span>
+<span class="sd">            (default: :obj:`&quot;source_to_target&quot;`)</span>
+<span class="sd">        node_dim (int, optional): The axis along which to propagate.</span>
+<span class="sd">            (default: :obj:`-2`)</span>
+<span class="sd">        decomposed_layers (int, optional): The number of feature decomposition</span>
+<span class="sd">            layers, as introduced in the `&quot;Optimizing Memory Efficiency of</span>
+<span class="sd">            Graph Neural Networks on Edge Computing Platforms&quot;</span>
+<span class="sd">            &lt;https://arxiv.org/abs/2104.03058&gt;`_ paper.</span>
+<span class="sd">            Feature decomposition reduces the peak memory usage by slicing</span>
+<span class="sd">            the feature dimensions into separated feature decomposition layers</span>
+<span class="sd">            during GNN aggregation.</span>
+<span class="sd">            This method can accelerate GNN execution on CPU-based platforms</span>
+<span class="sd">            (*e.g.*, 2-3x speedup on the</span>
+<span class="sd">            :class:`~torch_geometric.datasets.Reddit` dataset) for common GNN</span>
+<span class="sd">            models such as :class:`~torch_geometric.nn.models.GCN`,</span>
+<span class="sd">            :class:`~torch_geometric.nn.models.GraphSAGE`,</span>
+<span class="sd">            :class:`~torch_geometric.nn.models.GIN`, etc.</span>
+<span class="sd">            However, this method is not applicable to all GNN operators</span>
+<span class="sd">            available, in particular for operators in which message computation</span>
+<span class="sd">            can not easily be decomposed, *e.g.* in attention-based GNNs.</span>
+<span class="sd">            The selection of the optimal value of :obj:`decomposed_layers`</span>
+<span class="sd">            depends both on the specific graph dataset and available hardware</span>
+<span class="sd">            resources.</span>
+<span class="sd">            A value of :obj:`2` is suitable in most cases.</span>
+<span class="sd">            Although the peak memory usage is directly associated with the</span>
+<span class="sd">            granularity of feature decomposition, the same is not necessarily</span>
+<span class="sd">            true for execution speedups. (default: :obj:`1`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">special_args</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;edge_index&#39;</span><span class="p">,</span> <span class="s1">&#39;adj_t&#39;</span><span class="p">,</span> <span class="s1">&#39;edge_index_i&#39;</span><span class="p">,</span> <span class="s1">&#39;edge_index_j&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;size_i&#39;</span><span class="p">,</span> <span class="s1">&#39;size_j&#39;</span><span class="p">,</span> <span class="s1">&#39;ptr&#39;</span><span class="p">,</span> <span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="s1">&#39;dim_size&#39;</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">aggr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Aggregation</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;add&quot;</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">aggr_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">flow</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;source_to_target&quot;</span><span class="p">,</span>
+        <span class="n">node_dim</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">decomposed_layers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">aggr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">aggr</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">aggr</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Aggregation</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">aggr</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">aggr</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">aggr</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">aggr</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">aggr</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">aggr_module</span> <span class="o">=</span> <span class="n">aggr_resolver</span><span class="p">(</span><span class="n">aggr</span><span class="p">,</span> <span class="o">**</span><span class="p">(</span><span class="n">aggr_kwargs</span> <span class="ow">or</span> <span class="p">{}))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">flow</span> <span class="o">=</span> <span class="n">flow</span>
+
+        <span class="k">if</span> <span class="n">flow</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;source_to_target&#39;</span><span class="p">,</span> <span class="s1">&#39;target_to_source&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected &#39;flow&#39; to be either &#39;source_to_target&#39;&quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot; or &#39;target_to_source&#39; (got &#39;</span><span class="si">{</span><span class="n">flow</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span> <span class="o">=</span> <span class="n">node_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decomposed_layers</span> <span class="o">=</span> <span class="n">decomposed_layers</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span> <span class="o">=</span> <span class="n">Inspector</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">inspect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">inspect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aggregate</span><span class="p">,</span> <span class="n">pop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;aggregate&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;aggr&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">inspect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message_and_aggregate</span><span class="p">,</span> <span class="n">pop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">inspect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">,</span> <span class="n">pop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">inspect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edge_update</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span>
+            <span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;aggregate&#39;</span><span class="p">,</span> <span class="s1">&#39;update&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">special_args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fused_user_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span>
+            <span class="p">[</span><span class="s1">&#39;message_and_aggregate&#39;</span><span class="p">,</span> <span class="s1">&#39;update&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">special_args</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_edge_user_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">keys</span><span class="p">([</span><span class="s1">&#39;edge_update&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">special_args</span><span class="p">)</span>
+
+        <span class="c1"># Support for &quot;fused&quot; message passing.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fuse</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">implements</span><span class="p">(</span><span class="s1">&#39;message_and_aggregate&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fuse</span> <span class="o">&amp;=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aggr</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggr</span> <span class="ow">in</span> <span class="n">FUSE_AGGRS</span>
+
+        <span class="c1"># Support for explainability.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_explain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_edge_mask</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_loop_mask</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_sigmoid</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Hooks:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_propagate_forward_pre_hooks</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_propagate_forward_hooks</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_message_forward_pre_hooks</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_message_forward_hooks</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aggregate_forward_pre_hooks</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aggregate_forward_hooks</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_message_and_aggregate_forward_pre_hooks</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_message_and_aggregate_forward_hooks</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_edge_update_forward_pre_hooks</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_edge_update_forward_hooks</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+
+<div class="viewcode-block" id="MessagePassing.reset_parameters"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.reset_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Resets all learnable parameters of the module.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggr_module</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">aggr_module</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MessagePassing.forward"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Runs the forward pass of the module.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+    <span class="k">def</span> <span class="nf">_check_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="n">the_size</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">is_sparse</span><span class="p">(</span><span class="n">edge_index</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flow</span> <span class="o">==</span> <span class="s1">&#39;target_to_source&#39;</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="p">(</span><span class="s1">&#39;Flow direction &quot;target_to_source&quot; is invalid for &#39;</span>
+                     <span class="s1">&#39;message propagation via `torch_sparse.SparseTensor` &#39;</span>
+                     <span class="s1">&#39;or `torch.sparse.Tensor`. If you really want to make &#39;</span>
+                     <span class="s1">&#39;use of a reverse message passing flow, pass in the &#39;</span>
+                     <span class="s1">&#39;transposed sparse tensor to the message passing module, &#39;</span>
+                     <span class="s1">&#39;e.g., `adj_t.t()`.&#39;</span><span class="p">))</span>
+            <span class="n">the_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">the_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">the_size</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">int_dtypes</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">uint8</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">int8</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">int64</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">int_dtypes</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected &#39;edge_index&#39; to be of integer &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;type (got &#39;</span><span class="si">{</span><span class="n">edge_index</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected &#39;edge_index&#39; to be two-dimensional&quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot; (got </span><span class="si">{</span><span class="n">edge_index</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span><span class="si">}</span><span class="s2"> dimensions)&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">is_tracing</span><span class="p">()</span> <span class="ow">and</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected &#39;edge_index&#39; to have size &#39;2&#39; in &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;the first dimension (got &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">the_size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">the_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">the_size</span>
+
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;`MessagePassing.propagate` only supports integer tensors of &#39;</span>
+             <span class="s1">&#39;shape `[2, num_messages]`, `torch_sparse.SparseTensor` or &#39;</span>
+             <span class="s1">&#39;`torch.sparse.Tensor` for argument `edge_index`.&#39;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_set_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
+        <span class="n">the_size</span> <span class="o">=</span> <span class="n">size</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">the_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">size</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">the_size</span> <span class="o">!=</span> <span class="n">src</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Encountered tensor with size </span><span class="si">{</span><span class="n">src</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">)</span><span class="si">}</span><span class="s1"> in &#39;</span>
+                 <span class="sa">f</span><span class="s1">&#39;dimension </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="si">}</span><span class="s1">, but expected size </span><span class="si">{</span><span class="n">the_size</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_lift</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">is_torch_sparse_tensor</span><span class="p">(</span><span class="n">edge_index</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_coo</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">_indices</span><span class="p">()[</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dim</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csr</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">col_indices</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="n">ptr2index</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">crow_indices</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csc</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="n">ptr2index</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">ccol_indices</span><span class="p">())</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">row_indices</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported sparse tensor layout &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;(got &#39;</span><span class="si">{</span><span class="n">edge_index</span><span class="o">.</span><span class="n">layout</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">src</span><span class="o">.</span><span class="n">index_select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">src</span><span class="o">.</span><span class="n">index_select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">IndexError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">index</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">src</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Encountered an index error. Please ensure that all &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;indices in &#39;edge_index&#39; point to valid indices in &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;the interval [0, </span><span class="si">{</span><span class="n">src</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">] &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;(got interval &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="si">}</span><span class="s2">])&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">e</span>
+
+                <span class="k">if</span> <span class="n">index</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">index</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Found negative indices in &#39;edge_index&#39; (got &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">index</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">). Please ensure that all &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;indices in &#39;edge_index&#39; point to valid indices &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;in the interval [0, </span><span class="si">{</span><span class="n">src</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">)</span><span class="si">}</span><span class="s2">) in &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;your node feature matrix and try again.&quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">index</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span>
+                        <span class="ow">and</span> <span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">src</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">)):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Found indices in &#39;edge_index&#39; that are larger &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;than </span><span class="si">{</span><span class="n">src</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2"> (got &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">index</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s2">). Please ensure that all &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;indices in &#39;edge_index&#39; point to valid indices &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;in the interval [0, </span><span class="si">{</span><span class="n">src</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">)</span><span class="si">}</span><span class="s2">) in &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;your node feature matrix and try again.&quot;</span><span class="p">)</span>
+
+                <span class="k">raise</span> <span class="n">e</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">SparseTensor</span><span class="p">):</span>
+            <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">coo</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">src</span><span class="o">.</span><span class="n">index_select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">src</span><span class="o">.</span><span class="n">index_select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="p">(</span><span class="s1">&#39;`MessagePassing.propagate` only supports integer tensors of &#39;</span>
+             <span class="s1">&#39;shape `[2, num_messages]`, `torch_sparse.SparseTensor` &#39;</span>
+             <span class="s1">&#39;or `torch.sparse.Tensor` for argument `edge_index`.&#39;</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flow</span> <span class="o">==</span> <span class="s1">&#39;source_to_target&#39;</span> <span class="k">else</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">arg</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;_i&#39;</span><span class="p">,</span> <span class="s1">&#39;_j&#39;</span><span class="p">]:</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dim</span> <span class="o">=</span> <span class="n">j</span> <span class="k">if</span> <span class="n">arg</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;_j&#39;</span> <span class="k">else</span> <span class="n">i</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">arg</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dim</span><span class="p">],</span> <span class="n">Tensor</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_set_size</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">dim</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="n">dim</span><span class="p">])</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_set_size</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lift</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">dim</span><span class="p">)</span>
+
+                <span class="n">out</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+
+        <span class="k">if</span> <span class="n">is_torch_sparse_tensor</span><span class="p">(</span><span class="n">edge_index</span><span class="p">):</span>
+            <span class="n">indices</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="n">to_edge_index</span><span class="p">(</span><span class="n">edge_index</span><span class="p">)</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;adj_t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_index</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_index_i&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_index_j&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;ptr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># TODO Get `rowptr` from CSR representation.</span>
+            <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;edge_weight&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+            <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;edge_attr&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_attr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">values</span>
+            <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;edge_type&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;adj_t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_index</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_index_i&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_index_j&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;ptr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">SparseTensor</span><span class="p">):</span>
+            <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">coo</span><span class="p">()</span>
+            <span class="n">rowptr</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">csr</span><span class="p">()</span>
+
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;adj_t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_index</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_index_i&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_index_j&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span>
+            <span class="n">out</span><span class="p">[</span><span class="s1">&#39;ptr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rowptr</span>
+            <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;edge_weight&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;edge_attr&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_attr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;edge_type&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;index&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="s1">&#39;edge_index_i&#39;</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;size_i&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">size</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">size</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">size</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;size_j&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">size</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="k">if</span> <span class="n">size</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">size</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">out</span><span class="p">[</span><span class="s1">&#39;dim_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="s1">&#39;size_i&#39;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+<div class="viewcode-block" id="MessagePassing.propagate"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.propagate">[docs]</a>    <span class="k">def</span> <span class="nf">propagate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">:</span> <span class="n">Adj</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="n">Size</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The initial call to start propagating messages.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_index (torch.Tensor or SparseTensor): A :class:`torch.Tensor`,</span>
+<span class="sd">                a :class:`torch_sparse.SparseTensor` or a</span>
+<span class="sd">                :class:`torch.sparse.Tensor` that defines the underlying</span>
+<span class="sd">                graph connectivity/message passing flow.</span>
+<span class="sd">                :obj:`edge_index` holds the indices of a general (sparse)</span>
+<span class="sd">                assignment matrix of shape :obj:`[N, M]`.</span>
+<span class="sd">                If :obj:`edge_index` is a :obj:`torch.Tensor`, its :obj:`dtype`</span>
+<span class="sd">                should be :obj:`torch.long` and its shape needs to be defined</span>
+<span class="sd">                as :obj:`[2, num_messages]` where messages from nodes in</span>
+<span class="sd">                :obj:`edge_index[0]` are sent to nodes in :obj:`edge_index[1]`</span>
+<span class="sd">                (in case :obj:`flow=&quot;source_to_target&quot;`).</span>
+<span class="sd">                If :obj:`edge_index` is a :class:`torch_sparse.SparseTensor` or</span>
+<span class="sd">                a :class:`torch.sparse.Tensor`, its sparse indices</span>
+<span class="sd">                :obj:`(row, col)` should relate to :obj:`row = edge_index[1]`</span>
+<span class="sd">                and :obj:`col = edge_index[0]`.</span>
+<span class="sd">                The major difference between both formats is that we need to</span>
+<span class="sd">                input the *transposed* sparse adjacency matrix into</span>
+<span class="sd">                :meth:`propagate`.</span>
+<span class="sd">            size ((int, int), optional): The size :obj:`(N, M)` of the</span>
+<span class="sd">                assignment matrix in case :obj:`edge_index` is a</span>
+<span class="sd">                :class:`torch.Tensor`.</span>
+<span class="sd">                If set to :obj:`None`, the size will be automatically inferred</span>
+<span class="sd">                and assumed to be quadratic.</span>
+<span class="sd">                This argument is ignored in case :obj:`edge_index` is a</span>
+<span class="sd">                :class:`torch_sparse.SparseTensor` or</span>
+<span class="sd">                a :class:`torch.sparse.Tensor`. (default: :obj:`None`)</span>
+<span class="sd">            **kwargs: Any additional data which is needed to construct and</span>
+<span class="sd">                aggregate messages, and to update node embeddings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">decomposed_layers</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explain</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">decomposed_layers</span>
+
+        <span class="k">for</span> <span class="n">hook</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_propagate_forward_pre_hooks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">edge_index</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">res</span>
+
+        <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_input</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+        <span class="c1"># Run &quot;fused&quot; message and aggregation (if applicable).</span>
+        <span class="k">if</span> <span class="n">is_sparse</span><span class="p">(</span><span class="n">edge_index</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">fuse</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">explain</span><span class="p">:</span>
+            <span class="n">coll_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fused_user_args</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span>
+                                      <span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="n">msg_aggr_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">distribute</span><span class="p">(</span>
+                <span class="s1">&#39;message_and_aggregate&#39;</span><span class="p">,</span> <span class="n">coll_dict</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">hook</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_and_aggregate_forward_pre_hooks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">msg_aggr_kwargs</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">edge_index</span><span class="p">,</span> <span class="n">msg_aggr_kwargs</span> <span class="o">=</span> <span class="n">res</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">message_and_aggregate</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="o">**</span><span class="n">msg_aggr_kwargs</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">hook</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_and_aggregate_forward_hooks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">msg_aggr_kwargs</span><span class="p">),</span> <span class="n">out</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">out</span> <span class="o">=</span> <span class="n">res</span>
+
+            <span class="n">update_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">distribute</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">,</span> <span class="n">coll_dict</span><span class="p">)</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="o">**</span><span class="n">update_kwargs</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># Otherwise, run both functions in separation.</span>
+            <span class="k">if</span> <span class="n">decomposed_layers</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">user_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_user_args</span>
+                <span class="n">decomp_args</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">user_args</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;_j&#39;</span><span class="p">}</span>
+                <span class="n">decomp_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">a</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">chunk</span><span class="p">(</span><span class="n">decomposed_layers</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">decomp_args</span>
+                <span class="p">}</span>
+                <span class="n">decomp_out</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">decomposed_layers</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">decomposed_layers</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">decomp_args</span><span class="p">:</span>
+                        <span class="n">kwargs</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">decomp_kwargs</span><span class="p">[</span><span class="n">arg</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+
+                <span class="n">coll_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_user_args</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span>
+                                          <span class="n">kwargs</span><span class="p">)</span>
+
+                <span class="n">msg_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">distribute</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="n">coll_dict</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">hook</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_forward_pre_hooks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">msg_kwargs</span><span class="p">,</span> <span class="p">))</span>
+                    <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">msg_kwargs</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">res</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="o">**</span><span class="n">msg_kwargs</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">hook</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message_forward_hooks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">msg_kwargs</span><span class="p">,</span> <span class="p">),</span> <span class="n">out</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">out</span> <span class="o">=</span> <span class="n">res</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explain</span><span class="p">:</span>
+                    <span class="n">explain_msg_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">distribute</span><span class="p">(</span>
+                        <span class="s1">&#39;explain_message&#39;</span><span class="p">,</span> <span class="n">coll_dict</span><span class="p">)</span>
+                    <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">explain_message</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="o">**</span><span class="n">explain_msg_kwargs</span><span class="p">)</span>
+
+                <span class="n">aggr_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">distribute</span><span class="p">(</span><span class="s1">&#39;aggregate&#39;</span><span class="p">,</span> <span class="n">coll_dict</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">hook</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aggregate_forward_pre_hooks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">aggr_kwargs</span><span class="p">,</span> <span class="p">))</span>
+                    <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">aggr_kwargs</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">res</span>
+
+                <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregate</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="o">**</span><span class="n">aggr_kwargs</span><span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">hook</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aggregate_forward_hooks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">aggr_kwargs</span><span class="p">,</span> <span class="p">),</span> <span class="n">out</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">out</span> <span class="o">=</span> <span class="n">res</span>
+
+                <span class="n">update_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">distribute</span><span class="p">(</span><span class="s1">&#39;update&#39;</span><span class="p">,</span> <span class="n">coll_dict</span><span class="p">)</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="o">**</span><span class="n">update_kwargs</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">decomposed_layers</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">decomp_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">decomposed_layers</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">decomp_out</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">hook</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_propagate_forward_hooks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">),</span> <span class="n">out</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">res</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="MessagePassing.edge_updater"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.edge_updater">[docs]</a>    <span class="k">def</span> <span class="nf">edge_updater</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">:</span> <span class="n">Adj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The initial call to compute or update features for each edge in the</span>
+<span class="sd">        graph.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_index (torch.Tensor or SparseTensor): A :obj:`torch.Tensor`, a</span>
+<span class="sd">                :class:`torch_sparse.SparseTensor` or a</span>
+<span class="sd">                :class:`torch.sparse.Tensor` that defines the underlying graph</span>
+<span class="sd">                connectivity/message passing flow.</span>
+<span class="sd">                See :meth:`propagate` for more information.</span>
+<span class="sd">            **kwargs: Any additional data which is needed to compute or update</span>
+<span class="sd">                features for each edge in the graph.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">hook</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edge_update_forward_pre_hooks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">edge_index</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="n">res</span>
+
+        <span class="n">size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_check_input</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+        <span class="n">coll_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edge_user_args</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span>
+                                  <span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">edge_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">distribute</span><span class="p">(</span><span class="s1">&#39;edge_update&#39;</span><span class="p">,</span> <span class="n">coll_dict</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_update</span><span class="p">(</span><span class="o">**</span><span class="n">edge_kwargs</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">hook</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edge_update_forward_hooks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">),</span> <span class="n">out</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">out</span> <span class="o">=</span> <span class="n">res</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="MessagePassing.message"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.message">[docs]</a>    <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_j</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Constructs messages from node :math:`j` to node :math:`i`</span>
+<span class="sd">        in analogy to :math:`\phi_{\mathbf{\Theta}}` for each edge in</span>
+<span class="sd">        :obj:`edge_index`.</span>
+<span class="sd">        This function can take any argument as input which was initially</span>
+<span class="sd">        passed to :meth:`propagate`.</span>
+<span class="sd">        Furthermore, tensors passed to :meth:`propagate` can be mapped to the</span>
+<span class="sd">        respective nodes :math:`i` and :math:`j` by appending :obj:`_i` or</span>
+<span class="sd">        :obj:`_j` to the variable name, *.e.g.* :obj:`x_i` and :obj:`x_j`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">x_j</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">explain</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_explain</span>
+
+    <span class="nd">@explain</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">explain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">explain</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">explain</span><span class="p">:</span>
+            <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;explain_message&#39;</span><span class="p">,</span> <span class="s1">&#39;aggregate&#39;</span><span class="p">,</span> <span class="s1">&#39;update&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;aggregate&#39;</span><span class="p">,</span> <span class="s1">&#39;update&#39;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_explain</span> <span class="o">=</span> <span class="n">explain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">inspect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">explain_message</span><span class="p">,</span> <span class="n">pop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user_args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">keys</span><span class="p">(</span><span class="n">methods</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">special_args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">explain_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">size_i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="c1"># NOTE Replace this method in custom explainers per message-passing</span>
+        <span class="c1"># layer to customize how messages shall be explained, e.g., via:</span>
+        <span class="c1"># conv.explain_message = explain_message.__get__(conv, MessagePassing)</span>
+        <span class="c1"># see stackoverflow.com: 394770/override-a-method-at-instance-level</span>
+        <span class="n">edge_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edge_mask</span>
+
+        <span class="k">if</span> <span class="n">edge_mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find a pre-defined &#39;edge_mask&#39; as &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;part of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_sigmoid</span><span class="p">:</span>
+            <span class="n">edge_mask</span> <span class="o">=</span> <span class="n">edge_mask</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">()</span>
+
+        <span class="c1"># Some ops add self-loops to `edge_index`. We need to do the same for</span>
+        <span class="c1"># `edge_mask` (but do not train these entries).</span>
+        <span class="k">if</span> <span class="n">inputs</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">)</span> <span class="o">!=</span> <span class="n">edge_mask</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">):</span>
+            <span class="n">edge_mask</span> <span class="o">=</span> <span class="n">edge_mask</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_loop_mask</span><span class="p">]</span>
+            <span class="n">loop</span> <span class="o">=</span> <span class="n">edge_mask</span><span class="o">.</span><span class="n">new_ones</span><span class="p">(</span><span class="n">size_i</span><span class="p">)</span>
+            <span class="n">edge_mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">edge_mask</span><span class="p">,</span> <span class="n">loop</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">inputs</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">)</span> <span class="o">==</span> <span class="n">edge_mask</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">inputs</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span>
+        <span class="n">size</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="n">inputs</span> <span class="o">*</span> <span class="n">edge_mask</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MessagePassing.aggregate"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.aggregate">[docs]</a>    <span class="k">def</span> <span class="nf">aggregate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                  <span class="n">ptr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">dim_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Aggregates messages from neighbors as</span>
+<span class="sd">        :math:`\bigoplus_{j \in \mathcal{N}(i)}`.</span>
+
+<span class="sd">        Takes in the output of message computation as first argument and any</span>
+<span class="sd">        argument which was initially passed to :meth:`propagate`.</span>
+
+<span class="sd">        By default, this function will delegate its call to the underlying</span>
+<span class="sd">        :class:`~torch_geometric.nn.aggr.Aggregation` module to reduce messages</span>
+<span class="sd">        as specified in :meth:`__init__` by the :obj:`aggr` argument.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggr_module</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">ptr</span><span class="o">=</span><span class="n">ptr</span><span class="p">,</span> <span class="n">dim_size</span><span class="o">=</span><span class="n">dim_size</span><span class="p">,</span>
+                                <span class="n">dim</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">node_dim</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MessagePassing.message_and_aggregate"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.message_and_aggregate">[docs]</a>    <span class="k">def</span> <span class="nf">message_and_aggregate</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">adj_t</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">SparseTensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Fuses computations of :func:`message` and :func:`aggregate` into a</span>
+<span class="sd">        single function.</span>
+<span class="sd">        If applicable, this saves both time and memory since messages do not</span>
+<span class="sd">        explicitly need to be materialized.</span>
+<span class="sd">        This function will only gets called in case it is implemented and</span>
+<span class="sd">        propagation takes place based on a :obj:`torch_sparse.SparseTensor`</span>
+<span class="sd">        or a :obj:`torch.sparse.Tensor`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="MessagePassing.update"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Updates node embeddings in analogy to</span>
+<span class="sd">        :math:`\gamma_{\mathbf{\Theta}}` for each node</span>
+<span class="sd">        :math:`i \in \mathcal{V}`.</span>
+<span class="sd">        Takes in the output of aggregation as first argument and any argument</span>
+<span class="sd">        which was initially passed to :meth:`propagate`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">inputs</span></div>
+
+<div class="viewcode-block" id="MessagePassing.edge_update"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.edge_update">[docs]</a>    <span class="k">def</span> <span class="nf">edge_update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computes or updates features for each edge in the graph.</span>
+<span class="sd">        This function can take any argument as input which was initially passed</span>
+<span class="sd">        to :meth:`edge_updater`.</span>
+<span class="sd">        Furthermore, tensors passed to :meth:`edge_updater` can be mapped to</span>
+<span class="sd">        the respective nodes :math:`i` and :math:`j` by appending :obj:`_i` or</span>
+<span class="sd">        :obj:`_j` to the variable name, *.e.g.* :obj:`x_i` and :obj:`x_j`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="MessagePassing.register_propagate_forward_pre_hook"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.register_propagate_forward_pre_hook">[docs]</a>    <span class="k">def</span> <span class="nf">register_propagate_forward_pre_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                            <span class="n">hook</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RemovableHandle</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Registers a forward pre-hook on the module.</span>
+
+<span class="sd">        The hook will be called every time before :meth:`propagate` is invoked.</span>
+<span class="sd">        It should have the following signature:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            hook(module, inputs) -&gt; None or modified input</span>
+
+<span class="sd">        The hook can modify the input.</span>
+<span class="sd">        Input keyword arguments are passed to the hook as a dictionary in</span>
+<span class="sd">        :obj:`inputs[-1]`.</span>
+
+<span class="sd">        Returns a :class:`torch.utils.hooks.RemovableHandle` that can be used</span>
+<span class="sd">        to remove the added hook by calling :obj:`handle.remove()`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="n">RemovableHandle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_propagate_forward_pre_hooks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_propagate_forward_pre_hooks</span><span class="p">[</span><span class="n">handle</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">hook</span>
+        <span class="k">return</span> <span class="n">handle</span></div>
+
+<div class="viewcode-block" id="MessagePassing.register_propagate_forward_hook"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.register_propagate_forward_hook">[docs]</a>    <span class="k">def</span> <span class="nf">register_propagate_forward_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                        <span class="n">hook</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RemovableHandle</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Registers a forward hook on the module.</span>
+
+<span class="sd">        The hook will be called every time after :meth:`propagate` has computed</span>
+<span class="sd">        an output.</span>
+<span class="sd">        It should have the following signature:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            hook(module, inputs, output) -&gt; None or modified output</span>
+
+<span class="sd">        The hook can modify the output.</span>
+<span class="sd">        Input keyword arguments are passed to the hook as a dictionary in</span>
+<span class="sd">        :obj:`inputs[-1]`.</span>
+
+<span class="sd">        Returns a :class:`torch.utils.hooks.RemovableHandle` that can be used</span>
+<span class="sd">        to remove the added hook by calling :obj:`handle.remove()`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="n">RemovableHandle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_propagate_forward_hooks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_propagate_forward_hooks</span><span class="p">[</span><span class="n">handle</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">hook</span>
+        <span class="k">return</span> <span class="n">handle</span></div>
+
+<div class="viewcode-block" id="MessagePassing.register_message_forward_pre_hook"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.register_message_forward_pre_hook">[docs]</a>    <span class="k">def</span> <span class="nf">register_message_forward_pre_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                          <span class="n">hook</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RemovableHandle</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Registers a forward pre-hook on the module.</span>
+<span class="sd">        The hook will be called every time before :meth:`message` is invoked.</span>
+<span class="sd">        See :meth:`register_propagate_forward_pre_hook` for more information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="n">RemovableHandle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_message_forward_pre_hooks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_message_forward_pre_hooks</span><span class="p">[</span><span class="n">handle</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">hook</span>
+        <span class="k">return</span> <span class="n">handle</span></div>
+
+<div class="viewcode-block" id="MessagePassing.register_message_forward_hook"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.register_message_forward_hook">[docs]</a>    <span class="k">def</span> <span class="nf">register_message_forward_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hook</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RemovableHandle</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Registers a forward hook on the module.</span>
+<span class="sd">        The hook will be called every time after :meth:`message` has computed</span>
+<span class="sd">        an output.</span>
+<span class="sd">        See :meth:`register_propagate_forward_hook` for more information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="n">RemovableHandle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_message_forward_hooks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_message_forward_hooks</span><span class="p">[</span><span class="n">handle</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">hook</span>
+        <span class="k">return</span> <span class="n">handle</span></div>
+
+<div class="viewcode-block" id="MessagePassing.register_aggregate_forward_pre_hook"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.register_aggregate_forward_pre_hook">[docs]</a>    <span class="k">def</span> <span class="nf">register_aggregate_forward_pre_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                            <span class="n">hook</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RemovableHandle</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Registers a forward pre-hook on the module.</span>
+<span class="sd">        The hook will be called every time before :meth:`aggregate` is invoked.</span>
+<span class="sd">        See :meth:`register_propagate_forward_pre_hook` for more information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="n">RemovableHandle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_aggregate_forward_pre_hooks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aggregate_forward_pre_hooks</span><span class="p">[</span><span class="n">handle</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">hook</span>
+        <span class="k">return</span> <span class="n">handle</span></div>
+
+<div class="viewcode-block" id="MessagePassing.register_aggregate_forward_hook"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.register_aggregate_forward_hook">[docs]</a>    <span class="k">def</span> <span class="nf">register_aggregate_forward_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                        <span class="n">hook</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RemovableHandle</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Registers a forward hook on the module.</span>
+<span class="sd">        The hook will be called every time after :meth:`aggregate` has computed</span>
+<span class="sd">        an output.</span>
+<span class="sd">        See :meth:`register_propagate_forward_hook` for more information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="n">RemovableHandle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_aggregate_forward_hooks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_aggregate_forward_hooks</span><span class="p">[</span><span class="n">handle</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">hook</span>
+        <span class="k">return</span> <span class="n">handle</span></div>
+
+<div class="viewcode-block" id="MessagePassing.register_message_and_aggregate_forward_pre_hook"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.register_message_and_aggregate_forward_pre_hook">[docs]</a>    <span class="k">def</span> <span class="nf">register_message_and_aggregate_forward_pre_hook</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">hook</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RemovableHandle</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Registers a forward pre-hook on the module.</span>
+<span class="sd">        The hook will be called every time before :meth:`message_and_aggregate`</span>
+<span class="sd">        is invoked.</span>
+<span class="sd">        See :meth:`register_propagate_forward_pre_hook` for more information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="n">RemovableHandle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_message_and_aggregate_forward_pre_hooks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_message_and_aggregate_forward_pre_hooks</span><span class="p">[</span><span class="n">handle</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">hook</span>
+        <span class="k">return</span> <span class="n">handle</span></div>
+
+<div class="viewcode-block" id="MessagePassing.register_message_and_aggregate_forward_hook"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.register_message_and_aggregate_forward_hook">[docs]</a>    <span class="k">def</span> <span class="nf">register_message_and_aggregate_forward_hook</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">hook</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RemovableHandle</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Registers a forward hook on the module.</span>
+<span class="sd">        The hook will be called every time after :meth:`message_and_aggregate`</span>
+<span class="sd">        has computed an output.</span>
+<span class="sd">        See :meth:`register_propagate_forward_hook` for more information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="n">RemovableHandle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_message_and_aggregate_forward_hooks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_message_and_aggregate_forward_hooks</span><span class="p">[</span><span class="n">handle</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">hook</span>
+        <span class="k">return</span> <span class="n">handle</span></div>
+
+<div class="viewcode-block" id="MessagePassing.register_edge_update_forward_pre_hook"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.register_edge_update_forward_pre_hook">[docs]</a>    <span class="k">def</span> <span class="nf">register_edge_update_forward_pre_hook</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">hook</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RemovableHandle</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Registers a forward pre-hook on the module.</span>
+<span class="sd">        The hook will be called every time before :meth:`edge_update` is</span>
+<span class="sd">        invoked. See :meth:`register_propagate_forward_pre_hook` for more</span>
+<span class="sd">        information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="n">RemovableHandle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edge_update_forward_pre_hooks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_edge_update_forward_pre_hooks</span><span class="p">[</span><span class="n">handle</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">hook</span>
+        <span class="k">return</span> <span class="n">handle</span></div>
+
+<div class="viewcode-block" id="MessagePassing.register_edge_update_forward_hook"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.register_edge_update_forward_hook">[docs]</a>    <span class="k">def</span> <span class="nf">register_edge_update_forward_hook</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                          <span class="n">hook</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RemovableHandle</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Registers a forward hook on the module.</span>
+<span class="sd">        The hook will be called every time after :meth:`edge_update` has</span>
+<span class="sd">        computed an output.</span>
+<span class="sd">        See :meth:`register_propagate_forward_hook` for more information.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="n">RemovableHandle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_edge_update_forward_hooks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_edge_update_forward_hooks</span><span class="p">[</span><span class="n">handle</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">hook</span>
+        <span class="k">return</span> <span class="n">handle</span></div>
+
+<div class="viewcode-block" id="MessagePassing.jittable"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.jittable">[docs]</a>    <span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">unused</span>
+    <span class="k">def</span> <span class="nf">jittable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">typing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MessagePassing&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Analyzes the :class:`MessagePassing` instance and produces a new</span>
+<span class="sd">        jittable module that can be used in combination with</span>
+<span class="sd">        :meth:`torch.jit.script`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            typing (str, optional): If given, will generate a concrete instance</span>
+<span class="sd">                with :meth:`forward` types based on :obj:`typing`, *e.g.*,</span>
+<span class="sd">                :obj:`&quot;(Tensor, Optional[Tensor]) -&gt; Tensor&quot;`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">jinja2</span> <span class="kn">import</span> <span class="n">Template</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
+                <span class="s2">&quot;No module named &#39;jinja2&#39; found on this machine. &quot;</span>
+                <span class="s2">&quot;Run &#39;pip install jinja2&#39; to install the library.&quot;</span><span class="p">)</span>
+
+        <span class="n">source</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)</span>
+
+        <span class="c1"># Find and parse `propagate()` types to format `{arg1: type1, ...}`.</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;propagate_type&#39;</span><span class="p">):</span>
+            <span class="n">prop_types</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="n">sanitize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">propagate_type</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;#\s*propagate_type:\s*\((.*)\)&#39;</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s1">&#39;TorchScript support requires the definition of the types &#39;</span>
+                    <span class="s1">&#39;passed to `propagate()`. Please specify them via</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+                    <span class="s1">&#39;propagate_type = {&quot;arg1&quot;: type1, &quot;arg2&quot;: type2, ... }</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+                    <span class="s1">&#39;or via</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+                    <span class="s1">&#39;# propagate_type: (arg1: type1, arg2: type2, ...)</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+                    <span class="s1">&#39;inside the `MessagePassing` module.&#39;</span><span class="p">)</span>
+            <span class="n">prop_types</span> <span class="o">=</span> <span class="n">split_types_repr</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">prop_types</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">([</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s*:\s*&#39;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">prop_types</span><span class="p">])</span>
+
+        <span class="c1"># Find and parse `edge_updater` types to format `{arg1: type1, ...}`.</span>
+        <span class="k">if</span> <span class="s1">&#39;edge_update&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;edge_updater_type&#39;</span><span class="p">):</span>
+                <span class="n">edge_updater_types</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">k</span><span class="p">:</span> <span class="n">sanitize</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_updater</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;#\s*edge_updater_type:\s*\((.*)\)&#39;</span><span class="p">,</span> <span class="n">source</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                        <span class="s1">&#39;TorchScript support requires the definition of the &#39;</span>
+                        <span class="s1">&#39;types passed to `edge_updater()`. Please specify &#39;</span>
+                        <span class="s1">&#39;them via</span><span class="se">\n\n</span><span class="s1"> edge_updater_type = {&quot;arg1&quot;: type1, &#39;</span>
+                        <span class="s1">&#39;&quot;arg2&quot;: type2, ... }</span><span class="se">\n\n</span><span class="s1"> or via</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+                        <span class="s1">&#39;# edge_updater_type: (arg1: type1, arg2: type2, ...)&#39;</span>
+                        <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">inside the `MessagePassing` module.&#39;</span><span class="p">)</span>
+                <span class="n">edge_updater_types</span> <span class="o">=</span> <span class="n">split_types_repr</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+                <span class="n">edge_updater_types</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s*:\s*&#39;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">edge_updater_types</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">edge_updater_types</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">type_hints</span> <span class="o">=</span> <span class="n">get_type_hints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
+        <span class="n">prop_return_type</span> <span class="o">=</span> <span class="n">type_hints</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;return&#39;</span><span class="p">,</span> <span class="s1">&#39;Tensor&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">prop_return_type</span><span class="p">)[:</span><span class="mi">6</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&lt;class&#39;</span><span class="p">:</span>
+            <span class="n">prop_return_type</span> <span class="o">=</span> <span class="n">prop_return_type</span><span class="o">.</span><span class="vm">__name__</span>
+
+        <span class="n">type_hints</span> <span class="o">=</span> <span class="n">get_type_hints</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="n">edge_update</span><span class="p">)</span>
+        <span class="n">edge_updater_return_type</span> <span class="o">=</span> <span class="n">type_hints</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;return&#39;</span><span class="p">,</span> <span class="s1">&#39;Tensor&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">edge_updater_return_type</span><span class="p">)[:</span><span class="mi">6</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&lt;class&#39;</span><span class="p">:</span>
+            <span class="n">edge_updater_return_type</span> <span class="o">=</span> <span class="n">edge_updater_return_type</span><span class="o">.</span><span class="vm">__name__</span>
+
+        <span class="c1"># Parse `_collect()` types to format `{arg:1, type1, ...}`.</span>
+        <span class="n">collect_types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">types</span><span class="p">(</span>
+            <span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">,</span> <span class="s1">&#39;aggregate&#39;</span><span class="p">,</span> <span class="s1">&#39;update&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Parse `_collect()` types to format `{arg:1, type1, ...}`,</span>
+        <span class="c1"># specific to the argument used for edge updates.</span>
+        <span class="n">edge_collect_types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">types</span><span class="p">([</span><span class="s1">&#39;edge_update&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Collect `forward()` header, body and @overload types.</span>
+        <span class="n">forward_types</span> <span class="o">=</span> <span class="n">parse_types</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">)</span>
+        <span class="n">forward_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">resolve_types</span><span class="p">(</span><span class="o">*</span><span class="n">types</span><span class="p">)</span> <span class="k">for</span> <span class="n">types</span> <span class="ow">in</span> <span class="n">forward_types</span><span class="p">]</span>
+        <span class="n">forward_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="n">forward_types</span><span class="p">))</span>
+
+        <span class="n">keep_annotation</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">forward_types</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span>
+        <span class="n">forward_header</span> <span class="o">=</span> <span class="n">func_header_repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">,</span> <span class="n">keep_annotation</span><span class="p">)</span>
+        <span class="n">forward_body</span> <span class="o">=</span> <span class="n">func_body_repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forward</span><span class="p">,</span> <span class="n">keep_annotation</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">keep_annotation</span><span class="p">:</span>
+            <span class="n">forward_types</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">elif</span> <span class="n">typing</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">forward_types</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">forward_body</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;# type: </span><span class="si">{</span><span class="n">typing</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">forward_body</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="n">root</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s1">&#39;message_passing.jinja&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">template</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+        <span class="n">uid</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%06x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">16</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">cls_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">Jittable_</span><span class="si">{</span><span class="n">uid</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">jit_module_repr</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span>
+            <span class="n">uid</span><span class="o">=</span><span class="n">uid</span><span class="p">,</span>
+            <span class="n">module</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span><span class="p">),</span>
+            <span class="n">cls_name</span><span class="o">=</span><span class="n">cls_name</span><span class="p">,</span>
+            <span class="n">parent_cls_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="n">prop_types</span><span class="o">=</span><span class="n">prop_types</span><span class="p">,</span>
+            <span class="n">prop_return_type</span><span class="o">=</span><span class="n">prop_return_type</span><span class="p">,</span>
+            <span class="n">fuse</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fuse</span><span class="p">,</span>
+            <span class="n">collect_types</span><span class="o">=</span><span class="n">collect_types</span><span class="p">,</span>
+            <span class="n">user_args</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_user_args</span><span class="p">,</span>
+            <span class="n">edge_user_args</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_edge_user_args</span><span class="p">,</span>
+            <span class="n">forward_header</span><span class="o">=</span><span class="n">forward_header</span><span class="p">,</span>
+            <span class="n">forward_types</span><span class="o">=</span><span class="n">forward_types</span><span class="p">,</span>
+            <span class="n">forward_body</span><span class="o">=</span><span class="n">forward_body</span><span class="p">,</span>
+            <span class="n">msg_args</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">keys</span><span class="p">([</span><span class="s1">&#39;message&#39;</span><span class="p">]),</span>
+            <span class="n">aggr_args</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">keys</span><span class="p">([</span><span class="s1">&#39;aggregate&#39;</span><span class="p">]),</span>
+            <span class="n">msg_and_aggr_args</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">keys</span><span class="p">([</span><span class="s1">&#39;message_and_aggregate&#39;</span><span class="p">]),</span>
+            <span class="n">update_args</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">keys</span><span class="p">([</span><span class="s1">&#39;update&#39;</span><span class="p">]),</span>
+            <span class="n">edge_collect_types</span><span class="o">=</span><span class="n">edge_collect_types</span><span class="p">,</span>
+            <span class="n">edge_update_args</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">inspector</span><span class="o">.</span><span class="n">keys</span><span class="p">([</span><span class="s1">&#39;edge_update&#39;</span><span class="p">]),</span>
+            <span class="n">edge_updater_types</span><span class="o">=</span><span class="n">edge_updater_types</span><span class="p">,</span>
+            <span class="n">edge_updater_return_type</span><span class="o">=</span><span class="n">edge_updater_return_type</span><span class="p">,</span>
+            <span class="n">check_input</span><span class="o">=</span><span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_check_input</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="c1"># Instantiate a class from the rendered JIT module representation.</span>
+        <span class="bp">cls</span> <span class="o">=</span> <span class="n">class_from_module_repr</span><span class="p">(</span><span class="n">cls_name</span><span class="p">,</span> <span class="n">jit_module_repr</span><span class="p">)</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="n">module</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">module</span><span class="o">.</span><span class="n">jittable</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">module</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;in_channels&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;out_channels&#39;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">in_channels</span><span class="si">}</span><span class="s1">, &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">out_channels</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">()&#39;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

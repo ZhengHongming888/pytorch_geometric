@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.AddRandomMetaPaths
+==============================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: AddRandomMetaPaths
+   :show-inheritance:

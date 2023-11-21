@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overview: module code &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/distribute_pyg.html">Distributed Training for PyG</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Overview: module code</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>All modules for which code is available</h1>
+<ul><li><a href="torch_geometric/compile.html">torch_geometric.compile</a></li>
+<li><a href="torch_geometric/contrib/explain/pgm_explainer.html">torch_geometric.contrib.explain.pgm_explainer</a></li>
+<li><a href="torch_geometric/contrib/nn/models/rbcd_attack.html">torch_geometric.contrib.nn.models.rbcd_attack</a></li>
+<li><a href="torch_geometric/data/batch.html">torch_geometric.data.batch</a></li>
+<li><a href="torch_geometric/data/data.html">torch_geometric.data.data</a></li>
+<li><a href="torch_geometric/data/database.html">torch_geometric.data.database</a></li>
+<li><a href="torch_geometric/data/dataset.html">torch_geometric.data.dataset</a></li>
+<li><a href="torch_geometric/data/download.html">torch_geometric.data.download</a></li>
+<li><a href="torch_geometric/data/extract.html">torch_geometric.data.extract</a></li>
+<li><a href="torch_geometric/data/feature_store.html">torch_geometric.data.feature_store</a></li>
+<li><a href="torch_geometric/data/graph_store.html">torch_geometric.data.graph_store</a></li>
+<li><a href="torch_geometric/data/hetero_data.html">torch_geometric.data.hetero_data</a></li>
+<li><a href="torch_geometric/data/in_memory_dataset.html">torch_geometric.data.in_memory_dataset</a></li>
+<li><a href="torch_geometric/data/lightning/datamodule.html">torch_geometric.data.lightning.datamodule</a></li>
+<li><a href="torch_geometric/data/makedirs.html">torch_geometric.data.makedirs</a></li>
+<li><a href="torch_geometric/data/on_disk_dataset.html">torch_geometric.data.on_disk_dataset</a></li>
+<li><a href="torch_geometric/data/temporal.html">torch_geometric.data.temporal</a></li>
+<li><a href="torch_geometric/datasets/actor.html">torch_geometric.datasets.actor</a></li>
+<li><a href="torch_geometric/datasets/airfrans.html">torch_geometric.datasets.airfrans</a></li>
+<li><a href="torch_geometric/datasets/airports.html">torch_geometric.datasets.airports</a></li>
+<li><a href="torch_geometric/datasets/amazon.html">torch_geometric.datasets.amazon</a></li>
+<li><a href="torch_geometric/datasets/amazon_book.html">torch_geometric.datasets.amazon_book</a></li>
+<li><a href="torch_geometric/datasets/amazon_products.html">torch_geometric.datasets.amazon_products</a></li>
+<li><a href="torch_geometric/datasets/aminer.html">torch_geometric.datasets.aminer</a></li>
+<li><a href="torch_geometric/datasets/aqsol.html">torch_geometric.datasets.aqsol</a></li>
+<li><a href="torch_geometric/datasets/attributed_graph_dataset.html">torch_geometric.datasets.attributed_graph_dataset</a></li>
+<li><a href="torch_geometric/datasets/ba2motif_dataset.html">torch_geometric.datasets.ba2motif_dataset</a></li>
+<li><a href="torch_geometric/datasets/ba_multi_shapes.html">torch_geometric.datasets.ba_multi_shapes</a></li>
+<li><a href="torch_geometric/datasets/bitcoin_otc.html">torch_geometric.datasets.bitcoin_otc</a></li>
+<li><a href="torch_geometric/datasets/brca_tgca.html">torch_geometric.datasets.brca_tgca</a></li>
+<li><a href="torch_geometric/datasets/citation_full.html">torch_geometric.datasets.citation_full</a></li>
+<li><a href="torch_geometric/datasets/coauthor.html">torch_geometric.datasets.coauthor</a></li>
+<li><a href="torch_geometric/datasets/coma.html">torch_geometric.datasets.coma</a></li>
+<li><a href="torch_geometric/datasets/dblp.html">torch_geometric.datasets.dblp</a></li>
+<li><a href="torch_geometric/datasets/dbp15k.html">torch_geometric.datasets.dbp15k</a></li>
+<li><a href="torch_geometric/datasets/deezer_europe.html">torch_geometric.datasets.deezer_europe</a></li>
+<li><a href="torch_geometric/datasets/dgraph.html">torch_geometric.datasets.dgraph</a></li>
+<li><a href="torch_geometric/datasets/dynamic_faust.html">torch_geometric.datasets.dynamic_faust</a></li>
+<li><a href="torch_geometric/datasets/elliptic.html">torch_geometric.datasets.elliptic</a></li>
+<li><a href="torch_geometric/datasets/elliptic_temporal.html">torch_geometric.datasets.elliptic_temporal</a></li>
+<li><a href="torch_geometric/datasets/email_eu_core.html">torch_geometric.datasets.email_eu_core</a></li>
+<li><a href="torch_geometric/datasets/entities.html">torch_geometric.datasets.entities</a></li>
+<li><a href="torch_geometric/datasets/explainer_dataset.html">torch_geometric.datasets.explainer_dataset</a></li>
+<li><a href="torch_geometric/datasets/facebook.html">torch_geometric.datasets.facebook</a></li>
+<li><a href="torch_geometric/datasets/fake.html">torch_geometric.datasets.fake</a></li>
+<li><a href="torch_geometric/datasets/faust.html">torch_geometric.datasets.faust</a></li>
+<li><a href="torch_geometric/datasets/flickr.html">torch_geometric.datasets.flickr</a></li>
+<li><a href="torch_geometric/datasets/freebase.html">torch_geometric.datasets.freebase</a></li>
+<li><a href="torch_geometric/datasets/gdelt.html">torch_geometric.datasets.gdelt</a></li>
+<li><a href="torch_geometric/datasets/gdelt_lite.html">torch_geometric.datasets.gdelt_lite</a></li>
+<li><a href="torch_geometric/datasets/ged_dataset.html">torch_geometric.datasets.ged_dataset</a></li>
+<li><a href="torch_geometric/datasets/gemsec.html">torch_geometric.datasets.gemsec</a></li>
+<li><a href="torch_geometric/datasets/geometry.html">torch_geometric.datasets.geometry</a></li>
+<li><a href="torch_geometric/datasets/github.html">torch_geometric.datasets.github</a></li>
+<li><a href="torch_geometric/datasets/gnn_benchmark_dataset.html">torch_geometric.datasets.gnn_benchmark_dataset</a></li>
+<li><a href="torch_geometric/datasets/graph_generator/ba_graph.html">torch_geometric.datasets.graph_generator.ba_graph</a></li>
+<li><a href="torch_geometric/datasets/graph_generator/base.html">torch_geometric.datasets.graph_generator.base</a></li>
+<li><a href="torch_geometric/datasets/graph_generator/er_graph.html">torch_geometric.datasets.graph_generator.er_graph</a></li>
+<li><a href="torch_geometric/datasets/graph_generator/grid_graph.html">torch_geometric.datasets.graph_generator.grid_graph</a></li>
+<li><a href="torch_geometric/datasets/heterophilous_graph_dataset.html">torch_geometric.datasets.heterophilous_graph_dataset</a></li>
+<li><a href="torch_geometric/datasets/hgb_dataset.html">torch_geometric.datasets.hgb_dataset</a></li>
+<li><a href="torch_geometric/datasets/hm.html">torch_geometric.datasets.hm</a></li>
+<li><a href="torch_geometric/datasets/hydro_net.html">torch_geometric.datasets.hydro_net</a></li>
+<li><a href="torch_geometric/datasets/icews.html">torch_geometric.datasets.icews</a></li>
+<li><a href="torch_geometric/datasets/igmc_dataset.html">torch_geometric.datasets.igmc_dataset</a></li>
+<li><a href="torch_geometric/datasets/imdb.html">torch_geometric.datasets.imdb</a></li>
+<li><a href="torch_geometric/datasets/infection_dataset.html">torch_geometric.datasets.infection_dataset</a></li>
+<li><a href="torch_geometric/datasets/jodie.html">torch_geometric.datasets.jodie</a></li>
+<li><a href="torch_geometric/datasets/karate.html">torch_geometric.datasets.karate</a></li>
+<li><a href="torch_geometric/datasets/last_fm.html">torch_geometric.datasets.last_fm</a></li>
+<li><a href="torch_geometric/datasets/lastfm_asia.html">torch_geometric.datasets.lastfm_asia</a></li>
+<li><a href="torch_geometric/datasets/linkx_dataset.html">torch_geometric.datasets.linkx_dataset</a></li>
+<li><a href="torch_geometric/datasets/lrgb.html">torch_geometric.datasets.lrgb</a></li>
+<li><a href="torch_geometric/datasets/malnet_tiny.html">torch_geometric.datasets.malnet_tiny</a></li>
+<li><a href="torch_geometric/datasets/md17.html">torch_geometric.datasets.md17</a></li>
+<li><a href="torch_geometric/datasets/mixhop_synthetic_dataset.html">torch_geometric.datasets.mixhop_synthetic_dataset</a></li>
+<li><a href="torch_geometric/datasets/mnist_superpixels.html">torch_geometric.datasets.mnist_superpixels</a></li>
+<li><a href="torch_geometric/datasets/modelnet.html">torch_geometric.datasets.modelnet</a></li>
+<li><a href="torch_geometric/datasets/molecule_net.html">torch_geometric.datasets.molecule_net</a></li>
+<li><a href="torch_geometric/datasets/motif_generator/base.html">torch_geometric.datasets.motif_generator.base</a></li>
+<li><a href="torch_geometric/datasets/motif_generator/custom.html">torch_geometric.datasets.motif_generator.custom</a></li>
+<li><a href="torch_geometric/datasets/motif_generator/cycle.html">torch_geometric.datasets.motif_generator.cycle</a></li>
+<li><a href="torch_geometric/datasets/motif_generator/house.html">torch_geometric.datasets.motif_generator.house</a></li>
+<li><a href="torch_geometric/datasets/movie_lens.html">torch_geometric.datasets.movie_lens</a></li>
+<li><a href="torch_geometric/datasets/movie_lens_100k.html">torch_geometric.datasets.movie_lens_100k</a></li>
+<li><a href="torch_geometric/datasets/movie_lens_1m.html">torch_geometric.datasets.movie_lens_1m</a></li>
+<li><a href="torch_geometric/datasets/myket.html">torch_geometric.datasets.myket</a></li>
+<li><a href="torch_geometric/datasets/nell.html">torch_geometric.datasets.nell</a></li>
+<li><a href="torch_geometric/datasets/neurograph.html">torch_geometric.datasets.neurograph</a></li>
+<li><a href="torch_geometric/datasets/ogb_mag.html">torch_geometric.datasets.ogb_mag</a></li>
+<li><a href="torch_geometric/datasets/omdb.html">torch_geometric.datasets.omdb</a></li>
+<li><a href="torch_geometric/datasets/ose_gvcs.html">torch_geometric.datasets.ose_gvcs</a></li>
+<li><a href="torch_geometric/datasets/pascal.html">torch_geometric.datasets.pascal</a></li>
+<li><a href="torch_geometric/datasets/pascal_pf.html">torch_geometric.datasets.pascal_pf</a></li>
+<li><a href="torch_geometric/datasets/pcpnet_dataset.html">torch_geometric.datasets.pcpnet_dataset</a></li>
+<li><a href="torch_geometric/datasets/pcqm4m.html">torch_geometric.datasets.pcqm4m</a></li>
+<li><a href="torch_geometric/datasets/planetoid.html">torch_geometric.datasets.planetoid</a></li>
+<li><a href="torch_geometric/datasets/polblogs.html">torch_geometric.datasets.polblogs</a></li>
+<li><a href="torch_geometric/datasets/ppi.html">torch_geometric.datasets.ppi</a></li>
+<li><a href="torch_geometric/datasets/qm7.html">torch_geometric.datasets.qm7</a></li>
+<li><a href="torch_geometric/datasets/qm9.html">torch_geometric.datasets.qm9</a></li>
+<li><a href="torch_geometric/datasets/rcdd.html">torch_geometric.datasets.rcdd</a></li>
+<li><a href="torch_geometric/datasets/reddit.html">torch_geometric.datasets.reddit</a></li>
+<li><a href="torch_geometric/datasets/reddit2.html">torch_geometric.datasets.reddit2</a></li>
+<li><a href="torch_geometric/datasets/rel_link_pred_dataset.html">torch_geometric.datasets.rel_link_pred_dataset</a></li>
+<li><a href="torch_geometric/datasets/s3dis.html">torch_geometric.datasets.s3dis</a></li>
+<li><a href="torch_geometric/datasets/sbm_dataset.html">torch_geometric.datasets.sbm_dataset</a></li>
+<li><a href="torch_geometric/datasets/shapenet.html">torch_geometric.datasets.shapenet</a></li>
+<li><a href="torch_geometric/datasets/shrec2016.html">torch_geometric.datasets.shrec2016</a></li>
+<li><a href="torch_geometric/datasets/snap_dataset.html">torch_geometric.datasets.snap_dataset</a></li>
+<li><a href="torch_geometric/datasets/suite_sparse.html">torch_geometric.datasets.suite_sparse</a></li>
+<li><a href="torch_geometric/datasets/taobao.html">torch_geometric.datasets.taobao</a></li>
+<li><a href="torch_geometric/datasets/tosca.html">torch_geometric.datasets.tosca</a></li>
+<li><a href="torch_geometric/datasets/tu_dataset.html">torch_geometric.datasets.tu_dataset</a></li>
+<li><a href="torch_geometric/datasets/twitch.html">torch_geometric.datasets.twitch</a></li>
+<li><a href="torch_geometric/datasets/upfd.html">torch_geometric.datasets.upfd</a></li>
+<li><a href="torch_geometric/datasets/webkb.html">torch_geometric.datasets.webkb</a></li>
+<li><a href="torch_geometric/datasets/wikics.html">torch_geometric.datasets.wikics</a></li>
+<li><a href="torch_geometric/datasets/wikidata.html">torch_geometric.datasets.wikidata</a></li>
+<li><a href="torch_geometric/datasets/wikipedia_network.html">torch_geometric.datasets.wikipedia_network</a></li>
+<li><a href="torch_geometric/datasets/willow_object_class.html">torch_geometric.datasets.willow_object_class</a></li>
+<li><a href="torch_geometric/datasets/word_net.html">torch_geometric.datasets.word_net</a></li>
+<li><a href="torch_geometric/datasets/yelp.html">torch_geometric.datasets.yelp</a></li>
+<li><a href="torch_geometric/datasets/zinc.html">torch_geometric.datasets.zinc</a></li>
+<li><a href="torch_geometric/debug.html">torch_geometric.debug</a></li>
+<li><a href="torch_geometric/experimental.html">torch_geometric.experimental</a></li>
+<li><a href="torch_geometric/explain/algorithm/attention_explainer.html">torch_geometric.explain.algorithm.attention_explainer</a></li>
+<li><a href="torch_geometric/explain/algorithm/base.html">torch_geometric.explain.algorithm.base</a></li>
+<li><a href="torch_geometric/explain/algorithm/captum.html">torch_geometric.explain.algorithm.captum</a></li>
+<li><a href="torch_geometric/explain/algorithm/captum_explainer.html">torch_geometric.explain.algorithm.captum_explainer</a></li>
+<li><a href="torch_geometric/explain/algorithm/dummy_explainer.html">torch_geometric.explain.algorithm.dummy_explainer</a></li>
+<li><a href="torch_geometric/explain/algorithm/gnn_explainer.html">torch_geometric.explain.algorithm.gnn_explainer</a></li>
+<li><a href="torch_geometric/explain/algorithm/graphmask_explainer.html">torch_geometric.explain.algorithm.graphmask_explainer</a></li>
+<li><a href="torch_geometric/explain/algorithm/pg_explainer.html">torch_geometric.explain.algorithm.pg_explainer</a></li>
+<li><a href="torch_geometric/explain/config.html">torch_geometric.explain.config</a></li>
+<li><a href="torch_geometric/explain/explainer.html">torch_geometric.explain.explainer</a></li>
+<li><a href="torch_geometric/explain/explanation.html">torch_geometric.explain.explanation</a></li>
+<li><a href="torch_geometric/explain/metric/basic.html">torch_geometric.explain.metric.basic</a></li>
+<li><a href="torch_geometric/explain/metric/faithfulness.html">torch_geometric.explain.metric.faithfulness</a></li>
+<li><a href="torch_geometric/explain/metric/fidelity.html">torch_geometric.explain.metric.fidelity</a></li>
+<li><a href="torch_geometric/graphgym/checkpoint.html">torch_geometric.graphgym.checkpoint</a></li>
+<li><a href="torch_geometric/graphgym/cmd_args.html">torch_geometric.graphgym.cmd_args</a></li>
+<li><a href="torch_geometric/graphgym/config.html">torch_geometric.graphgym.config</a></li>
+<li><a href="torch_geometric/graphgym/init.html">torch_geometric.graphgym.init</a></li>
+<li><a href="torch_geometric/graphgym/loader.html">torch_geometric.graphgym.loader</a></li>
+<li><a href="torch_geometric/graphgym/logger.html">torch_geometric.graphgym.logger</a></li>
+<li><a href="torch_geometric/graphgym/loss.html">torch_geometric.graphgym.loss</a></li>
+<li><a href="torch_geometric/graphgym/model_builder.html">torch_geometric.graphgym.model_builder</a></li>
+<li><a href="torch_geometric/graphgym/models/encoder.html">torch_geometric.graphgym.models.encoder</a></li>
+<li><a href="torch_geometric/graphgym/models/gnn.html">torch_geometric.graphgym.models.gnn</a></li>
+<li><a href="torch_geometric/graphgym/models/head.html">torch_geometric.graphgym.models.head</a></li>
+<li><a href="torch_geometric/graphgym/models/layer.html">torch_geometric.graphgym.models.layer</a></li>
+<li><a href="torch_geometric/graphgym/optim.html">torch_geometric.graphgym.optim</a></li>
+<li><a href="torch_geometric/graphgym/register.html">torch_geometric.graphgym.register</a></li>
+<li><a href="torch_geometric/graphgym/train.html">torch_geometric.graphgym.train</a></li>
+<li><a href="torch_geometric/graphgym/utils/agg_runs.html">torch_geometric.graphgym.utils.agg_runs</a></li>
+<li><a href="torch_geometric/graphgym/utils/comp_budget.html">torch_geometric.graphgym.utils.comp_budget</a></li>
+<li><a href="torch_geometric/graphgym/utils/device.html">torch_geometric.graphgym.utils.device</a></li>
+<li><a href="torch_geometric/graphgym/utils/epoch.html">torch_geometric.graphgym.utils.epoch</a></li>
+<li><a href="torch_geometric/graphgym/utils/io.html">torch_geometric.graphgym.utils.io</a></li>
+<li><a href="torch_geometric/graphgym/utils/tools.html">torch_geometric.graphgym.utils.tools</a></li>
+<li><a href="torch_geometric/home.html">torch_geometric.home</a></li>
+<li><a href="torch_geometric/loader/cache.html">torch_geometric.loader.cache</a></li>
+<li><a href="torch_geometric/loader/cluster.html">torch_geometric.loader.cluster</a></li>
+<li><a href="torch_geometric/loader/data_list_loader.html">torch_geometric.loader.data_list_loader</a></li>
+<li><a href="torch_geometric/loader/dataloader.html">torch_geometric.loader.dataloader</a></li>
+<li><a href="torch_geometric/loader/dense_data_loader.html">torch_geometric.loader.dense_data_loader</a></li>
+<li><a href="torch_geometric/loader/dynamic_batch_sampler.html">torch_geometric.loader.dynamic_batch_sampler</a></li>
+<li><a href="torch_geometric/loader/graph_saint.html">torch_geometric.loader.graph_saint</a></li>
+<li><a href="torch_geometric/loader/hgt_loader.html">torch_geometric.loader.hgt_loader</a></li>
+<li><a href="torch_geometric/loader/imbalanced_sampler.html">torch_geometric.loader.imbalanced_sampler</a></li>
+<li><a href="torch_geometric/loader/link_loader.html">torch_geometric.loader.link_loader</a></li>
+<li><a href="torch_geometric/loader/link_neighbor_loader.html">torch_geometric.loader.link_neighbor_loader</a></li>
+<li><a href="torch_geometric/loader/mixin.html">torch_geometric.loader.mixin</a></li>
+<li><a href="torch_geometric/loader/neighbor_loader.html">torch_geometric.loader.neighbor_loader</a></li>
+<li><a href="torch_geometric/loader/neighbor_sampler.html">torch_geometric.loader.neighbor_sampler</a></li>
+<li><a href="torch_geometric/loader/node_loader.html">torch_geometric.loader.node_loader</a></li>
+<li><a href="torch_geometric/loader/prefetch.html">torch_geometric.loader.prefetch</a></li>
+<li><a href="torch_geometric/loader/random_node_loader.html">torch_geometric.loader.random_node_loader</a></li>
+<li><a href="torch_geometric/loader/shadow.html">torch_geometric.loader.shadow</a></li>
+<li><a href="torch_geometric/loader/temporal_dataloader.html">torch_geometric.loader.temporal_dataloader</a></li>
+<li><a href="torch_geometric/loader/zip_loader.html">torch_geometric.loader.zip_loader</a></li>
+<li><a href="torch_geometric/nn/aggr/attention.html">torch_geometric.nn.aggr.attention</a></li>
+<li><a href="torch_geometric/nn/aggr/base.html">torch_geometric.nn.aggr.base</a></li>
+<li><a href="torch_geometric/nn/aggr/basic.html">torch_geometric.nn.aggr.basic</a></li>
+<li><a href="torch_geometric/nn/aggr/deep_sets.html">torch_geometric.nn.aggr.deep_sets</a></li>
+<li><a href="torch_geometric/nn/aggr/equilibrium.html">torch_geometric.nn.aggr.equilibrium</a></li>
+<li><a href="torch_geometric/nn/aggr/gmt.html">torch_geometric.nn.aggr.gmt</a></li>
+<li><a href="torch_geometric/nn/aggr/gru.html">torch_geometric.nn.aggr.gru</a></li>
+<li><a href="torch_geometric/nn/aggr/lcm.html">torch_geometric.nn.aggr.lcm</a></li>
+<li><a href="torch_geometric/nn/aggr/lstm.html">torch_geometric.nn.aggr.lstm</a></li>
+<li><a href="torch_geometric/nn/aggr/mlp.html">torch_geometric.nn.aggr.mlp</a></li>
+<li><a href="torch_geometric/nn/aggr/multi.html">torch_geometric.nn.aggr.multi</a></li>
+<li><a href="torch_geometric/nn/aggr/quantile.html">torch_geometric.nn.aggr.quantile</a></li>
+<li><a href="torch_geometric/nn/aggr/scaler.html">torch_geometric.nn.aggr.scaler</a></li>
+<li><a href="torch_geometric/nn/aggr/set2set.html">torch_geometric.nn.aggr.set2set</a></li>
+<li><a href="torch_geometric/nn/aggr/set_transformer.html">torch_geometric.nn.aggr.set_transformer</a></li>
+<li><a href="torch_geometric/nn/aggr/sort.html">torch_geometric.nn.aggr.sort</a></li>
+<li><a href="torch_geometric/nn/conv/agnn_conv.html">torch_geometric.nn.conv.agnn_conv</a></li>
+<li><a href="torch_geometric/nn/conv/antisymmetric_conv.html">torch_geometric.nn.conv.antisymmetric_conv</a></li>
+<li><a href="torch_geometric/nn/conv/appnp.html">torch_geometric.nn.conv.appnp</a></li>
+<li><a href="torch_geometric/nn/conv/arma_conv.html">torch_geometric.nn.conv.arma_conv</a></li>
+<li><a href="torch_geometric/nn/conv/cg_conv.html">torch_geometric.nn.conv.cg_conv</a></li>
+<li><a href="torch_geometric/nn/conv/cheb_conv.html">torch_geometric.nn.conv.cheb_conv</a></li>
+<li><a href="torch_geometric/nn/conv/cluster_gcn_conv.html">torch_geometric.nn.conv.cluster_gcn_conv</a></li>
+<li><a href="torch_geometric/nn/conv/cugraph/gat_conv.html">torch_geometric.nn.conv.cugraph.gat_conv</a></li>
+<li><a href="torch_geometric/nn/conv/cugraph/rgcn_conv.html">torch_geometric.nn.conv.cugraph.rgcn_conv</a></li>
+<li><a href="torch_geometric/nn/conv/cugraph/sage_conv.html">torch_geometric.nn.conv.cugraph.sage_conv</a></li>
+<li><a href="torch_geometric/nn/conv/dir_gnn_conv.html">torch_geometric.nn.conv.dir_gnn_conv</a></li>
+<li><a href="torch_geometric/nn/conv/dna_conv.html">torch_geometric.nn.conv.dna_conv</a></li>
+<li><a href="torch_geometric/nn/conv/edge_conv.html">torch_geometric.nn.conv.edge_conv</a></li>
+<li><a href="torch_geometric/nn/conv/eg_conv.html">torch_geometric.nn.conv.eg_conv</a></li>
+<li><a href="torch_geometric/nn/conv/fa_conv.html">torch_geometric.nn.conv.fa_conv</a></li>
+<li><a href="torch_geometric/nn/conv/feast_conv.html">torch_geometric.nn.conv.feast_conv</a></li>
+<li><a href="torch_geometric/nn/conv/film_conv.html">torch_geometric.nn.conv.film_conv</a></li>
+<li><a href="torch_geometric/nn/conv/fused_gat_conv.html">torch_geometric.nn.conv.fused_gat_conv</a></li>
+<li><a href="torch_geometric/nn/conv/gat_conv.html">torch_geometric.nn.conv.gat_conv</a></li>
+<li><a href="torch_geometric/nn/conv/gated_graph_conv.html">torch_geometric.nn.conv.gated_graph_conv</a></li>
+<li><a href="torch_geometric/nn/conv/gatv2_conv.html">torch_geometric.nn.conv.gatv2_conv</a></li>
+<li><a href="torch_geometric/nn/conv/gcn2_conv.html">torch_geometric.nn.conv.gcn2_conv</a></li>
+<li><a href="torch_geometric/nn/conv/gcn_conv.html">torch_geometric.nn.conv.gcn_conv</a></li>
+<li><a href="torch_geometric/nn/conv/gen_conv.html">torch_geometric.nn.conv.gen_conv</a></li>
+<li><a href="torch_geometric/nn/conv/general_conv.html">torch_geometric.nn.conv.general_conv</a></li>
+<li><a href="torch_geometric/nn/conv/gin_conv.html">torch_geometric.nn.conv.gin_conv</a></li>
+<li><a href="torch_geometric/nn/conv/gmm_conv.html">torch_geometric.nn.conv.gmm_conv</a></li>
+<li><a href="torch_geometric/nn/conv/gps_conv.html">torch_geometric.nn.conv.gps_conv</a></li>
+<li><a href="torch_geometric/nn/conv/graph_conv.html">torch_geometric.nn.conv.graph_conv</a></li>
+<li><a href="torch_geometric/nn/conv/gravnet_conv.html">torch_geometric.nn.conv.gravnet_conv</a></li>
+<li><a href="torch_geometric/nn/conv/han_conv.html">torch_geometric.nn.conv.han_conv</a></li>
+<li><a href="torch_geometric/nn/conv/heat_conv.html">torch_geometric.nn.conv.heat_conv</a></li>
+<li><a href="torch_geometric/nn/conv/hetero_conv.html">torch_geometric.nn.conv.hetero_conv</a></li>
+<li><a href="torch_geometric/nn/conv/hgt_conv.html">torch_geometric.nn.conv.hgt_conv</a></li>
+<li><a href="torch_geometric/nn/conv/hypergraph_conv.html">torch_geometric.nn.conv.hypergraph_conv</a></li>
+<li><a href="torch_geometric/nn/conv/le_conv.html">torch_geometric.nn.conv.le_conv</a></li>
+<li><a href="torch_geometric/nn/conv/lg_conv.html">torch_geometric.nn.conv.lg_conv</a></li>
+<li><a href="torch_geometric/nn/conv/message_passing.html">torch_geometric.nn.conv.message_passing</a></li>
+<li><a href="torch_geometric/nn/conv/mf_conv.html">torch_geometric.nn.conv.mf_conv</a></li>
+<li><a href="torch_geometric/nn/conv/mixhop_conv.html">torch_geometric.nn.conv.mixhop_conv</a></li>
+<li><a href="torch_geometric/nn/conv/nn_conv.html">torch_geometric.nn.conv.nn_conv</a></li>
+<li><a href="torch_geometric/nn/conv/pan_conv.html">torch_geometric.nn.conv.pan_conv</a></li>
+<li><a href="torch_geometric/nn/conv/pdn_conv.html">torch_geometric.nn.conv.pdn_conv</a></li>
+<li><a href="torch_geometric/nn/conv/pna_conv.html">torch_geometric.nn.conv.pna_conv</a></li>
+<li><a href="torch_geometric/nn/conv/point_conv.html">torch_geometric.nn.conv.point_conv</a></li>
+<li><a href="torch_geometric/nn/conv/point_gnn_conv.html">torch_geometric.nn.conv.point_gnn_conv</a></li>
+<li><a href="torch_geometric/nn/conv/point_transformer_conv.html">torch_geometric.nn.conv.point_transformer_conv</a></li>
+<li><a href="torch_geometric/nn/conv/ppf_conv.html">torch_geometric.nn.conv.ppf_conv</a></li>
+<li><a href="torch_geometric/nn/conv/res_gated_graph_conv.html">torch_geometric.nn.conv.res_gated_graph_conv</a></li>
+<li><a href="torch_geometric/nn/conv/rgat_conv.html">torch_geometric.nn.conv.rgat_conv</a></li>
+<li><a href="torch_geometric/nn/conv/rgcn_conv.html">torch_geometric.nn.conv.rgcn_conv</a></li>
+<li><a href="torch_geometric/nn/conv/sage_conv.html">torch_geometric.nn.conv.sage_conv</a></li>
+<li><a href="torch_geometric/nn/conv/sg_conv.html">torch_geometric.nn.conv.sg_conv</a></li>
+<li><a href="torch_geometric/nn/conv/signed_conv.html">torch_geometric.nn.conv.signed_conv</a></li>
+<li><a href="torch_geometric/nn/conv/simple_conv.html">torch_geometric.nn.conv.simple_conv</a></li>
+<li><a href="torch_geometric/nn/conv/spline_conv.html">torch_geometric.nn.conv.spline_conv</a></li>
+<li><a href="torch_geometric/nn/conv/ssg_conv.html">torch_geometric.nn.conv.ssg_conv</a></li>
+<li><a href="torch_geometric/nn/conv/supergat_conv.html">torch_geometric.nn.conv.supergat_conv</a></li>
+<li><a href="torch_geometric/nn/conv/tag_conv.html">torch_geometric.nn.conv.tag_conv</a></li>
+<li><a href="torch_geometric/nn/conv/transformer_conv.html">torch_geometric.nn.conv.transformer_conv</a></li>
+<li><a href="torch_geometric/nn/conv/wl_conv.html">torch_geometric.nn.conv.wl_conv</a></li>
+<li><a href="torch_geometric/nn/conv/wl_conv_continuous.html">torch_geometric.nn.conv.wl_conv_continuous</a></li>
+<li><a href="torch_geometric/nn/conv/x_conv.html">torch_geometric.nn.conv.x_conv</a></li>
+<li><a href="torch_geometric/nn/data_parallel.html">torch_geometric.nn.data_parallel</a></li>
+<li><a href="torch_geometric/nn/dense/dense_gat_conv.html">torch_geometric.nn.dense.dense_gat_conv</a></li>
+<li><a href="torch_geometric/nn/dense/dense_gcn_conv.html">torch_geometric.nn.dense.dense_gcn_conv</a></li>
+<li><a href="torch_geometric/nn/dense/dense_gin_conv.html">torch_geometric.nn.dense.dense_gin_conv</a></li>
+<li><a href="torch_geometric/nn/dense/dense_graph_conv.html">torch_geometric.nn.dense.dense_graph_conv</a></li>
+<li><a href="torch_geometric/nn/dense/dense_sage_conv.html">torch_geometric.nn.dense.dense_sage_conv</a></li>
+<li><a href="torch_geometric/nn/dense/diff_pool.html">torch_geometric.nn.dense.diff_pool</a></li>
+<li><a href="torch_geometric/nn/dense/dmon_pool.html">torch_geometric.nn.dense.dmon_pool</a></li>
+<li><a href="torch_geometric/nn/dense/linear.html">torch_geometric.nn.dense.linear</a></li>
+<li><a href="torch_geometric/nn/dense/mincut_pool.html">torch_geometric.nn.dense.mincut_pool</a></li>
+<li><a href="torch_geometric/nn/encoding.html">torch_geometric.nn.encoding</a></li>
+<li><a href="torch_geometric/nn/functional/bro.html">torch_geometric.nn.functional.bro</a></li>
+<li><a href="torch_geometric/nn/functional/gini.html">torch_geometric.nn.functional.gini</a></li>
+<li><a href="torch_geometric/nn/fx.html">torch_geometric.nn.fx</a></li>
+<li><a href="torch_geometric/nn/kge/base.html">torch_geometric.nn.kge.base</a></li>
+<li><a href="torch_geometric/nn/kge/complex.html">torch_geometric.nn.kge.complex</a></li>
+<li><a href="torch_geometric/nn/kge/distmult.html">torch_geometric.nn.kge.distmult</a></li>
+<li><a href="torch_geometric/nn/kge/rotate.html">torch_geometric.nn.kge.rotate</a></li>
+<li><a href="torch_geometric/nn/kge/transe.html">torch_geometric.nn.kge.transe</a></li>
+<li><a href="torch_geometric/nn/model_hub.html">torch_geometric.nn.model_hub</a></li>
+<li><a href="torch_geometric/nn/models/attentive_fp.html">torch_geometric.nn.models.attentive_fp</a></li>
+<li><a href="torch_geometric/nn/models/autoencoder.html">torch_geometric.nn.models.autoencoder</a></li>
+<li><a href="torch_geometric/nn/models/basic_gnn.html">torch_geometric.nn.models.basic_gnn</a></li>
+<li><a href="torch_geometric/nn/models/captum.html">torch_geometric.nn.models.captum</a></li>
+<li><a href="torch_geometric/nn/models/correct_and_smooth.html">torch_geometric.nn.models.correct_and_smooth</a></li>
+<li><a href="torch_geometric/nn/models/deep_graph_infomax.html">torch_geometric.nn.models.deep_graph_infomax</a></li>
+<li><a href="torch_geometric/nn/models/deepgcn.html">torch_geometric.nn.models.deepgcn</a></li>
+<li><a href="torch_geometric/nn/models/dimenet.html">torch_geometric.nn.models.dimenet</a></li>
+<li><a href="torch_geometric/nn/models/gnnff.html">torch_geometric.nn.models.gnnff</a></li>
+<li><a href="torch_geometric/nn/models/graph_unet.html">torch_geometric.nn.models.graph_unet</a></li>
+<li><a href="torch_geometric/nn/models/jumping_knowledge.html">torch_geometric.nn.models.jumping_knowledge</a></li>
+<li><a href="torch_geometric/nn/models/label_prop.html">torch_geometric.nn.models.label_prop</a></li>
+<li><a href="torch_geometric/nn/models/lightgcn.html">torch_geometric.nn.models.lightgcn</a></li>
+<li><a href="torch_geometric/nn/models/linkx.html">torch_geometric.nn.models.linkx</a></li>
+<li><a href="torch_geometric/nn/models/mask_label.html">torch_geometric.nn.models.mask_label</a></li>
+<li><a href="torch_geometric/nn/models/meta.html">torch_geometric.nn.models.meta</a></li>
+<li><a href="torch_geometric/nn/models/metapath2vec.html">torch_geometric.nn.models.metapath2vec</a></li>
+<li><a href="torch_geometric/nn/models/mlp.html">torch_geometric.nn.models.mlp</a></li>
+<li><a href="torch_geometric/nn/models/neural_fingerprint.html">torch_geometric.nn.models.neural_fingerprint</a></li>
+<li><a href="torch_geometric/nn/models/node2vec.html">torch_geometric.nn.models.node2vec</a></li>
+<li><a href="torch_geometric/nn/models/pmlp.html">torch_geometric.nn.models.pmlp</a></li>
+<li><a href="torch_geometric/nn/models/re_net.html">torch_geometric.nn.models.re_net</a></li>
+<li><a href="torch_geometric/nn/models/rect.html">torch_geometric.nn.models.rect</a></li>
+<li><a href="torch_geometric/nn/models/rev_gnn.html">torch_geometric.nn.models.rev_gnn</a></li>
+<li><a href="torch_geometric/nn/models/schnet.html">torch_geometric.nn.models.schnet</a></li>
+<li><a href="torch_geometric/nn/models/signed_gcn.html">torch_geometric.nn.models.signed_gcn</a></li>
+<li><a href="torch_geometric/nn/models/tgn.html">torch_geometric.nn.models.tgn</a></li>
+<li><a href="torch_geometric/nn/norm/batch_norm.html">torch_geometric.nn.norm.batch_norm</a></li>
+<li><a href="torch_geometric/nn/norm/diff_group_norm.html">torch_geometric.nn.norm.diff_group_norm</a></li>
+<li><a href="torch_geometric/nn/norm/graph_norm.html">torch_geometric.nn.norm.graph_norm</a></li>
+<li><a href="torch_geometric/nn/norm/graph_size_norm.html">torch_geometric.nn.norm.graph_size_norm</a></li>
+<li><a href="torch_geometric/nn/norm/instance_norm.html">torch_geometric.nn.norm.instance_norm</a></li>
+<li><a href="torch_geometric/nn/norm/layer_norm.html">torch_geometric.nn.norm.layer_norm</a></li>
+<li><a href="torch_geometric/nn/norm/mean_subtraction_norm.html">torch_geometric.nn.norm.mean_subtraction_norm</a></li>
+<li><a href="torch_geometric/nn/norm/msg_norm.html">torch_geometric.nn.norm.msg_norm</a></li>
+<li><a href="torch_geometric/nn/norm/pair_norm.html">torch_geometric.nn.norm.pair_norm</a></li>
+<li><a href="torch_geometric/nn/pool.html">torch_geometric.nn.pool</a></li>
+<ul><li><a href="torch_geometric/nn/pool/approx_knn.html">torch_geometric.nn.pool.approx_knn</a></li>
+<li><a href="torch_geometric/nn/pool/asap.html">torch_geometric.nn.pool.asap</a></li>
+<li><a href="torch_geometric/nn/pool/avg_pool.html">torch_geometric.nn.pool.avg_pool</a></li>
+<li><a href="torch_geometric/nn/pool/edge_pool.html">torch_geometric.nn.pool.edge_pool</a></li>
+<li><a href="torch_geometric/nn/pool/glob.html">torch_geometric.nn.pool.glob</a></li>
+<li><a href="torch_geometric/nn/pool/graclus.html">torch_geometric.nn.pool.graclus</a></li>
+<li><a href="torch_geometric/nn/pool/knn.html">torch_geometric.nn.pool.knn</a></li>
+<li><a href="torch_geometric/nn/pool/max_pool.html">torch_geometric.nn.pool.max_pool</a></li>
+<li><a href="torch_geometric/nn/pool/mem_pool.html">torch_geometric.nn.pool.mem_pool</a></li>
+<li><a href="torch_geometric/nn/pool/pan_pool.html">torch_geometric.nn.pool.pan_pool</a></li>
+<li><a href="torch_geometric/nn/pool/sag_pool.html">torch_geometric.nn.pool.sag_pool</a></li>
+<li><a href="torch_geometric/nn/pool/topk_pool.html">torch_geometric.nn.pool.topk_pool</a></li>
+<li><a href="torch_geometric/nn/pool/voxel_grid.html">torch_geometric.nn.pool.voxel_grid</a></li>
+</ul><li><a href="torch_geometric/nn/sequential.html">torch_geometric.nn.sequential</a></li>
+<li><a href="torch_geometric/nn/summary.html">torch_geometric.nn.summary</a></li>
+<li><a href="torch_geometric/nn/to_hetero_transformer.html">torch_geometric.nn.to_hetero_transformer</a></li>
+<li><a href="torch_geometric/nn/to_hetero_with_bases_transformer.html">torch_geometric.nn.to_hetero_with_bases_transformer</a></li>
+<li><a href="torch_geometric/nn/unpool/knn_interpolate.html">torch_geometric.nn.unpool.knn_interpolate</a></li>
+<li><a href="torch_geometric/profile/benchmark.html">torch_geometric.profile.benchmark</a></li>
+<li><a href="torch_geometric/profile/profile.html">torch_geometric.profile.profile</a></li>
+<li><a href="torch_geometric/profile/utils.html">torch_geometric.profile.utils</a></li>
+<li><a href="torch_geometric/sampler/base.html">torch_geometric.sampler.base</a></li>
+<li><a href="torch_geometric/sampler/hgt_sampler.html">torch_geometric.sampler.hgt_sampler</a></li>
+<li><a href="torch_geometric/sampler/neighbor_sampler.html">torch_geometric.sampler.neighbor_sampler</a></li>
+<li><a href="torch_geometric/seed.html">torch_geometric.seed</a></li>
+<li><a href="torch_geometric/transforms/add_metapaths.html">torch_geometric.transforms.add_metapaths</a></li>
+<li><a href="torch_geometric/transforms/add_positional_encoding.html">torch_geometric.transforms.add_positional_encoding</a></li>
+<li><a href="torch_geometric/transforms/add_remaining_self_loops.html">torch_geometric.transforms.add_remaining_self_loops</a></li>
+<li><a href="torch_geometric/transforms/add_self_loops.html">torch_geometric.transforms.add_self_loops</a></li>
+<li><a href="torch_geometric/transforms/base_transform.html">torch_geometric.transforms.base_transform</a></li>
+<li><a href="torch_geometric/transforms/cartesian.html">torch_geometric.transforms.cartesian</a></li>
+<li><a href="torch_geometric/transforms/center.html">torch_geometric.transforms.center</a></li>
+<li><a href="torch_geometric/transforms/compose.html">torch_geometric.transforms.compose</a></li>
+<li><a href="torch_geometric/transforms/constant.html">torch_geometric.transforms.constant</a></li>
+<li><a href="torch_geometric/transforms/delaunay.html">torch_geometric.transforms.delaunay</a></li>
+<li><a href="torch_geometric/transforms/distance.html">torch_geometric.transforms.distance</a></li>
+<li><a href="torch_geometric/transforms/face_to_edge.html">torch_geometric.transforms.face_to_edge</a></li>
+<li><a href="torch_geometric/transforms/feature_propagation.html">torch_geometric.transforms.feature_propagation</a></li>
+<li><a href="torch_geometric/transforms/fixed_points.html">torch_geometric.transforms.fixed_points</a></li>
+<li><a href="torch_geometric/transforms/gcn_norm.html">torch_geometric.transforms.gcn_norm</a></li>
+<li><a href="torch_geometric/transforms/gdc.html">torch_geometric.transforms.gdc</a></li>
+<li><a href="torch_geometric/transforms/generate_mesh_normals.html">torch_geometric.transforms.generate_mesh_normals</a></li>
+<li><a href="torch_geometric/transforms/grid_sampling.html">torch_geometric.transforms.grid_sampling</a></li>
+<li><a href="torch_geometric/transforms/half_hop.html">torch_geometric.transforms.half_hop</a></li>
+<li><a href="torch_geometric/transforms/knn_graph.html">torch_geometric.transforms.knn_graph</a></li>
+<li><a href="torch_geometric/transforms/laplacian_lambda_max.html">torch_geometric.transforms.laplacian_lambda_max</a></li>
+<li><a href="torch_geometric/transforms/largest_connected_components.html">torch_geometric.transforms.largest_connected_components</a></li>
+<li><a href="torch_geometric/transforms/line_graph.html">torch_geometric.transforms.line_graph</a></li>
+<li><a href="torch_geometric/transforms/linear_transformation.html">torch_geometric.transforms.linear_transformation</a></li>
+<li><a href="torch_geometric/transforms/local_cartesian.html">torch_geometric.transforms.local_cartesian</a></li>
+<li><a href="torch_geometric/transforms/local_degree_profile.html">torch_geometric.transforms.local_degree_profile</a></li>
+<li><a href="torch_geometric/transforms/mask.html">torch_geometric.transforms.mask</a></li>
+<li><a href="torch_geometric/transforms/node_property_split.html">torch_geometric.transforms.node_property_split</a></li>
+<li><a href="torch_geometric/transforms/normalize_features.html">torch_geometric.transforms.normalize_features</a></li>
+<li><a href="torch_geometric/transforms/normalize_rotation.html">torch_geometric.transforms.normalize_rotation</a></li>
+<li><a href="torch_geometric/transforms/normalize_scale.html">torch_geometric.transforms.normalize_scale</a></li>
+<li><a href="torch_geometric/transforms/one_hot_degree.html">torch_geometric.transforms.one_hot_degree</a></li>
+<li><a href="torch_geometric/transforms/pad.html">torch_geometric.transforms.pad</a></li>
+<li><a href="torch_geometric/transforms/point_pair_features.html">torch_geometric.transforms.point_pair_features</a></li>
+<li><a href="torch_geometric/transforms/polar.html">torch_geometric.transforms.polar</a></li>
+<li><a href="torch_geometric/transforms/radius_graph.html">torch_geometric.transforms.radius_graph</a></li>
+<li><a href="torch_geometric/transforms/random_flip.html">torch_geometric.transforms.random_flip</a></li>
+<li><a href="torch_geometric/transforms/random_jitter.html">torch_geometric.transforms.random_jitter</a></li>
+<li><a href="torch_geometric/transforms/random_link_split.html">torch_geometric.transforms.random_link_split</a></li>
+<li><a href="torch_geometric/transforms/random_node_split.html">torch_geometric.transforms.random_node_split</a></li>
+<li><a href="torch_geometric/transforms/random_rotate.html">torch_geometric.transforms.random_rotate</a></li>
+<li><a href="torch_geometric/transforms/random_scale.html">torch_geometric.transforms.random_scale</a></li>
+<li><a href="torch_geometric/transforms/random_shear.html">torch_geometric.transforms.random_shear</a></li>
+<li><a href="torch_geometric/transforms/remove_duplicated_edges.html">torch_geometric.transforms.remove_duplicated_edges</a></li>
+<li><a href="torch_geometric/transforms/remove_isolated_nodes.html">torch_geometric.transforms.remove_isolated_nodes</a></li>
+<li><a href="torch_geometric/transforms/remove_training_classes.html">torch_geometric.transforms.remove_training_classes</a></li>
+<li><a href="torch_geometric/transforms/rooted_subgraph.html">torch_geometric.transforms.rooted_subgraph</a></li>
+<li><a href="torch_geometric/transforms/sample_points.html">torch_geometric.transforms.sample_points</a></li>
+<li><a href="torch_geometric/transforms/sign.html">torch_geometric.transforms.sign</a></li>
+<li><a href="torch_geometric/transforms/spherical.html">torch_geometric.transforms.spherical</a></li>
+<li><a href="torch_geometric/transforms/svd_feature_reduction.html">torch_geometric.transforms.svd_feature_reduction</a></li>
+<li><a href="torch_geometric/transforms/target_indegree.html">torch_geometric.transforms.target_indegree</a></li>
+<li><a href="torch_geometric/transforms/to_dense.html">torch_geometric.transforms.to_dense</a></li>
+<li><a href="torch_geometric/transforms/to_device.html">torch_geometric.transforms.to_device</a></li>
+<li><a href="torch_geometric/transforms/to_sparse_tensor.html">torch_geometric.transforms.to_sparse_tensor</a></li>
+<li><a href="torch_geometric/transforms/to_superpixels.html">torch_geometric.transforms.to_superpixels</a></li>
+<li><a href="torch_geometric/transforms/to_undirected.html">torch_geometric.transforms.to_undirected</a></li>
+<li><a href="torch_geometric/transforms/two_hop.html">torch_geometric.transforms.two_hop</a></li>
+<li><a href="torch_geometric/transforms/virtual_node.html">torch_geometric.transforms.virtual_node</a></li>
+<li><a href="torch_geometric/utils/assortativity.html">torch_geometric.utils.assortativity</a></li>
+<li><a href="torch_geometric/utils/augmentation.html">torch_geometric.utils.augmentation</a></li>
+<li><a href="torch_geometric/utils/coalesce.html">torch_geometric.utils.coalesce</a></li>
+<li><a href="torch_geometric/utils/convert.html">torch_geometric.utils.convert</a></li>
+<li><a href="torch_geometric/utils/degree.html">torch_geometric.utils.degree</a></li>
+<li><a href="torch_geometric/utils/dropout.html">torch_geometric.utils.dropout</a></li>
+<li><a href="torch_geometric/utils/embedding.html">torch_geometric.utils.embedding</a></li>
+<li><a href="torch_geometric/utils/functions.html">torch_geometric.utils.functions</a></li>
+<li><a href="torch_geometric/utils/geodesic.html">torch_geometric.utils.geodesic</a></li>
+<li><a href="torch_geometric/utils/get_laplacian.html">torch_geometric.utils.get_laplacian</a></li>
+<li><a href="torch_geometric/utils/get_mesh_laplacian.html">torch_geometric.utils.get_mesh_laplacian</a></li>
+<li><a href="torch_geometric/utils/grid.html">torch_geometric.utils.grid</a></li>
+<li><a href="torch_geometric/utils/homophily.html">torch_geometric.utils.homophily</a></li>
+<li><a href="torch_geometric/utils/isolated.html">torch_geometric.utils.isolated</a></li>
+<li><a href="torch_geometric/utils/lexsort.html">torch_geometric.utils.lexsort</a></li>
+<li><a href="torch_geometric/utils/loop.html">torch_geometric.utils.loop</a></li>
+<li><a href="torch_geometric/utils/mask.html">torch_geometric.utils.mask</a></li>
+<li><a href="torch_geometric/utils/negative_sampling.html">torch_geometric.utils.negative_sampling</a></li>
+<li><a href="torch_geometric/utils/nested.html">torch_geometric.utils.nested</a></li>
+<li><a href="torch_geometric/utils/normalized_cut.html">torch_geometric.utils.normalized_cut</a></li>
+<li><a href="torch_geometric/utils/one_hot.html">torch_geometric.utils.one_hot</a></li>
+<li><a href="torch_geometric/utils/ppr.html">torch_geometric.utils.ppr</a></li>
+<li><a href="torch_geometric/utils/random.html">torch_geometric.utils.random</a></li>
+<li><a href="torch_geometric/utils/scatter.html">torch_geometric.utils.scatter</a></li>
+<li><a href="torch_geometric/utils/segment.html">torch_geometric.utils.segment</a></li>
+<li><a href="torch_geometric/utils/select.html">torch_geometric.utils.select</a></li>
+<li><a href="torch_geometric/utils/smiles.html">torch_geometric.utils.smiles</a></li>
+<li><a href="torch_geometric/utils/softmax.html">torch_geometric.utils.softmax</a></li>
+<li><a href="torch_geometric/utils/sort.html">torch_geometric.utils.sort</a></li>
+<li><a href="torch_geometric/utils/sort_edge_index.html">torch_geometric.utils.sort_edge_index</a></li>
+<li><a href="torch_geometric/utils/sparse.html">torch_geometric.utils.sparse</a></li>
+<li><a href="torch_geometric/utils/spmm.html">torch_geometric.utils.spmm</a></li>
+<li><a href="torch_geometric/utils/subgraph.html">torch_geometric.utils.subgraph</a></li>
+<li><a href="torch_geometric/utils/to_dense_adj.html">torch_geometric.utils.to_dense_adj</a></li>
+<li><a href="torch_geometric/utils/to_dense_batch.html">torch_geometric.utils.to_dense_batch</a></li>
+<li><a href="torch_geometric/utils/train_test_split_edges.html">torch_geometric.utils.train_test_split_edges</a></li>
+<li><a href="torch_geometric/utils/tree_decomposition.html">torch_geometric.utils.tree_decomposition</a></li>
+<li><a href="torch_geometric/utils/trim_to_layer.html">torch_geometric.utils.trim_to_layer</a></li>
+<li><a href="torch_geometric/utils/unbatch.html">torch_geometric.utils.unbatch</a></li>
+<li><a href="torch_geometric/utils/undirected.html">torch_geometric.utils.undirected</a></li>
+</ul>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

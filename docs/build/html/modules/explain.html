@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.explain &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="torch_geometric.explain.algorithm.ExplainerAlgorithm" href="../generated/torch_geometric.explain.algorithm.ExplainerAlgorithm.html" />
+    <link rel="prev" title="torch_geometric.utils" href="utils.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">torch_geometric.explain</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#philoshopy">Philoshopy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#explainer">Explainer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#explanations">Explanations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#explainer-algorithms">Explainer Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#explanation-metrics">Explanation Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">torch_geometric.explain</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/explain.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="torch-geometric-explain">
+<h1>torch_geometric.explain<a class="headerlink" href="#torch-geometric-explain" title="Permalink to this heading"></a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This module is in active development and may not be stable.
+Access requires installing <span class="inline-logo pyg">PyG</span> from master.</p>
+</div>
+<nav class="contents local" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#philoshopy" id="id4">Philoshopy</a></p></li>
+<li><p><a class="reference internal" href="#explainer" id="id5">Explainer</a></p></li>
+<li><p><a class="reference internal" href="#explanations" id="id6">Explanations</a></p></li>
+<li><p><a class="reference internal" href="#explainer-algorithms" id="id7">Explainer Algorithms</a></p></li>
+<li><p><a class="reference internal" href="#explanation-metrics" id="id8">Explanation Metrics</a></p></li>
+</ul>
+</nav>
+<section id="philoshopy">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Philoshopy</a><a class="headerlink" href="#philoshopy" title="Permalink to this heading"></a></h2>
+<p>This module provides a set of tools to explain the predictions of a PyG model or to explain the underlying phenomenon of a dataset (see the <a class="reference external" href="https://arxiv.org/abs/2206.09677">“GraphFramEx: Towards Systematic Evaluation of Explainability Methods for Graph Neural Networks”</a> paper for more details).</p>
+<p>We represent explanations using the <a class="reference internal" href="#torch_geometric.explain.Explanation" title="torch_geometric.explain.Explanation"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.explain.Explanation</span></code></a> class, which is a <a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a> object containing masks for the nodes, edges, features and any attributes of the data.</p>
+<p>The <a class="reference internal" href="#torch_geometric.explain.Explainer" title="torch_geometric.explain.Explainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.explain.Explainer</span></code></a> class is designed to handle all explainability parameters (see the <a class="reference internal" href="#torch_geometric.explain.config.ExplainerConfig" title="torch_geometric.explain.config.ExplainerConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.explain.config.ExplainerConfig</span></code></a> class for more details):</p>
+<ul class="simple">
+<li><p>which algorithm from the <code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.explain.algorithm</span></code> module to use (<em>e.g.</em>, <a class="reference internal" href="../generated/torch_geometric.explain.algorithm.GNNExplainer.html#torch_geometric.explain.algorithm.GNNExplainer" title="torch_geometric.explain.algorithm.GNNExplainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">GNNExplainer</span></code></a>)</p></li>
+<li><p>the type of explanation to compute (<em>e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">explanation_type=&quot;phenomenon&quot;</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">explanation_type=&quot;model&quot;</span></code>)</p></li>
+<li><p>the different type of masks for node and edges (<em>e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">mask=&quot;object&quot;</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">mask=&quot;attributes&quot;</span></code>)</p></li>
+<li><p>any postprocessing of the masks (<em>e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold_type=&quot;topk&quot;</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">threshold_type=&quot;hard&quot;</span></code>)</p></li>
+</ul>
+<p>This class allows the user to easily compare different explainability methods and to easily switch between different types of masks, while making sure the high-level framework stays the same.</p>
+</section>
+<section id="explainer">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Explainer</a><a class="headerlink" href="#explainer" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="torch_geometric.explain.Explainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Explainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.Module.html#torch.nn.Module" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Module</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../generated/torch_geometric.explain.algorithm.ExplainerAlgorithm.html#torch_geometric.explain.algorithm.ExplainerAlgorithm" title="torch_geometric.explain.algorithm.base.ExplainerAlgorithm"><span class="pre">ExplainerAlgorithm</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">explanation_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ExplanationType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#torch_geometric.explain.config.ModelConfig" title="torch_geometric.explain.config.ModelConfig"><span class="pre">ModelConfig</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_mask_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">MaskType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_mask_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">MaskType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#torch_geometric.explain.config.ThresholdConfig" title="torch_geometric.explain.config.ThresholdConfig"><span class="pre">ThresholdConfig</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/explain/explainer.html#Explainer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.Explainer" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An explainer class for instance-level explanations of Graph Neural
+Networks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.Module.html#torch.nn.Module" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><em>torch.nn.Module</em></a>) – The model to explain.</p></li>
+<li><p><strong>algorithm</strong> (<a class="reference internal" href="../generated/torch_geometric.explain.algorithm.ExplainerAlgorithm.html#torch_geometric.explain.algorithm.ExplainerAlgorithm" title="torch_geometric.explain.algorithm.ExplainerAlgorithm"><em>ExplainerAlgorithm</em></a>) – The explanation algorithm.</p></li>
+<li><p><strong>explanation_type</strong> (<em>ExplanationType</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – <p>The type of explanation to
+compute. The possible values are:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;model&quot;</span></code>: Explains the model prediction.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;phenomenon&quot;</span></code>: Explains the phenomenon that the model
+is trying to predict.</p></li>
+</ul>
+</div></blockquote>
+<p>In practice, this means that the explanation algorithm will either
+compute their losses with respect to the model output
+(<code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;model&quot;</span></code>) or the target output (<code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;phenomenon&quot;</span></code>).</p>
+</p></li>
+<li><p><strong>model_config</strong> (<a class="reference internal" href="#torch_geometric.explain.config.ModelConfig" title="torch_geometric.explain.config.ModelConfig"><em>ModelConfig</em></a>) – The model configuration.
+See <a class="reference internal" href="#torch_geometric.explain.config.ModelConfig" title="torch_geometric.explain.config.ModelConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelConfig</span></code></a> for
+available options. (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>node_mask_type</strong> (<em>MaskType</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – <p>The type of mask to apply
+on nodes. The possible values are (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>):</p>
+<blockquote>
+<div><ul>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>: Will not apply any mask on nodes.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;object&quot;</span></code>: Will mask each node.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;common_attributes&quot;</span></code>: Will mask each feature.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;attributes&quot;</span></code>: Will mask each feature across all nodes.</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>edge_mask_type</strong> (<em>MaskType</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The type of mask to apply
+on edges. Has the sample possible values as <code class="xref py py-obj docutils literal notranslate"><span class="pre">node_mask_type</span></code>.
+(default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>threshold_config</strong> (<a class="reference internal" href="#torch_geometric.explain.config.ThresholdConfig" title="torch_geometric.explain.config.ThresholdConfig"><em>ThresholdConfig</em></a><em>, </em><em>optional</em>) – The threshold
+configuration.
+See <a class="reference internal" href="#torch_geometric.explain.config.ThresholdConfig" title="torch_geometric.explain.config.ThresholdConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ThresholdConfig</span></code></a> for
+available options. (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.explain.Explainer.get_prediction">
+<span class="sig-name descname"><span class="pre">get_prediction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/explain/explainer.html#Explainer.get_prediction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.Explainer.get_prediction" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the prediction of the model on the input graph.</p>
+<p>If the model mode is <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;regression&quot;</span></code>, the prediction is returned as
+a scalar value.
+If the model mode is <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;multiclass_classification&quot;</span></code> or
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;binary_classification&quot;</span></code>, the prediction is returned as the
+predicted class label.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Arguments passed to the model.</p></li>
+<li><p><strong>**kwargs</strong> (<em>optional</em>) – Additional keyword arguments passed to the
+model.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.explain.Explainer.get_masked_prediction">
+<span class="sig-name descname"><span class="pre">get_masked_prediction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.12)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_mask</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.12)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/explain/explainer.html#Explainer.get_masked_prediction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.Explainer.get_masked_prediction" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the prediction of the model on the input graph with node
+and edge masks applied.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.explain.Explainer.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.12)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#torch_geometric.explain.Explanation" title="torch_geometric.explain.explanation.Explanation"><span class="pre">Explanation</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#torch_geometric.explain.HeteroExplanation" title="torch_geometric.explain.explanation.HeteroExplanation"><span class="pre">HeteroExplanation</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/torch_geometric/explain/explainer.html#Explainer.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.Explainer.__call__" title="Permalink to this definition"></a></dt>
+<dd><p>Computes the explanation of the GNN for the given inputs and
+target.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you get an error message like “Trying to backward through the
+graph a second time”, make sure that the target you provided
+was computed with <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.no_grad()</span></code>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><em>torch.Tensor</em></a><em>, </em><em>Dict</em><em>[</em><em>NodeType</em><em>, </em><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><em>torch.Tensor</em></a><em>]</em><em>]</em>) – The input
+node features of a homogeneous or heterogeneous graph.</p></li>
+<li><p><strong>edge_index</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><em>torch.Tensor</em></a><em>, </em><em>Dict</em><em>[</em><em>NodeType</em><em>, </em><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><em>torch.Tensor</em></a><em>]</em><em>]</em>) – The
+input edge indices of a homogeneous or heterogeneous graph.</p></li>
+<li><p><strong>target</strong> (<a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><em>torch.Tensor</em></a>) – The target of the model.
+If the explanation type is <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;phenomenon&quot;</span></code>, the target has
+to be provided.
+If the explanation type is <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;model&quot;</span></code>, the target should be
+set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> and will get automatically inferred. For
+classification tasks, the target needs to contain the class
+labels. (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>index</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>Tensor</em><em>]</em><em>, </em><em>optional</em>) – The indices in the
+first-dimension of the model output to explain.
+Can be a single index or a tensor of indices.
+If set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, all model outputs will be explained.
+(default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>**kwargs</strong> – additional arguments to pass to the GNN.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.explain.Explainer.get_target">
+<span class="sig-name descname"><span class="pre">get_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/explain/explainer.html#Explainer.get_target"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.Explainer.get_target" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the target of the model from a given prediction.</p>
+<p>If the model mode is of type <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;regression&quot;</span></code>, the prediction is
+returned as it is.
+If the model mode is of type <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;multiclass_classification&quot;</span></code> or
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;binary_classification&quot;</span></code>, the prediction is returned as the
+predicted class label.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="torch_geometric.explain.config.ExplainerConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ExplainerConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">explanation_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ExplanationType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_mask_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">MaskType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_mask_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">MaskType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/explain/config.html#ExplainerConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.config.ExplainerConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Configuration class to store and validate high level explanation
+parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>explanation_type</strong> (<em>ExplanationType</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – <p>The type of explanation to
+compute. The possible values are:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;model&quot;</span></code>: Explains the model prediction.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;phenomenon&quot;</span></code>: Explains the phenomenon that the model
+is trying to predict.</p></li>
+</ul>
+</div></blockquote>
+<p>In practice, this means that the explanation algorithm will either
+compute their losses with respect to the model output
+(<code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;model&quot;</span></code>) or the target output (<code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;phenomenon&quot;</span></code>).</p>
+</p></li>
+<li><p><strong>node_mask_type</strong> (<em>MaskType</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – <p>The type of mask to apply
+on nodes. The possible values are (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>):</p>
+<blockquote>
+<div><ul>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>: Will not apply any mask on nodes.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;object&quot;</span></code>: Will mask each node.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;common_attributes&quot;</span></code>: Will mask each feature.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;attributes&quot;</span></code>: Will mask each feature across all nodes.</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>edge_mask_type</strong> (<em>MaskType</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The type of mask to apply
+on edges. Has the sample possible values as <code class="xref py py-obj docutils literal notranslate"><span class="pre">node_mask_type</span></code>.
+(default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="torch_geometric.explain.config.ModelConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ModelConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ModelMode</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ModelTaskLevel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ModelReturnType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/explain/config.html#ModelConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.config.ModelConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Configuration class to store model parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mode</strong> (<em>ModelMode</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – <p>The mode of the model. The possible values
+are:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;binary_classification&quot;</span></code>: A binary classification
+model.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;multiclass_classification&quot;</span></code>: A multiclass
+classification model.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;regression&quot;</span></code>: A regression model.</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>task_level</strong> (<em>ModelTaskLevel</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – <p>The task-level of the model.
+The possible values are:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;node&quot;</span></code>: A node-level prediction model.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;edge&quot;</span></code>: An edge-level prediction model.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;graph&quot;</span></code>: A graph-level prediction model.</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>return_type</strong> (<em>ModelReturnType</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – <p>The return type of the
+model. The possible values are (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>):</p>
+<blockquote>
+<div><ul>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;raw&quot;</span></code>: The model returns raw values.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;probs&quot;</span></code>: The model returns probabilities.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;log_probs&quot;</span></code>: The model returns log-probabilities.</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="torch_geometric.explain.config.ThresholdConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ThresholdConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ThresholdType</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.12)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/explain/config.html#ThresholdConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.config.ThresholdConfig" title="Permalink to this definition"></a></dt>
+<dd><p>Configuration class to store and validate threshold parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>threshold_type</strong> (<em>ThresholdType</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – <p>The type of threshold to apply.
+The possible values are:</p>
+<blockquote>
+<div><ul>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>: No threshold is applied.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;hard&quot;</span></code>: A hard threshold is applied to each mask.
+The elements of the mask with a value below the <code class="xref py py-obj docutils literal notranslate"><span class="pre">value</span></code>
+are set to <code class="xref py py-obj docutils literal notranslate"><span class="pre">0</span></code>, the others are set to <code class="xref py py-obj docutils literal notranslate"><span class="pre">1</span></code>.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;topk&quot;</span></code>: A soft threshold is applied to each mask.
+The top obj:<cite>value</cite> elements of each mask are kept, the
+others are set to <code class="xref py py-obj docutils literal notranslate"><span class="pre">0</span></code>.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;topk_hard&quot;</span></code>: Same as <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;topk&quot;</span></code> but values are set
+to <code class="xref py py-obj docutils literal notranslate"><span class="pre">1</span></code> for all elements which are kept.</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>optional</em>) – The value to use when thresholding.
+(default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="explanations">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Explanations</a><a class="headerlink" href="#explanations" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="torch_geometric.explain.Explanation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Explanation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://pytorch.org/docs/master/tensors.html#torch.Tensor" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><span class="pre">Tensor</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/explain/explanation.html#Explanation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.Explanation" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ExplanationMixin</span></code></p>
+<p>Holds all the obtained explanations of a homogeneous graph.</p>
+<p>The explanation object is a <a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data</span></code></a> object and
+can hold node attributions and edge attributions.
+It can also hold the original graph if needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_mask</strong> (<em>Tensor</em><em>, </em><em>optional</em>) – Node-level mask with shape
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">[num_nodes,</span> <span class="pre">1]</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">num_features]</span></code> or
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">[num_nodes,</span> <span class="pre">num_features]</span></code>. (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>edge_mask</strong> (<em>Tensor</em><em>, </em><em>optional</em>) – Edge-level mask with shape
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">[num_edges]</span></code>. (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>**kwargs</strong> (<em>optional</em>) – Additional attributes.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.explain.Explanation.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raise_on_error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/explain/explanation.html#Explanation.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.Explanation.validate" title="Permalink to this definition"></a></dt>
+<dd><p>Validates the correctness of the <a class="reference internal" href="#torch_geometric.explain.Explanation" title="torch_geometric.explain.Explanation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Explanation</span></code></a> object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.explain.Explanation.get_explanation_subgraph">
+<span class="sig-name descname"><span class="pre">get_explanation_subgraph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#torch_geometric.explain.Explanation" title="torch_geometric.explain.explanation.Explanation"><span class="pre">Explanation</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/explain/explanation.html#Explanation.get_explanation_subgraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.Explanation.get_explanation_subgraph" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the induced subgraph, in which all nodes and edges with
+zero attribution are masked out.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.explain.Explanation.get_complement_subgraph">
+<span class="sig-name descname"><span class="pre">get_complement_subgraph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#torch_geometric.explain.Explanation" title="torch_geometric.explain.explanation.Explanation"><span class="pre">Explanation</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/explain/explanation.html#Explanation.get_complement_subgraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.Explanation.get_complement_subgraph" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the induced subgraph, in which all nodes and edges with any
+attribution are masked out.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.explain.Explanation.visualize_feature_importance">
+<span class="sig-name descname"><span class="pre">visualize_feature_importance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feat_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/explain/explanation.html#Explanation.visualize_feature_importance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.Explanation.visualize_feature_importance" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a bar plot of the node feature importances by summing up
+the node mask across all nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The path to where the plot is saved.
+If set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, will visualize the plot on-the-fly.
+(default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>feat_labels</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – The labels of features.
+(default <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>top_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – Top k features to plot. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>
+plots all features. (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.explain.Explanation.visualize_graph">
+<span class="sig-name descname"><span class="pre">visualize_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/explain/explanation.html#Explanation.visualize_graph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.Explanation.visualize_graph" title="Permalink to this definition"></a></dt>
+<dd><p>Visualizes the explanation graph with edge opacity corresponding to
+edge importance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The path to where the plot is saved.
+If set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, will visualize the plot on-the-fly.
+(default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>backend</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The graph drawing backend to use for
+visualization (<code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;graphviz&quot;</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;networkx&quot;</span></code>).
+If set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, will use the most appropriate
+visualization backend based on available system packages.
+(default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="torch_geometric.explain.HeteroExplanation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">HeteroExplanation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.12)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/explain/explanation.html#HeteroExplanation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.HeteroExplanation" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData" title="torch_geometric.data.hetero_data.HeteroData"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeteroData</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ExplanationMixin</span></code></p>
+<p>Holds all the obtained explanations of a heterogeneous graph.</p>
+<p>The explanation object is a <a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData" title="torch_geometric.data.HeteroData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">HeteroData</span></code></a> object
+and can hold node attributions and edge attributions.
+It can also hold the original graph if needed.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.explain.HeteroExplanation.validate">
+<span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raise_on_error</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/explain/explanation.html#HeteroExplanation.validate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.HeteroExplanation.validate" title="Permalink to this definition"></a></dt>
+<dd><p>Validates the correctness of the <a class="reference internal" href="#torch_geometric.explain.Explanation" title="torch_geometric.explain.Explanation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Explanation</span></code></a> object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.explain.HeteroExplanation.get_explanation_subgraph">
+<span class="sig-name descname"><span class="pre">get_explanation_subgraph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#torch_geometric.explain.HeteroExplanation" title="torch_geometric.explain.explanation.HeteroExplanation"><span class="pre">HeteroExplanation</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/explain/explanation.html#HeteroExplanation.get_explanation_subgraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.HeteroExplanation.get_explanation_subgraph" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the induced subgraph, in which all nodes and edges with
+zero attribution are masked out.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.explain.HeteroExplanation.get_complement_subgraph">
+<span class="sig-name descname"><span class="pre">get_complement_subgraph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#torch_geometric.explain.HeteroExplanation" title="torch_geometric.explain.explanation.HeteroExplanation"><span class="pre">HeteroExplanation</span></a></span></span><a class="reference internal" href="../_modules/torch_geometric/explain/explanation.html#HeteroExplanation.get_complement_subgraph"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.HeteroExplanation.get_complement_subgraph" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the induced subgraph, in which all nodes and edges with any
+attribution are masked out.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="torch_geometric.explain.HeteroExplanation.visualize_feature_importance">
+<span class="sig-name descname"><span class="pre">visualize_feature_importance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feat_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Dict" title="(in Python v3.12)"><span class="pre">Dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.12)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/explain/explanation.html#HeteroExplanation.visualize_feature_importance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.explain.HeteroExplanation.visualize_feature_importance" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a bar plot of the node feature importances by summing up
+node masks across all nodes for each node type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The path to where the plot is saved.
+If set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, will visualize the plot on-the-fly.
+(default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>feat_labels</strong> (<em>Dict</em><em>[</em><em>NodeType</em><em>, </em><em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – The labels of
+features for each node type. (default <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>top_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – Top k features to plot. If <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>
+plots all features. (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="explainer-algorithms">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Explainer Algorithms</a><a class="headerlink" href="#explainer-algorithms" title="Permalink to this heading"></a></h2>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.explain.algorithm.ExplainerAlgorithm.html#torch_geometric.explain.algorithm.ExplainerAlgorithm" title="torch_geometric.explain.algorithm.ExplainerAlgorithm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExplainerAlgorithm</span></code></a></p></td>
+<td><p>An abstract base class for implementing explainer algorithms.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.explain.algorithm.DummyExplainer.html#torch_geometric.explain.algorithm.DummyExplainer" title="torch_geometric.explain.algorithm.DummyExplainer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DummyExplainer</span></code></a></p></td>
+<td><p>A dummy explainer that returns random explanations (useful for testing purposes).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.explain.algorithm.GNNExplainer.html#torch_geometric.explain.algorithm.GNNExplainer" title="torch_geometric.explain.algorithm.GNNExplainer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GNNExplainer</span></code></a></p></td>
+<td><p>The GNN-Explainer model from the <a class="reference external" href="https://arxiv.org/abs/1903.03894">&quot;GNNExplainer: Generating Explanations for Graph Neural Networks&quot;</a> paper for identifying compact subgraph structures and node features that play a crucial role in the predictions made by a GNN.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.explain.algorithm.CaptumExplainer.html#torch_geometric.explain.algorithm.CaptumExplainer" title="torch_geometric.explain.algorithm.CaptumExplainer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CaptumExplainer</span></code></a></p></td>
+<td><p>A <a class="reference external" href="https://captum.ai">Captum</a>-based explainer for identifying compact subgraph structures and node features that play a crucial role in the predictions made by a GNN.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.explain.algorithm.PGExplainer.html#torch_geometric.explain.algorithm.PGExplainer" title="torch_geometric.explain.algorithm.PGExplainer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PGExplainer</span></code></a></p></td>
+<td><p>The PGExplainer model from the <a class="reference external" href="https://arxiv.org/abs/2011.04573">&quot;Parameterized Explainer for Graph Neural Network&quot;</a> paper.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.explain.algorithm.AttentionExplainer.html#torch_geometric.explain.algorithm.AttentionExplainer" title="torch_geometric.explain.algorithm.AttentionExplainer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AttentionExplainer</span></code></a></p></td>
+<td><p>An explainer that uses the attention coefficients produced by an attention-based GNN (<em>e.g.</em>, <a class="reference internal" href="../generated/torch_geometric.nn.conv.GATConv.html#torch_geometric.nn.conv.GATConv" title="torch_geometric.nn.conv.GATConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GATConv</span></code></a>, <a class="reference internal" href="../generated/torch_geometric.nn.conv.GATv2Conv.html#torch_geometric.nn.conv.GATv2Conv" title="torch_geometric.nn.conv.GATv2Conv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GATv2Conv</span></code></a>, or <a class="reference internal" href="../generated/torch_geometric.nn.conv.TransformerConv.html#torch_geometric.nn.conv.TransformerConv" title="torch_geometric.nn.conv.TransformerConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerConv</span></code></a>) as edge explanation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.explain.algorithm.GraphMaskExplainer.html#torch_geometric.explain.algorithm.GraphMaskExplainer" title="torch_geometric.explain.algorithm.GraphMaskExplainer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphMaskExplainer</span></code></a></p></td>
+<td><p>The GraphMask-Explainer model from the <a class="reference external" href="https://arxiv.org/abs/2010.00577">&quot;Interpreting Graph Neural Networks for NLP With Differentiable Edge Masking&quot;</a> paper for identifying layer-wise compact subgraph structures and node features that play a crucial role in the predictions made by a GNN.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="explanation-metrics">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Explanation Metrics</a><a class="headerlink" href="#explanation-metrics" title="Permalink to this heading"></a></h2>
+<p>The quality of an explanation can be judged by a variety of different methods.
+PyG supports the following metrics out-of-the-box:</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.explain.metric.groundtruth_metrics.html#torch_geometric.explain.metric.groundtruth_metrics" title="torch_geometric.explain.metric.groundtruth_metrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">groundtruth_metrics</span></code></a></p></td>
+<td><p>Compares and evaluates an explanation mask with the ground-truth explanation mask.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.explain.metric.fidelity.html#torch_geometric.explain.metric.fidelity" title="torch_geometric.explain.metric.fidelity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fidelity</span></code></a></p></td>
+<td><p><p>Evaluates the fidelity of an <a class="reference internal" href="#torch_geometric.explain.Explainer" title="torch_geometric.explain.Explainer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Explainer</span></code></a> given an <a class="reference internal" href="#torch_geometric.explain.Explanation" title="torch_geometric.explain.Explanation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Explanation</span></code></a>, as described in the <a class="reference external" href="https://arxiv.org/abs/2206.09677">&quot;GraphFramEx: Towards Systematic Evaluation of Explainability Methods for Graph Neural Networks&quot;</a> paper.</p>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.explain.metric.characterization_score.html#torch_geometric.explain.metric.characterization_score" title="torch_geometric.explain.metric.characterization_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">characterization_score</span></code></a></p></td>
+<td><p><p>Returns the componentwise characterization score as described in the <a class="reference external" href="https://arxiv.org/abs/2206.09677">&quot;GraphFramEx: Towards Systematic Evaluation of Explainability Methods for Graph Neural Networks&quot;</a> paper.</p>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.explain.metric.fidelity_curve_auc.html#torch_geometric.explain.metric.fidelity_curve_auc" title="torch_geometric.explain.metric.fidelity_curve_auc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fidelity_curve_auc</span></code></a></p></td>
+<td><p><p>Returns the AUC for the fidelity curve as described in the <a class="reference external" href="https://arxiv.org/abs/2206.09677">&quot;GraphFramEx: Towards Systematic Evaluation of Explainability Methods for Graph Neural Networks&quot;</a> paper.</p>
+</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.explain.metric.unfaithfulness.html#torch_geometric.explain.metric.unfaithfulness" title="torch_geometric.explain.metric.unfaithfulness"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unfaithfulness</span></code></a></p></td>
+<td><p>Evaluates how faithful an <a class="reference internal" href="#torch_geometric.explain.Explanation" title="torch_geometric.explain.Explanation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Explanation</span></code></a> is to an underyling GNN predictor, as described in the <a class="reference external" href="https://arxiv.org/abs/2208.09339">&quot;Evaluating Explainability for Graph Neural Networks&quot;</a> paper.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="utils.html" class="btn btn-neutral float-left" title="torch_geometric.utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../generated/torch_geometric.explain.algorithm.ExplainerAlgorithm.html" class="btn btn-neutral float-right" title="torch_geometric.explain.algorithm.ExplainerAlgorithm" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

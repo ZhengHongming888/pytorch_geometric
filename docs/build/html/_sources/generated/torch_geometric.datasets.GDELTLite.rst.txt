@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.GDELTLite
+===================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: GDELTLite
+   :show-inheritance:

@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.MaskToIndex
+=======================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: MaskToIndex
+   :show-inheritance:

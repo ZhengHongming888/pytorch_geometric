@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.kge.ComplEx
+===============================
+
+.. currentmodule:: torch_geometric.nn.kge
+
+.. autoclass:: ComplEx
+   :show-inheritance:
+   :members:

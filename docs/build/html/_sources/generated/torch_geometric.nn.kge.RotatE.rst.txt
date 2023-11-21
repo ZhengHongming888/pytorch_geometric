@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.kge.RotatE
+==============================
+
+.. currentmodule:: torch_geometric.nn.kge
+
+.. autoclass:: RotatE
+   :show-inheritance:
+   :members:

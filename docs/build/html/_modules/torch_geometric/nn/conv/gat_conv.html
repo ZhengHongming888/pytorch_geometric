@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.nn.conv.gat_conv &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.nn.conv.gat_conv</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.nn.conv.gat_conv</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">Parameter</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.nn.conv</span> <span class="kn">import</span> <span class="n">MessagePassing</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn.dense.linear</span> <span class="kn">import</span> <span class="n">Linear</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn.inits</span> <span class="kn">import</span> <span class="n">glorot</span><span class="p">,</span> <span class="n">zeros</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">NoneType</span>  <span class="c1"># noqa</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Adj</span><span class="p">,</span>
+    <span class="n">OptPairTensor</span><span class="p">,</span>
+    <span class="n">OptTensor</span><span class="p">,</span>
+    <span class="n">Size</span><span class="p">,</span>
+    <span class="n">SparseTensor</span><span class="p">,</span>
+    <span class="n">torch_sparse</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">add_self_loops</span><span class="p">,</span>
+    <span class="n">is_torch_sparse_tensor</span><span class="p">,</span>
+    <span class="n">remove_self_loops</span><span class="p">,</span>
+    <span class="n">softmax</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils.sparse</span> <span class="kn">import</span> <span class="n">set_sparse_value</span>
+
+
+<div class="viewcode-block" id="GATConv"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.GATConv.html#torch_geometric.nn.conv.GATConv">[docs]</a><span class="k">class</span> <span class="nc">GATConv</span><span class="p">(</span><span class="n">MessagePassing</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The graph attentional operator from the `&quot;Graph Attention Networks&quot;</span>
+<span class="sd">    &lt;https://arxiv.org/abs/1710.10903&gt;`_ paper.</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \mathbf{x}^{\prime}_i = \alpha_{i,i}\mathbf{\Theta}_{s}\mathbf{x}_{i} +</span>
+<span class="sd">        \sum_{j \in \mathcal{N}(i)}</span>
+<span class="sd">        \alpha_{i,j}\mathbf{\Theta}_{t}\mathbf{x}_{j},</span>
+
+<span class="sd">    where the attention coefficients :math:`\alpha_{i,j}` are computed as</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \alpha_{i,j} =</span>
+<span class="sd">        \frac{</span>
+<span class="sd">        \exp\left(\mathrm{LeakyReLU}\left(</span>
+<span class="sd">        \mathbf{a}^{\top}_{s} \mathbf{\Theta}_{s}\mathbf{x}_i</span>
+<span class="sd">        + \mathbf{a}^{\top}_{t} \mathbf{\Theta}_{t}\mathbf{x}_j</span>
+<span class="sd">        \right)\right)}</span>
+<span class="sd">        {\sum_{k \in \mathcal{N}(i) \cup \{ i \}}</span>
+<span class="sd">        \exp\left(\mathrm{LeakyReLU}\left(</span>
+<span class="sd">        \mathbf{a}^{\top}_{s} \mathbf{\Theta}_{s}\mathbf{x}_i</span>
+<span class="sd">        + \mathbf{a}^{\top}_{t}\mathbf{\Theta}_{t}\mathbf{x}_k</span>
+<span class="sd">        \right)\right)}.</span>
+
+<span class="sd">    If the graph has multi-dimensional edge features :math:`\mathbf{e}_{i,j}`,</span>
+<span class="sd">    the attention coefficients :math:`\alpha_{i,j}` are computed as</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \alpha_{i,j} =</span>
+<span class="sd">        \frac{</span>
+<span class="sd">        \exp\left(\mathrm{LeakyReLU}\left(</span>
+<span class="sd">        \mathbf{a}^{\top}_{s} \mathbf{\Theta}_{s}\mathbf{x}_i</span>
+<span class="sd">        + \mathbf{a}^{\top}_{t} \mathbf{\Theta}_{t}\mathbf{x}_j</span>
+<span class="sd">        + \mathbf{a}^{\top}_{e} \mathbf{\Theta}_{e} \mathbf{e}_{i,j}</span>
+<span class="sd">        \right)\right)}</span>
+<span class="sd">        {\sum_{k \in \mathcal{N}(i) \cup \{ i \}}</span>
+<span class="sd">        \exp\left(\mathrm{LeakyReLU}\left(</span>
+<span class="sd">        \mathbf{a}^{\top}_{s} \mathbf{\Theta}_{s}\mathbf{x}_i</span>
+<span class="sd">        + \mathbf{a}^{\top}_{t} \mathbf{\Theta}_{t}\mathbf{x}_k</span>
+<span class="sd">        + \mathbf{a}^{\top}_{e} \mathbf{\Theta}_{e} \mathbf{e}_{i,k}</span>
+<span class="sd">        \right)\right)}.</span>
+
+<span class="sd">    If the graph is not bipartite, :math:`\mathbf{\Theta}_{s} =</span>
+<span class="sd">    \mathbf{\Theta}_{t}`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        in_channels (int or tuple): Size of each input sample, or :obj:`-1` to</span>
+<span class="sd">            derive the size from the first input(s) to the forward method.</span>
+<span class="sd">            A tuple corresponds to the sizes of source and target</span>
+<span class="sd">            dimensionalities in case of a bipartite graph.</span>
+<span class="sd">        out_channels (int): Size of each output sample.</span>
+<span class="sd">        heads (int, optional): Number of multi-head-attentions.</span>
+<span class="sd">            (default: :obj:`1`)</span>
+<span class="sd">        concat (bool, optional): If set to :obj:`False`, the multi-head</span>
+<span class="sd">            attentions are averaged instead of concatenated.</span>
+<span class="sd">            (default: :obj:`True`)</span>
+<span class="sd">        negative_slope (float, optional): LeakyReLU angle of the negative</span>
+<span class="sd">            slope. (default: :obj:`0.2`)</span>
+<span class="sd">        dropout (float, optional): Dropout probability of the normalized</span>
+<span class="sd">            attention coefficients which exposes each node to a stochastically</span>
+<span class="sd">            sampled neighborhood during training. (default: :obj:`0`)</span>
+<span class="sd">        add_self_loops (bool, optional): If set to :obj:`False`, will not add</span>
+<span class="sd">            self-loops to the input graph. (default: :obj:`True`)</span>
+<span class="sd">        edge_dim (int, optional): Edge feature dimensionality (in case</span>
+<span class="sd">            there are any). (default: :obj:`None`)</span>
+<span class="sd">        fill_value (float or torch.Tensor or str, optional): The way to</span>
+<span class="sd">            generate edge features of self-loops (in case</span>
+<span class="sd">            :obj:`edge_dim != None`).</span>
+<span class="sd">            If given as :obj:`float` or :class:`torch.Tensor`, edge features of</span>
+<span class="sd">            self-loops will be directly given by :obj:`fill_value`.</span>
+<span class="sd">            If given as :obj:`str`, edge features of self-loops are computed by</span>
+<span class="sd">            aggregating all features of edges that point to the specific node,</span>
+<span class="sd">            according to a reduce operation. (:obj:`&quot;add&quot;`, :obj:`&quot;mean&quot;`,</span>
+<span class="sd">            :obj:`&quot;min&quot;`, :obj:`&quot;max&quot;`, :obj:`&quot;mul&quot;`). (default: :obj:`&quot;mean&quot;`)</span>
+<span class="sd">        bias (bool, optional): If set to :obj:`False`, the layer will not learn</span>
+<span class="sd">            an additive bias. (default: :obj:`True`)</span>
+<span class="sd">        **kwargs (optional): Additional arguments of</span>
+<span class="sd">            :class:`torch_geometric.nn.conv.MessagePassing`.</span>
+
+<span class="sd">    Shapes:</span>
+<span class="sd">        - **input:**</span>
+<span class="sd">          node features :math:`(|\mathcal{V}|, F_{in})` or</span>
+<span class="sd">          :math:`((|\mathcal{V_s}|, F_{s}), (|\mathcal{V_t}|, F_{t}))`</span>
+<span class="sd">          if bipartite,</span>
+<span class="sd">          edge indices :math:`(2, |\mathcal{E}|)`,</span>
+<span class="sd">          edge features :math:`(|\mathcal{E}|, D)` *(optional)*</span>
+<span class="sd">        - **output:** node features :math:`(|\mathcal{V}|, H * F_{out})` or</span>
+<span class="sd">          :math:`((|\mathcal{V}_t|, H * F_{out})` if bipartite.</span>
+<span class="sd">          If :obj:`return_attention_weights=True`, then</span>
+<span class="sd">          :math:`((|\mathcal{V}|, H * F_{out}),</span>
+<span class="sd">          ((2, |\mathcal{E}|), (|\mathcal{E}|, H)))`</span>
+<span class="sd">          or :math:`((|\mathcal{V_t}|, H * F_{out}), ((2, |\mathcal{E}|),</span>
+<span class="sd">          (|\mathcal{E}|, H)))` if bipartite</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">in_channels</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span>
+        <span class="n">out_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">concat</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">negative_slope</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">dropout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">add_self_loops</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">edge_dim</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">fill_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span>
+        <span class="n">bias</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;aggr&#39;</span><span class="p">,</span> <span class="s1">&#39;add&#39;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">node_dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">in_channels</span> <span class="o">=</span> <span class="n">in_channels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_channels</span> <span class="o">=</span> <span class="n">out_channels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">heads</span> <span class="o">=</span> <span class="n">heads</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">concat</span> <span class="o">=</span> <span class="n">concat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">negative_slope</span> <span class="o">=</span> <span class="n">negative_slope</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">dropout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_self_loops</span> <span class="o">=</span> <span class="n">add_self_loops</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edge_dim</span> <span class="o">=</span> <span class="n">edge_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fill_value</span> <span class="o">=</span> <span class="n">fill_value</span>
+
+        <span class="c1"># In case we are operating in bipartite graphs, we apply separate</span>
+        <span class="c1"># transformations &#39;lin_src&#39; and &#39;lin_dst&#39; to source and target nodes:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lin_src</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">heads</span> <span class="o">*</span> <span class="n">out_channels</span><span class="p">,</span>
+                                  <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">weight_initializer</span><span class="o">=</span><span class="s1">&#39;glorot&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lin_dst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_src</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lin_src</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">in_channels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">heads</span> <span class="o">*</span> <span class="n">out_channels</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>
+                                  <span class="n">weight_initializer</span><span class="o">=</span><span class="s1">&#39;glorot&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lin_dst</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">in_channels</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">heads</span> <span class="o">*</span> <span class="n">out_channels</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>
+                                  <span class="n">weight_initializer</span><span class="o">=</span><span class="s1">&#39;glorot&#39;</span><span class="p">)</span>
+
+        <span class="c1"># The learnable parameters to compute attention coefficients:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">att_src</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">heads</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">att_dst</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">heads</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">edge_dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lin_edge</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">edge_dim</span><span class="p">,</span> <span class="n">heads</span> <span class="o">*</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">weight_initializer</span><span class="o">=</span><span class="s1">&#39;glorot&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">att_edge</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">heads</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lin_edge</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">register_parameter</span><span class="p">(</span><span class="s1">&#39;att_edge&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">bias</span> <span class="ow">and</span> <span class="n">concat</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">heads</span> <span class="o">*</span> <span class="n">out_channels</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">bias</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">concat</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">out_channels</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">register_parameter</span><span class="p">(</span><span class="s1">&#39;bias&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+<div class="viewcode-block" id="GATConv.reset_parameters"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.GATConv.html#torch_geometric.nn.conv.GATConv.reset_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_src</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_dst</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_edge</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lin_edge</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+        <span class="n">glorot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">att_src</span><span class="p">)</span>
+        <span class="n">glorot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">att_dst</span><span class="p">)</span>
+        <span class="n">glorot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">att_edge</span><span class="p">)</span>
+        <span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GATConv.forward"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.conv.GATConv.html#torch_geometric.nn.conv.GATConv.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">OptPairTensor</span><span class="p">],</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Adj</span><span class="p">,</span>
+        <span class="n">edge_attr</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">:</span> <span class="n">Size</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">return_attention_weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># type: (Union[Tensor, OptPairTensor], Tensor, OptTensor, Size, NoneType) -&gt; Tensor  # noqa</span>
+        <span class="c1"># type: (Union[Tensor, OptPairTensor], SparseTensor, OptTensor, Size, NoneType) -&gt; Tensor  # noqa</span>
+        <span class="c1"># type: (Union[Tensor, OptPairTensor], Tensor, OptTensor, Size, bool) -&gt; Tuple[Tensor, Tuple[Tensor, Tensor]]  # noqa</span>
+        <span class="c1"># type: (Union[Tensor, OptPairTensor], SparseTensor, OptTensor, Size, bool) -&gt; Tuple[Tensor, SparseTensor]  # noqa</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Runs the forward pass of the module.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (torch.Tensor or (torch.Tensor, torch.Tensor)): The input node</span>
+<span class="sd">                features.</span>
+<span class="sd">            edge_index (torch.Tensor or SparseTensor): The edge indices.</span>
+<span class="sd">            edge_attr (torch.Tensor, optional): The edge features.</span>
+<span class="sd">                (default: :obj:`None`)</span>
+<span class="sd">            size ((int, int), optional): The shape of the adjacency matrix.</span>
+<span class="sd">                (default: :obj:`None`)</span>
+<span class="sd">            return_attention_weights (bool, optional): If set to :obj:`True`,</span>
+<span class="sd">                will additionally return the tuple</span>
+<span class="sd">                :obj:`(edge_index, attention_weights)`, holding the computed</span>
+<span class="sd">                attention weights for each edge. (default: :obj:`None`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># NOTE: attention weights will be returned whenever</span>
+        <span class="c1"># `return_attention_weights` is set to a value, regardless of its</span>
+        <span class="c1"># actual value (might be `True` or `False`). This is a current somewhat</span>
+        <span class="c1"># hacky workaround to allow for TorchScript support via the</span>
+        <span class="c1"># `torch.jit._overload` decorator, as we can only change the output</span>
+        <span class="c1"># arguments conditioned on type (`None` or `bool`), not based on its</span>
+        <span class="c1"># actual value.</span>
+
+        <span class="n">H</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">heads</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_channels</span>
+
+        <span class="c1"># We first transform the input node features. If a tuple is passed, we</span>
+        <span class="c1"># transform source and target node features via separate weights:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">x</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Static graphs not supported in &#39;GATConv&#39;&quot;</span>
+            <span class="n">x_src</span> <span class="o">=</span> <span class="n">x_dst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_src</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># Tuple of source and target node features:</span>
+            <span class="n">x_src</span><span class="p">,</span> <span class="n">x_dst</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="k">assert</span> <span class="n">x_src</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Static graphs not supported in &#39;GATConv&#39;&quot;</span>
+            <span class="n">x_src</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_src</span><span class="p">(</span><span class="n">x_src</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">x_dst</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">x_dst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_dst</span><span class="p">(</span><span class="n">x_dst</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_src</span><span class="p">,</span> <span class="n">x_dst</span><span class="p">)</span>
+
+        <span class="c1"># Next, we compute node-level attention coefficients, both for source</span>
+        <span class="c1"># and target nodes (if present):</span>
+        <span class="n">alpha_src</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_src</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">att_src</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">alpha_dst</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">x_dst</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">x_dst</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">att_dst</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="p">(</span><span class="n">alpha_src</span><span class="p">,</span> <span class="n">alpha_dst</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_self_loops</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+                <span class="c1"># We only want to add self-loops for nodes that appear both as</span>
+                <span class="c1"># source and target nodes:</span>
+                <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">x_src</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">x_dst</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">num_nodes</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">x_dst</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+                <span class="n">num_nodes</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">num_nodes</span>
+                <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">remove_self_loops</span><span class="p">(</span>
+                    <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">)</span>
+                <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">add_self_loops</span><span class="p">(</span>
+                    <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">fill_value</span><span class="p">,</span>
+                    <span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">SparseTensor</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_dim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch_sparse</span><span class="o">.</span><span class="n">set_diag</span><span class="p">(</span><span class="n">edge_index</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                        <span class="s2">&quot;The usage of &#39;edge_attr&#39; and &#39;add_self_loops&#39; &quot;</span>
+                        <span class="s2">&quot;simultaneously is currently not yet supported for &quot;</span>
+                        <span class="s2">&quot;&#39;edge_index&#39; in a &#39;SparseTensor&#39; form&quot;</span><span class="p">)</span>
+
+        <span class="c1"># edge_updater_type: (alpha: OptPairTensor, edge_attr: OptTensor)</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_updater</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">edge_attr</span><span class="o">=</span><span class="n">edge_attr</span><span class="p">)</span>
+
+        <span class="c1"># propagate_type: (x: OptPairTensor, alpha: Tensor)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">propagate</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">concat</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">heads</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_channels</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">return_attention_weights</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">is_torch_sparse_tensor</span><span class="p">(</span><span class="n">edge_index</span><span class="p">):</span>
+                    <span class="c1"># TODO TorchScript requires to return a tuple</span>
+                    <span class="n">adj</span> <span class="o">=</span> <span class="n">set_sparse_value</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="p">(</span><span class="n">adj</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">SparseTensor</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;coo&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">out</span></div>
+
+    <span class="k">def</span> <span class="nf">edge_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha_j</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">alpha_i</span><span class="p">:</span> <span class="n">OptTensor</span><span class="p">,</span>
+                    <span class="n">edge_attr</span><span class="p">:</span> <span class="n">OptTensor</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ptr</span><span class="p">:</span> <span class="n">OptTensor</span><span class="p">,</span>
+                    <span class="n">size_i</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="c1"># Given edge-level attention coefficients for source and target nodes,</span>
+        <span class="c1"># we simply need to sum them up to &quot;emulate&quot; concatenation:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha_j</span> <span class="k">if</span> <span class="n">alpha_i</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">alpha_j</span> <span class="o">+</span> <span class="n">alpha_i</span>
+        <span class="k">if</span> <span class="n">index</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">alpha</span>
+        <span class="k">if</span> <span class="n">edge_attr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_edge</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">edge_attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_edge</span><span class="p">(</span><span class="n">edge_attr</span><span class="p">)</span>
+            <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">heads</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_channels</span><span class="p">)</span>
+            <span class="n">alpha_edge</span> <span class="o">=</span> <span class="p">(</span><span class="n">edge_attr</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">att_edge</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">alpha_edge</span>
+
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">leaky_relu</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">negative_slope</span><span class="p">)</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">softmax</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">ptr</span><span class="p">,</span> <span class="n">size_i</span><span class="p">)</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">alpha</span>
+
+    <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_j</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">alpha</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">x_j</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">in_channels</span><span class="si">}</span><span class="s1">, &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">out_channels</span><span class="si">}</span><span class="s1">, heads=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">heads</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.ToDevice
+====================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: ToDevice
+   :show-inheritance:

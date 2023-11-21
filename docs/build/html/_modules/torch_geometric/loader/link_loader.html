@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.loader.link_loader &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.loader.link_loader</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.loader.link_loader</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">Data</span><span class="p">,</span> <span class="n">FeatureStore</span><span class="p">,</span> <span class="n">GraphStore</span><span class="p">,</span> <span class="n">HeteroData</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.loader.base</span> <span class="kn">import</span> <span class="n">DataLoaderIterator</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.loader.mixin</span> <span class="kn">import</span> <span class="n">AffinityMixin</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.loader.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">filter_custom_store</span><span class="p">,</span>
+    <span class="n">filter_data</span><span class="p">,</span>
+    <span class="n">filter_hetero_data</span><span class="p">,</span>
+    <span class="n">get_edge_label_index</span><span class="p">,</span>
+    <span class="n">infer_filter_per_worker</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.sampler</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">BaseSampler</span><span class="p">,</span>
+    <span class="n">EdgeSamplerInput</span><span class="p">,</span>
+    <span class="n">HeteroSamplerOutput</span><span class="p">,</span>
+    <span class="n">NegativeSampling</span><span class="p">,</span>
+    <span class="n">SamplerOutput</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">InputEdges</span><span class="p">,</span> <span class="n">OptTensor</span>
+
+
+<div class="viewcode-block" id="LinkLoader"><a class="viewcode-back" href="../../../modules/loader.html#torch_geometric.loader.LinkLoader">[docs]</a><span class="k">class</span> <span class="nc">LinkLoader</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">,</span> <span class="n">AffinityMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;A data loader that performs mini-batch sampling from link information,</span>
+<span class="sd">    using a generic :class:`~torch_geometric.sampler.BaseSampler`</span>
+<span class="sd">    implementation that defines a</span>
+<span class="sd">    :meth:`~torch_geometric.sampler.BaseSampler.sample_from_edges` function and</span>
+<span class="sd">    is supported on the provided input :obj:`data` object.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        Negative sampling is currently implemented in an approximate</span>
+<span class="sd">        way, *i.e.* negative edges may contain false negatives.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (Any): A :class:`~torch_geometric.data.Data`,</span>
+<span class="sd">            :class:`~torch_geometric.data.HeteroData`, or</span>
+<span class="sd">            (:class:`~torch_geometric.data.FeatureStore`,</span>
+<span class="sd">            :class:`~torch_geometric.data.GraphStore`) data object.</span>
+<span class="sd">        link_sampler (torch_geometric.sampler.BaseSampler): The sampler</span>
+<span class="sd">            implementation to be used with this loader.</span>
+<span class="sd">            Needs to implement</span>
+<span class="sd">            :meth:`~torch_geometric.sampler.BaseSampler.sample_from_edges`.</span>
+<span class="sd">            The sampler implementation must be compatible with the input</span>
+<span class="sd">            :obj:`data` object.</span>
+<span class="sd">        edge_label_index (Tensor or EdgeType or Tuple[EdgeType, Tensor]):</span>
+<span class="sd">            The edge indices, holding source and destination nodes to start</span>
+<span class="sd">            sampling from.</span>
+<span class="sd">            If set to :obj:`None`, all edges will be considered.</span>
+<span class="sd">            In heterogeneous graphs, needs to be passed as a tuple that holds</span>
+<span class="sd">            the edge type and corresponding edge indices.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        edge_label (Tensor, optional): The labels of edge indices from which to</span>
+<span class="sd">            start sampling from. Must be the same length as</span>
+<span class="sd">            the :obj:`edge_label_index`. (default: :obj:`None`)</span>
+<span class="sd">        edge_label_time (Tensor, optional): The timestamps of edge indices from</span>
+<span class="sd">            which to start sampling from. Must be the same length as</span>
+<span class="sd">            :obj:`edge_label_index`. If set, temporal sampling will be</span>
+<span class="sd">            used such that neighbors are guaranteed to fulfill temporal</span>
+<span class="sd">            constraints, *i.e.*, neighbors have an earlier timestamp than</span>
+<span class="sd">            the ouput edge. The :obj:`time_attr` needs to be set for this</span>
+<span class="sd">            to work. (default: :obj:`None`)</span>
+<span class="sd">        neg_sampling (NegativeSampling, optional): The negative sampling</span>
+<span class="sd">            configuration.</span>
+<span class="sd">            For negative sampling mode :obj:`&quot;binary&quot;`, samples can be accessed</span>
+<span class="sd">            via the attributes :obj:`edge_label_index` and :obj:`edge_label` in</span>
+<span class="sd">            the respective edge type of the returned mini-batch.</span>
+<span class="sd">            In case :obj:`edge_label` does not exist, it will be automatically</span>
+<span class="sd">            created and represents a binary classification task (:obj:`0` =</span>
+<span class="sd">            negative edge, :obj:`1` = positive edge).</span>
+<span class="sd">            In case :obj:`edge_label` does exist, it has to be a categorical</span>
+<span class="sd">            label from :obj:`0` to :obj:`num_classes - 1`.</span>
+<span class="sd">            After negative sampling, label :obj:`0` represents negative edges,</span>
+<span class="sd">            and labels :obj:`1` to :obj:`num_classes` represent the labels of</span>
+<span class="sd">            positive edges.</span>
+<span class="sd">            Note that returned labels are of type :obj:`torch.float` for binary</span>
+<span class="sd">            classification (to facilitate the ease-of-use of</span>
+<span class="sd">            :meth:`F.binary_cross_entropy`) and of type</span>
+<span class="sd">            :obj:`torch.long` for multi-class classification (to facilitate the</span>
+<span class="sd">            ease-of-use of :meth:`F.cross_entropy`).</span>
+<span class="sd">            For negative sampling mode :obj:`&quot;triplet&quot;`, samples can be</span>
+<span class="sd">            accessed via the attributes :obj:`src_index`, :obj:`dst_pos_index`</span>
+<span class="sd">            and :obj:`dst_neg_index` in the respective node types of the</span>
+<span class="sd">            returned mini-batch.</span>
+<span class="sd">            :obj:`edge_label` needs to be :obj:`None` for :obj:`&quot;triplet&quot;`</span>
+<span class="sd">            negative sampling mode.</span>
+<span class="sd">            If set to :obj:`None`, no negative sampling strategy is applied.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        neg_sampling_ratio (int or float, optional): The ratio of sampled</span>
+<span class="sd">            negative edges to the number of positive edges.</span>
+<span class="sd">            Deprecated in favor of the :obj:`neg_sampling` argument.</span>
+<span class="sd">            (default: :obj:`None`).</span>
+<span class="sd">        transform (callable, optional): A function/transform that takes in</span>
+<span class="sd">            a sampled mini-batch and returns a transformed version.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        transform_sampler_output (callable, optional): A function/transform</span>
+<span class="sd">            that takes in a :class:`torch_geometric.sampler.SamplerOutput` and</span>
+<span class="sd">            returns a transformed version. (default: :obj:`None`)</span>
+<span class="sd">        filter_per_worker (bool, optional): If set to :obj:`True`, will filter</span>
+<span class="sd">            the returned data in each worker&#39;s subprocess.</span>
+<span class="sd">            If set to :obj:`False`, will filter the returned data in the main</span>
+<span class="sd">            process.</span>
+<span class="sd">            If set to :obj:`None`, will automatically infer the decision based</span>
+<span class="sd">            on whether data partially lives on the GPU</span>
+<span class="sd">            (:obj:`filter_per_worker=True`) or entirely on the CPU</span>
+<span class="sd">            (:obj:`filter_per_worker=False`).</span>
+<span class="sd">            There exists different trade-offs for setting this option.</span>
+<span class="sd">            Specifically, setting this option to :obj:`True` for in-memory</span>
+<span class="sd">            datasets will move all features to shared memory, which may result</span>
+<span class="sd">            in too many open file handles. (default: :obj:`None`)</span>
+<span class="sd">        custom_cls (HeteroData, optional): A custom</span>
+<span class="sd">            :class:`~torch_geometric.data.HeteroData` class to return for</span>
+<span class="sd">            mini-batches in case of remote backends. (default: :obj:`None`)</span>
+<span class="sd">        **kwargs (optional): Additional arguments of</span>
+<span class="sd">            :class:`torch.utils.data.DataLoader`, such as :obj:`batch_size`,</span>
+<span class="sd">            :obj:`shuffle`, :obj:`drop_last` or :obj:`num_workers`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Data</span><span class="p">,</span> <span class="n">HeteroData</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">FeatureStore</span><span class="p">,</span> <span class="n">GraphStore</span><span class="p">]],</span>
+        <span class="n">link_sampler</span><span class="p">:</span> <span class="n">BaseSampler</span><span class="p">,</span>
+        <span class="n">edge_label_index</span><span class="p">:</span> <span class="n">InputEdges</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge_label</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge_label_time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">neg_sampling</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NegativeSampling</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">neg_sampling_ratio</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">transform_sampler_output</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">filter_per_worker</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">custom_cls</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HeteroData</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_id</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">filter_per_worker</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">filter_per_worker</span> <span class="o">=</span> <span class="n">infer_filter_per_worker</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># Remove for PyTorch Lightning:</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;dataset&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;collate_fn&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># Save for PyTorch Lightning:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edge_label_index</span> <span class="o">=</span> <span class="n">edge_label_index</span>
+
+        <span class="k">if</span> <span class="n">neg_sampling_ratio</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">neg_sampling_ratio</span> <span class="o">!=</span> <span class="mf">0.0</span><span class="p">:</span>
+            <span class="c1"># TODO: Deprecation warning.</span>
+            <span class="n">neg_sampling</span> <span class="o">=</span> <span class="n">NegativeSampling</span><span class="p">(</span><span class="s2">&quot;binary&quot;</span><span class="p">,</span> <span class="n">neg_sampling_ratio</span><span class="p">)</span>
+
+        <span class="c1"># Get edge type (or `None` for homogeneous graphs):</span>
+        <span class="n">input_type</span><span class="p">,</span> <span class="n">edge_label_index</span> <span class="o">=</span> <span class="n">get_edge_label_index</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">,</span> <span class="n">edge_label_index</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">link_sampler</span> <span class="o">=</span> <span class="n">link_sampler</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">neg_sampling</span> <span class="o">=</span> <span class="n">NegativeSampling</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">neg_sampling</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transform_sampler_output</span> <span class="o">=</span> <span class="n">transform_sampler_output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filter_per_worker</span> <span class="o">=</span> <span class="n">filter_per_worker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">custom_cls</span> <span class="o">=</span> <span class="n">custom_cls</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neg_sampling</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg_sampling</span><span class="o">.</span><span class="n">is_binary</span><span class="p">()</span>
+                <span class="ow">and</span> <span class="n">edge_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">edge_label</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="c1"># Increment labels such that `zero` now denotes &quot;negative&quot;.</span>
+            <span class="n">edge_label</span> <span class="o">=</span> <span class="n">edge_label</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">neg_sampling</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg_sampling</span><span class="o">.</span><span class="n">is_triplet</span><span class="p">()</span>
+                <span class="ow">and</span> <span class="n">edge_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;edge_label&#39; needs to be undefined for &quot;</span>
+                             <span class="s2">&quot;&#39;triplet&#39;-based negative sampling. Please use &quot;</span>
+                             <span class="s2">&quot;`src_index`, `dst_pos_index` and &quot;</span>
+                             <span class="s2">&quot;`neg_pos_index` of the returned mini-batch &quot;</span>
+                             <span class="s2">&quot;instead to differentiate between positive and &quot;</span>
+                             <span class="s2">&quot;negative samples.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_data</span> <span class="o">=</span> <span class="n">EdgeSamplerInput</span><span class="p">(</span>
+            <span class="n">input_id</span><span class="o">=</span><span class="n">input_id</span><span class="p">,</span>
+            <span class="n">row</span><span class="o">=</span><span class="n">edge_label_index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">col</span><span class="o">=</span><span class="n">edge_label_index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">edge_label</span><span class="p">,</span>
+            <span class="n">time</span><span class="o">=</span><span class="n">edge_label_time</span><span class="p">,</span>
+            <span class="n">input_type</span><span class="o">=</span><span class="n">input_type</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">iterator</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">edge_label_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">collate_fn</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Data</span><span class="p">,</span> <span class="n">HeteroData</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Samples a subgraph from a batch of input edges.&quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collate_fn</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_per_worker</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_fn</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+<div class="viewcode-block" id="LinkLoader.collate_fn"><a class="viewcode-back" href="../../../modules/loader.html#torch_geometric.loader.LinkLoader.collate_fn">[docs]</a>    <span class="k">def</span> <span class="nf">collate_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Samples a subgraph from a batch of input edges.&quot;&quot;&quot;</span>
+        <span class="n">input_data</span><span class="p">:</span> <span class="n">EdgeSamplerInput</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">link_sampler</span><span class="o">.</span><span class="n">sample_from_edges</span><span class="p">(</span>
+            <span class="n">input_data</span><span class="p">,</span> <span class="n">neg_sampling</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">neg_sampling</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_per_worker</span><span class="p">:</span>  <span class="c1"># Execute `filter_fn` in the worker process</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_fn</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="LinkLoader.filter_fn"><a class="viewcode-back" href="../../../modules/loader.html#torch_geometric.loader.LinkLoader.filter_fn">[docs]</a>    <span class="k">def</span> <span class="nf">filter_fn</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">out</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">SamplerOutput</span><span class="p">,</span> <span class="n">HeteroSamplerOutput</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Data</span><span class="p">,</span> <span class="n">HeteroData</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Joins the sampled nodes with their corresponding features,</span>
+<span class="sd">        returning the resulting :class:`~torch_geometric.data.Data` or</span>
+<span class="sd">        :class:`~torch_geometric.data.HeteroData` object to be used downstream.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_sampler_output</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform_sampler_output</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">SamplerOutput</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">Data</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">filter_data</span><span class="p">(</span>  <span class="c1">#</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">row</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">col</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">edge</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">link_sampler</span><span class="o">.</span><span class="n">edge_permutation</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># Tuple[FeatureStore, GraphStore]</span>
+                <span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">out</span><span class="o">.</span><span class="n">row</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">col</span><span class="p">])</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">Data</span><span class="p">(</span><span class="n">edge_index</span><span class="o">=</span><span class="n">edge_index</span><span class="p">)</span>
+
+                <span class="c1"># TODO Respect `custom_cls`.</span>
+                <span class="c1"># TODO Integrate features.</span>
+
+                <span class="c1"># Hack to detect whether we are in a distributed setting.</span>
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">link_sampler</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span>
+                        <span class="s1">&#39;DistNeighborSampler&#39;</span><span class="p">):</span>
+                    <span class="c1"># Metadata entries are populated in</span>
+                    <span class="c1"># `DistributedNeighborSampler._collate_fn()`</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="n">data</span><span class="o">.</span><span class="n">edge_attr</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="s1">&#39;n_id&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">n_id</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">node</span>
+            <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">edge</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s1">&#39;e_id&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="n">edge</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">edge</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+                <span class="n">perm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">link_sampler</span><span class="o">.</span><span class="n">edge_permutation</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">e_id</span> <span class="o">=</span> <span class="n">perm</span><span class="p">[</span><span class="n">out</span><span class="o">.</span><span class="n">edge</span><span class="p">]</span> <span class="k">if</span> <span class="n">perm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">out</span><span class="o">.</span><span class="n">edge</span>
+
+            <span class="n">data</span><span class="o">.</span><span class="n">batch</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">batch</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">num_sampled_nodes</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">num_sampled_nodes</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">num_sampled_edges</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">num_sampled_edges</span>
+
+            <span class="n">data</span><span class="o">.</span><span class="n">input_id</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg_sampling</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg_sampling</span><span class="o">.</span><span class="n">is_binary</span><span class="p">():</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">edge_label_index</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">edge_label</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">edge_label_time</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg_sampling</span><span class="o">.</span><span class="n">is_triplet</span><span class="p">():</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">src_index</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">dst_pos_index</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">dst_neg_index</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">seed_time</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+                <span class="c1"># Sanity removals in case `edge_label_index` and</span>
+                <span class="c1"># `edge_label_time` are attributes of the base `data` object:</span>
+                <span class="k">del</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_label_index</span>  <span class="c1"># Sanity removals.</span>
+                <span class="k">del</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_label_time</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">HeteroSamplerOutput</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">HeteroData</span><span class="p">):</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">filter_hetero_data</span><span class="p">(</span>  <span class="c1">#</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">row</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">col</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">edge</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">link_sampler</span><span class="o">.</span><span class="n">edge_permutation</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># Tuple[FeatureStore, GraphStore]</span>
+                <span class="c1"># Hack to detect whether we are in a distributed setting.</span>
+                <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">link_sampler</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span>
+                        <span class="s1">&#39;DistNeighborSampler&#39;</span><span class="p">):</span>
+                    <span class="kn">import</span> <span class="nn">torch_geometric.distributed</span> <span class="k">as</span> <span class="nn">dist</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">filter_dist_store</span><span class="p">(</span>
+                        <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">row</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">col</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">edge</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">custom_cls</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">filter_custom_store</span><span class="p">(</span>  <span class="c1">#</span>
+                        <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">node</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">row</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">col</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">edge</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">custom_cls</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="s1">&#39;n_id&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+                    <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">n_id</span> <span class="o">=</span> <span class="n">node</span>
+
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">edge</span> <span class="ow">in</span> <span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">edge</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">edge</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s1">&#39;e_id&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+                    <span class="n">edge</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+                    <span class="n">perm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">link_sampler</span><span class="o">.</span><span class="n">edge_permutation</span>
+                    <span class="k">if</span> <span class="n">perm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">perm</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">edge</span> <span class="o">=</span> <span class="n">perm</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">edge</span><span class="p">]</span>
+                    <span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">e_id</span> <span class="o">=</span> <span class="n">edge</span>
+
+            <span class="n">data</span><span class="o">.</span><span class="n">set_value_dict</span><span class="p">(</span><span class="s1">&#39;batch&#39;</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">batch</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">set_value_dict</span><span class="p">(</span><span class="s1">&#39;num_sampled_nodes&#39;</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">num_sampled_nodes</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">set_value_dict</span><span class="p">(</span><span class="s1">&#39;num_sampled_edges&#39;</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">num_sampled_edges</span><span class="p">)</span>
+
+            <span class="n">input_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_data</span><span class="o">.</span><span class="n">input_type</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">input_type</span><span class="p">]</span><span class="o">.</span><span class="n">input_id</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg_sampling</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg_sampling</span><span class="o">.</span><span class="n">is_binary</span><span class="p">():</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">input_type</span><span class="p">]</span><span class="o">.</span><span class="n">edge_label_index</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">input_type</span><span class="p">]</span><span class="o">.</span><span class="n">edge_label</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">input_type</span><span class="p">]</span><span class="o">.</span><span class="n">edge_label_time</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">neg_sampling</span><span class="o">.</span><span class="n">is_triplet</span><span class="p">():</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">input_type</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">src_index</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">input_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">dst_pos_index</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">input_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">dst_neg_index</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">input_type</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">seed_time</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">input_type</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">seed_time</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+                <span class="c1"># Sanity removals in case `edge_label_index` and</span>
+                <span class="c1"># `edge_label_time` are attributes of the base `data` object:</span>
+                <span class="k">if</span> <span class="n">input_type</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_types</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">input_type</span><span class="p">]</span><span class="o">.</span><span class="n">edge_label_index</span>
+                    <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">input_type</span><span class="p">]</span><span class="o">.</span><span class="n">edge_label_time</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;&#39; found invalid &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;type: &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">out</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_iterator</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_per_worker</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">()</span>
+
+        <span class="c1"># Execute `filter_fn` in the main process:</span>
+        <span class="k">return</span> <span class="n">DataLoaderIterator</span><span class="p">(</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_get_iterator</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_fn</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">()&#39;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

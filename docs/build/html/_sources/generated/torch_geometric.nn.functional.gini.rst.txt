@@ -1,0 +1,6 @@
+﻿torch\_geometric.nn.functional.gini
+===================================
+
+.. currentmodule:: torch_geometric.nn.functional
+
+.. autofunction:: gini

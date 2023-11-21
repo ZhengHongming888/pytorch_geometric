@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Managing Experiments with GraphGym &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CPU Affinity for PyG Workloads" href="cpu_affinity.html" />
+    <link rel="prev" title="Scaling Up GNNs via Remote Backends" href="remote.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Managing Experiments with GraphGym</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#highlights">Highlights</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#why-graphgym">Why GraphGym?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#in-depth-usage">In-Depth Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#customizing-graphgym">Customizing GraphGym</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Managing Experiments with GraphGym</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/advanced/graphgym.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="managing-experiments-with-graphgym">
+<h1>Managing Experiments with GraphGym<a class="headerlink" href="#managing-experiments-with-graphgym" title="Permalink to this heading"></a></h1>
+<p>GraphGym is a platform for <strong>designing and evaluating Graph Neural Networks (GNNs)</strong>, as originally proposed in the <a class="reference external" href="https://arxiv.org/abs/2011.08843">“Design Space for Graph Neural Networks”</a> paper.
+We now officially support GraphGym as part of of <span class="inline-logo pyg">PyG</span>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>GraphGym API may change in the future as we are continuously working on better and deeper integration with <span class="inline-logo pyg">PyG</span>.</p>
+</div>
+<section id="highlights">
+<h2>Highlights<a class="headerlink" href="#highlights" title="Permalink to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Highly modularized pipeline for GNN:</strong></p>
+<ul class="simple">
+<li><p><strong>Data:</strong> Data loading and data splitting</p></li>
+<li><p><strong>Model:</strong> Modularized GNN implementations</p></li>
+<li><p><strong>Tasks:</strong> Node-level, edge-level and graph-level tasks</p></li>
+<li><p><strong>Evaluation:</strong> Accuracy, ROC AUC, …</p></li>
+</ul>
+</li>
+<li><p><strong>Reproducible experiment configuration:</strong></p>
+<ul class="simple">
+<li><p>Each experiment is <em>fully described by a configuration file</em></p></li>
+</ul>
+</li>
+<li><p><strong>Scalable experiment management:</strong></p>
+<ul class="simple">
+<li><p>Easily launch <em>thousands of GNN experiments in parallel</em></p></li>
+<li><p><em>Auto-generate</em> experiment analyses and figures across random seeds and experiments</p></li>
+</ul>
+</li>
+<li><p><strong>Flexible user customization:</strong></p>
+<ul class="simple">
+<li><p>Easily <em>register your own modules</em>, such as data loaders, GNN layers, loss functions, etc</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="why-graphgym">
+<h2>Why GraphGym?<a class="headerlink" href="#why-graphgym" title="Permalink to this heading"></a></h2>
+<p><strong>TL;DR:</strong> GraphGym is great for GNN beginners, domain experts and GNN researchers.</p>
+<p><strong>Scenario 1:</strong> You are a beginner to graph representation learning and want to understand how GNNs work:</p>
+<p>You probably have read many exciting papers on GNNs, and try to write your own GNN implementation.
+Even if using raw <span class="inline-logo pyg">PyG</span>, you still have to code up the essential pipeline on your own.
+GraphGym is a perfect place for your to start learning about <em>standardized GNN implementation and evaluation</em>.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../_images/graphgym_design_space.png"><img alt="../_images/graphgym_design_space.png" src="../_images/graphgym_design_space.png" style="width: 450px;" /></a>
+<figcaption>
+<p><span class="caption-text"><strong>Figure 1:</strong> Modularized GNN implementation.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>Scenario 2:</strong> You want to apply GNNs to your exciting application:</p>
+<p>You probably know that there are hundreds of possible GNN models, and selecting the best model is notoriously hard.
+Even worse, the <a class="reference external" href="https://arxiv.org/abs/2011.08843">GraphGym paper</a> shows that the best GNN designs for different tasks differ drastically.
+GraphGym provides a <em>simple interface to try out thousands of GNNs in parallel</em> and understand the best designs for your specific task.
+GraphGym also recommends a “go-to” GNN design space, after investigating 10 million GNN model-task combinations.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/graphgym_results.png"><img alt="../_images/graphgym_results.png" src="../_images/graphgym_results.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text"><strong>Figure 2:</strong> A guideline for desirable GNN design choices.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p><strong>Scenario 3:</strong> You are a GNN researcher, who wants to innovate new GNN models or propose new GNN tasks:</p>
+<p>Say you have proposed a new GNN layer <code class="xref py py-class docutils literal notranslate"><span class="pre">ExampleConv</span></code>.
+GraphGym can help you convincingly argue that <code class="xref py py-class docutils literal notranslate"><span class="pre">ExampleConv</span></code> is better than, <em>e.g.</em>, <a class="reference internal" href="../generated/torch_geometric.nn.conv.GCNConv.html#torch_geometric.nn.conv.GCNConv" title="torch_geometric.nn.conv.GCNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GCNConv</span></code></a>:
+When randomly sampling from 10 million possible model-task combinations, how often will <code class="xref py py-class docutils literal notranslate"><span class="pre">ExampleConv</span></code> will outperform <a class="reference internal" href="../generated/torch_geometric.nn.conv.GCNConv.html#torch_geometric.nn.conv.GCNConv" title="torch_geometric.nn.conv.GCNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GCNConv</span></code></a> when everything else is fixed (including computational costs)?
+Moreover, GraphGym can help you easily do hyper-parameter search, and <em>visualize</em> what design choices are better.
+In sum, GraphGym can greatly facilitate your GNN research.</p>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="../_images/graphgym_evaluation.png"><img alt="../_images/graphgym_evaluation.png" src="../_images/graphgym_evaluation.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text"><strong>Figure 3:</strong> Evaluation of a given GNN design dimension, <em>e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">BatchNorm</span></code>.</span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="basic-usage">
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this heading"></a></h2>
+<p>To use GraphGym, you need to clone <span class="inline-logo pyg">PyG</span> from <span class="inline-logo github">GitHub</span>, then change to the <code class="xref py py-obj docutils literal notranslate"><span class="pre">graphgym/</span></code> directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/pyg-team/pytorch_geometric.git
+<span class="nb">cd</span><span class="w"> </span>pytorch_geometric/graphgym
+</pre></div>
+</div>
+<ol class="arabic">
+<li><p><strong>Run a single experiment:</strong>
+Run an experiment using GraphGym via <code class="xref py py-obj docutils literal notranslate"><span class="pre">run_single.sh</span></code>.
+Configurations are specified in <code class="xref py py-obj docutils literal notranslate"><span class="pre">configs/example_node.yaml</span></code>.
+The default experiment is about node classification on the <a class="reference internal" href="../generated/torch_geometric.datasets.Planetoid.html#torch_geometric.datasets.Planetoid" title="torch_geometric.datasets.Planetoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">Planetoid</span></code></a> datasets (using a random 80/20 train/validation split).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash<span class="w"> </span>run_single.sh<span class="w"> </span><span class="c1"># run a single experiment</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Run a batch of experiments:</strong>
+Run a batch of experiments using GraphGym via <code class="xref py py-obj docutils literal notranslate"><span class="pre">run_batch.sh</span></code>.
+Configurations are specified in <code class="xref py py-obj docutils literal notranslate"><span class="pre">configs/example_node.yaml</span></code> (controls the basic architecture) and <code class="xref py py-obj docutils literal notranslate"><span class="pre">grids/example.txt</span></code> (controls how to do grid search).
+The experiment examines 96 models in the recommended GNN design space, on 2 graph classification datasets.
+Each experiment is repeated 3 times, and we set up that 8 jobs can be concurrently run.
+Depending on your infrastructure, finishing all the experiments may take a long time;
+you can quit the experiment via <code class="xref py py-obj docutils literal notranslate"><span class="pre">Ctrl-C</span></code> (GraphGym will properly kill all the processes).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash<span class="w"> </span>run_batch.sh<span class="w"> </span><span class="c1"># run a batch of experiments</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Run GraphGym with CPU backend:</strong>
+GraphGym supports CPU backend as well – you only need to add the line <code class="xref py py-obj docutils literal notranslate"><span class="pre">accelerator:</span> <span class="pre">cpu</span></code> to the <code class="xref py py-obj docutils literal notranslate"><span class="pre">*.yaml</span></code> file.</p></li>
+</ol>
+</section>
+<section id="in-depth-usage">
+<h2>In-Depth Usage<a class="headerlink" href="#in-depth-usage" title="Permalink to this heading"></a></h2>
+<p>To use GraphGym, you need to clone <span class="inline-logo pyg">PyG</span> from <span class="inline-logo github">GitHub</span>, then change to the <code class="xref py py-obj docutils literal notranslate"><span class="pre">graphgym/</span></code> directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/pyg-team/pytorch_geometric.git
+<span class="nb">cd</span><span class="w"> </span>pytorch_geometric/graphgym
+</pre></div>
+</div>
+<ol class="arabic">
+<li><p><strong>Run a single experiment:</strong>
+A full example is specified in <code class="xref py py-obj docutils literal notranslate"><span class="pre">run_single.sh</span></code>.</p>
+<ol class="arabic">
+<li><p><strong>Specify a configuration file:</strong>
+In GraphGym, an experiment is fully specified by a <code class="xref py py-obj docutils literal notranslate"><span class="pre">*.yaml</span></code> file.
+Unspecified configurations in the <code class="xref py py-obj docutils literal notranslate"><span class="pre">*.yaml</span></code> file will be populated by the default values in <a class="reference internal" href="../modules/graphgym.html#torch_geometric.graphgym.set_cfg" title="torch_geometric.graphgym.set_cfg"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.graphgym.set_cfg()</span></code></a>.
+For example, in <code class="xref py py-obj docutils literal notranslate"><span class="pre">configs/example_node.yaml</span></code>, there are configurations for the dataset, training procedure, model, etc.
+Concrete description for each configuration is described in <a class="reference internal" href="../modules/graphgym.html#torch_geometric.graphgym.set_cfg" title="torch_geometric.graphgym.set_cfg"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_cfg()</span></code></a>.</p></li>
+<li><p><strong>Launch an experiment:</strong>
+For example, in <code class="xref py py-obj docutils literal notranslate"><span class="pre">run_single.sh</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>main.py<span class="w"> </span>--cfg<span class="w"> </span>configs/example_node.yaml<span class="w"> </span>--repeat<span class="w"> </span><span class="m">3</span>
+</pre></div>
+</div>
+<p>You can specify the number of different random seeds to repeat via <code class="xref py py-obj docutils literal notranslate"><span class="pre">--repeat</span></code>.</p>
+</li>
+<li><p><strong>Understand the results:</strong>
+Experimental results will be automatically saved in <code class="xref py py-obj docutils literal notranslate"><span class="pre">results/${CONFIG_NAME}/</span></code>.
+In the example above, this amounts to <code class="xref py py-obj docutils literal notranslate"><span class="pre">results/example_node/</span></code>.
+Results for different random seeds will be saved in different subdirectories, <em>e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">results/example_node/2</span></code>.
+The aggregated results over all the random seeds are <em>automatically</em> generated into <code class="xref py py-obj docutils literal notranslate"><span class="pre">results/example/agg</span></code>, including the mean and standard deviation <code class="xref py py-obj docutils literal notranslate"><span class="pre">_std</span></code> for each metric.
+Train/validation/test results are further saved into subdirectories, such as <code class="xref py py-obj docutils literal notranslate"><span class="pre">results/example/agg/val</span></code>.
+Here, <code class="xref py py-obj docutils literal notranslate"><span class="pre">stats.json</span></code> stores the results after each epoch aggregated across random seeds, and <code class="xref py py-obj docutils literal notranslate"><span class="pre">best.json</span></code> stores the results of <em>the epoch with the highest validation accuracy</em>.</p></li>
+</ol>
+</li>
+<li><p><strong>Run a batch of experiments:</strong>
+A full example is specified in <code class="xref py py-obj docutils literal notranslate"><span class="pre">run_batch.sh</span></code>.</p>
+<ol class="arabic">
+<li><p><strong>Specify a base file:</strong>
+GraphGym supports running a batch of experiments.
+To start, a user needs to select a base architecture via <code class="xref py py-obj docutils literal notranslate"><span class="pre">--config</span></code>.
+The batch of experiments will be created by perturbing certain configurations of the base architecture.</p></li>
+<li><p><strong>(Optionally) specify a base file for computational budget:</strong>
+Additionally, GraphGym allows a user to select a base architecture to <em>control the computational budget</em> for the grid search via <code class="xref py py-obj docutils literal notranslate"><span class="pre">--config_budget</span></code>.
+The computational budget is currently measured by the number of trainable parameters, and the control is achieved by auto-adjusting the hidden dimensionality of the underlying GNN.
+If no <code class="xref py py-obj docutils literal notranslate"><span class="pre">--config_budget</span></code> is provided, GraphGym will not control the computational budget.</p></li>
+<li><p><strong>Specify a grid file:</strong>
+A grid file describes how to perturb the base file, in order to generate the batch of experiments.
+For example, the base file could specify an experiment of a 3-layer GCN for node classification on the <a class="reference internal" href="../generated/torch_geometric.datasets.Planetoid.html#torch_geometric.datasets.Planetoid" title="torch_geometric.datasets.Planetoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">Planetoid</span></code></a> datasets.
+Then, the grid file specifies how to perturb the experiment along different dimensions, such as the number of layers, the model architecture, the dataset, the level of task, etc.</p></li>
+<li><p><strong>Generate configuration files for the batch of experiments</strong> based on the information specified above:
+For example, in <code class="xref py py-obj docutils literal notranslate"><span class="pre">run_batch.sh</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>configs_gen.py<span class="w"> </span>--config<span class="w"> </span>configs/<span class="si">${</span><span class="nv">DIR</span><span class="si">}</span>/<span class="si">${</span><span class="nv">CONFIG</span><span class="si">}</span>.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--config_budget<span class="w"> </span>configs/<span class="si">${</span><span class="nv">DIR</span><span class="si">}</span>/<span class="si">${</span><span class="nv">CONFIG</span><span class="si">}</span>.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--grid<span class="w"> </span>grids/<span class="si">${</span><span class="nv">DIR</span><span class="si">}</span>/<span class="si">${</span><span class="nv">GRID</span><span class="si">}</span>.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--out_dir<span class="w"> </span>configs
+</pre></div>
+</div>
+</li>
+<li><p><strong>Launch the batch of experiments:</strong>
+For example, in <code class="xref py py-obj docutils literal notranslate"><span class="pre">run_batch.sh</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash<span class="w"> </span>parallel.sh<span class="w"> </span>configs/<span class="si">${</span><span class="nv">CONFIG</span><span class="si">}</span>_grid_<span class="si">${</span><span class="nv">GRID</span><span class="si">}</span><span class="w"> </span><span class="nv">$REPEAT</span><span class="w"> </span><span class="nv">$MAX_JOBS</span><span class="w"> </span><span class="nv">$SLEEP</span>
+</pre></div>
+</div>
+<p>Each experiment will be repeated for <code class="xref py py-obj docutils literal notranslate"><span class="pre">$REPEAT</span></code> times.
+We implemented a queue system to sequentially launch all the jobs, with <code class="xref py py-obj docutils literal notranslate"><span class="pre">$MAX_JOBS</span></code> concurrent jobs running at the same time.
+In practice, our system works great when handling thousands of jobs.</p>
+</li>
+<li><p><strong>Understand the results:</strong>
+Experimental results will be automatically saved in directory <code class="xref py py-obj docutils literal notranslate"><span class="pre">results/${CONFIG_NAME}_grid_${GRID_NAME}/</span></code>.
+In the example above, this amounts to <code class="xref py py-obj docutils literal notranslate"><span class="pre">results/example_grid_example/</span></code>.
+After running each experiment, GraphGym additionally automatically averages across different models, saved in <code class="xref py py-obj docutils literal notranslate"><span class="pre">results/example_grid_example/agg</span></code>.
+There, <code class="xref py py-obj docutils literal notranslate"><span class="pre">val.csv</span></code> represents the validation accuracy for each model configuration at the <em>final</em> epoch,
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">val_best.csv</span></code> represents the results at the epoch with the highest average validation accuracy, and
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">val_best_epoch.csv</span></code> represents the results at the epoch with the highest validation accuracy averaged over different random seeds.
+When a test set split is provided, <code class="xref py py-obj docutils literal notranslate"><span class="pre">test.csv</span></code> represents the test accuracy for each model configuration at the <em>final</em> epoch,
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">test_best.csv</span></code> represents the test set results at the epoch with the highest average validation accuracy, and
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">test_best_epoch.csv</span></code> represents the test set results at the epoch with the highest validation accuracy averaged over different random seeds.</p></li>
+</ol>
+</li>
+</ol>
+</section>
+<section id="customizing-graphgym">
+<h2>Customizing GraphGym<a class="headerlink" href="#customizing-graphgym" title="Permalink to this heading"></a></h2>
+<p>A highlight of GraphGym is that it allows you to easily register customized modules.
+For each project, you can have a unique GraphGym copy with different customized modules.
+For example, the <a class="reference external" href="https://arxiv.org/abs/2011.08843">“Design Space for Graph Neural Networks”</a> and <a class="reference external" href="https://arxiv.org/abs/2101.10320">“Identity-aware Graph Neural Networks”</a> papers represent two successful projects using customized GraphGym, and you may find more details about them <a class="reference external" href="https://github.com/snap-stanford/GraphGym#use-case-design-space-for-graph-neural-networks-neurips-2020-spotlight">here</a>.
+Eventually, every GraphGym-powered project will be unique.</p>
+<p>There are two ways for customizing GraphGym:</p>
+<ol class="arabic simple">
+<li><p>Use the <code class="xref py py-obj docutils literal notranslate"><span class="pre">graphgym/custom_graphgym</span></code> directory outside the <span class="inline-logo pyg">PyG</span> package:
+You can register your customized modules here without touching <span class="inline-logo pyg">PyG</span>. This use case will be great for your own customized project.</p></li>
+<li><p>Use the <code class="xref py py-obj docutils literal notranslate"><span class="pre">torch_geometric/graphgym/contrib</span></code> directory inside the <span class="inline-logo pyg">PyG</span> package:
+If you have come up with a nice customized module, you can directly copy your files into <code class="xref py py-obj docutils literal notranslate"><span class="pre">torch_geometric/graphgym/contrib</span></code>, and <strong>create a pull request</strong> to <span class="inline-logo pyg">PyG</span>.
+This way, your idea can ship with <span class="inline-logo pyg">PyG</span> installations, and will have a much higher visibility and impact.</p></li>
+</ol>
+<p>Concretely, the supported customized modules includes</p>
+<ul class="simple">
+<li><p>Activations: <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/act/</span></code></p></li>
+<li><p>Customized configurations: <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/config/</span></code></p></li>
+<li><p>Feature augmentations: <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/feature_augment/</span></code></p></li>
+<li><p>Feature encoders: <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/feature_encoder/</span></code></p></li>
+<li><p>GNN heads: <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/head/</span></code></p></li>
+<li><p>GNN layers: <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/layer/</span></code></p></li>
+<li><p>Data loaders: <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/loader/</span></code></p></li>
+<li><p>Loss functions: <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/loss/</span></code></p></li>
+<li><p>GNN network architectures: <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/network/</span></code></p></li>
+<li><p>Optimizers: <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/optimizer/</span></code></p></li>
+<li><p>GNN global pooling layers (for graph classification only): <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/pooling/</span></code></p></li>
+<li><p>GNN stages: <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/stage/</span></code></p></li>
+<li><p>GNN training pipelines: <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/train/</span></code></p></li>
+<li><p>Data transformations: <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/transform/</span></code></p></li>
+</ul>
+<p>Within each directory, at least one example is provided that shows how to register customized modules via <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.graphgym.register()</span></code>.
+Note that new customized modules may result in new configurations.
+In these cases, new configuration fields can be registered via <code class="xref py py-obj docutils literal notranslate"><span class="pre">custom_graphgym/config/</span></code>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="remote.html" class="btn btn-neutral float-left" title="Scaling Up GNNs via Remote Backends" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cpu_affinity.html" class="btn btn-neutral float-right" title="CPU Affinity for PyG Workloads" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

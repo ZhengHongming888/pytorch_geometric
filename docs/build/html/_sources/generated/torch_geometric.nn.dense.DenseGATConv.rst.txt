@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.dense.DenseGATConv
+======================================
+
+.. currentmodule:: torch_geometric.nn.dense
+
+.. autoclass:: DenseGATConv
+   :show-inheritance:
+   :members:

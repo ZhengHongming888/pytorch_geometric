@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.pool.L2KNNIndex
+===================================
+
+.. currentmodule:: torch_geometric.nn.pool
+
+.. autoclass:: L2KNNIndex
+   :show-inheritance:
+   :members:

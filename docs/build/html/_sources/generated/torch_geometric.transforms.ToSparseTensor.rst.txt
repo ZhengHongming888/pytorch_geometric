@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.ToSparseTensor
+==========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: ToSparseTensor
+   :show-inheritance:

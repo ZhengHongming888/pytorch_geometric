@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.graph\_generator.GraphGenerator
+=========================================================
+
+.. currentmodule:: torch_geometric.datasets.graph_generator
+
+.. autoclass:: GraphGenerator
+   :show-inheritance:

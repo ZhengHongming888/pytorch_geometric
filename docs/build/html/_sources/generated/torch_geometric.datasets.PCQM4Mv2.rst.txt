@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.PCQM4Mv2
+==================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: PCQM4Mv2
+   :show-inheritance:

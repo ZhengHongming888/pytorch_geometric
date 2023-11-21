@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.MoleculeNet
+=====================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: MoleculeNet
+   :show-inheritance:

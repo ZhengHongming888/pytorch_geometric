@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.RandomLinkSplit
+===========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: RandomLinkSplit
+   :show-inheritance:

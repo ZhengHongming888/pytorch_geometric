@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>External Resources &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">External Resources</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notes/resources.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="external-resources">
+<h1>External Resources<a class="headerlink" href="#external-resources" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p>Matthias Fey and Jan E. Lenssen: <strong>Fast Graph Representation Learning with</strong> <span class="inline-logo pyg empty"></span> <strong>PyTorch Geometric</strong> [<a class="reference external" href="https://arxiv.org/abs/1903.02428">Paper</a>, <a class="reference external" href="http://rusty1s.github.io/pyg_slides.pdf">Slides (3.3MB)</a>, <a class="reference external" href="http://rusty1s.github.io/pyg_poster.pdf">Poster (2.3MB)</a>, <a class="reference external" href="http://htmlpreview.github.io/?https://github.com/rusty1s/rusty1s.github.io/blob/master/pyg_notebook.html">Notebook</a>]</p></li>
+<li><p><span class="inline-logo stanford">Stanford CS224W: Machine Learning with Graphs</span>: <strong>Graph Machine Learning lectures</strong> [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=JAB_plj2rbA">Youtube</a>]</p></li>
+<li><p><span class="inline-logo stanford">Stanford University</span>: <strong>A collection of graph machine learning tutorial blog posts</strong>, fully realized with <span class="inline-logo pyg empty"></span> <strong>PyG</strong> [<a class="reference external" href="https://medium.com/stanford-cs224w">Website</a>]</p></li>
+<li><p>Soumith Chintala: <strong>Automatic Differentiation,</strong> <span class="inline-logo pytorch empty"></span> <strong>PyTorch and Graph Neural Networks</strong> [<a class="reference external" href="http://www.ipam.ucla.edu/abstract/?tid=15592&amp;pcode=GLWS4">Talk (starting from 26:15)</a>]</p></li>
+<li><p>Stanford University: <strong>Graph Neural Networks using</strong> <span class="inline-logo pyg empty"></span> <strong>PyTorch Geometric</strong> [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=-UjytpbqX4A&amp;feature=youtu.be">YouTube (starting from 33:33)</a>]</p></li>
+<li><p>Antonio Longa, Gabriele Santin and Giovanni Pellegrini: <span class="inline-logo pyg empty"></span> <strong>PyTorch Geometric Tutorial</strong> [<a class="reference external" href="https://antoniolonga.github.io/Pytorch_geometric_tutorials">Website</a>, <span class="inline-logo github empty"></span> <a class="reference external" href="https://github.com/AntonioLonga/PytorchGeometricTutorial">GitHub</a>]</p></li>
+<li><p>DAIR.AI | elvis: <strong>Introduction to GNNs with</strong> <span class="inline-logo pyg empty"></span> <strong>PyTorch Geometric</strong> [<a class="reference external" href="https://github.com/dair-ai/GNNs-Recipe">Website</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/drive/1d0jLDwgNBtjBVQOFe8lO_1WrqTVeVZx9?usp=sharing">Colab</a>]</p></li>
+<li><p>Nicolas Chaulet <em>et al.</em>: <strong>PyTorch Points 3D</strong> - A framework for running common deep learning models for point cloud analysis tasks that heavily relies on Pytorch Geometric [<span class="inline-logo github empty"></span> <a class="reference external" href="https://github.com/nicolas-chaulet/torch-points3d">GitHub</a>, <a class="reference external" href="https://torch-points3d.readthedocs.io/en/latest/">Documentation</a>]</p></li>
+<li><p>Weihua Hu <em>et al.</em>: <span class="inline-logo ogb empty"></span> <strong>Open Graph Benchmark</strong> - A collection of large-scale benchmark datasets, data loaders, and evaluators for graph machine learning, including <span class="inline-logo pyg">PyG</span> support and examples [<a class="reference external" href="https://ogb.stanford.edu">Website</a>, <span class="inline-logo github empty"></span> <a class="reference external" href="https://github.com/snap-stanford/ogb">GitHub</a>]</p></li>
+<li><p><strong>DeepSNAP</strong> - A <span class="inline-logo pytorch">PyTorch</span> library that bridges between graph libraries such as NetworkX and <span class="inline-logo pyg">PyG</span> [<span class="inline-logo github empty"></span> <a class="reference external" href="https://github.com/snap-stanford/deepsnap">GitHub</a>, <a class="reference external" href="https://snap.stanford.edu/deepsnap/">Documentation</a>]</p></li>
+<li><p><strong>Quiver</strong> - A distributed graph learning library for <span class="inline-logo pyg">PyG</span> [<span class="inline-logo github empty"></span> <a class="reference external" href="https://github.com/quiver-team/torch-quiver">GitHub</a>]</p></li>
+<li><p>Benedek Rozemberczki: <strong>PyTorch Geometric Temporal</strong> - A temporal GNN library built upon <span class="inline-logo pyg">PyG</span> [<span class="inline-logo github empty"></span> <a class="reference external" href="https://github.com/benedekrozemberczki/pytorch_geometric_temporal">GitHub</a>, <a class="reference external" href="https://pytorch-geometric-temporal.readthedocs.io/en/latest/">Documentation</a>]</p></li>
+<li><p>Yixuan He: <strong>PyTorch Geometric Signed Directed</strong> - A signed and directed GNN library built upon <span class="inline-logo pyg">PyG</span> [<span class="inline-logo github empty"></span> <a class="reference external" href="https://github.com/SherylHYX/pytorch_geometric_signed_directed">GitHub</a>, <a class="reference external" href="https://pytorch-geometric-signed-directed.readthedocs.io/en/latest/">Documentation</a>]</p></li>
+<li><p>Steeve Huang: <strong>Hands-on Graph Neural Networks with</strong> <span class="inline-logo pytorch empty"></span> <strong>PyTorch &amp;</strong> <span class="inline-logo pyg empty"></span> <strong>PyTorch Geometric</strong> [<a class="reference external" href="https://towardsdatascience.com/hands-on-graph-neural-networks-with-pytorch-pytorch-geometric-359487e221a8">Tutorial</a>, <a class="reference external" href="https://github.com/khuangaf/Pytorch-Geometric-YooChoose">Code</a>]</p></li>
+<li><p>Francesco Landolfi: <span class="inline-logo pyg empty"></span> <strong>PyTorch Geometric Tutorial</strong> [<a class="reference external" href="http://pages.di.unipi.it/citraro/files/slides/Landolfi_tutorial.pdf">PDF (0.4MB)</a>]</p></li>
+<li><p>Sachin Sharma: <strong>How to Deploy (almost) any</strong> <span class="inline-logo pyg empty"></span> <strong>PyTorch Geometric Model on Nvidia’s Triton Inference Server with an Application to Amazon Product Recommendation and ArangoDB</strong> [<a class="reference external" href="https://sachinsharma9780.medium.com/how-to-deploy-almost-any-pytorch-geometric-model-on-nvidias-triton-inference-server-with-an-218d0c0c679c">Blog</a>]</p></li>
+<li><p>Amitoz Azad: <strong>torch_pdegraph</strong> - Solving PDEs on Graphs with <span class="inline-logo pyg">PyG</span> [<a class="reference external" href="https://devpost.com/software/gdfgddfd">Devpost</a>, <span class="inline-logo github empty"></span> <a class="reference external" href="https://github.com/aGIToz/Pytorch_pdegraph">GitHub</a>]</p></li>
+<li><p>Amitoz Azad: <strong>Primal-Dual Algorithm for Total Variation Processing on Graphs</strong> [<a class="reference external" href="https://nbviewer.jupyter.org/github/aGIToz/Graph_Signal_Processing/tree/main">Jupyter</a>]</p></li>
+<li><p>Manan Goel: <strong>Recommending Amazon Products using Graph Neural Networks in</strong> <span class="inline-logo pyg empty"></span> <strong>PyTorch Geometric</strong> [<span class="inline-logo wandb empty"></span> <a class="reference external" href="https://wandb.ai/manan-goel/gnn-recommender/reports/Recommending-Amazon-Products-using-Graph-Neural-Networks-in-PyTorch-Geometric--VmlldzozMTA3MzYw">W&amp;B Report</a>]</p></li>
+<li><p>Kùzu: <strong>Remote Backend for</strong> <span class="inline-logo pyg empty"></span> <strong>PyTorch Geometric</strong> [<span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/drive/12fOSqPm1HQTz_m9caRW7E_92vaeD9xq6">Colab</a>]</p></li>
+<li><p>Aniket Saxena: <strong>Graph Neural Networks-based Node and Graph Classification, and Explanation App using</strong> <span class="inline-logo pyg empty"></span> <strong>PyTorch Geometric</strong> [<a class="reference external" href="https://graph-explainability.streamlit.app/">Website</a>, <span class="inline-logo github empty"></span> <a class="reference external" href="https://github.com/fork123aniket/End-to-End-Node-and-Graph-Classification-and-Explanation-App">GitHub</a>]</p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

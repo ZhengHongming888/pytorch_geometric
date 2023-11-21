@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Creating Message Passing Networks &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Creating Message Passing Networks</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notes/create_gnn.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="creating-message-passing-networks">
+<h1>Creating Message Passing Networks<a class="headerlink" href="#creating-message-passing-networks" title="Permalink to this heading"></a></h1>
+<p>Generalizing the convolution operator to irregular domains is typically expressed as a <em>neighborhood aggregation</em> or <em>message passing</em> scheme.
+With <span class="math notranslate nohighlight">\(\mathbf{x}^{(k-1)}_i \in \mathbb{R}^F\)</span> denoting node features of node <span class="math notranslate nohighlight">\(i\)</span> in layer <span class="math notranslate nohighlight">\((k-1)\)</span> and <span class="math notranslate nohighlight">\(\mathbf{e}_{j,i} \in \mathbb{R}^D\)</span> denoting (optional) edge features from node <span class="math notranslate nohighlight">\(j\)</span> to node <span class="math notranslate nohighlight">\(i\)</span>, message passing graph neural networks can be described as</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{x}_i^{(k)} = \gamma^{(k)} \left( \mathbf{x}_i^{(k-1)}, \bigoplus_{j \in \mathcal{N}(i)} \, \phi^{(k)}\left(\mathbf{x}_i^{(k-1)}, \mathbf{x}_j^{(k-1)},\mathbf{e}_{j,i}\right) \right),\]</div>
+<p>where <span class="math notranslate nohighlight">\(\bigoplus\)</span> denotes a differentiable, permutation invariant function, <em>e.g.</em>, sum, mean or max, and <span class="math notranslate nohighlight">\(\gamma\)</span> and <span class="math notranslate nohighlight">\(\phi\)</span> denote differentiable functions such as MLPs (Multi Layer Perceptrons).</p>
+<nav class="contents local" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#the-messagepassing-base-class" id="id1">The “MessagePassing” Base Class</a></p></li>
+<li><p><a class="reference internal" href="#implementing-the-gcn-layer" id="id2">Implementing the GCN Layer</a></p></li>
+<li><p><a class="reference internal" href="#implementing-the-edge-convolution" id="id3">Implementing the Edge Convolution</a></p></li>
+<li><p><a class="reference internal" href="#exercises" id="id4">Exercises</a></p></li>
+</ul>
+</nav>
+<section id="the-messagepassing-base-class">
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">The “MessagePassing” Base Class</a><a class="headerlink" href="#the-messagepassing-base-class" title="Permalink to this heading"></a></h2>
+<p><span class="inline-logo pyg">PyG</span> provides the <a class="reference internal" href="../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing" title="torch_geometric.nn.conv.message_passing.MessagePassing"><code class="xref py py-class docutils literal notranslate"><span class="pre">MessagePassing</span></code></a> base class, which helps in creating such kinds of message passing graph neural networks by automatically taking care of message propagation.
+The user only has to define the functions <span class="math notranslate nohighlight">\(\phi\)</span> , <em>i.e.</em> <code class="xref py py-meth docutils literal notranslate"><span class="pre">message()</span></code>, and <span class="math notranslate nohighlight">\(\gamma\)</span> , <em>i.e.</em> <code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code>, as well as the aggregation scheme to use, <em>i.e.</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">aggr=&quot;add&quot;</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">aggr=&quot;mean&quot;</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">aggr=&quot;max&quot;</span></code>.</p>
+<p>This is done with the help of the following methods:</p>
+<ul class="simple">
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessagePassing(aggr=&quot;add&quot;,</span> <span class="pre">flow=&quot;source_to_target&quot;,</span> <span class="pre">node_dim=-2)</span></code>: Defines the aggregation scheme to use (<code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;add&quot;</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;mean&quot;</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;max&quot;</span></code>) and the flow direction of message passing (either <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;source_to_target&quot;</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;target_to_source&quot;</span></code>).
+Furthermore, the <code class="xref py py-obj docutils literal notranslate"><span class="pre">node_dim</span></code> attribute indicates along which axis to propagate.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessagePassing.propagate(edge_index,</span> <span class="pre">size=None,</span> <span class="pre">**kwargs)</span></code>:
+The initial call to start propagating messages.
+Takes in the edge indices and all additional data which is needed to construct messages and to update node embeddings.
+Note that <code class="xref py py-func docutils literal notranslate"><span class="pre">propagate()</span></code> is not limited to exchanging messages in square adjacency matrices of shape <code class="xref py py-obj docutils literal notranslate"><span class="pre">[N,</span> <span class="pre">N]</span></code> only, but can also exchange messages in general sparse assignment matrices, <em>e.g.</em>, bipartite graphs, of shape <code class="xref py py-obj docutils literal notranslate"><span class="pre">[N,</span> <span class="pre">M]</span></code> by passing <code class="xref py py-obj docutils literal notranslate"><span class="pre">size=(N,</span> <span class="pre">M)</span></code> as an additional argument.
+If set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>, the assignment matrix is assumed to be a square matrix.
+For bipartite graphs with two independent sets of nodes and indices, and each set holding its own information, this split can be marked by passing the information as a tuple, <em>e.g.</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">x=(x_N,</span> <span class="pre">x_M)</span></code>.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessagePassing.message(...)</span></code>: Constructs messages to node <span class="math notranslate nohighlight">\(i\)</span> in analogy to <span class="math notranslate nohighlight">\(\phi\)</span> for each edge <span class="math notranslate nohighlight">\((j,i) \in \mathcal{E}\)</span> if <code class="xref py py-obj docutils literal notranslate"><span class="pre">flow=&quot;source_to_target&quot;</span></code> and <span class="math notranslate nohighlight">\((i,j) \in \mathcal{E}\)</span> if <code class="xref py py-obj docutils literal notranslate"><span class="pre">flow=&quot;target_to_source&quot;</span></code>.
+Can take any argument which was initially passed to <code class="xref py py-meth docutils literal notranslate"><span class="pre">propagate()</span></code>.
+In addition, tensors passed to <code class="xref py py-meth docutils literal notranslate"><span class="pre">propagate()</span></code> can be mapped to the respective nodes <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> by appending <code class="xref py py-obj docutils literal notranslate"><span class="pre">_i</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">_j</span></code> to the variable name, <em>e.g.</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">x_i</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">x_j</span></code>.
+Note that we generally refer to <span class="math notranslate nohighlight">\(i\)</span> as the central nodes that aggregates information, and refer to <span class="math notranslate nohighlight">\(j\)</span> as the neighboring nodes, since this is the most common notation.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessagePassing.update(aggr_out,</span> <span class="pre">...)</span></code>: Updates node embeddings in analogy to <span class="math notranslate nohighlight">\(\gamma\)</span> for each node <span class="math notranslate nohighlight">\(i \in \mathcal{V}\)</span>.
+Takes in the output of aggregation as first argument and any argument which was initially passed to <code class="xref py py-func docutils literal notranslate"><span class="pre">propagate()</span></code>.</p></li>
+</ul>
+<p>Let us verify this by re-implementing two popular GNN variants, the <a class="reference external" href="https://arxiv.org/abs/1609.02907">GCN layer from Kipf and Welling</a> and the <a class="reference external" href="https://arxiv.org/abs/1801.07829">EdgeConv layer from Wang et al.</a>.</p>
+</section>
+<section id="implementing-the-gcn-layer">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Implementing the GCN Layer</a><a class="headerlink" href="#implementing-the-gcn-layer" title="Permalink to this heading"></a></h2>
+<p>The <a class="reference external" href="https://arxiv.org/abs/1609.02907">GCN layer</a> is mathematically defined as</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{x}_i^{(k)} = \sum_{j \in \mathcal{N}(i) \cup \{ i \}} \frac{1}{\sqrt{\deg(i)} \cdot \sqrt{\deg(j)}} \cdot \left( \mathbf{W}^{\top} \cdot \mathbf{x}_j^{(k-1)} \right) + \mathbf{b},\]</div>
+<p>where neighboring node features are first transformed by a weight matrix <span class="math notranslate nohighlight">\(\mathbf{W}\)</span>, normalized by their degree, and finally summed up.
+Lastly, we apply the bias vector <span class="math notranslate nohighlight">\(\mathbf{b}\)</span> to the aggregated output.
+This formula can be divided into the following steps:</p>
+<ol class="arabic simple">
+<li><p>Add self-loops to the adjacency matrix.</p></li>
+<li><p>Linearly transform node feature matrix.</p></li>
+<li><p>Compute normalization coefficients.</p></li>
+<li><p>Normalize node features in <span class="math notranslate nohighlight">\(\phi\)</span>.</p></li>
+<li><p>Sum up neighboring node features (<code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;add&quot;</span></code> aggregation).</p></li>
+<li><p>Apply a final bias vector.</p></li>
+</ol>
+<p>Steps 1-3 are typically computed before message passing takes place.
+Steps 4-5 can be easily processed using the <a class="reference internal" href="../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing" title="torch_geometric.nn.conv.message_passing.MessagePassing"><code class="xref py py-class docutils literal notranslate"><span class="pre">MessagePassing</span></code></a> base class.
+The full layer implementation is shown below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">Linear</span><span class="p">,</span> <span class="n">Parameter</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">MessagePassing</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="n">add_self_loops</span><span class="p">,</span> <span class="n">degree</span>
+
+<span class="k">class</span> <span class="nc">GCNConv</span><span class="p">(</span><span class="n">MessagePassing</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">aggr</span><span class="o">=</span><span class="s1">&#39;add&#39;</span><span class="p">)</span>  <span class="c1"># &quot;Add&quot; aggregation (Step 5).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">out_channels</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">):</span>
+        <span class="c1"># x has shape [N, in_channels]</span>
+        <span class="c1"># edge_index has shape [2, E]</span>
+
+        <span class="c1"># Step 1: Add self-loops to the adjacency matrix.</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">add_self_loops</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">num_nodes</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="c1"># Step 2: Linearly transform node feature matrix.</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># Step 3: Compute normalization.</span>
+        <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">edge_index</span>
+        <span class="n">deg</span> <span class="o">=</span> <span class="n">degree</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">deg_inv_sqrt</span> <span class="o">=</span> <span class="n">deg</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">deg_inv_sqrt</span><span class="p">[</span><span class="n">deg_inv_sqrt</span> <span class="o">==</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="n">deg_inv_sqrt</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="o">*</span> <span class="n">deg_inv_sqrt</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+
+        <span class="c1"># Step 4-5: Start propagating messages.</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">propagate</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">)</span>
+
+        <span class="c1"># Step 6: Apply a final bias vector.</span>
+        <span class="n">out</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_j</span><span class="p">,</span> <span class="n">norm</span><span class="p">):</span>
+        <span class="c1"># x_j has shape [E, out_channels]</span>
+
+        <span class="c1"># Step 4: Normalize node features.</span>
+        <span class="k">return</span> <span class="n">norm</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">x_j</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GCNConv.html#torch_geometric.nn.conv.GCNConv" title="torch_geometric.nn.conv.GCNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GCNConv</span></code></a> inherits from <a class="reference internal" href="../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing" title="torch_geometric.nn.conv.message_passing.MessagePassing"><code class="xref py py-class docutils literal notranslate"><span class="pre">MessagePassing</span></code></a> with <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;add&quot;</span></code> propagation.
+All the logic of the layer takes place in its <code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code> method.
+Here, we first add self-loops to our edge indices using the <a class="reference internal" href="../modules/utils.html#torch_geometric.utils.add_self_loops" title="torch_geometric.utils.add_self_loops"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.utils.add_self_loops()</span></code></a> function (step 1), as well as linearly transform node features by calling the <a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.Linear.html#torch.nn.Linear" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Linear</span></code></a> instance (step 2).</p>
+<p>The normalization coefficients are derived by the node degrees <span class="math notranslate nohighlight">\(\deg(i)\)</span> for each node <span class="math notranslate nohighlight">\(i\)</span> which gets transformed to <span class="math notranslate nohighlight">\(1/(\sqrt{\deg(i)} \cdot \sqrt{\deg(j)})\)</span> for each edge <span class="math notranslate nohighlight">\((j,i) \in \mathcal{E}\)</span>.
+The result is saved in the tensor <code class="xref py py-obj docutils literal notranslate"><span class="pre">norm</span></code> of shape <code class="xref py py-obj docutils literal notranslate"><span class="pre">[num_edges,</span> <span class="pre">]</span></code> (step 3).</p>
+<p>We then call <code class="xref py py-meth docutils literal notranslate"><span class="pre">propagate()</span></code>, which internally calls <code class="xref py py-meth docutils literal notranslate"><span class="pre">message()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">aggregate()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code>.
+We pass the node embeddings <code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code> and the normalization coefficients <code class="xref py py-obj docutils literal notranslate"><span class="pre">norm</span></code> as additional arguments for message propagation.</p>
+<p>In the <code class="xref py py-meth docutils literal notranslate"><span class="pre">message()</span></code> function, we need to normalize the neighboring node features <code class="xref py py-obj docutils literal notranslate"><span class="pre">x_j</span></code> by <code class="xref py py-obj docutils literal notranslate"><span class="pre">norm</span></code>.
+Here, <code class="xref py py-obj docutils literal notranslate"><span class="pre">x_j</span></code> denotes a <em>lifted</em> tensor, which contains the source node features of each edge, <em>i.e.</em>, the neighbors of each node.
+Node features can be automatically lifted by appending <code class="xref py py-obj docutils literal notranslate"><span class="pre">_i</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">_j</span></code> to the variable name.
+In fact, any tensor can be converted this way, as long as they hold source or destination node features.</p>
+<p>That is all that it takes to create a simple message passing layer.
+You can use this layer as a building block for deep architectures.
+Initializing and calling it is straightforward:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">conv</span> <span class="o">=</span> <span class="n">GCNConv</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="implementing-the-edge-convolution">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Implementing the Edge Convolution</a><a class="headerlink" href="#implementing-the-edge-convolution" title="Permalink to this heading"></a></h2>
+<p>The <a class="reference external" href="https://arxiv.org/abs/1801.07829">edge convolutional layer</a> processes graphs or point clouds and is mathematically defined as</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{x}_i^{(k)} = \max_{j \in \mathcal{N}(i)} h_{\mathbf{\Theta}} \left( \mathbf{x}_i^{(k-1)}, \mathbf{x}_j^{(k-1)} - \mathbf{x}_i^{(k-1)} \right),\]</div>
+<p>where <span class="math notranslate nohighlight">\(h_{\mathbf{\Theta}}\)</span> denotes an MLP.
+In analogy to the GCN layer, we can use the <a class="reference internal" href="../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing" title="torch_geometric.nn.conv.message_passing.MessagePassing"><code class="xref py py-class docutils literal notranslate"><span class="pre">MessagePassing</span></code></a> class to implement this layer, this time using the <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;max&quot;</span></code> aggregation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">Sequential</span> <span class="k">as</span> <span class="n">Seq</span><span class="p">,</span> <span class="n">Linear</span><span class="p">,</span> <span class="n">ReLU</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">MessagePassing</span>
+
+<span class="k">class</span> <span class="nc">EdgeConv</span><span class="p">(</span><span class="n">MessagePassing</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">aggr</span><span class="o">=</span><span class="s1">&#39;max&#39;</span><span class="p">)</span> <span class="c1">#  &quot;Max&quot; aggregation.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">),</span>
+                       <span class="n">ReLU</span><span class="p">(),</span>
+                       <span class="n">Linear</span><span class="p">(</span><span class="n">out_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">):</span>
+        <span class="c1"># x has shape [N, in_channels]</span>
+        <span class="c1"># edge_index has shape [2, E]</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">propagate</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span><span class="p">):</span>
+        <span class="c1"># x_i has shape [E, in_channels]</span>
+        <span class="c1"># x_j has shape [E, in_channels]</span>
+
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x_i</span><span class="p">,</span> <span class="n">x_j</span> <span class="o">-</span> <span class="n">x_i</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># tmp has shape [E, 2 * in_channels]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mlp</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Inside the <code class="xref py py-meth docutils literal notranslate"><span class="pre">message()</span></code> function, we use <code class="xref py py-obj docutils literal notranslate"><span class="pre">self.mlp</span></code> to transform both the target node features <code class="xref py py-obj docutils literal notranslate"><span class="pre">x_i</span></code> and the relative source node features <code class="xref py py-obj docutils literal notranslate"><span class="pre">x_j</span> <span class="pre">-</span> <span class="pre">x_i</span></code> for each edge <span class="math notranslate nohighlight">\((j,i) \in \mathcal{E}\)</span>.</p>
+<p>The edge convolution is actually a dynamic convolution, which recomputes the graph for each layer using nearest neighbors in the feature space.
+Luckily, <span class="inline-logo pyg">PyG</span> comes with a GPU accelerated batch-wise k-NN graph generation method named <a class="reference internal" href="../generated/torch_geometric.nn.pool.knn_graph.html#torch_geometric.nn.pool.knn_graph" title="torch_geometric.nn.pool.knn_graph"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.nn.pool.knn_graph()</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">knn_graph</span>
+
+<span class="k">class</span> <span class="nc">DynamicEdgeConv</span><span class="p">(</span><span class="n">EdgeConv</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">edge_index</span> <span class="o">=</span> <span class="n">knn_graph</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">flow</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">flow</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, <a class="reference internal" href="../generated/torch_geometric.nn.pool.knn_graph.html#torch_geometric.nn.pool.knn_graph" title="torch_geometric.nn.pool.knn_graph"><code class="xref py py-meth docutils literal notranslate"><span class="pre">knn_graph()</span></code></a> computes a nearest neighbor graph, which is further used to call the <code class="xref py py-meth docutils literal notranslate"><span class="pre">forward()</span></code> method of <a class="reference internal" href="../generated/torch_geometric.nn.conv.EdgeConv.html#torch_geometric.nn.conv.EdgeConv" title="torch_geometric.nn.conv.EdgeConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">EdgeConv</span></code></a>.</p>
+<p>This leaves us with a clean interface for initializing and calling this layer:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">conv</span> <span class="o">=</span> <span class="n">DynamicEdgeConv</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">batch</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="exercises">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Exercises</a><a class="headerlink" href="#exercises" title="Permalink to this heading"></a></h2>
+<p>Imagine we are given the following <a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data</span></code></a> object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">Data</span>
+
+<span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                           <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                           <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+                           <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">Data</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="o">=</span><span class="n">edge_index</span><span class="o">.</span><span class="n">t</span><span class="p">()</span><span class="o">.</span><span class="n">contiguous</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Try to answer the following questions related to <a class="reference internal" href="../generated/torch_geometric.nn.conv.GCNConv.html#torch_geometric.nn.conv.GCNConv" title="torch_geometric.nn.conv.GCNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GCNConv</span></code></a>:</p>
+<ol class="arabic simple">
+<li><p>What information does <code class="xref py py-obj docutils literal notranslate"><span class="pre">row</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">col</span></code> hold?</p></li>
+<li><p>What does <a class="reference internal" href="../modules/utils.html#torch_geometric.utils.degree" title="torch_geometric.utils.degree"><code class="xref py py-meth docutils literal notranslate"><span class="pre">degree()</span></code></a> do?</p></li>
+<li><p>Why do we use <code class="xref py py-obj docutils literal notranslate"><span class="pre">degree(col,</span> <span class="pre">...)</span></code> rather than <code class="xref py py-obj docutils literal notranslate"><span class="pre">degree(row,</span> <span class="pre">...)</span></code>?</p></li>
+<li><p>What does <code class="xref py py-obj docutils literal notranslate"><span class="pre">deg_inv_sqrt[col]</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">deg_inv_sqrt[row]</span></code> do?</p></li>
+<li><p>What information does <code class="xref py py-obj docutils literal notranslate"><span class="pre">x_j</span></code> hold in the <a class="reference internal" href="../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.message" title="torch_geometric.nn.conv.MessagePassing.message"><code class="xref py py-meth docutils literal notranslate"><span class="pre">message()</span></code></a> function? If <code class="xref py py-obj docutils literal notranslate"><span class="pre">self.lin</span></code> denotes the identity function, what is the exact content of <code class="xref py py-obj docutils literal notranslate"><span class="pre">x_j</span></code>?</p></li>
+<li><p>Add an <a class="reference internal" href="../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.update" title="torch_geometric.nn.conv.MessagePassing.update"><code class="xref py py-meth docutils literal notranslate"><span class="pre">update()</span></code></a> function to <a class="reference internal" href="../generated/torch_geometric.nn.conv.GCNConv.html#torch_geometric.nn.conv.GCNConv" title="torch_geometric.nn.conv.GCNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GCNConv</span></code></a> that adds transformed central node features to the aggregated output.</p></li>
+</ol>
+<p>Try to answer the following questions related to <a class="reference internal" href="../generated/torch_geometric.nn.conv.EdgeConv.html#torch_geometric.nn.conv.EdgeConv" title="torch_geometric.nn.conv.EdgeConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">EdgeConv</span></code></a>:</p>
+<ol class="arabic simple">
+<li><p>What is <code class="xref py py-obj docutils literal notranslate"><span class="pre">x_i</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">x_j</span> <span class="pre">-</span> <span class="pre">x_i</span></code>?</p></li>
+<li><p>What does <code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.cat([x_i,</span> <span class="pre">x_j</span> <span class="pre">-</span> <span class="pre">x_i],</span> <span class="pre">dim=1)</span></code> do? Why <code class="xref py py-obj docutils literal notranslate"><span class="pre">dim</span> <span class="pre">=</span> <span class="pre">1</span></code>?</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

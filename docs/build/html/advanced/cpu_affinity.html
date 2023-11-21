@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CPU Affinity for PyG Workloads &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="torch_geometric" href="../modules/root.html" />
+    <link rel="prev" title="Managing Experiments with GraphGym" href="graphgym.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">CPU Affinity for PyG Workloads</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-cpu-affinity">Using CPU affinity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#binding-processes-to-physical-cores">Binding processes to physical cores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#isolating-the-dataloader-process">Isolating the <code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code> process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#improving-memory-bounds">Improving memory bounds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start-guidelines">Quick start guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-results">Example results</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">CPU Affinity for PyG Workloads</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/advanced/cpu_affinity.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cpu-affinity-for-pyg-workloads">
+<h1>CPU Affinity for PyG Workloads<a class="headerlink" href="#cpu-affinity-for-pyg-workloads" title="Permalink to this heading"></a></h1>
+<p>The performance of <span class="inline-logo pyg">PyG</span> workloads using CPU can be significantly improved by setting a proper affinity mask.
+Processor affinity, or core binding, is a modification of the native OS queue scheduling algorithm that enables an application to assign a specific set of cores to processes or threads launched during its execution on the CPU.
+In consequence, it increases the overall effective hardware utilisation by minimizing core stalls and memory bounds.
+It also secures CPU resources to critical processes or threads, even if the system is under heavy load.</p>
+<p>CPU affinity targets the two main performance-critical regions:</p>
+<ul class="simple">
+<li><p><strong>Execution bind:</strong> Indicates a core where process/thread will run.</p></li>
+<li><p><strong>Memory bind:</strong> Indicates a preferred memory area where memory pages will be bound (local areas in NUMA machine).</p></li>
+</ul>
+<p>The following article discusses readily available tools and environment settings that one can use to maximize the performance of Intel CPUs with <span class="inline-logo pyg">PyG</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Overall, CPU affinity can be a useful tool for improving the performance and predictability of certain types of applications, but one configuration does not necessarily fit all cases: it is important to carefully consider whether CPU affinity is appropriate for your use case, and to test and measure the impact of any changes you make.</p>
+</div>
+<section id="using-cpu-affinity">
+<h2>Using CPU affinity<a class="headerlink" href="#using-cpu-affinity" title="Permalink to this heading"></a></h2>
+<p>Each <span class="inline-logo pyg">PyG</span> workload can be parallelized using the <span class="inline-logo pytorch">PyTorch</span> iterator class <code class="xref py py-class docutils literal notranslate"><span class="pre">MultiProcessingDataLoaderIter</span></code>, which is automatically enabled in case <code class="xref py py-obj docutils literal notranslate"><span class="pre">num_workers</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> is passed to a <a class="reference external" href="https://pytorch.org/docs/master/data.html#torch.utils.data.DataLoader" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.utils.data.DataLoader</span></code></a>.
+Under the hood, it creates <code class="xref py py-obj docutils literal notranslate"><span class="pre">num_workers</span></code> many sub-processes that will run in parallel to the main process.
+Setting a CPU affinity mask for the data loading processes places <a class="reference external" href="https://pytorch.org/docs/master/data.html#torch.utils.data.DataLoader" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code></a> worker threads on specific CPU cores.
+In effect, it allows for more efficient data batch preparation by allocating pre-fetched batches in local memory.
+Every time a process or thread moves from one core to another, registers and caches need to be flushed and reloaded.
+This can become very costly if it happens often, and threads may also no longer be close to their data, or be able to share data in a cache.</p>
+<p>Since <span class="inline-logo pyg">PyG</span> (2.3 and beyond), <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NodeLoader" title="torch_geometric.loader.NodeLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NodeLoader</span></code></a> and <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.LinkLoader" title="torch_geometric.loader.LinkLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinkLoader</span></code></a> classes officially support a native solution for CPU affinity using the <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.AffinityMixin" title="torch_geometric.loader.AffinityMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.loader.AffinityMixin</span></code></a> context manager.
+CPU affinity can be enabled via the <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.AffinityMixin.enable_cpu_affinity" title="torch_geometric.loader.AffinityMixin.enable_cpu_affinity"><code class="xref py py-meth docutils literal notranslate"><span class="pre">enable_cpu_affinity()</span></code></a> method for <code class="xref py py-obj docutils literal notranslate"><span class="pre">num_workers</span> <span class="pre">&gt;</span> <span class="pre">0</span></code> use-cases,
+and will guarantee that a separate core is assigned to each worker at initialization.
+A user-defined list of core IDs may be assigned using the <code class="xref py py-attr docutils literal notranslate"><span class="pre">loader_cores</span></code> argument.
+Otherwise, cores will be assigned automatically, starting at core ID 0.
+As of now, only a single core can be assigned to a worker, hence multi-threading is disabled in workers’ processes by default.
+The recommended number of workers to start with lies between <code class="xref py py-obj docutils literal notranslate"><span class="pre">[2,</span> <span class="pre">4]</span></code>, and the optimum may vary based on workload characteristics:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">loader</span> <span class="o">=</span> <span class="n">NeigborLoader</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">num_workers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="o">...</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">with</span> <span class="n">loader</span><span class="o">.</span><span class="n">enable_cpu_affinity</span><span class="p">(</span><span class="n">loader_cores</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>It is generally advisable to use <code class="xref py py-obj docutils literal notranslate"><span class="pre">filter_per_worker=True</span></code> for any multi-process CPU workloads (<a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> by default).
+The workers then prepare each mini-batch: first by sampling the node indices using pre-defined a sampler, and secondly filtering node and edge features according to sampled nodes and edges.
+The filtering function selects node feature vectors from the complete input <a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a> tensor loaded into DRAM.
+When <code class="xref py py-attr docutils literal notranslate"><span class="pre">filter_per_worker</span></code> is set to <code class="xref py py-attr docutils literal notranslate"><span class="pre">True</span></code>, each worker’s subprocess performs the filtering within it’s CPU resource.
+Hence, main process resources are relieved and can be secured only for GNN computation.</p>
+</section>
+<section id="binding-processes-to-physical-cores">
+<h2>Binding processes to physical cores<a class="headerlink" href="#binding-processes-to-physical-cores" title="Permalink to this heading"></a></h2>
+<p>Following general performance tuning principles, it is advisable to use only physical cores for deep learning workloads.
+For example, while two logical threads run <code class="xref py py-obj docutils literal notranslate"><span class="pre">GEMM</span></code> at the same time, they will be sharing the same core resources causing front end bound, such that the overhead from this front end bound is greater than the gain from running both logical threads at the same time.
+This is because OpenMP threads will contend for the same <code class="xref py py-obj docutils literal notranslate"><span class="pre">GEMM</span></code> execution units, see <a class="reference external" href="https://pytorch.org/tutorials/intermediate/torchserve_with_ipex.html">here</a>.</p>
+<p>The binding can be done in many ways, however the most common tools are:</p>
+<ul>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">numactl</span></code> (only on Linux):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">--physcpubind=&lt;cpus&gt;, -C &lt;cpus&gt;  or --cpunodebind=&lt;nodes&gt;, -N &lt;nodes&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p><a class="reference external" href="https://www.intel.com/content/www/us/en/developer/articles/technical/how-to-get-better-performance-on-pytorchcaffe2-with-intel-acceleration.html">Intel OMP</a> <code class="xref py py-obj docutils literal notranslate"><span class="pre">libiomp</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export KMP_AFFINITY=granularity=fine,proclist=[0-&lt;physical_cores_num-1&gt;],explicit</span>
+</pre></div>
+</div>
+</li>
+<li><p>GNU <code class="xref py py-obj docutils literal notranslate"><span class="pre">libgomp</span></code>:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">export GOMP_CPU_AFFINITY=&quot;0-&lt;physical_cores_num-1&gt;&quot;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="isolating-the-dataloader-process">
+<h2>Isolating the <a class="reference external" href="https://pytorch.org/docs/master/data.html#torch.utils.data.DataLoader" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code></a> process<a class="headerlink" href="#isolating-the-dataloader-process" title="Permalink to this heading"></a></h2>
+<p>For best performance, it is required combine main process affinity using the tools listed above, with the multi-process <a class="reference external" href="https://pytorch.org/docs/master/data.html#torch.utils.data.DataLoader" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code></a> affinity settings.
+In each parallelized <span class="inline-logo pyg">PyG</span> workload execution, the main process performs message passing updates over GNN layers, while the <a class="reference external" href="https://pytorch.org/docs/master/data.html#torch.utils.data.DataLoader" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code></a> workers sub-processes take care of fetching and pre-processing data to be passed to a GNN model.
+It is advisable to isolate the CPU resources made available to these two processes to achieve the best results.
+To do this, CPUs assigned to each affinity mask should be mutually exclusive.
+For example, if four <a class="reference external" href="https://pytorch.org/docs/master/data.html#torch.utils.data.DataLoader" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code></a> workers are assigned to CPUs <code class="xref py py-obj docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3]</span></code>, the main process should use the rest of available cores, <em>i.e.</em> by calling:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">numactl -C 4-(N-1) --localalloc python …</span>
+</pre></div>
+</div>
+<p>where <code class="xref py py-obj docutils literal notranslate"><span class="pre">N</span></code> is the total number of physical cores, with the last CPU having core ID <code class="xref py py-obj docutils literal notranslate"><span class="pre">N-1</span></code>.
+Adding <code class="xref py py-obj docutils literal notranslate"><span class="pre">--localalloc</span></code> improves local memory allocation and keeps the cache closer to active cores.</p>
+<section id="dual-socket-cpu-separation">
+<h3>Dual socket CPU separation<a class="headerlink" href="#dual-socket-cpu-separation" title="Permalink to this heading"></a></h3>
+<p>With dual-socket CPUs, it might be beneficial to further isolate the processes between the sockets.
+This leads to decreased frequency of remote memory calls for the main process.
+The goal is to <a class="reference external" href="https://pytorch.org/tutorials/intermediate/torchserve_with_ipex.html">utilize high-speed cache on local memory and reduces memory bound caused by migrating cached data between NUMA nodes</a>.
+This can be achieved by using <a class="reference external" href="https://pytorch.org/docs/master/data.html#torch.utils.data.DataLoader" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code></a> affinity, and launching main process on the cores of the second socket, <em>i.e.</em> with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">numactl -C M-(N-1) -m 1 python …</span>
+</pre></div>
+</div>
+<p>where <code class="xref py py-obj docutils literal notranslate"><span class="pre">M</span></code> is the <code class="xref py py-obj docutils literal notranslate"><span class="pre">cpuid</span></code> of the first core of the second CPU socket.
+Adding a complementary memory-allocation flag <code class="xref py py-obj docutils literal notranslate"><span class="pre">-m</span> <span class="pre">1</span></code> prioritizes cache allocation on the same NUMA node, where the main process is running (alternatively for less strict memory allocation use <code class="xref py py-obj docutils literal notranslate"><span class="pre">--preferred</span> <span class="pre">1</span></code>).
+This makes the data readily available on the same socket where the computation takes place.
+Using this setting is very workload-specific and may require some fine-tuning, as one needs to manage a trade-off between using more OMP threads vs. limiting the number of remote memory calls.</p>
+</section>
+</section>
+<section id="improving-memory-bounds">
+<h2>Improving memory bounds<a class="headerlink" href="#improving-memory-bounds" title="Permalink to this heading"></a></h2>
+<p>Following the CPU performance optimization guidelines for <span class="inline-logo pytorch">PyTorch</span>, it is also advised for <span class="inline-logo pyg">PyG</span> to use <code class="xref py py-obj docutils literal notranslate"><span class="pre">jemalloc</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">TCMalloc</span></code>.
+These generally can reach better memory usage than the default <span class="inline-logo pytorch">PyTorch</span> <a class="reference external" href="https://pytorch.org/tutorials/intermediate/torchserve_with_ipex_2.html">memory allocator</a> <code class="xref py py-obj docutils literal notranslate"><span class="pre">PTMalloc</span></code>.
+A <a class="reference external" href="https://pytorch.org/tutorials/recipes/recipes/tuning_guide.html">non-default memory allocator</a> can be specified using <code class="xref py py-obj docutils literal notranslate"><span class="pre">LD_PRELOAD</span></code> prior to script execution.</p>
+</section>
+<section id="quick-start-guidelines">
+<h2>Quick start guidelines<a class="headerlink" href="#quick-start-guidelines" title="Permalink to this heading"></a></h2>
+<p>The general guidelines for achieving the best performance with CPU affinity can be summarized in the following steps:</p>
+<ol class="arabic simple">
+<li><p>Test if your dataset benefits from using parallel data loaders.
+For some datasets, it might be more beneficial to use a plain serial data loader, especially when the dimensions of the input <a class="reference internal" href="../generated/torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a> are relatively small.</p></li>
+<li><p>Enable multi-process data loaders by setting <code class="xref py py-attr docutils literal notranslate"><span class="pre">num_workers</span> <span class="pre">&gt;</span> <span class="pre">0</span></code>.
+A good estimate for <code class="xref py py-obj docutils literal notranslate"><span class="pre">num_workers</span></code> lies in the range <code class="xref py py-obj docutils literal notranslate"><span class="pre">[2,</span> <span class="pre">4]</span></code>.
+However, for more complex datasets you might want to experiment with larger number of workers.
+Use the <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.AffinityMixin.enable_cpu_affinity" title="torch_geometric.loader.AffinityMixin.enable_cpu_affinity"><code class="xref py py-meth docutils literal notranslate"><span class="pre">enable_cpu_affinity()</span></code></a> feature to affinitize <a class="reference external" href="https://pytorch.org/docs/master/data.html#torch.utils.data.DataLoader" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code></a> cores.</p></li>
+<li><p>Bind execution to physical cores.
+Alternatively, hyperthreading can be disabled completely at a system-level.</p></li>
+<li><p>Separate the cores used for main process from the data loader workers’ cores by using <code class="xref py py-obj docutils literal notranslate"><span class="pre">numactl</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">KMP_AFFINITY</span></code> of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">libiomp5</span></code> library, or <code class="xref py py-obj docutils literal notranslate"><span class="pre">GOMP_CPU_AFFINITY</span></code> of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">libgomp</span></code> library.</p></li>
+<li><p>Find the optimum number of OMP threads for your workload.
+A good starting point is <code class="xref py py-obj docutils literal notranslate"><span class="pre">N</span> <span class="pre">-</span> <span class="pre">num_workers</span></code>.
+Generally, well-parallelized models will benefit from many OMP threads.
+However, if your model computation flow has interlaced parallel and serial regions, the performance will decrease due to resource allocation needed for spawning and maintaining threads between parallel regions.</p></li>
+<li><p>When using a dual-socket CPU, you might want to experiment with assigning data loading to one socket and main process to another socket with memory allocation (<code class="xref py py-obj docutils literal notranslate"><span class="pre">numactl</span> <span class="pre">-m</span></code>) on the same socket where the main process is executed.
+This leads to best cache-allocation and often overweighs the benefit of using more OMP threads.</p></li>
+<li><p>An additional boost in performance can be obtained by using non-default memory allocator, such as <code class="xref py py-obj docutils literal notranslate"><span class="pre">jemalloc</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">TCMalloc</span></code>.</p></li>
+<li><p>Finding an optimal setup for the CPU affinity mask is a problem of managing the proportion of CPU time spent in each iteration for loading and preparing the data vs. time spent during GNN execution.
+Different results may be obtained by changing model hyperparameters, such as the batch size, number of sampled neighbors, and the number of layers.
+As a general rule, workloads which require sampling a complex graph may benefit more from reserving some CPU resources just for the data preparation step.</p></li>
+</ol>
+</section>
+<section id="example-results">
+<h2>Example results<a class="headerlink" href="#example-results" title="Permalink to this heading"></a></h2>
+<p>The figure below presents the outcome of applying CPU affinity mask to <code class="xref py py-obj docutils literal notranslate"><span class="pre">benchmark/training/training_benchmark.py</span></code>.
+Measurements were taken for a variable number of workers, while other hyperparameters for each benchmark were constant: <code class="xref py py-obj docutils literal notranslate"><span class="pre">--warmup</span> <span class="pre">0</span> <span class="pre">--use-sparse-tensor</span> <span class="pre">--num-layers</span> <span class="pre">3</span> <span class="pre">--num-hidden-channels</span> <span class="pre">128</span> <span class="pre">--batch-sizes</span> <span class="pre">2048</span></code>.
+Three different affinity configurations are presented:</p>
+<ul class="simple">
+<li><p><strong>Baseline</strong> - only <code class="xref py py-obj docutils literal notranslate"><span class="pre">OMP_NUM_THREADS</span></code> changes:</p></li>
+</ul>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">OMP_NUM_THREADS=(N-num_workers) python training_benchmark.py --num-workers …</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Aff</strong> - data loader process on first socket, main process on first and second socket, 98-110 threads:</p></li>
+</ul>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">LD_PRELOAD=(path)/libjemalloc.so (path)/libiomp5.so MALLOC_CONF=oversize_threshold:1,background_thread:true,metadata_thp:auto OMP_NUM_THREADS=(N-num_workers) KMP_AFFINITY=granularity=fine,compact,1,0 KMP_BLOCKTIME=0 numactl -C &lt;num_workers-(N-1)&gt; --localalloc python training_benchmark.py --cpu-affinity --num-workers …</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>Aff+SocketSep</strong> - data loader process on first socket, main process on second socket, 60 threads:</p></li>
+</ul>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">LD_PRELOAD=(path)/libjemalloc.so (path)/libiomp5.so MALLOC_CONF=oversize_threshold:1,background_thread:true,metadata_thp:auto OMP_NUM_THREADS=(N-M) KMP_AFFINITY=granularity=fine,compact,1,0 KMP_BLOCKTIME=0 numactl -C &lt;M-(N-1)&gt; -m 1 python training_benchmark.py --cpu-affinity --num-workers ...</span>
+</pre></div>
+</div>
+<p>Training times for each model/dataset combination were obtained by taking a mean of results at a variable number of dataloader workers: <code class="xref py py-obj docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">2,</span> <span class="pre">4,</span> <span class="pre">8,</span> <span class="pre">16]</span></code> for the baseline and <code class="xref py py-obj docutils literal notranslate"><span class="pre">[2,</span> <span class="pre">4,</span> <span class="pre">8,</span> <span class="pre">16]</span></code> workers for each affinity configuration.
+Then, the affinity means were normalized with respect to the mean baseline measurement.
+This value is denoted on the <span class="math notranslate nohighlight">\(y\)</span>-axis.
+The labels above each result indicate the end-to-end performance gain from using the discussed configuration.
+Over all model/dataset samples, the average training time is decreased by <strong>1.53x</strong> for plain affinity and <strong>1.85x</strong> for the affinity with socket separation.</p>
+<figure class="align-default" id="id1">
+<a class="reference internal image-reference" href="../_images/training_affinity.png"><img alt="../_images/training_affinity.png" src="../_images/training_affinity.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text">Pre-production dual-socket Intel(R) Xeon(R) Platinum 8481C &#64; 2.0Ghz (2 x 56) cores CPU.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="graphgym.html" class="btn btn-neutral float-left" title="Managing Experiments with GraphGym" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../modules/root.html" class="btn btn-neutral float-right" title="torch_geometric" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

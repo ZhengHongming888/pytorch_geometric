@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.AddSelfLoops
+========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: AddSelfLoops
+   :show-inheritance:

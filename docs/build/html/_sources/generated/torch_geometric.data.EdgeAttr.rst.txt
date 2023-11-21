@@ -1,0 +1,8 @@
+﻿torch\_geometric.data.EdgeAttr
+==============================
+
+.. currentmodule:: torch_geometric.data
+
+.. autoclass:: EdgeAttr
+   :show-inheritance:
+   :members:

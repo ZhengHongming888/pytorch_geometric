@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.kge.DistMult
+================================
+
+.. currentmodule:: torch_geometric.nn.kge
+
+.. autoclass:: DistMult
+   :show-inheritance:
+   :members:

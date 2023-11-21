@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multi-GPU Training in Pure PyTorch &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multi-Node Training using SLURM" href="multi_node_multi_gpu_vanilla.html" />
+    <link rel="prev" title="Multi-GPU Training" href="multi_gpu.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="multi_gpu.html">Multi-GPU Training</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Multi-GPU Training in Pure PyTorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi_node_multi_gpu_vanilla.html">Multi-Node Training using SLURM</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="multi_gpu.html">Multi-GPU Training</a></li>
+      <li class="breadcrumb-item active">Multi-GPU Training in Pure PyTorch</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/multi_gpu_vanilla.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="multi-gpu-training-in-pure-pytorch">
+<h1>Multi-GPU Training in Pure PyTorch<a class="headerlink" href="#multi-gpu-training-in-pure-pytorch" title="Permalink to this heading"></a></h1>
+<p>For many large scale, real-world datasets, it may be necessary to scale-up training across multiple GPUs.
+This tutorial goes over how to set up a multi-GPU training  pipeline in <span class="inline-logo pyg">PyG</span> with <span class="inline-logo pytorch">PyTorch</span> via <a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.parallel.DistributedDataParallel</span></code></a>, without the need for any other third-party libraries (such as <span class="inline-logo lightning">PyTorch Lightning</span>).
+Note that this approach is based on data-parallelism.
+This means that each GPU runs an identical copy of the model; you might want to look into <a class="reference external" href="https://arxiv.org/abs/2304.11277">PyTorch FSDP</a> if you want to scale your model across devices.
+Data-parallelism allows you to increase the batch size of your model by aggregating gradients across GPUs and then sharing the same optimizer step within every model replica.
+This <a class="reference external" href="https://github.com/PrincetonUniversity/multi_gpu_training/tree/main/02_pytorch_ddp#overall-idea-of-distributed-data-parallel">DDP+MNIST-tutorial</a>  by the Princeton University has some nice illustrations of the process.</p>
+<p>Specifically this tutorial shows how to train a <a class="reference internal" href="../generated/torch_geometric.nn.models.GraphSAGE.html#torch_geometric.nn.models.GraphSAGE" title="torch_geometric.nn.models.GraphSAGE"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphSAGE</span></code></a> GNN model on the <a class="reference internal" href="../generated/torch_geometric.datasets.Reddit.html#torch_geometric.datasets.Reddit" title="torch_geometric.datasets.Reddit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reddit</span></code></a> dataset.
+For this, we will use <a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.parallel.DistributedDataParallel</span></code></a> to scale-up training across all available GPUs.
+We will do this by spawning multiple processes from our <span class="inline-logo python">Python</span> code which will all execute the same function.
+Per process, we set up our model instance and feed data through it by utilizing the <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a>.
+Gradients are synchronized by wrapping the model in <a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.parallel.DistributedDataParallel</span></code></a> (as described in its <a class="reference external" href="https://pytorch.org/tutorials/intermediate/ddp_tutorial.html">official tutorial</a>), which in turn relies on <a class="reference external" href="https://pytorch.org/docs/master/distributed.html#module-torch.distributed" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.distributed</span></code></a>-IPC-facilities.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The complete script of this tutorial can be found at <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/multi_gpu/distributed_sampling.py">examples/multi_gpu/distributed_sampling.py</a>.</p>
+</div>
+<section id="defining-a-spawnable-runner">
+<h2>Defining a Spawnable Runner<a class="headerlink" href="#defining-a-spawnable-runner" title="Permalink to this heading"></a></h2>
+<p>To create our training script, we use the <span class="inline-logo pytorch">PyTorch</span>-provided wrapper of the vanilla <span class="inline-logo python">Python</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">multiprocessing</span></code> module.
+Here, the <code class="xref py py-obj docutils literal notranslate"><span class="pre">world_size</span></code> corresponds to the number of GPUs we will be using at once.
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.multiprocessing.spawn()</span></code> will take care of spawning <code class="xref py py-obj docutils literal notranslate"><span class="pre">world_size</span></code> processes.
+Each process will load the same script as a module and subsequently execute the <code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code>-function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.datasets</span> <span class="kn">import</span> <span class="n">Reddit</span>
+<span class="kn">import</span> <span class="nn">torch.multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">rank</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">world_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">Reddit</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">Reddit</span><span class="p">(</span><span class="s1">&#39;./data/Reddit&#39;</span><span class="p">)</span>
+    <span class="n">world_size</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">()</span>
+    <span class="n">mp</span><span class="o">.</span><span class="n">spawn</span><span class="p">(</span><span class="n">run</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">world_size</span><span class="p">,</span> <span class="n">dataset</span><span class="p">),</span> <span class="n">nprocs</span><span class="o">=</span><span class="n">world_size</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that we initialize the dataset <em>before</em> spawning any processes.
+With this, we only initialize the dataset once, and any data inside it will be automatically moved to shared memory via <a class="reference external" href="https://pytorch.org/docs/master/multiprocessing.html#module-torch.multiprocessing" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.multiprocessing</span></code></a> such that processes do not need to create their own replica of the data.
+In addition, note how the <code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code> function accepts <code class="xref py py-obj docutils literal notranslate"><span class="pre">rank</span></code> as its first argument.
+This argument is not explicitly provided by us.
+It corresponds to the process ID (starting at <code class="xref py py-obj docutils literal notranslate"><span class="pre">0</span></code>) injected by <span class="inline-logo pytorch">PyTorch</span>.
+Later we will use this to select a unique GPU for every <code class="xref py py-obj docutils literal notranslate"><span class="pre">rank</span></code>.</p>
+<p>With this, we can start to implement our spawnable runner function.
+The first step is to initialize a process group with <a class="reference external" href="https://pytorch.org/docs/master/distributed.html#module-torch.distributed" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.distributed</span></code></a>.
+To this point, processes are not aware of each other and we set a hardcoded server-address for rendezvous using the <code class="xref py py-obj docutils literal notranslate"><span class="pre">nccl</span></code> protocol.
+More details can be found in the <a class="reference external" href="https://pytorch.org/tutorials/intermediate/dist_tuto.html">“Writing Distributed Applications with PyTorch”</a> tutorial:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">torch.distributed</span> <span class="k">as</span> <span class="nn">dist</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">rank</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">world_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">Reddit</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MASTER_ADDR&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;MASTER_PORT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;12345&#39;</span>
+    <span class="n">dist</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="n">rank</span><span class="p">,</span> <span class="n">world_size</span><span class="o">=</span><span class="n">world_size</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Next, we split training indices into <code class="xref py py-obj docutils literal notranslate"><span class="pre">world_size</span></code> many chunks for each GPU, and initialize the <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> class to only operate on its specific chunk of the training set:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.loader</span> <span class="kn">import</span> <span class="n">NeighborLoader</span>
+
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">rank</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">world_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">Reddit</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">train_index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">train_mask</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">train_index</span> <span class="o">=</span> <span class="n">train_index</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">train_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">//</span> <span class="n">world_size</span><span class="p">)[</span><span class="n">rank</span><span class="p">]</span>
+
+    <span class="n">train_loader</span> <span class="o">=</span> <span class="n">NeighborLoader</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">input_nodes</span><span class="o">=</span><span class="n">train_index</span><span class="p">,</span>
+        <span class="n">num_neighbors</span><span class="o">=</span><span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+        <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that our <code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code> function is called for each rank, which means that each rank holds a separate <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> instance.</p>
+<p>Similarly, we create a <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> instance for evaluation.
+For simplicity, we only do this on rank <code class="xref py py-obj docutils literal notranslate"><span class="pre">0</span></code> such that computation of metrics does not need to communicate across different processes.
+We recommend taking a look at the <a class="reference external" href="https://torchmetrics.readthedocs.io/en/stable/">torchmetrics</a> package for distributed computation of metrics.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">rank</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">world_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">Reddit</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">val_index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">val_mask</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">val_loader</span> <span class="o">=</span> <span class="n">NeighborLoader</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">,</span>
+            <span class="n">input_nodes</span><span class="o">=</span><span class="n">val_index</span><span class="p">,</span>
+            <span class="n">num_neighbors</span><span class="o">=</span><span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+            <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p>Now that we have our data loaders defined, we initialize our <code class="xref py py-class docutils literal notranslate"><span class="pre">GraphSAGE</span></code> model and wrap it inside <a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.parallel.DistributedDataParallel</span></code></a>.
+We also move the model to its exclusive GPU using the <code class="xref py py-obj docutils literal notranslate"><span class="pre">rank</span></code> as a shortcut for the full device identifier.
+The wrapper on our model manages communication between each rank and synchronizes gradients across all ranks before updating the model parameters across all ranks:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch.nn.parallel</span> <span class="kn">import</span> <span class="n">DistributedDataParallel</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">GraphSAGE</span>
+
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">rank</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">world_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">Reddit</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">GraphSAGE</span><span class="p">(</span>
+        <span class="n">in_channels</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">num_features</span><span class="p">,</span>
+        <span class="n">hidden_channels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+        <span class="n">num_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">out_channels</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">num_classes</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">DistributedDataParallel</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device_ids</span><span class="o">=</span><span class="p">[</span><span class="n">rank</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Finally, we can set up our optimizer and define our training loop, which follows a similar flow as usual single GPU training loops - the actual magic of gradient and model weight synchronization across different processes will happen behind the scenes within <a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.parallel.DistributedDataParallel.html#torch.nn.parallel.DistributedDataParallel" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">DistributedDataParallel</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+
+<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">rank</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">world_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">Reddit</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">batch</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">batch</span><span class="o">.</span><span class="n">edge_index</span><span class="p">)[:</span><span class="n">batch</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">batch</span><span class="o">.</span><span class="n">y</span><span class="p">[:</span><span class="n">batch</span><span class="o">.</span><span class="n">batch_size</span><span class="p">])</span>
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>After each training epoch, we evaluate and report validation metrics.
+As previously mentioned, we do this on a single GPU only.
+To synchronize all processes and to ensure that the model weights have been updated, we need to call <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.distributed.barrier()</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dist</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch: </span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">, Loss: </span><span class="si">{</span><span class="n">loss</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">val_loader</span><span class="p">:</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">batch</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">batch</span><span class="o">.</span><span class="n">edge_index</span><span class="p">)[:</span><span class="n">batch</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">pred</span> <span class="o">==</span> <span class="n">batch</span><span class="o">.</span><span class="n">y</span><span class="p">[:</span><span class="n">batch</span><span class="o">.</span><span class="n">batch_size</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="n">batch</span><span class="o">.</span><span class="n">batch_size</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Validation Accuracy: </span><span class="si">{</span><span class="n">correct</span><span class="o">/</span><span class="n">count</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">dist</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>After finishing training, we can clean up processes and destroy the process group via:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dist</span><span class="o">.</span><span class="n">destroy_process_group</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>And that’s it.
+Putting it all together gives a working multi-GPU example that follows a training flow that is similar to single GPU training.
+You can run the shown tutorial by yourself by looking at <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/multi_gpu/distributed_sampling.py">examples/multi_gpu/distributed_sampling.py</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="multi_gpu.html" class="btn btn-neutral float-left" title="Multi-GPU Training" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="multi_node_multi_gpu_vanilla.html" class="btn btn-neutral float-right" title="Multi-Node Training using SLURM" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

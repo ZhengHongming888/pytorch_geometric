@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.sampler.base &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.sampler.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.sampler.base</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">Data</span><span class="p">,</span> <span class="n">FeatureStore</span><span class="p">,</span> <span class="n">GraphStore</span><span class="p">,</span> <span class="n">HeteroData</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.sampler.utils</span> <span class="kn">import</span> <span class="n">to_bidirectional</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">EdgeType</span><span class="p">,</span> <span class="n">EdgeTypeStr</span><span class="p">,</span> <span class="n">NodeType</span><span class="p">,</span> <span class="n">OptTensor</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils.mixin</span> <span class="kn">import</span> <span class="n">CastMixin</span>
+
+
+<span class="k">class</span> <span class="nc">DataType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The data type a sampler is operating on.&quot;&quot;&quot;</span>
+    <span class="n">homogeneous</span> <span class="o">=</span> <span class="s1">&#39;homogeneous&#39;</span>
+    <span class="n">heterogeneous</span> <span class="o">=</span> <span class="s1">&#39;heterogeneous&#39;</span>
+    <span class="n">remote</span> <span class="o">=</span> <span class="s1">&#39;remote&#39;</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_data</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Data</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">homogeneous</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">HeteroData</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">heterogeneous</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+              <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">FeatureStore</span><span class="p">)</span>
+              <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">GraphStore</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">remote</span>
+
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected a &#39;Data&#39;, &#39;HeteroData&#39;, or a tuple of &quot;</span>
+                         <span class="sa">f</span><span class="s2">&quot;&#39;FeatureStore&#39; and &#39;GraphStore&#39; &quot;</span>
+                         <span class="sa">f</span><span class="s2">&quot;(got &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">SubgraphType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The type of the returned subgraph.&quot;&quot;&quot;</span>
+    <span class="n">directional</span> <span class="o">=</span> <span class="s1">&#39;directional&#39;</span>
+    <span class="n">bidirectional</span> <span class="o">=</span> <span class="s1">&#39;bidirectional&#39;</span>
+    <span class="n">induced</span> <span class="o">=</span> <span class="s1">&#39;induced&#39;</span>
+
+
+<div class="viewcode-block" id="NodeSamplerInput"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.NodeSamplerInput">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">NodeSamplerInput</span><span class="p">(</span><span class="n">CastMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The sampling input of</span>
+<span class="sd">    :meth:`~torch_geometric.sampler.BaseSampler.sample_from_nodes`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        input_id (torch.Tensor, optional): The indices of the data loader input</span>
+<span class="sd">            of the current mini-batch.</span>
+<span class="sd">        node (torch.Tensor): The indices of seed nodes to start sampling from.</span>
+<span class="sd">        time (torch.Tensor, optional): The timestamp for the seed nodes.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        input_type (str, optional): The input node type (in case of sampling in</span>
+<span class="sd">            a heterogeneous graph). (default: :obj:`None`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_id</span><span class="p">:</span> <span class="n">OptTensor</span>
+    <span class="n">node</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">input_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NodeType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_id</span><span class="p">:</span> <span class="n">OptTensor</span><span class="p">,</span>
+        <span class="n">node</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NodeType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">input_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">input_id</span> <span class="o">=</span> <span class="n">input_id</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_id</span> <span class="o">=</span> <span class="n">input_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span> <span class="o">=</span> <span class="n">input_type</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;NodeSamplerInput&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">NodeSamplerInput</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_id</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">index</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="p">[</span><span class="n">index</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="EdgeSamplerInput"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.EdgeSamplerInput">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">EdgeSamplerInput</span><span class="p">(</span><span class="n">CastMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The sampling input of</span>
+<span class="sd">    :meth:`~torch_geometric.sampler.BaseSampler.sample_from_edges`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        input_id (torch.Tensor, optional): The indices of the data loader input</span>
+<span class="sd">            of the current mini-batch.</span>
+<span class="sd">        row (torch.Tensor): The source node indices of seed links to start</span>
+<span class="sd">            sampling from.</span>
+<span class="sd">        col (torch.Tensor): The destination node indices of seed links to start</span>
+<span class="sd">            sampling from.</span>
+<span class="sd">        label (torch.Tensor, optional): The label for the seed links.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        time (torch.Tensor, optional): The timestamp for the seed links.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        input_type (Tuple[str, str, str], optional): The input edge type (in</span>
+<span class="sd">            case of sampling in a heterogeneous graph). (default: :obj:`None`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">input_id</span><span class="p">:</span> <span class="n">OptTensor</span>
+    <span class="n">row</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">col</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">label</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">input_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_id</span><span class="p">:</span> <span class="n">OptTensor</span><span class="p">,</span>
+        <span class="n">row</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">col</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">input_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">input_id</span> <span class="o">=</span> <span class="n">input_id</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_id</span> <span class="o">=</span> <span class="n">input_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="n">row</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="n">col</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="o">=</span> <span class="n">time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span> <span class="o">=</span> <span class="n">input_type</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s1">&#39;EdgeSamplerInput&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">EdgeSamplerInput</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_id</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">index</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">index</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">index</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_type</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SamplerOutput"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.SamplerOutput">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">SamplerOutput</span><span class="p">(</span><span class="n">CastMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The sampling output of a :class:`~torch_geometric.sampler.BaseSampler`</span>
+<span class="sd">    on homogeneous graphs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        node (torch.Tensor): The sampled nodes in the original graph.</span>
+<span class="sd">        row (torch.Tensor): The source node indices of the sampled subgraph.</span>
+<span class="sd">            Indices must be re-indexed to :obj:`{ 0, ..., num_nodes - 1 }`</span>
+<span class="sd">            corresponding to the nodes in the :obj:`node` tensor.</span>
+<span class="sd">        col (torch.Tensor): The destination node indices of the sampled</span>
+<span class="sd">            subgraph.</span>
+<span class="sd">            Indices must be re-indexed to :obj:`{ 0, ..., num_nodes - 1 }`</span>
+<span class="sd">            corresponding to the nodes in the :obj:`node` tensor.</span>
+<span class="sd">        edge (torch.Tensor, optional): The sampled edges in the original graph.</span>
+<span class="sd">            This tensor is used to obtain edge features from the original</span>
+<span class="sd">            graph. If no edge attributes are present, it may be omitted.</span>
+<span class="sd">        batch (torch.Tensor, optional): The vector to identify the seed node</span>
+<span class="sd">            for each sampled node. Can be present in case of disjoint subgraph</span>
+<span class="sd">            sampling per seed node. (default: :obj:`None`)</span>
+<span class="sd">        num_sampled_nodes (List[int], optional): The number of sampled nodes</span>
+<span class="sd">            per hop. (default: :obj:`None`)</span>
+<span class="sd">        num_sampled_edges (List[int], optional): The number of sampled edges</span>
+<span class="sd">            per hop. (default: :obj:`None`)</span>
+<span class="sd">        metadata: (Any, optional): Additional metadata information.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">node</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">row</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">col</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">edge</span><span class="p">:</span> <span class="n">OptTensor</span>
+    <span class="n">batch</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">num_sampled_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">num_sampled_edges</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># TODO(manan): refine this further; it does not currently define a proper</span>
+    <span class="c1"># API for the expected output of a sampler.</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="SamplerOutput.to_bidirectional"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.SamplerOutput.to_bidirectional">[docs]</a>    <span class="k">def</span> <span class="nf">to_bidirectional</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SamplerOutput&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Converts the sampled subgraph into a bidirectional variant, in</span>
+<span class="sd">        which all sampled edges are guaranteed to be bidirectional.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">out</span><span class="o">.</span><span class="n">row</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">col</span><span class="p">,</span> <span class="n">out</span><span class="o">.</span><span class="n">edge</span> <span class="o">=</span> <span class="n">to_bidirectional</span><span class="p">(</span>
+            <span class="n">row</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">,</span>
+            <span class="n">col</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">col</span><span class="p">,</span>
+            <span class="n">rev_row</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">,</span>
+            <span class="n">rev_col</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">col</span><span class="p">,</span>
+            <span class="n">edge_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">edge</span><span class="p">,</span>
+            <span class="n">rev_edge_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">edge</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">num_sampled_nodes</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">num_sampled_edges</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">out</span></div></div>
+
+
+<div class="viewcode-block" id="HeteroSamplerOutput"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.HeteroSamplerOutput">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">HeteroSamplerOutput</span><span class="p">(</span><span class="n">CastMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The sampling output of a :class:`~torch_geometric.sampler.BaseSampler`</span>
+<span class="sd">    on heterogeneous graphs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        node (Dict[str, torch.Tensor]): The sampled nodes in the original graph</span>
+<span class="sd">            for each node type.</span>
+<span class="sd">        row (Dict[Tuple[str, str, str], torch.Tensor]): The source node indices</span>
+<span class="sd">            of the sampled subgraph for each edge type.</span>
+<span class="sd">            Indices must be re-indexed to :obj:`{ 0, ..., num_nodes - 1 }`</span>
+<span class="sd">            corresponding to the nodes in the :obj:`node` tensor of the source</span>
+<span class="sd">            node type.</span>
+<span class="sd">        col (Dict[Tuple[str, str, str], torch.Tensor]): The destination node</span>
+<span class="sd">            indices of the sampled subgraph for each edge type.</span>
+<span class="sd">            Indices must be re-indexed to :obj:`{ 0, ..., num_nodes - 1 }`</span>
+<span class="sd">            corresponding to the nodes in the :obj:`node` tensor of the</span>
+<span class="sd">            destination node type.</span>
+<span class="sd">        edge (Dict[Tuple[str, str, str], torch.Tensor], optional): The sampled</span>
+<span class="sd">            edges in the original graph for each edge type.</span>
+<span class="sd">            This tensor is used to obtain edge features from the original</span>
+<span class="sd">            graph. If no edge attributes are present, it may be omitted.</span>
+<span class="sd">        batch (Dict[str, torch.Tensor], optional): The vector to identify the</span>
+<span class="sd">            seed node for each sampled node for each node type. Can be present</span>
+<span class="sd">            in case of disjoint subgraph sampling per seed node.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        num_sampled_nodes (Dict[str, List[int]], optional): The number of</span>
+<span class="sd">            sampled nodes for each node type and each layer.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        num_sampled_edges (Dict[EdgeType, List[int]], optional): The number of</span>
+<span class="sd">            sampled edges for each edge type and each layer.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        metadata: (Any, optional): Additional metadata information.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">node</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">NodeType</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]</span>
+    <span class="n">row</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]</span>
+    <span class="n">col</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]</span>
+    <span class="n">edge</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">OptTensor</span><span class="p">]</span>
+    <span class="n">batch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">NodeType</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">num_sampled_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">NodeType</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">num_sampled_edges</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># TODO(manan): refine this further; it does not currently define a proper</span>
+    <span class="c1"># API for the expected output of a sampler.</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="HeteroSamplerOutput.to_bidirectional"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.HeteroSamplerOutput.to_bidirectional">[docs]</a>    <span class="k">def</span> <span class="nf">to_bidirectional</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SamplerOutput&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Converts the sampled subgraph into a bidirectional variant, in</span>
+<span class="sd">        which all sampled edges are guaranteed to be bidirectional.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">col</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">edge</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edge</span><span class="p">)</span>
+
+        <span class="n">src_dst_dict</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="n">edge_types</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">edge_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">edge_types</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;rev_&#39;</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">edge_type</span> <span class="ow">in</span> <span class="n">edge_types</span><span class="p">:</span>
+            <span class="n">src</span><span class="p">,</span> <span class="n">rel</span><span class="p">,</span> <span class="n">dst</span> <span class="o">=</span> <span class="n">edge_type</span>
+            <span class="n">rev_edge_type</span> <span class="o">=</span> <span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;rev_</span><span class="si">{</span><span class="n">rel</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">src</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">src</span> <span class="o">==</span> <span class="n">dst</span> <span class="ow">and</span> <span class="n">rev_edge_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span> <span class="n">out</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">to_bidirectional</span><span class="p">(</span>
+                    <span class="n">row</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span>
+                    <span class="n">col</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span>
+                    <span class="n">rev_row</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span>
+                    <span class="n">rev_col</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">edge</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">out</span><span class="o">.</span><span class="n">edge</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">elif</span> <span class="n">rev_edge_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span> <span class="n">out</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span> <span class="n">_</span> <span class="o">=</span> <span class="n">to_bidirectional</span><span class="p">(</span>
+                    <span class="n">row</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span>
+                    <span class="n">col</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span>
+                    <span class="n">rev_row</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">rev_edge_type</span><span class="p">],</span>
+                    <span class="n">rev_col</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">rev_edge_type</span><span class="p">],</span>
+                <span class="p">)</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">rev_edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">rev_edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">edge</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">out</span><span class="o">.</span><span class="n">edge</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">out</span><span class="o">.</span><span class="n">edge</span><span class="p">[</span><span class="n">rev_edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># Find the reverse edge type (if it is unique):</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">src_dst_dict</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Create mapping lazily.</span>
+                    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">v1</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">v2</span> <span class="o">=</span> <span class="n">key</span>
+                        <span class="n">src_dst_dict</span><span class="p">[(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">src_dst_dict</span><span class="p">[(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">)])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">rev_edge_type</span> <span class="o">=</span> <span class="n">src_dst_dict</span><span class="p">[(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">to_bidirectional</span><span class="p">(</span>
+                        <span class="n">row</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span>
+                        <span class="n">col</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span>
+                        <span class="n">rev_row</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">rev_edge_type</span><span class="p">],</span>
+                        <span class="n">rev_col</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">rev_edge_type</span><span class="p">],</span>
+                    <span class="p">)</span>
+                    <span class="n">out</span><span class="o">.</span><span class="n">row</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span>
+                    <span class="n">out</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span>
+                    <span class="k">if</span> <span class="n">out</span><span class="o">.</span><span class="n">edge</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">out</span><span class="o">.</span><span class="n">edge</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot convert to bidirectional graph &quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot;since the edge type </span><span class="si">{</span><span class="n">edge_type</span><span class="si">}</span><span class="s2"> does not &quot;</span>
+                                  <span class="sa">f</span><span class="s2">&quot;seem to have a reverse edge type&quot;</span><span class="p">)</span>
+
+        <span class="n">out</span><span class="o">.</span><span class="n">num_sampled_nodes</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">num_sampled_edges</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">out</span></div></div>
+
+
+<div class="viewcode-block" id="NumNeighbors"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.NumNeighbors">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">NumNeighbors</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The number of neighbors to sample in a homogeneous or heterogeneous</span>
+<span class="sd">    graph. In heterogeneous graphs, may also take in a dictionary denoting</span>
+<span class="sd">    the amount of neighbors to sample for individual edge types.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        values (List[int] or Dict[Tuple[str, str, str], List[int]]): The</span>
+<span class="sd">            number of neighbors to sample.</span>
+<span class="sd">            If an entry is set to :obj:`-1`, all neighbors will be included.</span>
+<span class="sd">            In heterogeneous graphs, may also take in a dictionary denoting</span>
+<span class="sd">            the amount of neighbors to sample for individual edge types.</span>
+<span class="sd">        default (List[int], optional): The default number of neighbors for edge</span>
+<span class="sd">            types not specified in :obj:`values`. (default: :obj:`None`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeTypeStr</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span>
+    <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]],</span>
+        <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;default&#39; must be set to &#39;None&#39; in case a &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;single list is given as the number of &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;neighbors (got &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">default</span><span class="p">)</span><span class="si">}</span><span class="s2">)&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="p">{</span><span class="n">EdgeTypeStr</span><span class="p">(</span><span class="n">key</span><span class="p">):</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="c1"># Write to `__dict__` since dataclass is annotated with `frozen=True`:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;default&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
+
+    <span class="k">def</span> <span class="nf">_get_values</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">mapped</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">EdgeTypeStr</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]:</span>
+
+        <span class="k">if</span> <span class="n">edge_types</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="kc">False</span>
+
+            <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">edge_type</span> <span class="ow">in</span> <span class="n">edge_types</span><span class="p">:</span>
+                <span class="n">edge_type_str</span> <span class="o">=</span> <span class="n">EdgeTypeStr</span><span class="p">(</span><span class="n">edge_type</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">edge_type_str</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+                    <span class="n">out</span><span class="p">[</span><span class="n">edge_type_str</span> <span class="k">if</span> <span class="n">mapped</span> <span class="k">else</span> <span class="n">edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">edge_type_str</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing number of neighbors for &quot;</span>
+                                         <span class="sa">f</span><span class="s2">&quot;edge type &#39;</span><span class="si">{</span><span class="n">edge_type</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+                    <span class="n">out</span><span class="p">[</span><span class="n">edge_type_str</span> <span class="k">if</span> <span class="n">mapped</span> <span class="k">else</span> <span class="n">edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">mapped</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="o">.</span><span class="n">to_tuple</span><span class="p">():</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">num_hops</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">out</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_hops</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of hops must be the same across all &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;edge types (got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">num_hops</span><span class="p">)</span><span class="si">}</span><span class="s2"> different &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;number of hops)&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+<div class="viewcode-block" id="NumNeighbors.get_values"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.NumNeighbors.get_values">[docs]</a>    <span class="k">def</span> <span class="nf">get_values</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the number of neighbors.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_types (List[Tuple[str, str, str]], optional): The edge types</span>
+<span class="sd">                to generate the number of neighbors for. (default: :obj:`None`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;_values&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_values&#39;</span><span class="p">]</span>
+
+        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_values</span><span class="p">(</span><span class="n">edge_types</span><span class="p">,</span> <span class="n">mapped</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+        <span class="k">return</span> <span class="n">values</span></div>
+
+<div class="viewcode-block" id="NumNeighbors.get_mapped_values"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.NumNeighbors.get_mapped_values">[docs]</a>    <span class="k">def</span> <span class="nf">get_mapped_values</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the number of neighbors.</span>
+<span class="sd">        For heterogeneous graphs, a dictionary is returned in which edge type</span>
+<span class="sd">        tuples are converted to strings.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_types (List[Tuple[str, str, str]], optional): The edge types</span>
+<span class="sd">                to generate the number of neighbors for. (default: :obj:`None`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;_mapped_values&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_mapped_values&#39;</span><span class="p">]</span>
+
+        <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_values</span><span class="p">(</span><span class="n">edge_types</span><span class="p">,</span> <span class="n">mapped</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_mapped_values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">values</span>
+        <span class="k">return</span> <span class="n">values</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">num_hops</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the number of hops.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s1">&#39;_num_hops&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_num_hops&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+            <span class="n">num_hops</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="ow">or</span> <span class="p">[]))</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># isinstance(self.values, dict):</span>
+            <span class="n">num_hops</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+            <span class="n">num_hops</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">num_hops</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="ow">or</span> <span class="p">[]))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_num_hops&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">num_hops</span>
+        <span class="k">return</span> <span class="n">num_hops</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the number of hops.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_hops</span></div>
+
+
+<span class="k">class</span> <span class="nc">NegativeSamplingMode</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="c1"># &#39;binary&#39;: Randomly sample negative edges in the graph.</span>
+    <span class="n">binary</span> <span class="o">=</span> <span class="s1">&#39;binary&#39;</span>
+    <span class="c1"># &#39;triplet&#39;: Randomly sample negative destination nodes for each positive</span>
+    <span class="c1"># source node.</span>
+    <span class="n">triplet</span> <span class="o">=</span> <span class="s1">&#39;triplet&#39;</span>
+
+
+<div class="viewcode-block" id="NegativeSampling"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.NegativeSampling">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">NegativeSampling</span><span class="p">(</span><span class="n">CastMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The negative sampling configuration of a</span>
+<span class="sd">    :class:`~torch_geometric.sampler.BaseSampler` when calling</span>
+<span class="sd">    :meth:`~torch_geometric.sampler.BaseSampler.sample_from_edges`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mode (str): The negative sampling mode</span>
+<span class="sd">            (:obj:`&quot;binary&quot;` or :obj:`&quot;triplet&quot;`).</span>
+<span class="sd">            If set to :obj:`&quot;binary&quot;`, will randomly sample negative links</span>
+<span class="sd">            from the graph.</span>
+<span class="sd">            If set to :obj:`&quot;triplet&quot;`, will randomly sample negative</span>
+<span class="sd">            destination nodes for each positive source node.</span>
+<span class="sd">        amount (int or float, optional): The ratio of sampled negative edges to</span>
+<span class="sd">            the number of positive edges. (default: :obj:`1`)</span>
+<span class="sd">        weight (torch.Tensor, optional): A node-level vector determining the</span>
+<span class="sd">            sampling of nodes. Does not necessariyl need to sum up to one.</span>
+<span class="sd">            If not given, negative nodes will be sampled uniformly.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="n">NegativeSamplingMode</span>
+    <span class="n">amount</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NegativeSamplingMode</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+        <span class="n">amount</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">weight</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">NegativeSamplingMode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">=</span> <span class="n">amount</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="o">=</span> <span class="n">weight</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The attribute &#39;amount&#39; needs to be positive &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;for &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;(got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_triplet</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">!=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The attribute &#39;amount&#39; needs to be an &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;integer for &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;with &#39;triplet&#39; negative sampling &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;(got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">amount</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">is_binary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">NegativeSamplingMode</span><span class="o">.</span><span class="n">binary</span>
+
+    <span class="k">def</span> <span class="nf">is_triplet</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">NegativeSamplingMode</span><span class="o">.</span><span class="n">triplet</span>
+
+<div class="viewcode-block" id="NegativeSampling.sample"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.NegativeSampling.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+               <span class="n">num_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generates :obj:`num_samples` negative samples.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">num_nodes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Cannot sample negatives in &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;without passing the &#39;num_nodes&#39; argument&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="p">(</span><span class="n">num_samples</span><span class="p">,</span> <span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">num_nodes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">!=</span> <span class="n">num_nodes</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;The &#39;weight&#39; attribute in &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;needs to match the number of nodes </span><span class="si">{</span><span class="n">num_nodes</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;(got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">replacement</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="BaseSampler"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.BaseSampler">[docs]</a><span class="k">class</span> <span class="nc">BaseSampler</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;An abstract base class that initializes a graph sampler and provides</span>
+<span class="sd">    :meth:`sample_from_nodes` and :meth:`sample_from_edges` routines.</span>
+
+<span class="sd">    .. note ::</span>
+
+<span class="sd">        Any data stored in the sampler will be *replicated* across data loading</span>
+<span class="sd">        workers that use the sampler since each data loading worker holds its</span>
+<span class="sd">        own instance of a sampler.</span>
+<span class="sd">        As such, it is recommended to limit the amount of information stored in</span>
+<span class="sd">        the sampler.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="BaseSampler.sample_from_nodes"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.BaseSampler.sample_from_nodes">[docs]</a>    <span class="k">def</span> <span class="nf">sample_from_nodes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">index</span><span class="p">:</span> <span class="n">NodeSamplerInput</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeteroSamplerOutput</span><span class="p">,</span> <span class="n">SamplerOutput</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Performs sampling from the nodes specified in :obj:`index`,</span>
+<span class="sd">        returning a sampled subgraph in the specified output format.</span>
+
+<span class="sd">        The :obj:`index` is a tuple holding the following information:</span>
+
+<span class="sd">        1. The example indices of the seed nodes</span>
+<span class="sd">        2. The node indices to start sampling from</span>
+<span class="sd">        3. The timestamps of the given seed nodes (optional)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index (NodeSamplerInput): The node sampler input object.</span>
+<span class="sd">            **kwargs (optional): Additional keyword arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="BaseSampler.sample_from_edges"><a class="viewcode-back" href="../../../modules/sampler.html#torch_geometric.sampler.BaseSampler.sample_from_edges">[docs]</a>    <span class="k">def</span> <span class="nf">sample_from_edges</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">index</span><span class="p">:</span> <span class="n">EdgeSamplerInput</span><span class="p">,</span>
+        <span class="n">neg_sampling</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NegativeSampling</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">HeteroSamplerOutput</span><span class="p">,</span> <span class="n">SamplerOutput</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Performs sampling from the edges specified in :obj:`index`,</span>
+<span class="sd">        returning a sampled subgraph in the specified output format.</span>
+
+<span class="sd">        The :obj:`index` is a tuple holding the following information:</span>
+
+<span class="sd">        1. The example indices of the seed links</span>
+<span class="sd">        2. The source node indices to start sampling from</span>
+<span class="sd">        3. The destination node indices to start sampling from</span>
+<span class="sd">        4. The labels of the seed links (optional)</span>
+<span class="sd">        5. The timestamps of the given seed nodes (optional)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index (EdgeSamplerInput): The edge sampler input object.</span>
+<span class="sd">            neg_sampling (NegativeSampling, optional): The negative sampling</span>
+<span class="sd">                configuration. (default: :obj:`None`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">edge_permutation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">OptTensor</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">OptTensor</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;If the sampler performs any modification of edge ordering in the</span>
+<span class="sd">        original graph, this function is expected to return the permutation</span>
+<span class="sd">        tensor that defines the permutation from the edges in the original</span>
+<span class="sd">        graph and the edges used in the sampler. If no such permutation was</span>
+<span class="sd">        applied, :obj:`None` is returned. For heterogeneous graphs, the</span>
+<span class="sd">        expected return type is a permutation tensor for each edge type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

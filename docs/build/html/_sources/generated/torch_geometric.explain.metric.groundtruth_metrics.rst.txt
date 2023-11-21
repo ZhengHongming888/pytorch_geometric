@@ -1,0 +1,6 @@
+﻿torch\_geometric.explain.metric.groundtruth\_metrics
+====================================================
+
+.. currentmodule:: torch_geometric.explain.metric
+
+.. autofunction:: groundtruth_metrics

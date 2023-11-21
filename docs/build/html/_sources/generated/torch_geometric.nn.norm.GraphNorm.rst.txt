@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.norm.GraphNorm
+==================================
+
+.. currentmodule:: torch_geometric.nn.norm
+
+.. autoclass:: GraphNorm
+   :show-inheritance:
+   :members:

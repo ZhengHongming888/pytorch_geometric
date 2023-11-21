@@ -1,0 +1,10 @@
+﻿torch\_geometric.data.Data
+==========================
+
+.. currentmodule:: torch_geometric.data
+
+.. autoclass:: Data
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :special-members: __cat_dim__, __inc__

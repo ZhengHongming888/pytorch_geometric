@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.EmailEUCore
+=====================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: EmailEUCore
+   :show-inheritance:

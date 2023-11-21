@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.OGB\_MAG
+==================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: OGB_MAG
+   :show-inheritance:

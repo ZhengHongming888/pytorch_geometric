@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heterogeneous Graph Learning &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Heterogeneous Graph Learning</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notes/heterogeneous.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="heterogeneous-graph-learning">
+<h1>Heterogeneous Graph Learning<a class="headerlink" href="#heterogeneous-graph-learning" title="Permalink to this heading"></a></h1>
+<p>A large set of real-world datasets are stored as heterogeneous graphs, motivating the introduction of specialized functionality for them in <span class="inline-logo pyg">PyG</span>.
+For example, most graphs in the area of recommendation, such as social graphs, are heterogeneous, as they store information about different types of entities and their different types of relations.
+This tutorial introduces how heterogeneous graphs are mapped to <span class="inline-logo pyg">PyG</span> and how they can be used as input to Graph Neural Network models.</p>
+<p>Heterogeneous graphs come with different types of information attached to nodes and edges.
+Thus, a single node or edge feature tensor cannot hold all node or edge features of the whole graph, due to differences in type and dimensionality.
+Instead, a set of types need to be specified for nodes and edges, respectively, each having its own data tensors.
+As a consequence of the different data structure, the message passing formulation changes accordingly, allowing the computation of message and update function conditioned on node or edge type.</p>
+<section id="example-graph">
+<h2>Example Graph<a class="headerlink" href="#example-graph" title="Permalink to this heading"></a></h2>
+<p>As a guiding example, we take a look at the heterogeneous <a class="reference external" href="https://ogb.stanford.edu/docs/nodeprop">ogbn-mag</a> network from the <span class="inline-logo ogb empty"></span> <a class="reference external" href="https://ogb.stanford.edu">dataset suite</a>:</p>
+<a class="reference internal image-reference" href="../_images/hg_example.svg"><img alt="../_images/hg_example.svg" class="align-center" src="../_images/hg_example.svg" width="500px" /></a>
+<p>The given heterogeneous graph has 1,939,743 nodes, split between the four node types <strong>author</strong>, <strong>paper</strong>, <strong>institution</strong> and <strong>field of study</strong>.
+It further has 21,111,007 edges, which also are of one of four types:</p>
+<ul class="simple">
+<li><p><strong>writes</strong>: An author <em>writes</em> a specific paper</p></li>
+<li><p><strong>affiliated with</strong>: An author is <em>affiliated with</em> a specific institution</p></li>
+<li><p><strong>cites</strong>: A paper <em>cites</em> another paper</p></li>
+<li><p><strong>has topic</strong>: A paper <em>has a topic</em> of a specific field of study</p></li>
+</ul>
+<p>The task for this graph is to infer the venue of each paper (conference or journal) given the information stored in the graph.</p>
+</section>
+<section id="creating-heterogeneous-graphs">
+<h2>Creating Heterogeneous Graphs<a class="headerlink" href="#creating-heterogeneous-graphs" title="Permalink to this heading"></a></h2>
+<p>First, we can create a data object of type <a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData" title="torch_geometric.data.HeteroData"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.data.HeteroData</span></code></a>, for which we define node feature tensors, edge index tensors and edge feature tensors individually for each type:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">HeteroData</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">HeteroData</span><span class="p">()</span>
+
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># [num_papers, num_features_paper]</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># [num_authors, num_features_author]</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;institution&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># [num_institutions, num_features_institution]</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;field_of_study&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># [num_field, num_features_field]</span>
+
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;cites&#39;</span><span class="p">,</span> <span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># [2, num_edges_cites]</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;writes&#39;</span><span class="p">,</span> <span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># [2, num_edges_writes]</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;affiliated_with&#39;</span><span class="p">,</span> <span class="s1">&#39;institution&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># [2, num_edges_affiliated]</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;has_topic&#39;</span><span class="p">,</span> <span class="s1">&#39;field_of_study&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># [2, num_edges_topic]</span>
+
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;cites&#39;</span><span class="p">,</span> <span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">edge_attr</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># [num_edges_cites, num_features_cites]</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;writes&#39;</span><span class="p">,</span> <span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">edge_attr</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># [num_edges_writes, num_features_writes]</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;affiliated_with&#39;</span><span class="p">,</span> <span class="s1">&#39;institution&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">edge_attr</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># [num_edges_affiliated, num_features_affiliated]</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;has_topic&#39;</span><span class="p">,</span> <span class="s1">&#39;field_of_study&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">edge_attr</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># [num_edges_topic, num_features_topic]</span>
+</pre></div>
+</div>
+<p>Node or edge tensors will be automatically created upon first access and indexed by string keys.
+Node types are identified by a single string while edge types are identified by using a triplet <code class="xref py py-obj docutils literal notranslate"><span class="pre">(source_node_type,</span> <span class="pre">edge_type,</span> <span class="pre">destination_node_type)</span></code> of strings: the edge type identifier and the two node types between which the edge type can exist.
+As such, the data object allows different feature dimensionalities for each type.</p>
+<p>Dictionaries containing the heterogeneous information grouped by attribute names rather than by node or edge type can directly be accessed via <code class="xref py py-obj docutils literal notranslate"><span class="pre">data.{attribute_name}_dict</span></code> and serve as input to GNN models later:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">HeteroGNN</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x_dict</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index_dict</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_attr_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the dataset exists in the <a class="reference external" href="https://pytorch-geometric.readthedocs.io/en/latest/modules/datasets.html">list of Pytorch Geometric datasets</a>, it can directly be imported and used.
+In particular, it will be downloaded to <code class="xref py py-obj docutils literal notranslate"><span class="pre">root</span></code> and processed automatically.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.datasets</span> <span class="kn">import</span> <span class="n">OGB_MAG</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">OGB_MAG</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">preprocess</span><span class="o">=</span><span class="s1">&#39;metapath2vec&#39;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code> object can be printed for verification.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>HeteroData(
+  paper={
+    x=[736389, 128],
+    y=[736389],
+    train_mask=[736389],
+    val_mask=[736389],
+    test_mask=[736389]
+  },
+  author={ x=[1134649, 128] },
+  institution={ x=[8740, 128] },
+  field_of_study={ x=[59965, 128] },
+  (author, affiliated_with, institution)={ edge_index=[2, 1043998] },
+  (author, writes, paper)={ edge_index=[2, 7145660] },
+  (paper, cites, paper)={ edge_index=[2, 5416271] },
+  (paper, has_topic, field_of_study)={ edge_index=[2, 7505078] }
+)
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The original <a class="reference external" href="https://ogb.stanford.edu/docs/nodeprop">ogbn-mag</a> network does only provide features for “paper” nodes.
+In <a class="reference internal" href="../generated/torch_geometric.datasets.OGB_MAG.html#torch_geometric.datasets.OGB_MAG" title="torch_geometric.datasets.OGB_MAG"><code class="xref py py-class docutils literal notranslate"><span class="pre">OGB_MAG</span></code></a>, we provide the option to download a processed version of it in which structural features (obtained from either <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;metapath2vec&quot;</span></code> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">&quot;TransE&quot;</span></code>) are added to featureless nodes, as it is commonly done in the top ranked submissions to the <a class="reference external" href="https://ogb.stanford.edu/docs/leader_nodeprop">OGB leaderboards</a>.</p>
+</div>
+<section id="utility-functions">
+<h3>Utility Functions<a class="headerlink" href="#utility-functions" title="Permalink to this heading"></a></h3>
+<p>The <a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData" title="torch_geometric.data.HeteroData"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.data.HeteroData</span></code></a> class provides a number of useful utility functions to modify and analyze the given graph.</p>
+<p>For example, single node or edge stores can be indiviually indexed:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">paper_node_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">]</span>
+<span class="n">cites_edge_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;cites&#39;</span><span class="p">,</span> <span class="s1">&#39;paper&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>In case the edge type can be uniquely identified by only the pair of source and destination node types or the edge type, the following operations work as well:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cites_edge_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;paper&#39;</span><span class="p">]</span>
+<span class="n">cites_edge_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;cites&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>We can add new node types or tensors and remove them:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">year</span> <span class="o">=</span> <span class="o">...</span>    <span class="c1"># Setting a new paper attribute</span>
+<span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;field_of_study&#39;</span><span class="p">]</span>  <span class="c1"># Deleting &#39;field_of_study&#39; node type</span>
+<span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;has_topic&#39;</span><span class="p">]</span>       <span class="c1"># Deleting &#39;has_topic&#39; edge type</span>
+</pre></div>
+</div>
+<p>We can access the meta-data of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code> object, holding information of all present node and edge types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">node_types</span><span class="p">,</span> <span class="n">edge_types</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">metadata</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">node_types</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;institution&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">edge_types</span><span class="p">)</span>
+<span class="p">[(</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;cites&#39;</span><span class="p">,</span> <span class="s1">&#39;paper&#39;</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;writes&#39;</span><span class="p">,</span> <span class="s1">&#39;paper&#39;</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;affiliated_with&#39;</span><span class="p">,</span> <span class="s1">&#39;institution&#39;</span><span class="p">)]</span>
+</pre></div>
+</div>
+<p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code> object can be transferred between devices as usual:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We further have access to additional helper functions to analyze the given graph</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data</span><span class="o">.</span><span class="n">has_isolated_nodes</span><span class="p">()</span>
+<span class="n">data</span><span class="o">.</span><span class="n">has_self_loops</span><span class="p">()</span>
+<span class="n">data</span><span class="o">.</span><span class="n">is_undirected</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>and can convert it to a homogeneous “typed” graph via <a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData.to_homogeneous" title="torch_geometric.data.HeteroData.to_homogeneous"><code class="xref py py-meth docutils literal notranslate"><span class="pre">to_homogeneous()</span></code></a> which is able to maintain features in case their dimensionalities match across different types:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">homogeneous_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">to_homogeneous</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">homogeneous_data</span><span class="p">)</span>
+<span class="n">Data</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">1879778</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span> <span class="n">edge_index</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">13605929</span><span class="p">],</span> <span class="n">edge_type</span><span class="o">=</span><span class="p">[</span><span class="mi">13605929</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Here, <code class="xref py py-obj docutils literal notranslate"><span class="pre">homogeneous_data.edge_type</span></code> represents an edge-level vector that holds the edge type of each edge as an integer.</p>
+</section>
+</section>
+<section id="heterogeneous-graph-transformations">
+<h2>Heterogeneous Graph Transformations<a class="headerlink" href="#heterogeneous-graph-transformations" title="Permalink to this heading"></a></h2>
+<p>Most <a class="reference external" href="https://pytorch-geometric.readthedocs.io/en/latest/modules/transforms.html">transformations</a> for preprocessing regular graphs work as well on the heterogeneous graph <code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code> object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch_geometric.transforms</span> <span class="k">as</span> <span class="nn">T</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">ToUndirected</span><span class="p">()(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">AddSelfLoops</span><span class="p">()(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">NormalizeFeatures</span><span class="p">()(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Here, <a class="reference internal" href="../generated/torch_geometric.transforms.ToUndirected.html#torch_geometric.transforms.ToUndirected" title="torch_geometric.transforms.ToUndirected"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ToUndirected()</span></code></a> transforms a directed graph into (the <span class="inline-logo pyg">PyG</span> representation of) an undirected graph, by adding reverse edges for all edges in the graph.
+Thus, future message passing is performed in both direction of all edges.
+The function may add reverse edge types to the heterogeneous graph, if necessary.</p>
+<p>For all nodes of type <code class="xref py py-obj docutils literal notranslate"><span class="pre">'node_type'</span></code> and all existing edge types of the form <code class="xref py py-obj docutils literal notranslate"><span class="pre">('node_type',</span> <span class="pre">'edge_type',</span> <span class="pre">'node_type')</span></code>, the function <a class="reference internal" href="../generated/torch_geometric.transforms.AddSelfLoops.html#torch_geometric.transforms.AddSelfLoops" title="torch_geometric.transforms.AddSelfLoops"><code class="xref py py-meth docutils literal notranslate"><span class="pre">AddSelfLoops()</span></code></a> will add self-loop edges.
+As a result, each node might receive one or more (one per appropriate edge type) messages from itself during message passing.</p>
+<p>The transform <a class="reference internal" href="../generated/torch_geometric.transforms.NormalizeFeatures.html#torch_geometric.transforms.NormalizeFeatures" title="torch_geometric.transforms.NormalizeFeatures"><code class="xref py py-meth docutils literal notranslate"><span class="pre">NormalizeFeatures()</span></code></a> works like in the homogeneous case, and normalizes all specified features (of all types) to sum up to one.</p>
+</section>
+<section id="creating-heterogeneous-gnns">
+<h2>Creating Heterogeneous GNNs<a class="headerlink" href="#creating-heterogeneous-gnns" title="Permalink to this heading"></a></h2>
+<p>Standard Message Passing GNNs (MP-GNNs) can not trivially be applied to heterogeneous graph data, as node and edge features from different types can not be processed by the same functions due to differences in feature type.
+A natural way to circumvent this is to implement message and update functions individually for each edge type.
+During runtime, the MP-GNN algorithm would need to iterate over edge type dictionaries during message computation and over node type dictionaries during node updates.</p>
+<p>To avoid unnecessary runtime overheads and to make the creation of heterogeneous MP-GNNs as simple as possible, Pytorch Geometric provides three ways for the user to create models on heterogeneous graph data:</p>
+<ol class="arabic simple">
+<li><p>Automatically convert a homogeneous GNN model to a heterogeneous GNN model by making use of <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.nn.to_hetero()</span></code> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.nn.to_hetero_with_bases()</span></code></p></li>
+<li><p>Define individual functions for different types using <span class="inline-logo pyg">PyG’s</span> wrapper <a class="reference internal" href="../generated/torch_geometric.nn.conv.HeteroConv.html#torch_geometric.nn.conv.HeteroConv" title="torch_geometric.nn.conv.HeteroConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.nn.conv.HeteroConv</span></code></a> for heterogeneous convolution</p></li>
+<li><p>Deploy existing (or write your own) heterogeneous GNN operators</p></li>
+</ol>
+<p>In the following, each option is introduced in detail.</p>
+<section id="automatically-converting-gnn-models">
+<h3>Automatically Converting GNN Models<a class="headerlink" href="#automatically-converting-gnn-models" title="Permalink to this heading"></a></h3>
+<p>Pytorch Geometric allows to automatically convert any <span class="inline-logo pyg">PyG</span> GNN model to a model for heterogeneous input graphs, using the built in functions <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.nn.to_hetero()</span></code> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.nn.to_hetero_with_bases()</span></code>.
+The following <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/hetero/to_hetero_mag.py">example</a> shows how to apply it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch_geometric.transforms</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.datasets</span> <span class="kn">import</span> <span class="n">OGB_MAG</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">SAGEConv</span><span class="p">,</span> <span class="n">to_hetero</span>
+
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">OGB_MAG</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">preprocess</span><span class="o">=</span><span class="s1">&#39;metapath2vec&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">ToUndirected</span><span class="p">())</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">GNN</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">SAGEConv</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">hidden_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">SAGEConv</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">out_channels</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">GNN</span><span class="p">(</span><span class="n">hidden_channels</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">to_hetero</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">metadata</span><span class="p">(),</span> <span class="n">aggr</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The process takes an existing GNN model and duplicates the message functions to work on each edge type individually, as detailed in the following figure.</p>
+<a class="reference internal image-reference" href="../_images/to_hetero.svg"><img alt="../_images/to_hetero.svg" class="align-center" src="../_images/to_hetero.svg" width="90%" /></a>
+<p>As a result, the model now expects dictionaries with node and edge types as keys as input arguments, rather than single tensors utilized in homogeneous graphs.
+Note that we pass in a tuple of <code class="xref py py-obj docutils literal notranslate"><span class="pre">in_channels</span></code> to <a class="reference internal" href="../generated/torch_geometric.nn.conv.SAGEConv.html#torch_geometric.nn.conv.SAGEConv" title="torch_geometric.nn.conv.SAGEConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">SAGEConv</span></code></a> in order to allow for message passing in bipartite graphs.</p>
+<div class="admonition note" id="lazyinit">
+<p class="admonition-title">Note</p>
+<p>Since the number of input features and thus the size of tensors varies between different types, <span class="inline-logo pyg">PyG</span> can make use of <strong>lazy initialization</strong> to initialize parameters in heterogeneous GNNs (as denoted by <code class="xref py py-obj docutils literal notranslate"><span class="pre">-1</span></code> as the <code class="xref py py-obj docutils literal notranslate"><span class="pre">in_channels</span></code> argument).
+This allows us to avoid calculating and keeping track of all tensor sizes of the computation graph.
+Lazy initialization is supported for all existing <span class="inline-logo pyg">PyG</span> operators.
+We can initialize the model’s parameters by calling it once:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>  <span class="c1"># Initialize lazy modules.</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x_dict</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Both <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_hetero()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_hetero_with_bases()</span></code> are very flexible with respect to the homogeneous architectures that can be automatically converted to heterogeneous ones, <em>e.g.</em>, applying skip-connections, jumping knowledge or other techniques are supported out-of-the-box.
+For example, this is all it takes to implement a heterogeneous graph attention network with learnable skip-connections:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">GATConv</span><span class="p">,</span> <span class="n">Linear</span><span class="p">,</span> <span class="n">to_hetero</span>
+
+<span class="k">class</span> <span class="nc">GAT</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">GATConv</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">add_self_loops</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin1</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">GATConv</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">add_self_loops</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin2</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">GAT</span><span class="p">(</span><span class="n">hidden_channels</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">to_hetero</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">metadata</span><span class="p">(),</span> <span class="n">aggr</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that we disable the creation of self loops via the <code class="xref py py-obj docutils literal notranslate"><span class="pre">add_self_loops=False</span></code> argument.
+This is done because the concept of self-loops is not well-defined in bipartite graphs (message passing for an edge type with distinct source and destination node types), and we would mistakenly add the edges <code class="xref py py-obj docutils literal notranslate"><span class="pre">[(0,</span> <span class="pre">0),</span> <span class="pre">(1,</span> <span class="pre">1),</span> <span class="pre">...]</span></code> to the bipartite graph.
+To preserve central node information, we thus utilize a learnable skip-connection via <code class="xref py py-obj docutils literal notranslate"><span class="pre">conv(x,</span> <span class="pre">edge_index)</span> <span class="pre">+</span> <span class="pre">lin(x)</span></code> instead, which will perform attention-based message passing from source to destination node features, and its output is then summed up to the existing destination node features.</p>
+<p>Afterwards, the created model can be trained as usual:</p>
+<div class="highlight-python notranslate" id="trainfunc"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train</span><span class="p">():</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x_dict</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index_dict</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">train_mask</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">][</span><span class="n">mask</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="using-the-heterogeneous-convolution-wrapper">
+<h3>Using the Heterogeneous Convolution Wrapper<a class="headerlink" href="#using-the-heterogeneous-convolution-wrapper" title="Permalink to this heading"></a></h3>
+<p>The heterogeneous convolution wrapper <a class="reference internal" href="../generated/torch_geometric.nn.conv.HeteroConv.html#torch_geometric.nn.conv.HeteroConv" title="torch_geometric.nn.conv.HeteroConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.nn.conv.HeteroConv</span></code></a> allows to define custom heterogeneous message and update functions to build arbitrary MP-GNNs for heterogeneous graphs from scratch.
+While the automatic converter <code class="xref py py-meth docutils literal notranslate"><span class="pre">to_hetero()</span></code> uses the same operator for all edge types, the wrapper allows to define different operators for different edge types.
+Here, <a class="reference internal" href="../generated/torch_geometric.nn.conv.HeteroConv.html#torch_geometric.nn.conv.HeteroConv" title="torch_geometric.nn.conv.HeteroConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeteroConv</span></code></a> takes a dictionary of submodules as input, one for each edge type in the graph data.
+The following <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/hetero/hetero_conv_dblp.py">example</a> shows how to apply it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch_geometric.transforms</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.datasets</span> <span class="kn">import</span> <span class="n">OGB_MAG</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">HeteroConv</span><span class="p">,</span> <span class="n">GCNConv</span><span class="p">,</span> <span class="n">SAGEConv</span><span class="p">,</span> <span class="n">GATConv</span><span class="p">,</span> <span class="n">Linear</span>
+
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">OGB_MAG</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">preprocess</span><span class="o">=</span><span class="s1">&#39;metapath2vec&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">ToUndirected</span><span class="p">())</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">HeteroGNN</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">convs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">):</span>
+            <span class="n">conv</span> <span class="o">=</span> <span class="n">HeteroConv</span><span class="p">({</span>
+                <span class="p">(</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;cites&#39;</span><span class="p">,</span> <span class="s1">&#39;paper&#39;</span><span class="p">):</span> <span class="n">GCNConv</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;writes&#39;</span><span class="p">,</span> <span class="s1">&#39;paper&#39;</span><span class="p">):</span> <span class="n">SAGEConv</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">hidden_channels</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;rev_writes&#39;</span><span class="p">,</span> <span class="s1">&#39;author&#39;</span><span class="p">):</span> <span class="n">GATConv</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">add_self_loops</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
+            <span class="p">},</span> <span class="n">aggr</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">convs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conv</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_dict</span><span class="p">,</span> <span class="n">edge_index_dict</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">conv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">convs</span><span class="p">:</span>
+            <span class="n">x_dict</span> <span class="o">=</span> <span class="n">conv</span><span class="p">(</span><span class="n">x_dict</span><span class="p">,</span> <span class="n">edge_index_dict</span><span class="p">)</span>
+            <span class="n">x_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="p">(</span><span class="n">x_dict</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">])</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">HeteroGNN</span><span class="p">(</span><span class="n">hidden_channels</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">num_classes</span><span class="p">,</span>
+                  <span class="n">num_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can initialize the model by calling it once (see <a class="reference internal" href="../tutorial/heterogeneous.html#lazyinit"><span class="std std-ref">here</span></a> for more details about lazy initialization)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>  <span class="c1"># Initialize lazy modules.</span>
+     <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x_dict</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and run the standard training procedure as outlined <a class="reference internal" href="../tutorial/heterogeneous.html#trainfunc"><span class="std std-ref">here</span></a>.</p>
+</section>
+<section id="deploy-existing-heterogeneous-operators">
+<h3>Deploy Existing Heterogeneous Operators<a class="headerlink" href="#deploy-existing-heterogeneous-operators" title="Permalink to this heading"></a></h3>
+<p><span class="inline-logo pyg">PyG</span> provides operators (<em>e.g.</em>, <a class="reference internal" href="../generated/torch_geometric.nn.conv.HGTConv.html#torch_geometric.nn.conv.HGTConv" title="torch_geometric.nn.conv.HGTConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.nn.conv.HGTConv</span></code></a>), which are specifically designed for heterogeneous graphs.
+These operators can be directly used to build heterogeneous GNN models as can be seen in the following <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/hetero/hgt_dblp.py">example</a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch_geometric.transforms</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.datasets</span> <span class="kn">import</span> <span class="n">OGB_MAG</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">HGTConv</span><span class="p">,</span> <span class="n">Linear</span>
+
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">OGB_MAG</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">preprocess</span><span class="o">=</span><span class="s1">&#39;metapath2vec&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">T</span><span class="o">.</span><span class="n">ToUndirected</span><span class="p">())</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">class</span> <span class="nc">HGT</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_dict</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleDict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">node_type</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">node_types</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lin_dict</span><span class="p">[</span><span class="n">node_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">convs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">):</span>
+            <span class="n">conv</span> <span class="o">=</span> <span class="n">HGTConv</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">metadata</span><span class="p">(),</span>
+                           <span class="n">num_heads</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">convs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conv</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_dict</span><span class="p">,</span> <span class="n">edge_index_dict</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">node_type</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">x_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">x_dict</span><span class="p">[</span><span class="n">node_type</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_dict</span><span class="p">[</span><span class="n">node_type</span><span class="p">](</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">relu_</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">conv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">convs</span><span class="p">:</span>
+            <span class="n">x_dict</span> <span class="o">=</span> <span class="n">conv</span><span class="p">(</span><span class="n">x_dict</span><span class="p">,</span> <span class="n">edge_index_dict</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="p">(</span><span class="n">x_dict</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">])</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">HGT</span><span class="p">(</span><span class="n">hidden_channels</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">num_classes</span><span class="p">,</span>
+            <span class="n">num_heads</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can initialize the model by calling it once (see <a class="reference internal" href="../tutorial/heterogeneous.html#lazyinit"><span class="std std-ref">here</span></a> for more details about lazy initialization).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>  <span class="c1"># Initialize lazy modules.</span>
+     <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x_dict</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and run the standard training procedure as outlined <a class="reference internal" href="../tutorial/heterogeneous.html#trainfunc"><span class="std std-ref">here</span></a>.</p>
+</section>
+</section>
+<section id="heterogeneous-graph-samplers">
+<h2>Heterogeneous Graph Samplers<a class="headerlink" href="#heterogeneous-graph-samplers" title="Permalink to this heading"></a></h2>
+<p><span class="inline-logo pyg">PyG</span> provides various functionalities for sampling heterogeneous graphs, <em>i.e.</em> in the standard <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.loader.NeighborLoader</span></code></a> class  or in dedicated heterogeneous graph samplers such as <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.HGTLoader" title="torch_geometric.loader.HGTLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.loader.HGTLoader</span></code></a>.
+This is especially useful for efficient representation learning on large heterogeneous graphs, where processing the full number of neighbors is too computationally expensive.
+Heterogeneous graph support for other samplers such as <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.ClusterLoader" title="torch_geometric.loader.ClusterLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.loader.ClusterLoader</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.loader.GraphSAINTLoader</span></code> will be added soon.
+Overall, all heterogeneous graph loaders will produce a <a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData" title="torch_geometric.data.HeteroData"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeteroData</span></code></a> object as output, holding a subset of the original data, and mainly differ in the way their sampling procedures works.
+As such, only minimal code changes are required to convert the training procedure from <a class="reference internal" href="../tutorial/heterogeneous.html#trainfunc"><span class="std std-ref">full-batch training</span></a> to mini-batch training.</p>
+<p>Performing neighbor sampling using <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> works as outlined in the following <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/hetero/to_hetero_mag.py">example</a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch_geometric.transforms</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.datasets</span> <span class="kn">import</span> <span class="n">OGB_MAG</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.loader</span> <span class="kn">import</span> <span class="n">NeighborLoader</span>
+
+<span class="n">transform</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">ToUndirected</span><span class="p">()</span>  <span class="c1"># Add reverse edge types.</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">OGB_MAG</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="n">preprocess</span><span class="o">=</span><span class="s1">&#39;metapath2vec&#39;</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">NeighborLoader</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="c1"># Sample 15 neighbors for each node and each edge type for 2 iterations:</span>
+    <span class="n">num_neighbors</span><span class="o">=</span><span class="p">[</span><span class="mi">15</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="c1"># Use a batch size of 128 for sampling training nodes of type &quot;paper&quot;:</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">input_nodes</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">train_mask</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">batch</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_loader</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Notably, <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> works for both homogeneous <em>and</em> heterogeneous graphs.
+When operating in heterogeneous graphs, more fine-grained control over the amount of sampled neighbors of individual edge types is possible, but not necessary, <em>e.g.</em>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">num_neighbors</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="p">[</span><span class="mi">15</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_types</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Using the <code class="xref py py-obj docutils literal notranslate"><span class="pre">input_nodes</span></code> argument, we further specify the type and indices of nodes from which we want to sample local neighborhoods, <em>i.e.</em> all the “paper” nodes marked as training nodes according to <code class="xref py py-obj docutils literal notranslate"><span class="pre">data['paper'].train_mask</span></code>.</p>
+<p>Printing <code class="xref py py-obj docutils literal notranslate"><span class="pre">batch</span></code> then yields the following output:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>HeteroData(
+  paper={
+    x=[20799, 256],
+    y=[20799],
+    train_mask=[20799],
+    val_mask=[20799],
+    test_mask=[20799],
+    batch_size=128
+  },
+  author={ x=[4419, 128] },
+  institution={ x=[302, 128] },
+  field_of_study={ x=[2605, 128] },
+  (author, affiliated_with, institution)={ edge_index=[2, 0] },
+  (author, writes, paper)={ edge_index=[2, 5927] },
+  (paper, cites, paper)={ edge_index=[2, 11829] },
+  (paper, has_topic, field_of_study)={ edge_index=[2, 10573] },
+  (institution, rev_affiliated_with, author)={ edge_index=[2, 829] },
+  (paper, rev_writes, author)={ edge_index=[2, 5512] },
+  (field_of_study, rev_has_topic, paper)={ edge_index=[2, 10499] }
+)
+</pre></div>
+</div>
+<p>As such, <code class="xref py py-obj docutils literal notranslate"><span class="pre">batch</span></code> holds a total of 28,187 nodes involved for computing the embeddings of 128 “paper” nodes.
+Sampled nodes are always sorted based on the order in which they were sampled.
+Thus, the first <code class="xref py py-obj docutils literal notranslate"><span class="pre">batch['paper'].batch_size</span></code> nodes represent the set of original mini-batch nodes, making it easy to obtain the final output embeddings via slicing.</p>
+<p>Training our heterogeneous GNN model in mini-batch mode is then similar to training it in full-batch mode, except that we now iterate over the mini-batches produced by <code class="xref py py-obj docutils literal notranslate"><span class="pre">train_loader</span></code> and optimize model parameters based on individual mini-batches:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train</span><span class="p">():</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+
+    <span class="n">total_examples</span> <span class="o">=</span> <span class="n">total_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">)</span>
+        <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">batch_size</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">batch</span><span class="o">.</span><span class="n">x_dict</span><span class="p">,</span> <span class="n">batch</span><span class="o">.</span><span class="n">edge_index_dict</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">cross_entropy</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">][:</span><span class="n">batch_size</span><span class="p">],</span>
+                               <span class="n">batch</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">[:</span><span class="n">batch_size</span><span class="p">])</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="n">total_examples</span> <span class="o">+=</span> <span class="n">batch_size</span>
+        <span class="n">total_loss</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span> <span class="o">*</span> <span class="n">batch_size</span>
+
+    <span class="k">return</span> <span class="n">total_loss</span> <span class="o">/</span> <span class="n">total_examples</span>
+</pre></div>
+</div>
+<p>Importantly, we only make use of the first 128 “paper” nodes during loss computation.
+We do so by slicing both “paper” labels <code class="xref py py-obj docutils literal notranslate"><span class="pre">batch['paper'].y</span></code> and “paper” output predictions <code class="xref py py-obj docutils literal notranslate"><span class="pre">out['paper']</span></code> based on <code class="xref py py-obj docutils literal notranslate"><span class="pre">batch['paper'].batch_size</span></code>, representing the labels and final output predictions of original mini-batch nodes, respectively.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

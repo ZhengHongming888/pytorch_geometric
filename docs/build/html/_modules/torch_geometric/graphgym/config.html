@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.graphgym.config &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.graphgym.config</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.graphgym.config</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">asdict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">import</span> <span class="nn">torch_geometric.graphgym.register</span> <span class="k">as</span> <span class="nn">register</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.data.makedirs</span> <span class="kn">import</span> <span class="n">makedirs</span>
+
+<span class="k">try</span><span class="p">:</span>  <span class="c1"># Define global config object</span>
+    <span class="kn">from</span> <span class="nn">yacs.config</span> <span class="kn">import</span> <span class="n">CfgNode</span> <span class="k">as</span> <span class="n">CN</span>
+    <span class="n">cfg</span> <span class="o">=</span> <span class="n">CN</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">cfg</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Could not define global config object. Please install &quot;</span>
+                  <span class="s2">&quot;&#39;yacs&#39; via &#39;pip install yacs&#39; in order to use GraphGym&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="set_cfg"><a class="viewcode-back" href="../../../modules/graphgym.html#torch_geometric.graphgym.set_cfg">[docs]</a><span class="k">def</span> <span class="nf">set_cfg</span><span class="p">(</span><span class="n">cfg</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;This function sets the default config value.</span>
+
+<span class="sd">    1) Note that for an experiment, only part of the arguments will be used</span>
+<span class="sd">       The remaining unused arguments won&#39;t affect anything.</span>
+<span class="sd">       So feel free to register any argument in graphgym.contrib.config</span>
+<span class="sd">    2) We support *at most* two levels of configs, *e.g.*,</span>
+<span class="sd">       :obj:`cfg.dataset.name`.</span>
+
+<span class="sd">    :return: Configuration use by the experiment.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cfg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">cfg</span>
+
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="c1"># Basic options</span>
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+
+    <span class="c1"># Set print destination: stdout / file / both</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">print</span> <span class="o">=</span> <span class="s1">&#39;both&#39;</span>
+
+    <span class="c1"># Select device: &#39;cpu&#39;, &#39;cuda&#39;, &#39;auto&#39;</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">accelerator</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span>
+
+    <span class="c1"># number of devices: eg. for 2 GPU set cfg.devices=2</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">devices</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># Output directory</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">out_dir</span> <span class="o">=</span> <span class="s1">&#39;results&#39;</span>
+
+    <span class="c1"># Config name (in out_dir)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">cfg_dest</span> <span class="o">=</span> <span class="s1">&#39;config.yaml&#39;</span>
+
+    <span class="c1"># Names of registered custom metric funcs to be used (use defaults if none)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">custom_metrics</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Random seed</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">seed</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Print rounding</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">round</span> <span class="o">=</span> <span class="mi">4</span>
+
+    <span class="c1"># Tensorboard support for each run</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">tensorboard_each_run</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Tensorboard support for aggregated results</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">tensorboard_agg</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Additional num of worker for data loading</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Max threads used by PyTorch</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">num_threads</span> <span class="o">=</span> <span class="mi">6</span>
+
+    <span class="c1"># The metric for selecting the best epoch for each run</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">metric_best</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span>
+
+    <span class="c1"># argmax or argmin in aggregating results</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">metric_agg</span> <span class="o">=</span> <span class="s1">&#39;argmax&#39;</span>
+
+    <span class="c1"># If visualize embedding.</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">view_emb</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># If get GPU usage</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gpu_mem</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># If do benchmark analysis</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="c1"># Globally shared variables:</span>
+    <span class="c1"># These variables will be set dynamically based on the input dataset</span>
+    <span class="c1"># Do not directly set them here or in .yaml files</span>
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+
+    <span class="n">cfg</span><span class="o">.</span><span class="n">share</span> <span class="o">=</span> <span class="n">CN</span><span class="p">()</span>
+
+    <span class="c1"># Size of input dimension</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">share</span><span class="o">.</span><span class="n">dim_in</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># Size of out dimension, i.e., number of labels to be predicted</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">share</span><span class="o">.</span><span class="n">dim_out</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># Number of dataset splits: train/val/test</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">share</span><span class="o">.</span><span class="n">num_splits</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="c1"># Dataset options</span>
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">CN</span><span class="p">()</span>
+
+    <span class="c1"># Name of the dataset</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Cora&#39;</span>
+
+    <span class="c1"># if PyG: look for it in Pytorch Geometric dataset</span>
+    <span class="c1"># if NetworkX/nx: load data in NetworkX format</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="s1">&#39;PyG&#39;</span>
+
+    <span class="c1"># Dir to load the dataset. If the dataset is downloaded, this is the</span>
+    <span class="c1"># cache dir</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">dir</span> <span class="o">=</span> <span class="s1">&#39;./datasets&#39;</span>
+
+    <span class="c1"># Task: node, edge, graph, link_pred</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="s1">&#39;node&#39;</span>
+
+    <span class="c1"># Type of task: classification, regression, classification_binary</span>
+    <span class="c1"># classification_multi</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">task_type</span> <span class="o">=</span> <span class="s1">&#39;classification&#39;</span>
+
+    <span class="c1"># Transductive / Inductive</span>
+    <span class="c1"># Graph classification is always inductive</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">transductive</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Split ratio of dataset. Len=2: Train, Val. Len=3: Train, Val, Test</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">split</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+
+    <span class="c1"># Whether to shuffle the graphs for splitting</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">shuffle_split</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Whether random split or use custom split: random / custom</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">split_mode</span> <span class="o">=</span> <span class="s1">&#39;random&#39;</span>
+
+    <span class="c1"># Whether to use an encoder for general attribute features</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Name of general encoder</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">encoder_name</span> <span class="o">=</span> <span class="s1">&#39;db&#39;</span>
+
+    <span class="c1"># If add batchnorm after general encoder</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">encoder_bn</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Whether to use an encoder for the node features</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">node_encoder</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Name of node encoder</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">node_encoder_name</span> <span class="o">=</span> <span class="s1">&#39;Atom&#39;</span>
+
+    <span class="c1"># If add batchnorm after node encoder</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">node_encoder_bn</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Whether to use an encoder for the edge features</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">edge_encoder</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Name of edge encoder</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">edge_encoder_name</span> <span class="o">=</span> <span class="s1">&#39;Bond&#39;</span>
+
+    <span class="c1"># If add batchnorm after edge encoder</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">edge_encoder_bn</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Dimension of the encoded features.</span>
+    <span class="c1"># For now the node and edge encoding dimensions</span>
+    <span class="c1"># are the same.</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">encoder_dim</span> <span class="o">=</span> <span class="mi">128</span>
+
+    <span class="c1"># Dimension for edge feature. Updated by the real dim of the dataset</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">edge_dim</span> <span class="o">=</span> <span class="mi">128</span>
+
+    <span class="c1"># ============== Link/edge tasks only</span>
+
+    <span class="c1"># all or disjoint</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">edge_train_mode</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span>
+
+    <span class="c1"># Used in disjoint edge_train_mode. The proportion of edges used for</span>
+    <span class="c1"># message-passing</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">edge_message_ratio</span> <span class="o">=</span> <span class="mf">0.8</span>
+
+    <span class="c1"># The ratio of negative samples to positive samples</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">edge_negative_sampling_ratio</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="c1"># Whether resample disjoint when dataset.edge_train_mode is &#39;disjoint&#39;</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">resample_disjoint</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Whether resample negative edges at training time (link prediction only)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">resample_negative</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># What transformation function is applied to the dataset</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>
+
+    <span class="c1"># Whether cache the splitted dataset</span>
+    <span class="c1"># NOTE: it should be cautiouslly used, as cached dataset may not have</span>
+    <span class="c1"># exactly the same setting as the config file</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">cache_save</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">cache_load</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Whether remove the original node features in the dataset</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">remove_feature</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Simplify TU dataset for synthetic tasks</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">tu_simple</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Convert to undirected graph (save 2*E edges)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">to_undirected</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># dataset location: local, snowflake</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span>
+
+    <span class="c1"># Define label: Table name</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">label_table</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>
+
+    <span class="c1"># Define label: Column name</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">label_column</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>
+
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="c1"># Training options</span>
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span> <span class="o">=</span> <span class="n">CN</span><span class="p">()</span>
+
+    <span class="c1"># Total graph mini-batch size</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">16</span>
+
+    <span class="c1"># Sampling strategy for a train loader</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">sampler</span> <span class="o">=</span> <span class="s1">&#39;full_batch&#39;</span>
+
+    <span class="c1"># Minibatch node</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">sample_node</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Num of sampled node per graph</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">node_per_graph</span> <span class="o">=</span> <span class="mi">32</span>
+
+    <span class="c1"># Radius: same, extend. same: same as cfg.gnn.layers_mp, extend: layers+1</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="s1">&#39;extend&#39;</span>
+
+    <span class="c1"># Evaluate model on test data every eval period epochs</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">eval_period</span> <span class="o">=</span> <span class="mi">10</span>
+
+    <span class="c1"># Option to skip training epoch evaluation</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">skip_train_eval</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Save model checkpoint every checkpoint period epochs</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">ckpt_period</span> <span class="o">=</span> <span class="mi">100</span>
+
+    <span class="c1"># Enabling checkpoint, set False to disable and save I/O</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">enable_ckpt</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Resume training from the latest checkpoint in the output directory</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">auto_resume</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># The epoch to resume. -1 means resume the latest epoch.</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">epoch_resume</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="c1"># Clean checkpoint: only keep the last ckpt</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">ckpt_clean</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Number of iterations per epoch (for sampling based loaders only)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">iter_per_epoch</span> <span class="o">=</span> <span class="mi">32</span>
+
+    <span class="c1"># GraphSAINTRandomWalkSampler: random walk length</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">walk_length</span> <span class="o">=</span> <span class="mi">4</span>
+
+    <span class="c1"># NeighborSampler: number of sampled nodes per layer</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">neighbor_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="c1"># Validation options</span>
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">val</span> <span class="o">=</span> <span class="n">CN</span><span class="p">()</span>
+
+    <span class="c1"># Minibatch node</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">sample_node</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Sampling strategy for a val/test loader</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">sampler</span> <span class="o">=</span> <span class="s1">&#39;full_batch&#39;</span>
+
+    <span class="c1"># Num of sampled node per graph</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">node_per_graph</span> <span class="o">=</span> <span class="mi">32</span>
+
+    <span class="c1"># Radius: same, extend. same: same as cfg.gnn.layers_mp, extend: layers+1</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">val</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="s1">&#39;extend&#39;</span>
+
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="c1"># Model options</span>
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">CN</span><span class="p">()</span>
+
+    <span class="c1"># Model type to use</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="s1">&#39;gnn&#39;</span>
+
+    <span class="c1"># Auto match computational budget, match upper bound / lower bound</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">match_upper</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Loss function: cross_entropy, mse</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">loss_fun</span> <span class="o">=</span> <span class="s1">&#39;cross_entropy&#39;</span>
+
+    <span class="c1"># size average for loss function. &#39;mean&#39; or &#39;sum&#39;</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">size_average</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span>
+
+    <span class="c1"># Threshold for binary classification</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">thresh</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+    <span class="c1"># ============== Link/edge tasks only</span>
+    <span class="c1"># Edge decoding methods.</span>
+    <span class="c1">#   - dot: compute dot(u, v) to predict link (binary)</span>
+    <span class="c1">#   - cosine_similarity: use cosine similarity (u, v) to predict link (</span>
+    <span class="c1">#   binary)</span>
+    <span class="c1">#   - concat: use u||v followed by an nn.Linear to obtain edge embedding</span>
+    <span class="c1">#   (multi-class)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">edge_decoding</span> <span class="o">=</span> <span class="s1">&#39;dot&#39;</span>
+    <span class="c1"># ===================================</span>
+
+    <span class="c1"># ================== Graph tasks only</span>
+    <span class="c1"># Pooling methods.</span>
+    <span class="c1">#   - add: global add pool</span>
+    <span class="c1">#   - mean: global mean pool</span>
+    <span class="c1">#   - max: global max pool</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">graph_pooling</span> <span class="o">=</span> <span class="s1">&#39;add&#39;</span>
+    <span class="c1"># ===================================</span>
+
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="c1"># GNN options</span>
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span> <span class="o">=</span> <span class="n">CN</span><span class="p">()</span>
+
+    <span class="c1"># Prediction head. Use cfg.dataset.task by default</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span>
+
+    <span class="c1"># Number of layers before message passing</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">layers_pre_mp</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Number of layers for message passing</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">layers_mp</span> <span class="o">=</span> <span class="mi">2</span>
+
+    <span class="c1"># Number of layers after message passing</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">layers_post_mp</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Hidden layer dim. Automatically set if train.auto_match = True</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">dim_inner</span> <span class="o">=</span> <span class="mi">16</span>
+
+    <span class="c1"># Type of graph conv: generalconv, gcnconv, sageconv, gatconv, ...</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">layer_type</span> <span class="o">=</span> <span class="s1">&#39;generalconv&#39;</span>
+
+    <span class="c1"># Stage type: &#39;stack&#39;, &#39;skipsum&#39;, &#39;skipconcat&#39;</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">stage_type</span> <span class="o">=</span> <span class="s1">&#39;stack&#39;</span>
+
+    <span class="c1"># How many layers to skip each time</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">skip_every</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># Whether use batch norm</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">batchnorm</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Activation</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="s1">&#39;relu&#39;</span>
+
+    <span class="c1"># Dropout</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># Aggregation type: add, mean, max</span>
+    <span class="c1"># Note: only for certain layers that explicitly set aggregation type</span>
+    <span class="c1"># e.g., when cfg.gnn.layer_type = &#39;generalconv&#39;</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">agg</span> <span class="o">=</span> <span class="s1">&#39;add&#39;</span>
+
+    <span class="c1"># Normalize adj</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">normalize_adj</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Message direction: single, both</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">msg_direction</span> <span class="o">=</span> <span class="s1">&#39;single&#39;</span>
+
+    <span class="c1"># Whether add message from node itself: none, add, cat</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">self_msg</span> <span class="o">=</span> <span class="s1">&#39;concat&#39;</span>
+
+    <span class="c1"># Number of attention heads</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">att_heads</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># After concat attention heads, add a linear layer</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">att_final_linear</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># After concat attention heads, add a linear layer</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">att_final_linear_bn</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Normalize after message passing</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">l2norm</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># randomly use fewer edges for message passing</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">keep_edge</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+    <span class="c1"># clear cached feature_new</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">clear_feature</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="c1"># Optimizer options</span>
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">optim</span> <span class="o">=</span> <span class="n">CN</span><span class="p">()</span>
+
+    <span class="c1"># optimizer: sgd, adam</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="s1">&#39;adam&#39;</span>
+
+    <span class="c1"># Base learning rate</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">base_lr</span> <span class="o">=</span> <span class="mf">0.01</span>
+
+    <span class="c1"># L2 regularization</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">weight_decay</span> <span class="o">=</span> <span class="mf">5e-4</span>
+
+    <span class="c1"># SGD momentum</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">momentum</span> <span class="o">=</span> <span class="mf">0.9</span>
+
+    <span class="c1"># scheduler: none, steps, cos</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">scheduler</span> <span class="o">=</span> <span class="s1">&#39;cos&#39;</span>
+
+    <span class="c1"># Steps for &#39;steps&#39; policy (in epochs)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">steps</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">90</span><span class="p">]</span>
+
+    <span class="c1"># Learning rate multiplier for &#39;steps&#39; policy</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_decay</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+    <span class="c1"># Maximal number of epochs</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">max_epoch</span> <span class="o">=</span> <span class="mi">200</span>
+
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="c1"># Batch norm options</span>
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">bn</span> <span class="o">=</span> <span class="n">CN</span><span class="p">()</span>
+
+    <span class="c1"># BN epsilon</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">bn</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-5</span>
+
+    <span class="c1"># BN momentum (BN momentum in PyTorch = 1 - BN momentum in Caffe2)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">bn</span><span class="o">.</span><span class="n">mom</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="c1"># Memory options</span>
+    <span class="c1"># ----------------------------------------------------------------------- #</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">mem</span> <span class="o">=</span> <span class="n">CN</span><span class="p">()</span>
+
+    <span class="c1"># Perform ReLU inplace</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">mem</span><span class="o">.</span><span class="n">inplace</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Set user customized cfgs</span>
+    <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">register</span><span class="o">.</span><span class="n">config_dict</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">func</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">assert_cfg</span><span class="p">(</span><span class="n">cfg</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Checks config values, do necessary post processing to the configs.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">task</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;node&#39;</span><span class="p">,</span> <span class="s1">&#39;edge&#39;</span><span class="p">,</span> <span class="s1">&#39;graph&#39;</span><span class="p">,</span> <span class="s1">&#39;link_pred&#39;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Task &#39;</span><span class="si">{</span><span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">task</span><span class="si">}</span><span class="s2">&#39; not supported. Must be &quot;</span>
+                         <span class="sa">f</span><span class="s2">&quot;one of node, edge, graph, link_pred&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;classification&#39;</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">task_type</span> <span class="ow">and</span> <span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">loss_fun</span> <span class="o">==</span> \
+            <span class="s1">&#39;mse&#39;</span><span class="p">:</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">loss_fun</span> <span class="o">=</span> <span class="s1">&#39;cross_entropy&#39;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+            <span class="s1">&#39;model.loss_fun changed to cross_entropy for classification.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">task_type</span> <span class="o">==</span> <span class="s1">&#39;regression&#39;</span> <span class="ow">and</span> <span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">loss_fun</span> <span class="o">==</span> \
+            <span class="s1">&#39;cross_entropy&#39;</span><span class="p">:</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">loss_fun</span> <span class="o">=</span> <span class="s1">&#39;mse&#39;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;model.loss_fun changed to mse for regression.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">task</span> <span class="o">==</span> <span class="s1">&#39;graph&#39;</span> <span class="ow">and</span> <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">transductive</span><span class="p">:</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">transductive</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;dataset.transductive changed &#39;</span>
+                        <span class="s1">&#39;to False for graph task.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">layers_post_mp</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">layers_post_mp</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Layers after message passing should be &gt;=1&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">head</span> <span class="o">==</span> <span class="s1">&#39;default&#39;</span><span class="p">:</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">gnn</span><span class="o">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">task</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">run_dir</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">out_dir</span>
+
+
+<div class="viewcode-block" id="dump_cfg"><a class="viewcode-back" href="../../../modules/graphgym.html#torch_geometric.graphgym.dump_cfg">[docs]</a><span class="k">def</span> <span class="nf">dump_cfg</span><span class="p">(</span><span class="n">cfg</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Dumps the config to the output directory specified in</span>
+<span class="sd">    :obj:`cfg.out_dir`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cfg (CfgNode): Configuration node</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">makedirs</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">out_dir</span><span class="p">)</span>
+    <span class="n">cfg_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">cfg_dest</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">cfg_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">stream</span><span class="o">=</span><span class="n">f</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="load_cfg"><a class="viewcode-back" href="../../../modules/graphgym.html#torch_geometric.graphgym.load_cfg">[docs]</a><span class="k">def</span> <span class="nf">load_cfg</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Load configurations from file system and command line.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cfg (CfgNode): Configuration node</span>
+<span class="sd">        args (ArgumentParser): Command argument parser</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">merge_from_file</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">cfg_file</span><span class="p">)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">merge_from_list</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">opts</span><span class="p">)</span>
+    <span class="n">assert_cfg</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">makedirs_rm_exist</span><span class="p">(</span><span class="nb">dir</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">):</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_fname"><a class="viewcode-back" href="../../../modules/graphgym.html#torch_geometric.graphgym.get_fname">[docs]</a><span class="k">def</span> <span class="nf">get_fname</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Extract filename from file name path.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fname (str): Filename for the yaml format configuration file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.yaml&#39;</span><span class="p">):</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">fname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.yml&#39;</span><span class="p">):</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">fname</span></div>
+
+
+<div class="viewcode-block" id="set_out_dir"><a class="viewcode-back" href="../../../modules/graphgym.html#torch_geometric.graphgym.set_out_dir">[docs]</a><span class="k">def</span> <span class="nf">set_out_dir</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Create the directory for full experiment run.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        out_dir (str): Directory for output, specified in :obj:`cfg.out_dir`</span>
+<span class="sd">        fname (str): Filename for the yaml format configuration file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">get_fname</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">out_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+    <span class="c1"># Make output directory</span>
+    <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">auto_resume</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">makedirs_rm_exist</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">out_dir</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set_run_dir"><a class="viewcode-back" href="../../../modules/graphgym.html#torch_geometric.graphgym.set_run_dir">[docs]</a><span class="k">def</span> <span class="nf">set_run_dir</span><span class="p">(</span><span class="n">out_dir</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Create the directory for each random seed experiment run.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        out_dir (str): Directory for output, specified in :obj:`cfg.out_dir`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">run_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">out_dir</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">seed</span><span class="p">))</span>
+    <span class="c1"># Make output directory</span>
+    <span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">auto_resume</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">run_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">makedirs_rm_exist</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">run_dir</span><span class="p">)</span></div>
+
+
+<span class="n">set_cfg</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">from_config</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="fm">__init__</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="n">arg_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">]</span>
+    <span class="n">has_defaults</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">default</span> <span class="o">!=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">]</span>
+
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">cfg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cfg</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cfg</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">)</span> <span class="k">else</span> <span class="n">asdict</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
+
+            <span class="n">iterator</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="n">arg_names</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):],</span> <span class="n">has_defaults</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">):])</span>
+            <span class="k">for</span> <span class="n">arg_name</span><span class="p">,</span> <span class="n">has_default</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">arg_name</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">elif</span> <span class="n">arg_name</span> <span class="ow">in</span> <span class="n">cfg</span><span class="p">:</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="n">arg_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">[</span><span class="n">arg_name</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="n">has_default</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;cfg.</span><span class="si">{</span><span class="n">arg_name</span><span class="si">}</span><span class="s2">&#39; undefined&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">wrapper</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

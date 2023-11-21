@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.GEDDataset
+====================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: GEDDataset
+   :show-inheritance:

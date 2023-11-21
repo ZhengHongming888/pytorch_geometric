@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.FaceToEdge
+======================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: FaceToEdge
+   :show-inheritance:

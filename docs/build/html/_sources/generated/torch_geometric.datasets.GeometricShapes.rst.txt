@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.GeometricShapes
+=========================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: GeometricShapes
+   :show-inheritance:

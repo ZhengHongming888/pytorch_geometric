@@ -1,0 +1,7 @@
+﻿torch\_geometric.data.lightning.LightningNodeData
+=================================================
+
+.. currentmodule:: torch_geometric.data.lightning
+
+.. autoclass:: LightningNodeData
+   :show-inheritance:

@@ -1,0 +1,6 @@
+﻿torch\_geometric.nn.unpool.knn\_interpolate
+===========================================
+
+.. currentmodule:: torch_geometric.nn.unpool
+
+.. autofunction:: knn_interpolate

@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.GNNBenchmarkDataset
+=============================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: GNNBenchmarkDataset
+   :show-inheritance:

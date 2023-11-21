@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.AddMetaPaths
+========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: AddMetaPaths
+   :show-inheritance:

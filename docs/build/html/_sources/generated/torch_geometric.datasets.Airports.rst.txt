@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.Airports
+==================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: Airports
+   :show-inheritance:

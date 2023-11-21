@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.NormalizeRotation
+=============================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: NormalizeRotation
+   :show-inheritance:

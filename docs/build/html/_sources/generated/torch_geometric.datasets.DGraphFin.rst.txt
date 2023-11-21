@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.DGraphFin
+===================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: DGraphFin
+   :show-inheritance:

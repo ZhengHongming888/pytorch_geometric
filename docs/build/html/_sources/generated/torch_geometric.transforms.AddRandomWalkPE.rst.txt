@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.AddRandomWalkPE
+===========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: AddRandomWalkPE
+   :show-inheritance:

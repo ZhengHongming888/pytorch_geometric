@@ -1,0 +1,6 @@
+﻿torch\_geometric.nn.functional.bro
+==================================
+
+.. currentmodule:: torch_geometric.nn.functional
+
+.. autofunction:: bro

@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.DBLP
+==============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: DBLP
+   :show-inheritance:

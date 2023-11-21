@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.LRGBDataset
+=====================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: LRGBDataset
+   :show-inheritance:

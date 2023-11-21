@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.Center
+==================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: Center
+   :show-inheritance:

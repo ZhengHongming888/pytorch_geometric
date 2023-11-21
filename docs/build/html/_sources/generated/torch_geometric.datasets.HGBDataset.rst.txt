@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.HGBDataset
+====================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: HGBDataset
+   :show-inheritance:

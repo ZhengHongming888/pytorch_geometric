@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.Taobao
+================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: Taobao
+   :show-inheritance:

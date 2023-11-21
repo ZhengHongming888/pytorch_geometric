@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.ExplainerDataset
+==========================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: ExplainerDataset
+   :show-inheritance:

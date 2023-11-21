@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.LaplacianLambdaMax
+==============================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: LaplacianLambdaMax
+   :show-inheritance:

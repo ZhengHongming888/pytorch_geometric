@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scaling Up GNNs via Remote Backends &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Scaling Up GNNs via Remote Backends</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notes/remote.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="scaling-up-gnns-via-remote-backends">
+<h1>Scaling Up GNNs via Remote Backends<a class="headerlink" href="#scaling-up-gnns-via-remote-backends" title="Permalink to this heading"></a></h1>
+<p><span class="inline-logo pyg">PyG</span> (2.2 and beyond) includes numerous primitives to easily integrate with simple paradigms for scalable graph machine learning, enabling users to train GNNs on graphs far larger than the size of their machine’s available memory.
+It does so by introducing simple, easy-to-use, and extensible abstractions of a <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.data.FeatureStore</span></code></a> and a <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.data.GraphStore</span></code></a> that plug directly into existing familiar <span class="inline-logo pyg">PyG</span> interfaces.
+Defining a <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a> allows users to leverage node (and soon, edge) features stored remotely, and defining a <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a> allows users to leverage graph structure information stored remotely.
+Together, they allow for powerful GNN scalability with low developer friction.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The remote backend APIs discussed here may change in the future as we continuously work to improve their ease-of-use and generalizability.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently, the <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a> and <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a> only support <em>heterogeneous graphs</em>, and do not support edge features.
+Homogeneous graph and edge feature support is coming soon.</p>
+</div>
+<section id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this heading"></a></h2>
+<p>An instantiated Graph Neural Network consists of two types of data:</p>
+<ul class="simple">
+<li><p><strong>Node and/or edge feature information:</strong> Dense vectors corresponding to attributes of the nodes and edges in a graph</p></li>
+<li><p><strong>Graph structure information:</strong> The nodes in the graph and the edges that connect them</p></li>
+</ul>
+<p>An immediate observation of GNNs is that scaling to data larger than the available memory of a chosen accelerator requires training on sampled subgraphs (which form mini-batches), instead of the full graph at once (full-batch training).
+While this method adds stochasticity to the learning process, it reduces the memory requirements of the accelerator to those of the sampled subgraphs.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="../_images/remote_1.png"><img alt="../_images/remote_1.png" src="../_images/remote_1.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text"><strong>Figure 1:</strong> The classical mini-batch GNN training paradigm.</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>However, while mini-batch training reduces the memory requirements of the chosen accelerator, it is not a silver bullet for all graph learning scalability problems.
+In particular, since one must sample subgraphs to pass to the accelerator at each iteration of the learning process, the graph and features are traditionally required to be stored in the CPU DRAM of a user’s machine.
+At large scale, this requirement can become quite burdensome:</p>
+<ul class="simple">
+<li><p>Acquiring instances with enough CPU DRAM to store a graph and features is challenging</p></li>
+<li><p>Training with data parallelism requires replicating the graph and features in each compute node</p></li>
+<li><p>Graphs and features can easily be much larger than the memory of a single machine</p></li>
+</ul>
+<p>Scalability to very large graphs and features beyond the memory requirements of a single machine thus requires moving these data structures out-of-core and only processing sampled subgraphs on a node that performs computation.
+In order to achieve this goal, <span class="inline-logo pyg">PyG</span> relies on two primary abstractions to store feature information and graph structure:
+Features are stored in a key-value <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a>, which must support efficient random access.
+Graph information is stored in a <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a>, which must support efficient sampling for the samplers defined to operate on the <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a> instance.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="../_images/remote_2.png"><img alt="../_images/remote_2.png" src="../_images/remote_2.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-text"><strong>Figure 2:</strong> Graph data storage layout between remote storage and a training instance.</span><a class="headerlink" href="#id2" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>In <span class="inline-logo pyg">PyG</span> (2.2 and beyond), the separation of graph data into its features and structure information, the storage of this information in locations potentially remote to the actual training node, and the interactions between these components, are all completely abstracted from the end user.
+As long as the <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a> and <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a> are defined appropriately (keeping in mind the aforementioned performance requirements), <span class="inline-logo pyg">PyG</span> handles the rest!</p>
+</section>
+<section id="feature-store">
+<h2>Feature Store<a class="headerlink" href="#feature-store" title="Permalink to this heading"></a></h2>
+<p>A <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.data.FeatureStore</span></code></a> holds features for the nodes and edges of a graph.
+Feature storage is often the primary storage bottleneck in graph learning applications, as storing a graph’s layout information (<em>i.e.</em> the <code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_index</span></code>) is relatively cheap (~32 bytes per edge).
+<span class="inline-logo pyg">PyG</span> provides a common interface for various <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a> implementations to interface with its core learning API.</p>
+<p>The implementation details of a <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a> are abstracted from <span class="inline-logo pyg">PyG</span> through a CRUD-like interface.
+In particular, implementors of the <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a> abstraction are expected to primarily override <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore.put_tensor" title="torch_geometric.data.FeatureStore.put_tensor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">put_tensor()</span></code></a>, <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore.get_tensor" title="torch_geometric.data.FeatureStore.get_tensor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_tensor()</span></code></a>, and <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore.remove_tensor" title="torch_geometric.data.FeatureStore.remove_tensor"><code class="xref py py-meth docutils literal notranslate"><span class="pre">remove_tensor()</span></code></a> functionalities.
+Doing so both enables <span class="inline-logo pyg">PyG</span> to leverage the features stored in the implementation and allows a user to employ a pythonic interface to inspect and modify the <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a> elements:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">feature_store</span> <span class="o">=</span> <span class="n">CustomFeatureStore</span><span class="p">()</span>
+
+<span class="n">paper_features</span> <span class="o">=</span> <span class="o">...</span>  <span class="c1"># [num_papers, num_paper_features]</span>
+<span class="n">author_features</span> <span class="o">=</span> <span class="o">...</span>  <span class="c1"># [num_authors, num_author_features]</span>
+
+<span class="c1"># Add features:</span>
+<span class="n">feature_store</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">paper_features</span>
+<span class="n">feature_store</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">author_features</span>
+
+<span class="c1"># Access features:</span>
+<span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">feature_store</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="n">paper_features</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">feature_store</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">paper_features</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">feature_store</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">20</span><span class="p">],</span> <span class="n">author_features</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">20</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Common implementations of the <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a> abstractions are key-value stores, <em>e.g.</em>, backends such as <code class="xref py py-obj docutils literal notranslate"><span class="pre">memcached</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">LevelDB</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">RocksDB</span></code> are all viable performant options.</p>
+</section>
+<section id="graph-store-and-sampler">
+<h2>Graph Store and Sampler<a class="headerlink" href="#graph-store-and-sampler" title="Permalink to this heading"></a></h2>
+<p>A <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.data.GraphStore</span></code></a> holds the edge indices that define relationships between nodes in a graph.
+The goal of the <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a> is to store graph information in a manner that allows for efficient sampling from root nodes, according to a sampling algorithm of the developer’s choice.</p>
+<p>Similar to the <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a>, <span class="inline-logo pyg">PyG</span> provides a common interface for various <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a> implementations to interface with its core learning API.
+However, unlike the <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a>, the <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a> does not need to provide efficient random access for all its elements; rather, it needs to define a representation that provides efficient subgraph sampling.
+An example usage of the interface is shown below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">graph_store</span> <span class="o">=</span> <span class="n">CustomGraphStore</span><span class="p">()</span>
+
+<span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+
+<span class="c1"># Put edges:</span>
+<span class="n">graph_store</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">,</span> <span class="s1">&#39;coo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coo</span>
+
+<span class="c1"># Access edges:</span>
+<span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">graph_store</span><span class="p">[</span><span class="s1">&#39;edge&#39;</span><span class="p">,</span> <span class="s1">&#39;coo&#39;</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="k">assert</span> <span class="n">torch</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Common implementations of the <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a> are graph databases, <em>e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Neo4j</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">TigerGraph</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">ArangoDB</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Kùzu</span></code> are all viable performant options.
+We provide an example of using <span class="inline-logo pyg">PyG</span> in combination with the <code class="xref py py-obj docutils literal notranslate"><span class="pre">Kùzu</span></code> database <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/tree/master/examples/kuzu">here</a>.</p>
+<p>A graph sampler is tightly coupled to the given <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a>, and operates on the <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a> to produce sampled subgraphs from input nodes.
+Different sampling algorithms are implemented behind the <a class="reference internal" href="../modules/sampler.html#torch_geometric.sampler.BaseSampler" title="torch_geometric.sampler.BaseSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.sampler.BaseSampler</span></code></a> interface.
+By default, <span class="inline-logo pyg">PyG’s</span> default in-memory sampler pulls all edge indices from the <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a> into the training node memory, converts them to compressed sparse column (CSC) format, and leverages pre-built in-memory sampling routines.
+However, custom sampler implementations may choose to call specialized <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a> methods by implementing the <a class="reference internal" href="../modules/sampler.html#torch_geometric.sampler.BaseSampler.sample_from_nodes" title="torch_geometric.sampler.BaseSampler.sample_from_nodes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_from_nodes()</span></code></a> and/or <a class="reference internal" href="../modules/sampler.html#torch_geometric.sampler.BaseSampler.sample_from_edges" title="torch_geometric.sampler.BaseSampler.sample_from_edges"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_from_edges()</span></code></a> of the <a class="reference internal" href="../modules/sampler.html#torch_geometric.sampler.BaseSampler" title="torch_geometric.sampler.BaseSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSampler</span></code></a> class for efficiency reasons (<em>e.g.</em>, for performing sampling directly on the remote <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># `CustomGraphSampler` knows how to sample on `CustomGraphStore`:</span>
+<span class="n">node_sampler</span> <span class="o">=</span> <span class="n">CustomGraphSampler</span><span class="p">(</span>
+    <span class="n">graph_store</span><span class="o">=</span><span class="n">graph_store</span><span class="p">,</span>
+    <span class="n">num_neighbors</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+    <span class="o">...</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="data-loader">
+<h2>Data Loader<a class="headerlink" href="#data-loader" title="Permalink to this heading"></a></h2>
+<p><span class="inline-logo pyg">PyG</span> does not define a domain-specific language for sampling that must be implemented by the <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a>; rather, the sampler and the <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a> are tightly coupled together through a data loader.</p>
+<p><span class="inline-logo pyg">PyG</span> provides two data loaders out-of-the-box: a <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NodeLoader" title="torch_geometric.loader.NodeLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.loader.NodeLoader</span></code></a> that samples subgraphs from input nodes for use in node classification tasks, and a <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.LinkLoader" title="torch_geometric.loader.LinkLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch_geometric.loader.LinkLoader</span></code></a> that samples subgraphs from either side of an edge for use in link prediction tasks.
+These data loaders require a <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a>, a <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a>, and a graph sampler as input, and internally call the sampler’s <a class="reference internal" href="../modules/sampler.html#torch_geometric.sampler.BaseSampler.sample_from_nodes" title="torch_geometric.sampler.BaseSampler.sample_from_nodes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_from_nodes()</span></code></a> or <a class="reference internal" href="../modules/sampler.html#torch_geometric.sampler.BaseSampler.sample_from_edges" title="torch_geometric.sampler.BaseSampler.sample_from_edges"><code class="xref py py-meth docutils literal notranslate"><span class="pre">sample_from_edges()</span></code></a> method to perform subgraph sampling:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Instead of passing PyG data objects, we now pass a tuple</span>
+<span class="c1"># of the `FeatureStore` and `GraphStore as input data:</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">NodeLoader</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="p">(</span><span class="n">feature_store</span><span class="p">,</span> <span class="n">graph_store</span><span class="p">),</span>
+    <span class="n">node_sampler</span><span class="o">=</span><span class="n">node_sampler</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">input_nodes</span><span class="o">=</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</section>
+<section id="putting-it-all-together">
+<h2>Putting it All Together<a class="headerlink" href="#putting-it-all-together" title="Permalink to this heading"></a></h2>
+<p>At a high level, the components listed above all work together to provide support for scaling up GNNs within <span class="inline-logo pyg">PyG</span>.</p>
+<ul class="simple">
+<li><p>The <strong>data loader</strong> (precisely, each worker) leverages a <a class="reference internal" href="../modules/sampler.html#torch_geometric.sampler.BaseSampler" title="torch_geometric.sampler.BaseSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSampler</span></code></a> to make a sampling request to the <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a>.</p></li>
+<li><p>Upon receipt of a response, the data loader subsequently queries the <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a> for features associated with the nodes and edges of the sampled subgraphs.</p></li>
+<li><p>The data loader subsequently constructs a final mini-batch from graph structure and feature information to send to the accelerator for forward/backward passes.</p></li>
+<li><p>Repeat until convergence.</p></li>
+</ul>
+<p>All of the outlined classes speak through common interfaces, making them extensible, generalizable, and easy to integrate with the <span class="inline-logo pyg">PyG</span> you use today:</p>
+<figure class="align-center" id="id3">
+<a class="reference internal image-reference" href="../_images/remote_3.png"><img alt="../_images/remote_3.png" src="../_images/remote_3.png" style="width: 80%;" /></a>
+<figcaption>
+<p><span class="caption-text"><strong>Figure 3:</strong> The common interfaces (and data flow) uniting the :class:~torch_geometric.data.`FeatureStore`, <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a>, graph sampler, and data loader.</span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>To get started with scalability, we recommend inspecting the interfaces listed above and defining your own <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a>, <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a>, and <a class="reference internal" href="../modules/sampler.html#torch_geometric.sampler.BaseSampler" title="torch_geometric.sampler.BaseSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSampler</span></code></a> implementations behind them.
+Once a <a class="reference internal" href="../generated/torch_geometric.data.FeatureStore.html#torch_geometric.data.FeatureStore" title="torch_geometric.data.FeatureStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureStore</span></code></a>, a <a class="reference internal" href="../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore" title="torch_geometric.data.GraphStore"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphStore</span></code></a>, and a <a class="reference internal" href="../modules/sampler.html#torch_geometric.sampler.BaseSampler" title="torch_geometric.sampler.BaseSampler"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseSampler</span></code></a> are correctly implemented, simply pass them as parameters to a <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NodeLoader" title="torch_geometric.loader.NodeLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NodeLoader</span></code></a> or a <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.LinkLoader" title="torch_geometric.loader.LinkLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinkLoader</span></code></a>, and the rest of <span class="inline-logo pyg">PyG</span> will work seamlessly and similar to any pure in-memory application.</p>
+<p>Since this feature is still undergoing heavy development, please feel free to reach out to the <span class="inline-logo pyg">PyG</span> core team either on <span class="inline-logo github empty"></span> <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/discussions">GitHub</a> or <span class="inline-logo slack empty"></span> <a class="reference external" href="https://data.pyg.org/slack.html">Slack</a> if you have any questions, comments or concerns.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

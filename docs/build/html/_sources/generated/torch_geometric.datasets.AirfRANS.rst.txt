@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.AirfRANS
+==================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: AirfRANS
+   :show-inheritance:

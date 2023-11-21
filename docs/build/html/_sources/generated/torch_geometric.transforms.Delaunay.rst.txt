@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.Delaunay
+====================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: Delaunay
+   :show-inheritance:

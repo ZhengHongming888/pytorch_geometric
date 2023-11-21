@@ -1,0 +1,13 @@
+﻿torch\_geometric.nn.models.Node2Vec
+===================================
+
+.. currentmodule:: torch_geometric.nn.models
+
+
+.. autoclass:: Node2Vec
+   :show-inheritance:
+   :members:
+   :exclude-members: forward, reset_parameters, message, message_and_aggregate, edge_update, aggregate, update
+
+   .. automethod:: forward
+   .. automethod:: reset_parameters

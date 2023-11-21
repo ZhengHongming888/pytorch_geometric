@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GNN Cheatsheet &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Dataset Cheatsheet" href="data_cheatsheet.html" />
+    <link rel="prev" title="torch_geometric.profile" href="../modules/profile.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GNN Cheatsheet</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#graph-neural-network-operators">Graph Neural Network Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#heterogeneous-graph-neural-network-operators">Heterogeneous Graph Neural Network Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hypergraph-neural-network-operators">Hypergraph Neural Network Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#point-cloud-neural-network-operators">Point Cloud Neural Network Operators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">GNN Cheatsheet</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/cheatsheet/gnn_cheatsheet.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gnn-cheatsheet">
+<h1>GNN Cheatsheet<a class="headerlink" href="#gnn-cheatsheet" title="Permalink to this heading"></a></h1>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SparseTensor</span></code>: If checked (✓), supports message passing based on <code class="xref py py-class docutils literal notranslate"><span class="pre">torch_sparse.SparseTensor</span></code>, <em>e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GCNConv(...).forward(x,</span> <span class="pre">adj_t)</span></code>. See <a class="reference external" href="../advanced/sparse_tensor.html">here</a> for the accompanying tutorial.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_weight</span></code>: If checked (✓), supports message passing with one-dimensional edge weight information, <em>e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GraphConv(...).forward(x,</span> <span class="pre">edge_index,</span> <span class="pre">edge_weight)</span></code>.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_attr</span></code>: If checked (✓), supports message passing with multi-dimensional edge feature information, <em>e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GINEConv(...).forward(x,</span> <span class="pre">edge_index,</span> <span class="pre">edge_attr)</span></code>.</p></li>
+<li><p><strong>bipartite</strong>: If checked (✓), supports message passing in bipartite graphs with potentially different feature dimensionalities for source and destination nodes, <em>e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">SAGEConv(in_channels=(16,</span> <span class="pre">32),</span> <span class="pre">out_channels=64)</span></code>.</p></li>
+<li><p><strong>static</strong>: If checked (✓), supports message passing in static graphs, <em>e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GCNConv(...).forward(x,</span> <span class="pre">edge_index)</span></code> with <code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code> having shape <code class="xref py py-obj docutils literal notranslate"><span class="pre">[batch_size,</span> <span class="pre">num_nodes,</span> <span class="pre">in_channels]</span></code>.</p></li>
+<li><p><strong>lazy</strong>: If checked (✓), supports lazy initialization of message passing layers, <em>e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">SAGEConv(in_channels=-1,</span> <span class="pre">out_channels=64)</span></code>.</p></li>
+</ul>
+<section id="graph-neural-network-operators">
+<h2>Graph Neural Network Operators<a class="headerlink" href="#graph-neural-network-operators" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SparseTensor</span></code></p></th>
+<th class="head"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_weight</span></code></p></th>
+<th class="head"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_attr</span></code></p></th>
+<th class="head"><p>bipartite</p></th>
+<th class="head"><p>static</p></th>
+<th class="head"><p>lazy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.SimpleConv.html#torch_geometric.nn.conv.SimpleConv" title="torch_geometric.nn.conv.SimpleConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">SimpleConv</span></code></a></p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GCNConv.html#torch_geometric.nn.conv.GCNConv" title="torch_geometric.nn.conv.GCNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GCNConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1609.02907">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.ChebConv.html#torch_geometric.nn.conv.ChebConv" title="torch_geometric.nn.conv.ChebConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChebConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1606.09375">Paper</a>)</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.SAGEConv.html#torch_geometric.nn.conv.SAGEConv" title="torch_geometric.nn.conv.SAGEConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">SAGEConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1706.02216">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.CuGraphSAGEConv.html#torch_geometric.nn.conv.CuGraphSAGEConv" title="torch_geometric.nn.conv.CuGraphSAGEConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">CuGraphSAGEConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1706.02216">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GraphConv.html#torch_geometric.nn.conv.GraphConv" title="torch_geometric.nn.conv.GraphConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1810.02244">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GatedGraphConv.html#torch_geometric.nn.conv.GatedGraphConv" title="torch_geometric.nn.conv.GatedGraphConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GatedGraphConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1511.05493">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.ResGatedGraphConv.html#torch_geometric.nn.conv.ResGatedGraphConv" title="torch_geometric.nn.conv.ResGatedGraphConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResGatedGraphConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1711.07553">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GATConv.html#torch_geometric.nn.conv.GATConv" title="torch_geometric.nn.conv.GATConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GATConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1710.10903">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.CuGraphGATConv.html#torch_geometric.nn.conv.CuGraphGATConv" title="torch_geometric.nn.conv.CuGraphGATConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">CuGraphGATConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1710.10903">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.FusedGATConv.html#torch_geometric.nn.conv.FusedGATConv" title="torch_geometric.nn.conv.FusedGATConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">FusedGATConv</span></code></a> (<a class="reference external" href="https://proceedings.mlsys.org/paper/2022/file/9a1158154dfa42caddbd0694a4e9bdc8-Paper.pdf">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GATv2Conv.html#torch_geometric.nn.conv.GATv2Conv" title="torch_geometric.nn.conv.GATv2Conv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GATv2Conv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2105.14491">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.TransformerConv.html#torch_geometric.nn.conv.TransformerConv" title="torch_geometric.nn.conv.TransformerConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransformerConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2009.03509">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.AGNNConv.html#torch_geometric.nn.conv.AGNNConv" title="torch_geometric.nn.conv.AGNNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">AGNNConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1803.03735">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.TAGConv.html#torch_geometric.nn.conv.TAGConv" title="torch_geometric.nn.conv.TAGConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">TAGConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1710.10370">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GINConv.html#torch_geometric.nn.conv.GINConv" title="torch_geometric.nn.conv.GINConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GINConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1810.00826">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GINEConv.html#torch_geometric.nn.conv.GINEConv" title="torch_geometric.nn.conv.GINEConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GINEConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1905.12265">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.ARMAConv.html#torch_geometric.nn.conv.ARMAConv" title="torch_geometric.nn.conv.ARMAConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">ARMAConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1901.01343">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.SGConv.html#torch_geometric.nn.conv.SGConv" title="torch_geometric.nn.conv.SGConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">SGConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1902.07153">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.SSGConv.html#torch_geometric.nn.conv.SSGConv" title="torch_geometric.nn.conv.SSGConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">SSGConv</span></code></a> (<a class="reference external" href="https://openreview.net/forum?id=CYO5T-YjWZV">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.APPNP.html#torch_geometric.nn.conv.APPNP" title="torch_geometric.nn.conv.APPNP"><code class="xref py py-class docutils literal notranslate"><span class="pre">APPNP</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1810.05997">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.MFConv.html#torch_geometric.nn.conv.MFConv" title="torch_geometric.nn.conv.MFConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">MFConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1509.09292">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.DNAConv.html#torch_geometric.nn.conv.DNAConv" title="torch_geometric.nn.conv.DNAConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">DNAConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1904.04849">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GMMConv.html#torch_geometric.nn.conv.GMMConv" title="torch_geometric.nn.conv.GMMConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GMMConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1611.08402">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.SplineConv.html#torch_geometric.nn.conv.SplineConv" title="torch_geometric.nn.conv.SplineConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">SplineConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1711.08920">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.NNConv.html#torch_geometric.nn.conv.NNConv" title="torch_geometric.nn.conv.NNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">NNConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1704.01212">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.CGConv.html#torch_geometric.nn.conv.CGConv" title="torch_geometric.nn.conv.CGConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">CGConv</span></code></a> (<a class="reference external" href="https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.120.145301">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.EdgeConv.html#torch_geometric.nn.conv.EdgeConv" title="torch_geometric.nn.conv.EdgeConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">EdgeConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1801.07829">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.FeaStConv.html#torch_geometric.nn.conv.FeaStConv" title="torch_geometric.nn.conv.FeaStConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeaStConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1706.05206">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.LEConv.html#torch_geometric.nn.conv.LEConv" title="torch_geometric.nn.conv.LEConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">LEConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1911.07979">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.PNAConv.html#torch_geometric.nn.conv.PNAConv" title="torch_geometric.nn.conv.PNAConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">PNAConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2004.05718">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.ClusterGCNConv.html#torch_geometric.nn.conv.ClusterGCNConv" title="torch_geometric.nn.conv.ClusterGCNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClusterGCNConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1905.07953">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GENConv.html#torch_geometric.nn.conv.GENConv" title="torch_geometric.nn.conv.GENConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GENConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2006.07739">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GCN2Conv.html#torch_geometric.nn.conv.GCN2Conv" title="torch_geometric.nn.conv.GCN2Conv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GCN2Conv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2007.02133">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.PANConv.html#torch_geometric.nn.conv.PANConv" title="torch_geometric.nn.conv.PANConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">PANConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2006.16811">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.WLConv.html#torch_geometric.nn.conv.WLConv" title="torch_geometric.nn.conv.WLConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">WLConv</span></code></a> (<a class="reference external" href="https://www.iti.zcu.cz/wl2018/pdf/wl_paper_translation.pdf">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.WLConvContinuous.html#torch_geometric.nn.conv.WLConvContinuous" title="torch_geometric.nn.conv.WLConvContinuous"><code class="xref py py-class docutils literal notranslate"><span class="pre">WLConvContinuous</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1906.01277">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.SuperGATConv.html#torch_geometric.nn.conv.SuperGATConv" title="torch_geometric.nn.conv.SuperGATConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">SuperGATConv</span></code></a> (<a class="reference external" href="https://openreview.net/forum?id=Wi5KUNlqWty">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.FAConv.html#torch_geometric.nn.conv.FAConv" title="torch_geometric.nn.conv.FAConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">FAConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2101.00797">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.EGConv.html#torch_geometric.nn.conv.EGConv" title="torch_geometric.nn.conv.EGConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">EGConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2104.01481">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.PDNConv.html#torch_geometric.nn.conv.PDNConv" title="torch_geometric.nn.conv.PDNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">PDNConv</span></code></a> (<a class="reference external" href="https://arxiv.org/pdf/2010.12878.pdf">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GeneralConv.html#torch_geometric.nn.conv.GeneralConv" title="torch_geometric.nn.conv.GeneralConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeneralConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2011.08843">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.LGConv.html#torch_geometric.nn.conv.LGConv" title="torch_geometric.nn.conv.LGConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">LGConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2002.02126">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GPSConv.html#torch_geometric.nn.conv.GPSConv" title="torch_geometric.nn.conv.GPSConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GPSConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2205.12454">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.AntiSymmetricConv.html#torch_geometric.nn.conv.AntiSymmetricConv" title="torch_geometric.nn.conv.AntiSymmetricConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">AntiSymmetricConv</span></code></a> (<a class="reference external" href="https://openreview.net/forum?id=J3Y7cgZOOS">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.DirGNNConv.html#torch_geometric.nn.conv.DirGNNConv" title="torch_geometric.nn.conv.DirGNNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">DirGNNConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2305.10498">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.MixHopConv.html#torch_geometric.nn.conv.MixHopConv" title="torch_geometric.nn.conv.MixHopConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">MixHopConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1905.00067">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="heterogeneous-graph-neural-network-operators">
+<h2>Heterogeneous Graph Neural Network Operators<a class="headerlink" href="#heterogeneous-graph-neural-network-operators" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SparseTensor</span></code></p></th>
+<th class="head"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_weight</span></code></p></th>
+<th class="head"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_attr</span></code></p></th>
+<th class="head"><p>bipartite</p></th>
+<th class="head"><p>static</p></th>
+<th class="head"><p>lazy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.RGCNConv.html#torch_geometric.nn.conv.RGCNConv" title="torch_geometric.nn.conv.RGCNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">RGCNConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1703.06103">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.FastRGCNConv.html#torch_geometric.nn.conv.FastRGCNConv" title="torch_geometric.nn.conv.FastRGCNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">FastRGCNConv</span></code></a></p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.CuGraphRGCNConv.html#torch_geometric.nn.conv.CuGraphRGCNConv" title="torch_geometric.nn.conv.CuGraphRGCNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">CuGraphRGCNConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1703.06103">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.RGATConv.html#torch_geometric.nn.conv.RGATConv" title="torch_geometric.nn.conv.RGATConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">RGATConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1904.05811">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.FiLMConv.html#torch_geometric.nn.conv.FiLMConv" title="torch_geometric.nn.conv.FiLMConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">FiLMConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1906.12192">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.HGTConv.html#torch_geometric.nn.conv.HGTConv" title="torch_geometric.nn.conv.HGTConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">HGTConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2003.01332">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.HEATConv.html#torch_geometric.nn.conv.HEATConv" title="torch_geometric.nn.conv.HEATConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">HEATConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2106.07161">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.HeteroConv.html#torch_geometric.nn.conv.HeteroConv" title="torch_geometric.nn.conv.HeteroConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeteroConv</span></code></a></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.HANConv.html#torch_geometric.nn.conv.HANConv" title="torch_geometric.nn.conv.HANConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">HANConv</span></code></a> (<a class="reference external" href="https://arxiv.org/pdf/1903.07293.pdf">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="hypergraph-neural-network-operators">
+<h2>Hypergraph Neural Network Operators<a class="headerlink" href="#hypergraph-neural-network-operators" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SparseTensor</span></code></p></th>
+<th class="head"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_weight</span></code></p></th>
+<th class="head"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_attr</span></code></p></th>
+<th class="head"><p>bipartite</p></th>
+<th class="head"><p>static</p></th>
+<th class="head"><p>lazy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.HypergraphConv.html#torch_geometric.nn.conv.HypergraphConv" title="torch_geometric.nn.conv.HypergraphConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">HypergraphConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1901.08150">Paper</a>)</p></td>
+<td></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+<td></td>
+<td></td>
+<td><p>✓</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="point-cloud-neural-network-operators">
+<h2>Point Cloud Neural Network Operators<a class="headerlink" href="#point-cloud-neural-network-operators" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 80%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>bipartite</p></th>
+<th class="head"><p>lazy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.GravNetConv.html#torch_geometric.nn.conv.GravNetConv" title="torch_geometric.nn.conv.GravNetConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">GravNetConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1902.07987">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.SignedConv.html#torch_geometric.nn.conv.SignedConv" title="torch_geometric.nn.conv.SignedConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">SignedConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1808.06354">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.PointNetConv.html#torch_geometric.nn.conv.PointNetConv" title="torch_geometric.nn.conv.PointNetConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">PointNetConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1612.00593">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.DynamicEdgeConv.html#torch_geometric.nn.conv.DynamicEdgeConv" title="torch_geometric.nn.conv.DynamicEdgeConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicEdgeConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1801.07829">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.XConv.html#torch_geometric.nn.conv.XConv" title="torch_geometric.nn.conv.XConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">XConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1801.07791">Paper</a>)</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.PPFConv.html#torch_geometric.nn.conv.PPFConv" title="torch_geometric.nn.conv.PPFConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">PPFConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1802.02669">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.PointTransformerConv.html#torch_geometric.nn.conv.PointTransformerConv" title="torch_geometric.nn.conv.PointTransformerConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">PointTransformerConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2012.09164">Paper</a>)</p></td>
+<td><p>✓</p></td>
+<td><p>✓</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.HeteroConv.html#torch_geometric.nn.conv.HeteroConv" title="torch_geometric.nn.conv.HeteroConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeteroConv</span></code></a></p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.conv.PointGNNConv.html#torch_geometric.nn.conv.PointGNNConv" title="torch_geometric.nn.conv.PointGNNConv"><code class="xref py py-class docutils literal notranslate"><span class="pre">PointGNNConv</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2003.01251">Paper</a>)</p></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../modules/profile.html" class="btn btn-neutral float-left" title="torch_geometric.profile" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="data_cheatsheet.html" class="btn btn-neutral float-right" title="Dataset Cheatsheet" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

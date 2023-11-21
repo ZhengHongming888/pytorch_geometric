@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.PPI
+=============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: PPI
+   :show-inheritance:

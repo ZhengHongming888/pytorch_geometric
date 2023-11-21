@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.BaseTransform
+=========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: BaseTransform
+   :show-inheritance:

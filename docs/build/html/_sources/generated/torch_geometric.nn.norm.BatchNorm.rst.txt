@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.norm.BatchNorm
+==================================
+
+.. currentmodule:: torch_geometric.nn.norm
+
+.. autoclass:: BatchNorm
+   :show-inheritance:
+   :members:

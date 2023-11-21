@@ -1,0 +1,1750 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dataset Cheatsheet &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Dataset Cheatsheet</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notes/data_cheatsheet.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dataset-cheatsheet">
+<h1>Dataset Cheatsheet<a class="headerlink" href="#dataset-cheatsheet" title="Permalink to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This dataset statistics table is a <strong>work in progress</strong>.
+Please consider helping us filling its content by providing statistics for individual datasets.
+See <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/torch_geometric/datasets/karate.py#L25-L37">here</a> and <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/torch_geometric/datasets/tu_dataset.py#L56-L108">here</a> for examples on how to do so.</p>
+</div>
+<section id="homogeneous-datasets">
+<h2>Homogeneous Datasets<a class="headerlink" href="#homogeneous-datasets" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>#graphs</p></th>
+<th class="head"><p>#nodes</p></th>
+<th class="head"><p>#edges</p></th>
+<th class="head"><p>#features</p></th>
+<th class="head"><p>#classes/#tasks</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.KarateClub.html#torch_geometric.datasets.KarateClub" title="torch_geometric.datasets.KarateClub"><code class="xref py py-class docutils literal notranslate"><span class="pre">KarateClub</span></code></a> (<a class="reference external" href="http://www1.ind.ku.dk/complexLearning/zachary1977.pdf">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>34</p></td>
+<td><p>156</p></td>
+<td><p>34</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.TUDataset.html#torch_geometric.datasets.TUDataset" title="torch_geometric.datasets.TUDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">TUDataset</span></code></a> (<a class="reference external" href="https://chrsmrrs.github.io/datasets">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ MUTAG</p></td>
+<td><p>188</p></td>
+<td><p>~17.9</p></td>
+<td><p>~39.6</p></td>
+<td><p>7</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ ENZYMES</p></td>
+<td><p>600</p></td>
+<td><p>~32.6</p></td>
+<td><p>~124.3</p></td>
+<td><p>3</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ PROTEINS</p></td>
+<td><p>1,113</p></td>
+<td><p>~39.1</p></td>
+<td><p>~145.6</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ COLLAB</p></td>
+<td><p>5,000</p></td>
+<td><p>~74.5</p></td>
+<td><p>~4914.4</p></td>
+<td><p>0</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ IMDB-BINARY</p></td>
+<td><p>1,000</p></td>
+<td><p>~19.8</p></td>
+<td><p>~193.1</p></td>
+<td><p>0</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ REDDIT-BINARY</p></td>
+<td><p>2,000</p></td>
+<td><p>~429.6</p></td>
+<td><p>~995.5</p></td>
+<td><p>0</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ …</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GNNBenchmarkDataset.html#torch_geometric.datasets.GNNBenchmarkDataset" title="torch_geometric.datasets.GNNBenchmarkDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">GNNBenchmarkDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2003.00982">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ PATTERN</p></td>
+<td><p>10,000</p></td>
+<td><p>~118.9</p></td>
+<td><p>~6,098.9</p></td>
+<td><p>3</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ CLUSTER</p></td>
+<td><p>10,000</p></td>
+<td><p>~117.2</p></td>
+<td><p>~4,303.9</p></td>
+<td><p>7</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ MNIST</p></td>
+<td><p>55,000</p></td>
+<td><p>~70.6</p></td>
+<td><p>~564.5</p></td>
+<td><p>3</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ CIFAR10</p></td>
+<td><p>45,000</p></td>
+<td><p>~117.6</p></td>
+<td><p>~941.2</p></td>
+<td><p>5</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ TSP</p></td>
+<td><p>10,000</p></td>
+<td><p>~275.4</p></td>
+<td><p>~6,885.0</p></td>
+<td><p>2</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ CSL</p></td>
+<td><p>150</p></td>
+<td><p>~41.0</p></td>
+<td><p>~164.0</p></td>
+<td><p>0</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Planetoid.html#torch_geometric.datasets.Planetoid" title="torch_geometric.datasets.Planetoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">Planetoid</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1603.08861">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Cora</p></td>
+<td><p>1</p></td>
+<td><p>2,708</p></td>
+<td><p>10,556</p></td>
+<td><p>1,433</p></td>
+<td><p>7</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ CiteSeer</p></td>
+<td><p>1</p></td>
+<td><p>3,327</p></td>
+<td><p>9,104</p></td>
+<td><p>3,703</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ PubMed</p></td>
+<td><p>1</p></td>
+<td><p>19,717</p></td>
+<td><p>88,648</p></td>
+<td><p>500</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.NELL.html#torch_geometric.datasets.NELL" title="torch_geometric.datasets.NELL"><code class="xref py py-class docutils literal notranslate"><span class="pre">NELL</span></code></a> (<a class="reference external" href="https://www.cs.cmu.edu/~acarlson/papers/carlson-aaai10.pdf">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>65,755</p></td>
+<td><p>251,550</p></td>
+<td><p>61,278</p></td>
+<td><p>186</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.CitationFull.html#torch_geometric.datasets.CitationFull" title="torch_geometric.datasets.CitationFull"><code class="xref py py-class docutils literal notranslate"><span class="pre">CitationFull</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1707.03815">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ Cora</p></td>
+<td><p>1</p></td>
+<td><p>19,793</p></td>
+<td><p>126,842</p></td>
+<td><p>8,710</p></td>
+<td><p>70</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Cora_ML</p></td>
+<td><p>1</p></td>
+<td><p>2,995</p></td>
+<td><p>16,316</p></td>
+<td><p>2,879</p></td>
+<td><p>7</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ CiteSeer</p></td>
+<td><p>1</p></td>
+<td><p>4,230</p></td>
+<td><p>10,674</p></td>
+<td><p>602</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ DBLP</p></td>
+<td><p>1</p></td>
+<td><p>17,716</p></td>
+<td><p>105,734</p></td>
+<td><p>1,639</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ PubMed</p></td>
+<td><p>1</p></td>
+<td><p>19,717</p></td>
+<td><p>88,648</p></td>
+<td><p>500</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.CoraFull.html#torch_geometric.datasets.CoraFull" title="torch_geometric.datasets.CoraFull"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoraFull</span></code></a></p></td>
+<td><p>1</p></td>
+<td><p>19,793</p></td>
+<td><p>126,842</p></td>
+<td><p>8,710</p></td>
+<td><p>70</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Coauthor.html#torch_geometric.datasets.Coauthor" title="torch_geometric.datasets.Coauthor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Coauthor</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1811.05868">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>└─ CS</p></td>
+<td><p>1</p></td>
+<td><p>18,333</p></td>
+<td><p>163,788</p></td>
+<td><p>6,805</p></td>
+<td><p>15</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Physics</p></td>
+<td><p>1</p></td>
+<td><p>34,493</p></td>
+<td><p>495,924</p></td>
+<td><p>8,415</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Amazon.html#torch_geometric.datasets.Amazon" title="torch_geometric.datasets.Amazon"><code class="xref py py-class docutils literal notranslate"><span class="pre">Amazon</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1811.05868">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ Computers</p></td>
+<td><p>1</p></td>
+<td><p>13,752</p></td>
+<td><p>491,722</p></td>
+<td><p>767</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Photo</p></td>
+<td><p>1</p></td>
+<td><p>7,650</p></td>
+<td><p>238,162</p></td>
+<td><p>745</p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.PPI.html#torch_geometric.datasets.PPI" title="torch_geometric.datasets.PPI"><code class="xref py py-class docutils literal notranslate"><span class="pre">PPI</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1707.04638">Paper</a>)</p></td>
+<td><p>20</p></td>
+<td><p>~2,245.3</p></td>
+<td><p>~61,318.4</p></td>
+<td><p>50</p></td>
+<td><p>121</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Reddit.html#torch_geometric.datasets.Reddit" title="torch_geometric.datasets.Reddit"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reddit</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1706.02216">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>232,965</p></td>
+<td><p>114,615,892</p></td>
+<td><p>602</p></td>
+<td><p>41</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Reddit2.html#torch_geometric.datasets.Reddit2" title="torch_geometric.datasets.Reddit2"><code class="xref py py-class docutils literal notranslate"><span class="pre">Reddit2</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1907.04931">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>232,965</p></td>
+<td><p>23,213,838</p></td>
+<td><p>602</p></td>
+<td><p>41</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Flickr.html#torch_geometric.datasets.Flickr" title="torch_geometric.datasets.Flickr"><code class="xref py py-class docutils literal notranslate"><span class="pre">Flickr</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1907.04931">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>89,250</p></td>
+<td><p>899,756</p></td>
+<td><p>500</p></td>
+<td><p>7</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Yelp.html#torch_geometric.datasets.Yelp" title="torch_geometric.datasets.Yelp"><code class="xref py py-class docutils literal notranslate"><span class="pre">Yelp</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1907.04931">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>716,847</p></td>
+<td><p>13,954,819</p></td>
+<td><p>300</p></td>
+<td><p>100</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.AmazonProducts.html#torch_geometric.datasets.AmazonProducts" title="torch_geometric.datasets.AmazonProducts"><code class="xref py py-class docutils literal notranslate"><span class="pre">AmazonProducts</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1907.04931">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>1,569,960</p></td>
+<td><p>264,339,468</p></td>
+<td><p>200</p></td>
+<td><p>107</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.QM7b.html#torch_geometric.datasets.QM7b" title="torch_geometric.datasets.QM7b"><code class="xref py py-class docutils literal notranslate"><span class="pre">QM7b</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1703.00564">Paper</a>)</p></td>
+<td><p>7,211</p></td>
+<td><p>~15.4</p></td>
+<td><p>~245.0</p></td>
+<td><p>0</p></td>
+<td><p>14</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.QM9.html#torch_geometric.datasets.QM9" title="torch_geometric.datasets.QM9"><code class="xref py py-class docutils literal notranslate"><span class="pre">QM9</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1703.00564">Paper</a>)</p></td>
+<td><p>130,831</p></td>
+<td><p>~18.0</p></td>
+<td><p>~37.3</p></td>
+<td><p>11</p></td>
+<td><p>19</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MD17.html#torch_geometric.datasets.MD17" title="torch_geometric.datasets.MD17"><code class="xref py py-class docutils literal notranslate"><span class="pre">MD17</span></code></a> (<a class="reference external" href="http://quantum-machine.org/gdml">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Benzene</p></td>
+<td><p>627,983</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Uracil</p></td>
+<td><p>133,770</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Naphthalene</p></td>
+<td><p>326,250</p></td>
+<td><p>10</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Aspirin</p></td>
+<td><p>211,762</p></td>
+<td><p>21</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Salicylic acid</p></td>
+<td><p>320,231</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Malonaldehyde</p></td>
+<td><p>993,237</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Ethanol</p></td>
+<td><p>555,092</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Toluene</p></td>
+<td><p>442,790</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Paracetamol</p></td>
+<td><p>106,490</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Azobenzene</p></td>
+<td><p>99,999</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Benzene (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Uracil (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Naphthalene (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>10</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Aspirin (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>21</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Salicylic acid (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Malonaldehyde (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Ethanol (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Toluene (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Paracetamol (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Azobenzene (R)</p></td>
+<td><p>99,988</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Benzene CCSD-T</p></td>
+<td><p>1,500</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Aspirin CCSD-T</p></td>
+<td><p>1,500</p></td>
+<td><p>21</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Malonaldehyde CCSD-T</p></td>
+<td><p>1,500</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Ethanol CCSD-T</p></td>
+<td><p>2000</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Toluene CCSD-T</p></td>
+<td><p>1,501</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Benzene FHI-aims</p></td>
+<td><p>49,863</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.ZINC.html#torch_geometric.datasets.ZINC" title="torch_geometric.datasets.ZINC"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZINC</span></code></a> (<a class="reference external" href="https://pubs.acs.org/doi/abs/10.1021/acs.jcim.5b00559">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ ZINC Full</p></td>
+<td><p>249,456</p></td>
+<td><p>~23.2</p></td>
+<td><p>~49.8</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ ZINC Subset</p></td>
+<td><p>12,000</p></td>
+<td><p>~23.2</p></td>
+<td><p>~49.8</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.AQSOL.html#torch_geometric.datasets.AQSOL" title="torch_geometric.datasets.AQSOL"><code class="xref py py-class docutils literal notranslate"><span class="pre">AQSOL</span></code></a> (<a class="reference external" href="http://arxiv.org/abs/2003.00982">Paper</a>)</p></td>
+<td><p>9,833</p></td>
+<td><p>~17.6</p></td>
+<td><p>~35.8</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MoleculeNet.html#torch_geometric.datasets.MoleculeNet" title="torch_geometric.datasets.MoleculeNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">MoleculeNet</span></code></a> (<a class="reference external" href="http://moleculenet.org/datasets-1">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ ESOL</p></td>
+<td><p>1,128</p></td>
+<td><p>~13.3</p></td>
+<td><p>~27.4</p></td>
+<td><p>9</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ FreeSolv</p></td>
+<td><p>642</p></td>
+<td><p>~8.7</p></td>
+<td><p>~16.8</p></td>
+<td><p>9</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Lipophilicity</p></td>
+<td><p>4,200</p></td>
+<td><p>~27.0</p></td>
+<td><p>~59.0</p></td>
+<td><p>9</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ PCBA</p></td>
+<td><p>437,929</p></td>
+<td><p>~26.0</p></td>
+<td><p>~56.2</p></td>
+<td><p>9</p></td>
+<td><p>128</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ MUV</p></td>
+<td><p>93,087</p></td>
+<td><p>~24.2</p></td>
+<td><p>~52.6</p></td>
+<td><p>9</p></td>
+<td><p>17</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ HIV</p></td>
+<td><p>41,127</p></td>
+<td><p>~25.5</p></td>
+<td><p>~54.9</p></td>
+<td><p>9</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ BACE</p></td>
+<td><p>1513</p></td>
+<td><p>~34.1</p></td>
+<td><p>~73.7</p></td>
+<td><p>9</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ BBBP</p></td>
+<td><p>2,050</p></td>
+<td><p>~23.9</p></td>
+<td><p>~51.6</p></td>
+<td><p>9</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Tox21</p></td>
+<td><p>7,831</p></td>
+<td><p>~18.6</p></td>
+<td><p>~38.6</p></td>
+<td><p>9</p></td>
+<td><p>12</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ ToxCast</p></td>
+<td><p>8,597</p></td>
+<td><p>~18.7</p></td>
+<td><p>~38.4</p></td>
+<td><p>9</p></td>
+<td><p>617</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ SIDER</p></td>
+<td><p>1,427</p></td>
+<td><p>~33.6</p></td>
+<td><p>~70.7</p></td>
+<td><p>9</p></td>
+<td><p>27</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ ClinTox</p></td>
+<td><p>1,484</p></td>
+<td><p>~26.1</p></td>
+<td><p>~55.5</p></td>
+<td><p>9</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.PCQM4Mv2.html#torch_geometric.datasets.PCQM4Mv2" title="torch_geometric.datasets.PCQM4Mv2"><code class="xref py py-class docutils literal notranslate"><span class="pre">PCQM4Mv2</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2103.09430">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Entities.html#torch_geometric.datasets.Entities" title="torch_geometric.datasets.Entities"><code class="xref py py-class docutils literal notranslate"><span class="pre">Entities</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1703.06103">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ AIFB</p></td>
+<td><p>1</p></td>
+<td><p>8,285</p></td>
+<td><p>58,086</p></td>
+<td><p>0</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ AM</p></td>
+<td><p>1</p></td>
+<td><p>1,666,764</p></td>
+<td><p>11,976,642</p></td>
+<td><p>0</p></td>
+<td><p>11</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ MUTAG</p></td>
+<td><p>1</p></td>
+<td><p>23,644</p></td>
+<td><p>148,454</p></td>
+<td><p>0</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ BGS</p></td>
+<td><p>1</p></td>
+<td><p>333,845</p></td>
+<td><p>1,832,398</p></td>
+<td><p>0</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.RelLinkPredDataset.html#torch_geometric.datasets.RelLinkPredDataset" title="torch_geometric.datasets.RelLinkPredDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">RelLinkPredDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1703.06103">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>14,541</p></td>
+<td><p>544,230</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GEDDataset.html#torch_geometric.datasets.GEDDataset" title="torch_geometric.datasets.GEDDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">GEDDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1808.05689">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ AIDS700nef</p></td>
+<td><p>700</p></td>
+<td><p>~8.9</p></td>
+<td><p>~17.6</p></td>
+<td><p>29</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ LINUX</p></td>
+<td><p>1,000</p></td>
+<td><p>~7.6</p></td>
+<td><p>~13.9</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ ALKANE</p></td>
+<td><p>150</p></td>
+<td><p>~8.9</p></td>
+<td><p>~15.8</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ IMDBMulti</p></td>
+<td><p>1,500</p></td>
+<td><p>~13.0</p></td>
+<td><p>~131.9</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.AttributedGraphDataset.html#torch_geometric.datasets.AttributedGraphDataset" title="torch_geometric.datasets.AttributedGraphDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">AttributedGraphDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2009.00826">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Wiki</p></td>
+<td><p>1</p></td>
+<td><p>2,405</p></td>
+<td><p>17,981</p></td>
+<td><p>4,973</p></td>
+<td><p>17</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Cora</p></td>
+<td><p>1</p></td>
+<td><p>2,708</p></td>
+<td><p>5,429</p></td>
+<td><p>1,433</p></td>
+<td><p>7</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ CiteSeer</p></td>
+<td><p>1</p></td>
+<td><p>3,312</p></td>
+<td><p>4,715</p></td>
+<td><p>3,703</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ PubMed</p></td>
+<td><p>1</p></td>
+<td><p>19,717</p></td>
+<td><p>44,338</p></td>
+<td><p>500</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ BlogCatalog</p></td>
+<td><p>1</p></td>
+<td><p>5,196</p></td>
+<td><p>343,486</p></td>
+<td><p>8,189</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ PPI</p></td>
+<td><p>1</p></td>
+<td><p>56,944</p></td>
+<td><p>1,612,348</p></td>
+<td><p>50</p></td>
+<td><p>121</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Flickr</p></td>
+<td><p>1</p></td>
+<td><p>7,575</p></td>
+<td><p>479,476</p></td>
+<td><p>12,047</p></td>
+<td><p>9</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Facebook</p></td>
+<td><p>1</p></td>
+<td><p>4,039</p></td>
+<td><p>88,234</p></td>
+<td><p>1,283</p></td>
+<td><p>193</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ TWeibo</p></td>
+<td><p>1</p></td>
+<td><p>2,320,895</p></td>
+<td><p>9,840,066</p></td>
+<td><p>1,657</p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ MAG</p></td>
+<td><p>1</p></td>
+<td><p>59,249,719</p></td>
+<td><p>978,147,253</p></td>
+<td><p>2,000</p></td>
+<td><p>100</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MNISTSuperpixels.html#torch_geometric.datasets.MNISTSuperpixels" title="torch_geometric.datasets.MNISTSuperpixels"><code class="xref py py-class docutils literal notranslate"><span class="pre">MNISTSuperpixels</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1611.08402">Paper</a>)</p></td>
+<td><p>70,000</p></td>
+<td><p>75</p></td>
+<td><p>~1,393.0</p></td>
+<td><p>1</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.FAUST.html#torch_geometric.datasets.FAUST" title="torch_geometric.datasets.FAUST"><code class="xref py py-class docutils literal notranslate"><span class="pre">FAUST</span></code></a> (<a class="reference external" href="http://files.is.tue.mpg.de/black/papers/FAUST2014.pdf">Paper</a>)</p></td>
+<td><p>100</p></td>
+<td><p>6,890</p></td>
+<td><p>41,328</p></td>
+<td><p>3</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.DynamicFAUST.html#torch_geometric.datasets.DynamicFAUST" title="torch_geometric.datasets.DynamicFAUST"><code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicFAUST</span></code></a> (<a class="reference external" href="http://files.is.tue.mpg.de/black/papers/dfaust2017.pdf">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.ShapeNet.html#torch_geometric.datasets.ShapeNet" title="torch_geometric.datasets.ShapeNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ShapeNet</span></code></a> (<a class="reference external" href="http://web.stanford.edu/~ericyi/papers/part_annotation_16_small.pdf">Paper</a>)</p></td>
+<td><p>16,881</p></td>
+<td><p>~2,616.2</p></td>
+<td><p>0</p></td>
+<td><p>3</p></td>
+<td><p>50</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.ModelNet.html#torch_geometric.datasets.ModelNet" title="torch_geometric.datasets.ModelNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">ModelNet</span></code></a> (<a class="reference external" href="https://people.csail.mit.edu/khosla/papers/cvpr2015_wu.pdf">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ ModelNet10</p></td>
+<td><p>4,899</p></td>
+<td><p>~9,508.2</p></td>
+<td><p>~37,450.5</p></td>
+<td><p>3</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ ModelNet40</p></td>
+<td><p>12,311</p></td>
+<td><p>~17,744.4</p></td>
+<td><p>~66,060.9</p></td>
+<td><p>3</p></td>
+<td><p>40</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.CoMA.html#torch_geometric.datasets.CoMA" title="torch_geometric.datasets.CoMA"><code class="xref py py-class docutils literal notranslate"><span class="pre">CoMA</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1807.10267">Paper</a>)</p></td>
+<td><p>20,465</p></td>
+<td><p>5,023</p></td>
+<td><p>29,990</p></td>
+<td><p>3</p></td>
+<td><p>12</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.SHREC2016.html#torch_geometric.datasets.SHREC2016" title="torch_geometric.datasets.SHREC2016"><code class="xref py py-class docutils literal notranslate"><span class="pre">SHREC2016</span></code></a> (<a class="reference external" href="http://www.dais.unive.it/~shrec2016/shrec16-partial.pdf">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.TOSCA.html#torch_geometric.datasets.TOSCA" title="torch_geometric.datasets.TOSCA"><code class="xref py py-class docutils literal notranslate"><span class="pre">TOSCA</span></code></a> (<a class="reference external" href="https://www.amazon.com/Numerical-Geometry-Non-Rigid-Monographs-Computer/dp/0387733000">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.PCPNetDataset.html#torch_geometric.datasets.PCPNetDataset" title="torch_geometric.datasets.PCPNetDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">PCPNetDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1710.04954">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.S3DIS.html#torch_geometric.datasets.S3DIS" title="torch_geometric.datasets.S3DIS"><code class="xref py py-class docutils literal notranslate"><span class="pre">S3DIS</span></code></a> (<a class="reference external" href="https://openaccess.thecvf.com/content_cvpr_2016/papers/Armeni_3D_Semantic_Parsing_CVPR_2016_paper.pdf">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GeometricShapes.html#torch_geometric.datasets.GeometricShapes" title="torch_geometric.datasets.GeometricShapes"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeometricShapes</span></code></a></p></td>
+<td><p>80</p></td>
+<td><p>~148.8</p></td>
+<td><p>~859.5</p></td>
+<td><p>3</p></td>
+<td><p>40</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.BitcoinOTC.html#torch_geometric.datasets.BitcoinOTC" title="torch_geometric.datasets.BitcoinOTC"><code class="xref py py-class docutils literal notranslate"><span class="pre">BitcoinOTC</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1902.10191">Paper</a>)</p></td>
+<td><p>138</p></td>
+<td><p>6,005</p></td>
+<td><p>~2,573.2</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GDELTLite.html#torch_geometric.datasets.GDELTLite" title="torch_geometric.datasets.GDELTLite"><code class="xref py py-class docutils literal notranslate"><span class="pre">GDELTLite</span></code></a> (<a class="reference external" href="http://arxiv.org/abs/2302.11636">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>8,831</p></td>
+<td><p>1,912,909</p></td>
+<td><p>413</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.ICEWS18.html#torch_geometric.datasets.ICEWS18" title="torch_geometric.datasets.ICEWS18"><code class="xref py py-class docutils literal notranslate"><span class="pre">ICEWS18</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1904.05530">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GDELT.html#torch_geometric.datasets.GDELT" title="torch_geometric.datasets.GDELT"><code class="xref py py-class docutils literal notranslate"><span class="pre">GDELT</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1904.05530">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.WILLOWObjectClass.html#torch_geometric.datasets.WILLOWObjectClass" title="torch_geometric.datasets.WILLOWObjectClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">WILLOWObjectClass</span></code></a> (<a class="reference external" href="https://www.di.ens.fr/willow/pdfscurrent/cho2013.pdf">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.PascalVOCKeypoints.html#torch_geometric.datasets.PascalVOCKeypoints" title="torch_geometric.datasets.PascalVOCKeypoints"><code class="xref py py-class docutils literal notranslate"><span class="pre">PascalVOCKeypoints</span></code></a> (<a class="reference external" href="https://www2.eecs.berkeley.edu/Research/Projects/CS/vision/human/poselets_iccv09.pdf">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.PascalPF.html#torch_geometric.datasets.PascalPF" title="torch_geometric.datasets.PascalPF"><code class="xref py py-class docutils literal notranslate"><span class="pre">PascalPF</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1511.05065">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.SNAPDataset.html#torch_geometric.datasets.SNAPDataset" title="torch_geometric.datasets.SNAPDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">SNAPDataset</span></code></a> (<a class="reference external" href="https://snap.stanford.edu/data">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.SuiteSparseMatrixCollection.html#torch_geometric.datasets.SuiteSparseMatrixCollection" title="torch_geometric.datasets.SuiteSparseMatrixCollection"><code class="xref py py-class docutils literal notranslate"><span class="pre">SuiteSparseMatrixCollection</span></code></a> (<a class="reference external" href="https://sparse.tamu.edu">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.WordNet18.html#torch_geometric.datasets.WordNet18" title="torch_geometric.datasets.WordNet18"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordNet18</span></code></a> (<a class="reference external" href="https://papers.nips.cc/paper/5071-translating-embeddings-for-modeling-multi-relational-data">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.WordNet18RR.html#torch_geometric.datasets.WordNet18RR" title="torch_geometric.datasets.WordNet18RR"><code class="xref py py-class docutils literal notranslate"><span class="pre">WordNet18RR</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1707.01476">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.FB15k_237.html#torch_geometric.datasets.FB15k_237" title="torch_geometric.datasets.FB15k_237"><code class="xref py py-class docutils literal notranslate"><span class="pre">FB15k_237</span></code></a> (<a class="reference external" href="https://papers.nips.cc/paper/5071-translating-embeddings-for-modeling-multi-relational-data">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.WikiCS.html#torch_geometric.datasets.WikiCS" title="torch_geometric.datasets.WikiCS"><code class="xref py py-class docutils literal notranslate"><span class="pre">WikiCS</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2007.02901">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.WebKB.html#torch_geometric.datasets.WebKB" title="torch_geometric.datasets.WebKB"><code class="xref py py-class docutils literal notranslate"><span class="pre">WebKB</span></code></a> (<a class="reference external" href="https://openreview.net/forum?id=S1e2agrFvS">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ Cornell</p></td>
+<td><p>1</p></td>
+<td><p>183</p></td>
+<td><p>298</p></td>
+<td><p>1,703</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Texas</p></td>
+<td><p>1</p></td>
+<td><p>183</p></td>
+<td><p>325</p></td>
+<td><p>1,703</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Wisconsin</p></td>
+<td><p>1</p></td>
+<td><p>251</p></td>
+<td><p>515</p></td>
+<td><p>1,703</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.WikipediaNetwork.html#torch_geometric.datasets.WikipediaNetwork" title="torch_geometric.datasets.WikipediaNetwork"><code class="xref py py-class docutils literal notranslate"><span class="pre">WikipediaNetwork</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1909.13021">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.HeterophilousGraphDataset.html#torch_geometric.datasets.HeterophilousGraphDataset" title="torch_geometric.datasets.HeterophilousGraphDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeterophilousGraphDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2302.11640">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Roman-empire</p></td>
+<td><p>1</p></td>
+<td><p>22,662</p></td>
+<td><p>32,927</p></td>
+<td><p>300</p></td>
+<td><p>18</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Amazon-ratings</p></td>
+<td><p>1</p></td>
+<td><p>24,492</p></td>
+<td><p>93,050</p></td>
+<td><p>300</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Minesweeper</p></td>
+<td><p>1</p></td>
+<td><p>10,000</p></td>
+<td><p>39,402</p></td>
+<td><p>7</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Tolokers</p></td>
+<td><p>1</p></td>
+<td><p>11,758</p></td>
+<td><p>519,000</p></td>
+<td><p>10</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Questions</p></td>
+<td><p>1</p></td>
+<td><p>48,921</p></td>
+<td><p>153,540</p></td>
+<td><p>301</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Actor.html#torch_geometric.datasets.Actor" title="torch_geometric.datasets.Actor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Actor</span></code></a> (<a class="reference external" href="https://openreview.net/forum?id=S1e2agrFvS">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>7,600</p></td>
+<td><p>30,019</p></td>
+<td><p>932</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.UPFD.html#torch_geometric.datasets.UPFD" title="torch_geometric.datasets.UPFD"><code class="xref py py-class docutils literal notranslate"><span class="pre">UPFD</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2104.12259">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GitHub.html#torch_geometric.datasets.GitHub" title="torch_geometric.datasets.GitHub"><code class="xref py py-class docutils literal notranslate"><span class="pre">GitHub</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1909.13021">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>37,700</p></td>
+<td><p>578,006</p></td>
+<td><p>0</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.FacebookPagePage.html#torch_geometric.datasets.FacebookPagePage" title="torch_geometric.datasets.FacebookPagePage"><code class="xref py py-class docutils literal notranslate"><span class="pre">FacebookPagePage</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1909.13021">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.LastFMAsia.html#torch_geometric.datasets.LastFMAsia" title="torch_geometric.datasets.LastFMAsia"><code class="xref py py-class docutils literal notranslate"><span class="pre">LastFMAsia</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2005.07959">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.DeezerEurope.html#torch_geometric.datasets.DeezerEurope" title="torch_geometric.datasets.DeezerEurope"><code class="xref py py-class docutils literal notranslate"><span class="pre">DeezerEurope</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2005.07959">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.GemsecDeezer.html#torch_geometric.datasets.GemsecDeezer" title="torch_geometric.datasets.GemsecDeezer"><code class="xref py py-class docutils literal notranslate"><span class="pre">GemsecDeezer</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1802.03997">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Twitch.html#torch_geometric.datasets.Twitch" title="torch_geometric.datasets.Twitch"><code class="xref py py-class docutils literal notranslate"><span class="pre">Twitch</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1909.13021">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ DE</p></td>
+<td><p>1</p></td>
+<td><p>9,498</p></td>
+<td><p>315,774</p></td>
+<td><p>128</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ EN</p></td>
+<td><p>1</p></td>
+<td><p>7,126</p></td>
+<td><p>77,774</p></td>
+<td><p>128</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ ES</p></td>
+<td><p>1</p></td>
+<td><p>4,648</p></td>
+<td><p>123,412</p></td>
+<td><p>128</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ FR</p></td>
+<td><p>1</p></td>
+<td><p>6,551</p></td>
+<td><p>231,883</p></td>
+<td><p>128</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ PT</p></td>
+<td><p>1</p></td>
+<td><p>1,912</p></td>
+<td><p>64,510</p></td>
+<td><p>128</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ RU</p></td>
+<td><p>1</p></td>
+<td><p>4,385</p></td>
+<td><p>78,993</p></td>
+<td><p>128</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Airports.html#torch_geometric.datasets.Airports" title="torch_geometric.datasets.Airports"><code class="xref py py-class docutils literal notranslate"><span class="pre">Airports</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1704.03165">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.LRGBDataset.html#torch_geometric.datasets.LRGBDataset" title="torch_geometric.datasets.LRGBDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">LRGBDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2206.08164">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ PascalVOC-SP</p></td>
+<td><p>11,355</p></td>
+<td><p>~479.40</p></td>
+<td><p>~2,710.48</p></td>
+<td></td>
+<td><p>21</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ COCO-SP</p></td>
+<td><p>123,286</p></td>
+<td><p>~476.88</p></td>
+<td><p>~2,693.67</p></td>
+<td></td>
+<td><p>81</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ PCQM-Contact</p></td>
+<td><p>529,434</p></td>
+<td><p>~30.14</p></td>
+<td><p>~61.09</p></td>
+<td></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Peptides-func</p></td>
+<td><p>15,535</p></td>
+<td><p>~150.94</p></td>
+<td><p>~307.30</p></td>
+<td></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ Peptides-struct</p></td>
+<td><p>15,535</p></td>
+<td><p>~150.94</p></td>
+<td><p>~307.30</p></td>
+<td></td>
+<td><p>11</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MalNetTiny.html#torch_geometric.datasets.MalNetTiny" title="torch_geometric.datasets.MalNetTiny"><code class="xref py py-class docutils literal notranslate"><span class="pre">MalNetTiny</span></code></a> (<a class="reference external" href="https://openreview.net/pdf?id=1xDTDk3XPW">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.OMDB.html#torch_geometric.datasets.OMDB" title="torch_geometric.datasets.OMDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">OMDB</span></code></a> (<a class="reference external" href="https://omdb.mathub.io/dataset">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.PolBlogs.html#torch_geometric.datasets.PolBlogs" title="torch_geometric.datasets.PolBlogs"><code class="xref py py-class docutils literal notranslate"><span class="pre">PolBlogs</span></code></a> (<a class="reference external" href="https://dl.acm.org/doi/10.1145/1134271.1134277">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>1,490</p></td>
+<td><p>19,025</p></td>
+<td><p>0</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.EmailEUCore.html#torch_geometric.datasets.EmailEUCore" title="torch_geometric.datasets.EmailEUCore"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailEUCore</span></code></a> (<a class="reference external" href="https://www-cs.stanford.edu/~jure/pubs/mappr-kdd17.pdf">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.LINKXDataset.html#torch_geometric.datasets.LINKXDataset" title="torch_geometric.datasets.LINKXDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">LINKXDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2110.14446">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.EllipticBitcoinDataset.html#torch_geometric.datasets.EllipticBitcoinDataset" title="torch_geometric.datasets.EllipticBitcoinDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">EllipticBitcoinDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1908.02591">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>203,769</p></td>
+<td><p>234,355</p></td>
+<td><p>165</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.EllipticBitcoinTemporalDataset.html#torch_geometric.datasets.EllipticBitcoinTemporalDataset" title="torch_geometric.datasets.EllipticBitcoinTemporalDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">EllipticBitcoinTemporalDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1908.02591">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>203,769</p></td>
+<td><p>234,355</p></td>
+<td><p>165</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.DGraphFin.html#torch_geometric.datasets.DGraphFin" title="torch_geometric.datasets.DGraphFin"><code class="xref py py-class docutils literal notranslate"><span class="pre">DGraphFin</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2207.03579">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>3,700,550</p></td>
+<td><p>4,300,999</p></td>
+<td><p>17</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.HydroNet.html#torch_geometric.datasets.HydroNet" title="torch_geometric.datasets.HydroNet"><code class="xref py py-class docutils literal notranslate"><span class="pre">HydroNet</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2012.00131">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.AirfRANS.html#torch_geometric.datasets.AirfRANS" title="torch_geometric.datasets.AirfRANS"><code class="xref py py-class docutils literal notranslate"><span class="pre">AirfRANS</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2212.07564">Paper</a>)</p></td>
+<td><p>1,000</p></td>
+<td><p>~180,000</p></td>
+<td><p>0</p></td>
+<td><p>5</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.JODIEDataset.html#torch_geometric.datasets.JODIEDataset" title="torch_geometric.datasets.JODIEDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">JODIEDataset</span></code></a> (<a class="reference external" href="https://cs.stanford.edu/~srijan/pubs/jodie-kdd2019.pdf">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ Reddit</p></td>
+<td><p>1</p></td>
+<td><p>6,509</p></td>
+<td><p>25,470</p></td>
+<td><p>172</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ Wikipedia</p></td>
+<td><p>1</p></td>
+<td><p>9,227</p></td>
+<td><p>157,474</p></td>
+<td><p>172</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>└─ MOOC</p></td>
+<td><p>1</p></td>
+<td><p>7,144</p></td>
+<td><p>411,749</p></td>
+<td><p>4</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ LastFM</p></td>
+<td><p>1</p></td>
+<td><p>1,980</p></td>
+<td><p>1,293,103</p></td>
+<td><p>2</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Wikidata5M.html#torch_geometric.datasets.Wikidata5M" title="torch_geometric.datasets.Wikidata5M"><code class="xref py py-class docutils literal notranslate"><span class="pre">Wikidata5M</span></code></a> (<a class="reference external" href="https://arxiv.org/pdf/1911.06136.pdf">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MyketDataset.html#torch_geometric.datasets.MyketDataset" title="torch_geometric.datasets.MyketDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">MyketDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2308.06862">Paper</a>)</p></td>
+<td><p>1</p></td>
+<td><p>17,988</p></td>
+<td><p>694,121</p></td>
+<td><p>33</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.BrcaTcga.html#torch_geometric.datasets.BrcaTcga" title="torch_geometric.datasets.BrcaTcga"><code class="xref py py-class docutils literal notranslate"><span class="pre">BrcaTcga</span></code></a> (<a class="reference external" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4160307/">Paper</a>)</p></td>
+<td><p>1,082</p></td>
+<td><p>9,288</p></td>
+<td><p>271,771</p></td>
+<td><p>1,082</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.NeuroGraphDataset.html#torch_geometric.datasets.NeuroGraphDataset" title="torch_geometric.datasets.NeuroGraphDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeuroGraphDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2306.06202">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="heterogeneous-datasets">
+<h2>Heterogeneous Datasets<a class="headerlink" href="#heterogeneous-datasets" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 30%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>#nodes/#edges</p></th>
+<th class="head"><p>#features</p></th>
+<th class="head"><p>#classes/#tasks</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.DBP15K.html#torch_geometric.datasets.DBP15K" title="torch_geometric.datasets.DBP15K"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBP15K</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1708.05045">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.AMiner.html#torch_geometric.datasets.AMiner" title="torch_geometric.datasets.AMiner"><code class="xref py py-class docutils literal notranslate"><span class="pre">AMiner</span></code></a> (<a class="reference external" href="https://ericdongyx.github.io/papers/KDD17-dong-chawla-swami-metapath2vec.pdf">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.OGB_MAG.html#torch_geometric.datasets.OGB_MAG" title="torch_geometric.datasets.OGB_MAG"><code class="xref py py-class docutils literal notranslate"><span class="pre">OGB_MAG</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2005.00687">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.DBLP.html#torch_geometric.datasets.DBLP" title="torch_geometric.datasets.DBLP"><code class="xref py py-class docutils literal notranslate"><span class="pre">DBLP</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2002.01680">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ <strong>Node Type</strong>: Author</p></td>
+<td><p>4,057</p></td>
+<td><p>334</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p>└─ <strong>Node Type</strong>: Paper</p></td>
+<td><p>14,328</p></td>
+<td><p>4,231</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ <strong>Node Type</strong>: Term</p></td>
+<td><p>7,723</p></td>
+<td><p>50</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>└─ <strong>Node Type</strong>: Conference</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ <strong>Edge Type</strong>: Author-Paper</p></td>
+<td><p>196,425</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>└─ <strong>Edge Type</strong>: Paper-Term</p></td>
+<td><p>85,810</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ <strong>Edge Type</strong>: Conference-Paper</p></td>
+<td><p>14,328</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MovieLens.html#torch_geometric.datasets.MovieLens" title="torch_geometric.datasets.MovieLens"><code class="xref py py-class docutils literal notranslate"><span class="pre">MovieLens</span></code></a> (<a class="reference external" href="https://movielens.org">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MovieLens100K.html#torch_geometric.datasets.MovieLens100K" title="torch_geometric.datasets.MovieLens100K"><code class="xref py py-class docutils literal notranslate"><span class="pre">MovieLens100K</span></code></a> (<a class="reference external" href="https://movielens.org">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>└─ <strong>Node Type</strong>: Movie</p></td>
+<td><p>1,682</p></td>
+<td><p>18</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ <strong>Node Type</strong>: User</p></td>
+<td><p>943</p></td>
+<td><p>24</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>└─ <strong>Edge Type</strong>: User-Movie</p></td>
+<td><p>80,000</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MovieLens1M.html#torch_geometric.datasets.MovieLens1M" title="torch_geometric.datasets.MovieLens1M"><code class="xref py py-class docutils literal notranslate"><span class="pre">MovieLens1M</span></code></a> (<a class="reference external" href="https://movielens.org">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>└─ <strong>Node Type</strong>: Movie</p></td>
+<td><p>3,883</p></td>
+<td><p>18</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>└─ <strong>Node Type</strong>: User</p></td>
+<td><p>6,040</p></td>
+<td><p>30</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>└─ <strong>Edge Type</strong>: User-Movie</p></td>
+<td><p>1,000,209</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.IMDB.html#torch_geometric.datasets.IMDB" title="torch_geometric.datasets.IMDB"><code class="xref py py-class docutils literal notranslate"><span class="pre">IMDB</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2002.01680">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.LastFM.html#torch_geometric.datasets.LastFM" title="torch_geometric.datasets.LastFM"><code class="xref py py-class docutils literal notranslate"><span class="pre">LastFM</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2002.01680">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.HGBDataset.html#torch_geometric.datasets.HGBDataset" title="torch_geometric.datasets.HGBDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">HGBDataset</span></code></a> (<a class="reference external" href="http://keg.cs.tsinghua.edu.cn/jietang/publications/KDD21-Lv-et-al-HeterGNN.pdf">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.Taobao.html#torch_geometric.datasets.Taobao" title="torch_geometric.datasets.Taobao"><code class="xref py py-class docutils literal notranslate"><span class="pre">Taobao</span></code></a> (<a class="reference external" href="https://tianchi.aliyun.com/dataset/649">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.IGMCDataset.html#torch_geometric.datasets.IGMCDataset" title="torch_geometric.datasets.IGMCDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">IGMCDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1904.12058">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.AmazonBook.html#torch_geometric.datasets.AmazonBook" title="torch_geometric.datasets.AmazonBook"><code class="xref py py-class docutils literal notranslate"><span class="pre">AmazonBook</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2002.02126">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.HM.html#torch_geometric.datasets.HM" title="torch_geometric.datasets.HM"><code class="xref py py-class docutils literal notranslate"><span class="pre">HM</span></code></a> (<a class="reference external" href="https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.OSE_GVCS.html#torch_geometric.datasets.OSE_GVCS" title="torch_geometric.datasets.OSE_GVCS"><code class="xref py py-class docutils literal notranslate"><span class="pre">OSE_GVCS</span></code></a> (<a class="reference external" href="https://wiki.opensourceecology.org/wiki/Product_Ecologies">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.RCDD.html#torch_geometric.datasets.RCDD" title="torch_geometric.datasets.RCDD"><code class="xref py py-class docutils literal notranslate"><span class="pre">RCDD</span></code></a> (<a class="reference external" href="http://shichuan.org/doc/156.pdf">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="synthetic-datasets">
+<h2>Synthetic Datasets<a class="headerlink" href="#synthetic-datasets" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>#graphs</p></th>
+<th class="head"><p>#nodes</p></th>
+<th class="head"><p>#edges</p></th>
+<th class="head"><p>#features</p></th>
+<th class="head"><p>#classes/#tasks</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.FakeDataset.html#torch_geometric.datasets.FakeDataset" title="torch_geometric.datasets.FakeDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">FakeDataset</span></code></a></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.FakeHeteroDataset.html#torch_geometric.datasets.FakeHeteroDataset" title="torch_geometric.datasets.FakeHeteroDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">FakeHeteroDataset</span></code></a></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.StochasticBlockModelDataset.html#torch_geometric.datasets.StochasticBlockModelDataset" title="torch_geometric.datasets.StochasticBlockModelDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">StochasticBlockModelDataset</span></code></a></p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.RandomPartitionGraphDataset.html#torch_geometric.datasets.RandomPartitionGraphDataset" title="torch_geometric.datasets.RandomPartitionGraphDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">RandomPartitionGraphDataset</span></code></a> (<a class="reference external" href="https://openreview.net/forum?id=Wi5KUNlqWty">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.MixHopSyntheticDataset.html#torch_geometric.datasets.MixHopSyntheticDataset" title="torch_geometric.datasets.MixHopSyntheticDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">MixHopSyntheticDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1905.00067">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.ExplainerDataset.html#torch_geometric.datasets.ExplainerDataset" title="torch_geometric.datasets.ExplainerDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExplainerDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1903.03894">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.InfectionDataset.html#torch_geometric.datasets.InfectionDataset" title="torch_geometric.datasets.InfectionDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">InfectionDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1905.13686">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.BA2MotifDataset.html#torch_geometric.datasets.BA2MotifDataset" title="torch_geometric.datasets.BA2MotifDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">BA2MotifDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2011.04573">Paper</a>)</p></td>
+<td><p>1000</p></td>
+<td><p>25</p></td>
+<td><p>~51.0</p></td>
+<td><p>10</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.BAMultiShapesDataset.html#torch_geometric.datasets.BAMultiShapesDataset" title="torch_geometric.datasets.BAMultiShapesDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">BAMultiShapesDataset</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/2210.07147">Paper</a>)</p></td>
+<td><p>1000</p></td>
+<td><p>40</p></td>
+<td><p>~87.0</p></td>
+<td><p>10</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.datasets.BAShapes.html#torch_geometric.datasets.BAShapes" title="torch_geometric.datasets.BAShapes"><code class="xref py py-class docutils literal notranslate"><span class="pre">BAShapes</span></code></a> (<a class="reference external" href="https://arxiv.org/abs/1903.03894">Paper</a>)</p></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

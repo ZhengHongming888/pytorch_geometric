@@ -1,0 +1,8 @@
+﻿torch\_geometric.data.GraphStore
+================================
+
+.. currentmodule:: torch_geometric.data
+
+.. autoclass:: GraphStore
+   :show-inheritance:
+   :members:

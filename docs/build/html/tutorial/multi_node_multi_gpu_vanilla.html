@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multi-Node Training using SLURM &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Advanced Mini-Batching" href="../advanced/batching.html" />
+    <link rel="prev" title="Multi-GPU Training in Pure PyTorch" href="multi_gpu_vanilla.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="multi_gpu.html">Multi-GPU Training</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="multi_gpu_vanilla.html">Multi-GPU Training in Pure PyTorch</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Multi-Node Training using SLURM</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="multi_gpu.html">Multi-GPU Training</a></li>
+      <li class="breadcrumb-item active">Multi-Node Training using SLURM</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/multi_node_multi_gpu_vanilla.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="multi-node-training-using-slurm">
+<h1>Multi-Node Training using SLURM<a class="headerlink" href="#multi-node-training-using-slurm" title="Permalink to this heading"></a></h1>
+<p>This tutorial introduces a skeleton on how to perform distributed training on multiple GPUs over multiple nodes using the <a class="reference external" href="https://slurm.schedmd.com/">SLURM workload manager</a> available at many supercomputing centers.
+The code is based on <a class="reference external" href="multi_gpu_vanilla.html">our tutorial on single-node multi-GPU training</a>.
+Please go there first to understand the basics if you are unfamiliar with the concepts of distributed training in <span class="inline-logo pytorch">PyTorch</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The complete script of this tutorial can be found at <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/multi_gpu/distributed_sampling_multinode.py">examples/multi_gpu/distributed_sampling_multinode.py</a>.
+You can find the example <code class="xref py py-obj docutils literal notranslate"><span class="pre">*.sbatch</span></code> file <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/multi_gpu/distributed_sampling_multinode.sbatch">next to it</a> and tune it to your needs.</p>
+</div>
+<section id="a-submission-script-to-manage-startup">
+<h2>A submission script to manage startup<a class="headerlink" href="#a-submission-script-to-manage-startup" title="Permalink to this heading"></a></h2>
+<p>As we are now running on multiple nodes, we can no longer use our <a class="reference external" href="https://docs.python.org/3/library/__main__.html#module-__main__" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__main__</span></code></a> entrypoint and start processes from there.
+This is where the workload manager comes in as it allows us to prepare a special <code class="xref py py-obj docutils literal notranslate"><span class="pre">*.sbatch</span></code> file.
+This file is a standard bash script with instructions on how to setup the processes and your environment.</p>
+<p>Our example starts with the usual shebang <code class="xref py py-obj docutils literal notranslate"><span class="pre">#!/bin/bash</span></code> and special comments instructing which resources the SLURM system should reserve for our training run.
+Configuration of the specifics usually depends on your site (and your usage limits!).
+The following is a minimal example which works with a quite unrestricted configuration available to us:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1">#SBATCH --job-name=pyg-multinode-tutorial # identifier for the job listings</span>
+<span class="c1">#SBATCH --output=pyg-multinode.log        # outputfile</span>
+<span class="c1">#SBATCH --partition=gpucloud              # ADJUST this to your system</span>
+<span class="c1">#SBATCH -N 2                              # number of nodes you want to use</span>
+<span class="c1">#SBATCH --ntasks=4                        # number of processes to be run</span>
+<span class="c1">#SBATCH --gpus-per-task=1                 # every process wants one GPU!</span>
+<span class="c1">#SBATCH --gpu-bind=none                   # NCCL can&#39;t deal with task-binding...</span>
+</pre></div>
+</div>
+<p>This example will create two processes each on two nodes with each process having a single GPU reserved.</p>
+<p>In the following part, we have to set up some environment variables for <a class="reference external" href="https://pytorch.org/docs/master/distributed.html#module-torch.distributed" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-obj docutils literal notranslate"><span class="pre">torch.distributed</span></code></a> to properly do the rendezvous procedure.
+In theory you could also set those inside the <span class="inline-logo python">Python</span> process:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">MASTER_PORT</span><span class="o">=</span><span class="k">$(</span>expr<span class="w"> </span><span class="m">10000</span><span class="w"> </span>+<span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_JOBID</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-c<span class="w"> </span><span class="m">4</span><span class="k">))</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MASTER_ADDR</span><span class="o">=</span><span class="k">$(</span>scontrol<span class="w"> </span>show<span class="w"> </span>hostnames<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$SLURM_JOB_NODELIST</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;MASTER_ADDR:MASTER_PORT=&quot;</span><span class="si">${</span><span class="nv">MASTER_ADDR</span><span class="si">}</span>:<span class="si">${</span><span class="nv">MASTER_PORT</span><span class="si">}</span>
+</pre></div>
+</div>
+<p>If you do not want to let your script randomly open a port and listen for incoming connections, you can also use a file on your shared filesystem.</p>
+<p>Now the only thing left to add is the execution of the training script:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">srun python distributed_sampling_multinode.py</span>
+</pre></div>
+</div>
+<p>Note how the :obj`python` call is prefixed with the <code class="xref py py-obj docutils literal notranslate"><span class="pre">srun</span></code> command and thus <code class="xref py py-obj docutils literal notranslate"><span class="pre">--ntasks</span></code> replicas will be started.</p>
+<p>Finally, to submit the <code class="xref py py-obj docutils literal notranslate"><span class="pre">*.sbatch</span></code> file itself into the work queue, use the <code class="xref py py-obj docutils literal notranslate"><span class="pre">sbatch</span></code> utility in your shell:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sbatch distributed_sampling_multinode.sbatch</span>
+</pre></div>
+</div>
+</section>
+<section id="using-a-cluster-configured-with-pyxis-containers">
+<h2>Using a cluster configured with pyxis-containers<a class="headerlink" href="#using-a-cluster-configured-with-pyxis-containers" title="Permalink to this heading"></a></h2>
+<p>If your cluster supports the <code class="xref py py-obj docutils literal notranslate"><span class="pre">pyxis</span></code> plugin developed by NVIDIA, you can use a ready-to-use <span class="inline-logo pyg">PyG</span> container that is updated each month with the latest from NVIDIA and <span class="inline-logo pyg">PyG</span>.
+Currently it is not yet publically available, but you can sign up for early access <a class="reference external" href="https://developer.nvidia.com/pyg-container-early-access">here</a>.
+The container should set up all necessary environment variables from which you can now directly run the example using <code class="xref py py-obj docutils literal notranslate"><span class="pre">srun</span></code> from your command prompt:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">srun --partition=&lt;partitionname&gt; -N&lt;num_nodes&gt; --ntasks=&lt;number of GPUS in total&gt; --gpus-per-task=1 --gpu-bind=none --container-name=pyg-test --container-image=&lt;image_url&gt; --container-mounts=&#39;.:/workspace&#39; python3 distributed_sampling_multinode.py</span>
+</pre></div>
+</div>
+<p>Note that <code class="xref py py-obj docutils literal notranslate"><span class="pre">--container-mounts='.:/workspace'</span></code> makes the current folder (which should include the example code) available in the default startup folder <code class="xref py py-obj docutils literal notranslate"><span class="pre">workspace</span></code> of the container.</p>
+<p>If you want to eventually customize packages in the container without having access to <code class="xref py py-obj docutils literal notranslate"><span class="pre">docker</span></code> (very likely on a public HPC), you can create your own image by following <a class="reference external" href="https://doku.lrz.de/9-creating-and-reusing-a-custom-enroot-container-image-10746637.html">this tutorial</a>.</p>
+</section>
+<section id="modifying-the-training-script">
+<h2>Modifying the training script<a class="headerlink" href="#modifying-the-training-script" title="Permalink to this heading"></a></h2>
+<p>As SLURM now takes care of creating multiple <span class="inline-logo python">Python</span> processes and we can not share any data (each process will have the full dataset loaded!), our <a class="reference external" href="https://docs.python.org/3/library/__main__.html#module-__main__" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__main__</span></code></a> section now has to query the environment for the process setup generated by SLURM or the <code class="xref py py-obj docutils literal notranslate"><span class="pre">pyxis</span></code> container:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the world size from the WORLD_SIZE variable or directly from SLURM:</span>
+<span class="n">world_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;WORLD_SIZE&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;SLURM_NTASKS&#39;</span><span class="p">)))</span>
+<span class="c1"># Likewise for RANK and LOCAL_RANK:</span>
+<span class="n">rank</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;RANK&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;SLURM_PROCID&#39;</span><span class="p">)))</span>
+<span class="n">local_rank</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;LOCAL_RANK&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;SLURM_LOCALID&#39;</span><span class="p">)))</span>
+<span class="n">run</span><span class="p">(</span><span class="n">world_size</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">local_rank</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.distributed.init_process_group()</span></code> function will now pick up the <code class="xref py py-obj docutils literal notranslate"><span class="pre">MASTER_ADDR</span></code> from the environment:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">world_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rank</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">local_rank</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">dist</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span><span class="s1">&#39;nccl&#39;</span><span class="p">,</span> <span class="n">world_size</span><span class="o">=</span><span class="n">world_size</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="n">rank</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We also have to replace the usage of <code class="xref py py-obj docutils literal notranslate"><span class="pre">rank</span></code> depending on whether we want to use it for node-local purposes like selecting a GPU or global tasks such as data splitting</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_idx</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">train_mask</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">as_tuple</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">train_idx</span> <span class="o">=</span> <span class="n">train_idx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">train_idx</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">//</span> <span class="n">world_size</span><span class="p">)[</span><span class="n">rank</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>while we need to assign the model to a node-local GPU and thus use <code class="xref py py-obj docutils literal notranslate"><span class="pre">local_rank</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">SAGE</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">num_features</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">dataset</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">local_rank</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">DistributedDataParallel</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device_ids</span><span class="o">=</span><span class="p">[</span><span class="n">local_rank</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="multi_gpu_vanilla.html" class="btn btn-neutral float-left" title="Multi-GPU Training in Pure PyTorch" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../advanced/batching.html" class="btn btn-neutral float-right" title="Advanced Mini-Batching" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

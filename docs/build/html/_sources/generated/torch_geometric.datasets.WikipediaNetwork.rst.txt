@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.WikipediaNetwork
+==========================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: WikipediaNetwork
+   :show-inheritance:

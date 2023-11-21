@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.UPFD
+==============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: UPFD
+   :show-inheritance:

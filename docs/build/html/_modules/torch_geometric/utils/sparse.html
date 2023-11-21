@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.utils.sparse &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.utils.sparse</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.utils.sparse</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="kn">import</span> <span class="nn">torch_geometric.typing</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">SparseTensor</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="n">coalesce</span><span class="p">,</span> <span class="n">cumsum</span>
+
+
+<div class="viewcode-block" id="dense_to_sparse"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.dense_to_sparse">[docs]</a><span class="k">def</span> <span class="nf">dense_to_sparse</span><span class="p">(</span>
+    <span class="n">adj</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Converts a dense adjacency matrix to a sparse adjacency matrix defined</span>
+<span class="sd">    by edge indices and edge attributes.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        adj (torch.Tensor): The dense adjacency matrix of shape</span>
+<span class="sd">            :obj:`[num_nodes, num_nodes]` or</span>
+<span class="sd">            :obj:`[batch_size, num_nodes, num_nodes]`.</span>
+<span class="sd">        mask (torch.Tensor, optional): A boolean tensor of shape</span>
+<span class="sd">            :obj:`[batch_size, num_nodes]` holding information about which</span>
+<span class="sd">            nodes are in each example are valid. (default: :obj:`None`)</span>
+
+<span class="sd">    :rtype: (:class:`LongTensor`, :class:`Tensor`)</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; # For a single adjacency matrix:</span>
+<span class="sd">        &gt;&gt;&gt; adj = torch.tensor([[3, 1],</span>
+<span class="sd">        ...                     [2, 0]])</span>
+<span class="sd">        &gt;&gt;&gt; dense_to_sparse(adj)</span>
+<span class="sd">        (tensor([[0, 0, 1],</span>
+<span class="sd">                [0, 1, 0]]),</span>
+<span class="sd">        tensor([3, 1, 2]))</span>
+
+<span class="sd">        &gt;&gt;&gt; # For two adjacency matrixes:</span>
+<span class="sd">        &gt;&gt;&gt; adj = torch.tensor([[[3, 1],</span>
+<span class="sd">        ...                      [2, 0]],</span>
+<span class="sd">        ...                     [[0, 1],</span>
+<span class="sd">        ...                      [0, 2]]])</span>
+<span class="sd">        &gt;&gt;&gt; dense_to_sparse(adj)</span>
+<span class="sd">        (tensor([[0, 0, 1, 2, 3],</span>
+<span class="sd">                [0, 1, 0, 3, 3]]),</span>
+<span class="sd">        tensor([3, 1, 2, 1, 2]))</span>
+
+<span class="sd">        &gt;&gt;&gt; # First graph with two nodes, second with three:</span>
+<span class="sd">        &gt;&gt;&gt; adj = torch.tensor([[</span>
+<span class="sd">        ...         [3, 1, 0],</span>
+<span class="sd">        ...         [2, 0, 0],</span>
+<span class="sd">        ...         [0, 0, 0]</span>
+<span class="sd">        ...     ], [</span>
+<span class="sd">        ...         [0, 1, 0],</span>
+<span class="sd">        ...         [0, 2, 3],</span>
+<span class="sd">        ...         [0, 5, 0]</span>
+<span class="sd">        ...     ]])</span>
+<span class="sd">        &gt;&gt;&gt; mask = torch.tensor([</span>
+<span class="sd">        ...         [True, True, False],</span>
+<span class="sd">        ...         [True, True, True]</span>
+<span class="sd">        ...     ])</span>
+<span class="sd">        &gt;&gt;&gt; dense_to_sparse(adj, mask)</span>
+<span class="sd">        (tensor([[0, 0, 1, 2, 3, 3, 4],</span>
+<span class="sd">                [0, 1, 0, 3, 3, 4, 3]]),</span>
+<span class="sd">        tensor([3, 1, 2, 1, 2, 3, 5]))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">adj</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">adj</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dense adjacency matrix &#39;adj&#39; must be two- or &quot;</span>
+                         <span class="sa">f</span><span class="s2">&quot;three-dimensional (got </span><span class="si">{</span><span class="n">adj</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span><span class="si">}</span><span class="s2"> dimensions)&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">adj</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Mask should not be provided in case the dense &quot;</span>
+                      <span class="s2">&quot;adjacency matrix is two-dimensional&quot;</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">mask</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mask must be two-dimensional &quot;</span>
+                         <span class="sa">f</span><span class="s2">&quot;(got </span><span class="si">{</span><span class="n">mask</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span><span class="si">}</span><span class="s2"> dimensions)&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">adj</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">!=</span> <span class="n">adj</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mask is only supported on quadratic adjacency &quot;</span>
+                         <span class="sa">f</span><span class="s2">&quot;matrices (got [*, </span><span class="si">{</span><span class="n">adj</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">adj</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">])&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">adj</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">edge_index</span> <span class="o">=</span> <span class="n">adj</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span><span class="o">.</span><span class="n">t</span><span class="p">()</span>
+        <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">adj</span><span class="p">[</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">flatten_adj</span> <span class="o">=</span> <span class="n">adj</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">adj</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">flatten_adj</span> <span class="o">=</span> <span class="n">flatten_adj</span><span class="p">[</span><span class="n">mask</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="n">edge_index</span> <span class="o">=</span> <span class="n">flatten_adj</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span><span class="o">.</span><span class="n">t</span><span class="p">()</span>
+        <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">flatten_adj</span><span class="p">[</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+                <span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                <span class="n">end</span><span class="o">=</span><span class="n">adj</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="n">adj</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+                <span class="n">step</span><span class="o">=</span><span class="n">adj</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+                <span class="n">device</span><span class="o">=</span><span class="n">adj</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="n">offset</span><span class="o">.</span><span class="n">repeat_interleave</span><span class="p">(</span><span class="n">adj</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">count</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="n">offset</span><span class="o">.</span><span class="n">repeat_interleave</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+
+        <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">offset</span><span class="p">[</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+        <span class="k">return</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span></div>
+
+
+<div class="viewcode-block" id="is_torch_sparse_tensor"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.is_torch_sparse_tensor">[docs]</a><span class="k">def</span> <span class="nf">is_torch_sparse_tensor</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns :obj:`True` if the input :obj:`src` is a</span>
+<span class="sd">    :class:`torch.sparse.Tensor` (in any sparse layout).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src (Any): The input object to be checked.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">src</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_coo</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">src</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csr</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_PT112</span>
+                <span class="ow">and</span> <span class="n">src</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csc</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="is_sparse"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.is_sparse">[docs]</a><span class="k">def</span> <span class="nf">is_sparse</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns :obj:`True` if the input :obj:`src` is of type</span>
+<span class="sd">    :class:`torch.sparse.Tensor` (in any sparse layout) or of type</span>
+<span class="sd">    :class:`torch_sparse.SparseTensor`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src (Any): The input object to be checked.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">is_torch_sparse_tensor</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">SparseTensor</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="to_torch_coo_tensor"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.to_torch_coo_tensor">[docs]</a><span class="k">def</span> <span class="nf">to_torch_coo_tensor</span><span class="p">(</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">edge_attr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">is_coalesced</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Converts a sparse adjacency matrix defined by edge indices and edge</span>
+<span class="sd">    attributes to a :class:`torch.sparse.Tensor` with layout</span>
+<span class="sd">    `torch.sparse_coo`.</span>
+<span class="sd">    See :meth:`~torch_geometric.utils.to_edge_index` for the reverse operation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+<span class="sd">        edge_attr (Tensor, optional): The edge attributes.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        size (int or (int, int), optional): The size of the sparse matrix.</span>
+<span class="sd">            If given as an integer, will create a quadratic sparse matrix.</span>
+<span class="sd">            If set to :obj:`None`, will infer a quadratic sparse matrix based</span>
+<span class="sd">            on :obj:`edge_index.max() + 1`. (default: :obj:`None`)</span>
+<span class="sd">        is_coalesced (bool): If set to :obj:`True`, will assume that</span>
+<span class="sd">            :obj:`edge_index` is already coalesced and thus avoids expensive</span>
+<span class="sd">            computation. (default: :obj:`False`)</span>
+
+<span class="sd">    :rtype: :class:`torch.sparse.Tensor`</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.tensor([[0, 1, 1, 2, 2, 3],</span>
+<span class="sd">        ...                            [1, 0, 2, 1, 3, 2]])</span>
+<span class="sd">        &gt;&gt;&gt; to_torch_coo_tensor(edge_index)</span>
+<span class="sd">        tensor(indices=tensor([[0, 1, 1, 2, 2, 3],</span>
+<span class="sd">                               [1, 0, 2, 1, 3, 2]]),</span>
+<span class="sd">               values=tensor([1., 1., 1., 1., 1., 1.]),</span>
+<span class="sd">               size=(4, 4), nnz=6, layout=torch.sparse_coo)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_coalesced</span><span class="p">:</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">edge_attr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_PT20</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_ARM</span><span class="p">):</span>
+            <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span>
+                <span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+                <span class="n">device</span><span class="o">=</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="n">adj</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_coo_tensor</span><span class="p">(</span>
+        <span class="n">indices</span><span class="o">=</span><span class="n">edge_index</span><span class="p">,</span>
+        <span class="n">values</span><span class="o">=</span><span class="n">edge_attr</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">+</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">:],</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">adj</span> <span class="o">=</span> <span class="n">adj</span><span class="o">.</span><span class="n">_coalesced_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">adj</span></div>
+
+
+<div class="viewcode-block" id="to_torch_csr_tensor"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.to_torch_csr_tensor">[docs]</a><span class="k">def</span> <span class="nf">to_torch_csr_tensor</span><span class="p">(</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">edge_attr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">is_coalesced</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Converts a sparse adjacency matrix defined by edge indices and edge</span>
+<span class="sd">    attributes to a :class:`torch.sparse.Tensor` with layout</span>
+<span class="sd">    `torch.sparse_csr`.</span>
+<span class="sd">    See :meth:`~torch_geometric.utils.to_edge_index` for the reverse operation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+<span class="sd">        edge_attr (Tensor, optional): The edge attributes.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        size (int or (int, int), optional): The size of the sparse matrix.</span>
+<span class="sd">            If given as an integer, will create a quadratic sparse matrix.</span>
+<span class="sd">            If set to :obj:`None`, will infer a quadratic sparse matrix based</span>
+<span class="sd">            on :obj:`edge_index.max() + 1`. (default: :obj:`None`)</span>
+<span class="sd">        is_coalesced (bool): If set to :obj:`True`, will assume that</span>
+<span class="sd">            :obj:`edge_index` is already coalesced and thus avoids expensive</span>
+<span class="sd">            computation. (default: :obj:`False`)</span>
+
+<span class="sd">    :rtype: :class:`torch.sparse.Tensor`</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.tensor([[0, 1, 1, 2, 2, 3],</span>
+<span class="sd">        ...                            [1, 0, 2, 1, 3, 2]])</span>
+<span class="sd">        &gt;&gt;&gt; to_torch_csr_tensor(edge_index)</span>
+<span class="sd">        tensor(crow_indices=tensor([0, 1, 3, 5, 6]),</span>
+<span class="sd">               col_indices=tensor([1, 0, 2, 1, 3, 2]),</span>
+<span class="sd">               values=tensor([1., 1., 1., 1., 1., 1.]),</span>
+<span class="sd">               size=(4, 4), nnz=6, layout=torch.sparse_csr)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_coalesced</span><span class="p">:</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">edge_attr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_PT20</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_ARM</span><span class="p">):</span>
+            <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span>
+                <span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+                <span class="n">device</span><span class="o">=</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="n">adj</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csr_tensor</span><span class="p">(</span>
+        <span class="n">crow_indices</span><span class="o">=</span><span class="n">index2ptr</span><span class="p">(</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="n">col_indices</span><span class="o">=</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">values</span><span class="o">=</span><span class="n">edge_attr</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">+</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">:],</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">adj</span></div>
+
+
+<div class="viewcode-block" id="to_torch_csc_tensor"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.to_torch_csc_tensor">[docs]</a><span class="k">def</span> <span class="nf">to_torch_csc_tensor</span><span class="p">(</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">edge_attr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">is_coalesced</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Converts a sparse adjacency matrix defined by edge indices and edge</span>
+<span class="sd">    attributes to a :class:`torch.sparse.Tensor` with layout</span>
+<span class="sd">    `torch.sparse_csc`.</span>
+<span class="sd">    See :meth:`~torch_geometric.utils.to_edge_index` for the reverse operation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+<span class="sd">        edge_attr (Tensor, optional): The edge attributes.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        size (int or (int, int), optional): The size of the sparse matrix.</span>
+<span class="sd">            If given as an integer, will create a quadratic sparse matrix.</span>
+<span class="sd">            If set to :obj:`None`, will infer a quadratic sparse matrix based</span>
+<span class="sd">            on :obj:`edge_index.max() + 1`. (default: :obj:`None`)</span>
+<span class="sd">        is_coalesced (bool): If set to :obj:`True`, will assume that</span>
+<span class="sd">            :obj:`edge_index` is already coalesced and thus avoids expensive</span>
+<span class="sd">            computation. (default: :obj:`False`)</span>
+
+<span class="sd">    :rtype: :class:`torch.sparse.Tensor`</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.tensor([[0, 1, 1, 2, 2, 3],</span>
+<span class="sd">        ...                            [1, 0, 2, 1, 3, 2]])</span>
+<span class="sd">        &gt;&gt;&gt; to_torch_csc_tensor(edge_index)</span>
+<span class="sd">        tensor(ccol_indices=tensor([0, 1, 3, 5, 6]),</span>
+<span class="sd">               row_indices=tensor([1, 0, 2, 1, 3, 2]),</span>
+<span class="sd">               values=tensor([1., 1., 1., 1., 1., 1.]),</span>
+<span class="sd">               size=(4, 4), nnz=6, layout=torch.sparse_csc)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_PT112</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">MockTorchCSCTensor</span><span class="p">(</span>
+            <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_coalesced</span><span class="p">:</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">size</span><span class="p">),</span>
+                                         <span class="n">sort_by_row</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">edge_attr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_PT20</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_ARM</span><span class="p">):</span>
+            <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span>
+                <span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+                <span class="n">device</span><span class="o">=</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="n">adj</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csc_tensor</span><span class="p">(</span>
+        <span class="n">ccol_indices</span><span class="o">=</span><span class="n">index2ptr</span><span class="p">(</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+        <span class="n">row_indices</span><span class="o">=</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">values</span><span class="o">=</span><span class="n">edge_attr</span><span class="p">,</span>
+        <span class="n">size</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">+</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">:],</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">adj</span></div>
+
+
+<div class="viewcode-block" id="to_torch_sparse_tensor"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.to_torch_sparse_tensor">[docs]</a><span class="k">def</span> <span class="nf">to_torch_sparse_tensor</span><span class="p">(</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">edge_attr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">is_coalesced</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">layout</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_coo</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Converts a sparse adjacency matrix defined by edge indices and edge</span>
+<span class="sd">    attributes to a :class:`torch.sparse.Tensor` with custom :obj:`layout`.</span>
+<span class="sd">    See :meth:`~torch_geometric.utils.to_edge_index` for the reverse operation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+<span class="sd">        edge_attr (Tensor, optional): The edge attributes.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        size (int or (int, int), optional): The size of the sparse matrix.</span>
+<span class="sd">            If given as an integer, will create a quadratic sparse matrix.</span>
+<span class="sd">            If set to :obj:`None`, will infer a quadratic sparse matrix based</span>
+<span class="sd">            on :obj:`edge_index.max() + 1`. (default: :obj:`None`)</span>
+<span class="sd">        is_coalesced (bool): If set to :obj:`True`, will assume that</span>
+<span class="sd">            :obj:`edge_index` is already coalesced and thus avoids expensive</span>
+<span class="sd">            computation. (default: :obj:`False`)</span>
+<span class="sd">        layout (torch.layout, optional): The layout of the output sparse tensor</span>
+<span class="sd">            (:obj:`torch.sparse_coo`, :obj:`torch.sparse_csr`,</span>
+<span class="sd">            :obj:`torch.sparse_csc`). (default: :obj:`torch.sparse_coo`)</span>
+
+<span class="sd">    :rtype: :class:`torch.sparse.Tensor`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_coo</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">to_torch_coo_tensor</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">is_coalesced</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csr</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">to_torch_csr_tensor</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">is_coalesced</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_PT112</span> <span class="ow">and</span> <span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csc</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">to_torch_csc_tensor</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">is_coalesced</span><span class="p">)</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected sparse tensor layout (got &#39;</span><span class="si">{</span><span class="n">layout</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="to_edge_index"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.to_edge_index">[docs]</a><span class="k">def</span> <span class="nf">to_edge_index</span><span class="p">(</span><span class="n">adj</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">SparseTensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Converts a :class:`torch.sparse.Tensor` or a</span>
+<span class="sd">    :class:`torch_sparse.SparseTensor` to edge indices and edge attributes.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        adj (torch.sparse.Tensor or SparseTensor): The adjacency matrix.</span>
+
+<span class="sd">    :rtype: (:class:`torch.Tensor`, :class:`torch.Tensor`)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.tensor([[0, 1, 1, 2, 2, 3],</span>
+<span class="sd">        ...                            [1, 0, 2, 1, 3, 2]])</span>
+<span class="sd">        &gt;&gt;&gt; adj = to_torch_coo_tensor(edge_index)</span>
+<span class="sd">        &gt;&gt;&gt; to_edge_index(adj)</span>
+<span class="sd">        (tensor([[0, 1, 1, 2, 2, 3],</span>
+<span class="sd">                [1, 0, 2, 1, 3, 2]]),</span>
+<span class="sd">        tensor([1., 1., 1., 1., 1., 1.]))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">adj</span><span class="p">,</span> <span class="n">SparseTensor</span><span class="p">):</span>
+        <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">adj</span><span class="o">.</span><span class="n">coo</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">(),</span> <span class="n">value</span>
+
+    <span class="k">if</span> <span class="n">adj</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_coo</span><span class="p">:</span>
+        <span class="n">adj</span> <span class="o">=</span> <span class="n">adj</span><span class="o">.</span><span class="n">_coalesced_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">adj</span><span class="o">.</span><span class="n">indices</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">long</span><span class="p">(),</span> <span class="n">adj</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">adj</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csr</span><span class="p">:</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">ptr2index</span><span class="p">(</span><span class="n">adj</span><span class="o">.</span><span class="n">crow_indices</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">adj</span><span class="o">.</span><span class="n">col_indices</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">(),</span> <span class="n">adj</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_PT112</span> <span class="ow">and</span> <span class="n">adj</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csc</span><span class="p">:</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">ptr2index</span><span class="p">(</span><span class="n">adj</span><span class="o">.</span><span class="n">ccol_indices</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">adj</span><span class="o">.</span><span class="n">row_indices</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">(),</span> <span class="n">adj</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected sparse tensor layout (got &#39;</span><span class="si">{</span><span class="n">adj</span><span class="o">.</span><span class="n">layout</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span></div>
+
+
+<span class="c1"># Helper functions ############################################################</span>
+
+
+<span class="k">def</span> <span class="nf">get_sparse_diag</span><span class="p">(</span>
+    <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">layout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">dtype</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">spdiags</span><span class="p">(</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="p">),</span> <span class="n">fill_value</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">),</span>
+        <span class="n">offsets</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">),</span>
+        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">),</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">set_sparse_value</span><span class="p">(</span><span class="n">adj</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">adj</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">size</span> <span class="o">+</span> <span class="n">value</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="k">if</span> <span class="n">adj</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_coo</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_coo_tensor</span><span class="p">(</span>
+            <span class="n">indices</span><span class="o">=</span><span class="n">adj</span><span class="o">.</span><span class="n">indices</span><span class="p">(),</span>
+            <span class="n">values</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">coalesce</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">adj</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csr</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csr_tensor</span><span class="p">(</span>
+            <span class="n">crow_indices</span><span class="o">=</span><span class="n">adj</span><span class="o">.</span><span class="n">crow_indices</span><span class="p">(),</span>
+            <span class="n">col_indices</span><span class="o">=</span><span class="n">adj</span><span class="o">.</span><span class="n">col_indices</span><span class="p">(),</span>
+            <span class="n">values</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_PT112</span> <span class="ow">and</span> <span class="n">adj</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csc</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sparse_csc_tensor</span><span class="p">(</span>
+            <span class="n">ccol_indices</span><span class="o">=</span><span class="n">adj</span><span class="o">.</span><span class="n">ccol_indices</span><span class="p">(),</span>
+            <span class="n">row_indices</span><span class="o">=</span><span class="n">adj</span><span class="o">.</span><span class="n">row_indices</span><span class="p">(),</span>
+            <span class="n">values</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
+            <span class="n">device</span><span class="o">=</span><span class="n">value</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected sparse tensor layout (got &#39;</span><span class="si">{</span><span class="n">adj</span><span class="o">.</span><span class="n">layout</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">ptr2index</span><span class="p">(</span><span class="n">ptr</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ptr</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">ptr</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">ptr</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ind</span><span class="o">.</span><span class="n">repeat_interleave</span><span class="p">(</span><span class="n">ptr</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">ptr</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">index2ptr</span><span class="p">(</span><span class="n">index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">_convert_indices_from_coo_to_csr</span><span class="p">(</span>
+        <span class="n">index</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">out_int32</span><span class="o">=</span><span class="n">index</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">cat</span><span class="p">(</span><span class="n">tensors</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tensor</span><span class="p">],</span> <span class="n">dim</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="c1"># TODO (matthias) We can make this more efficient by directly operating on</span>
+    <span class="c1"># the individual sparse tensor layouts.</span>
+    <span class="k">assert</span> <span class="n">dim</span> <span class="ow">in</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)}</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">edge_indices</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">edge_attrs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">tensor</span> <span class="ow">in</span> <span class="n">tensors</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">is_torch_sparse_tensor</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">to_edge_index</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+        <span class="n">edge_index</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+            <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">edge_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">edge_index</span><span class="p">)</span>
+        <span class="n">edge_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">edge_attr</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">to_torch_sparse_tensor</span><span class="p">(</span>
+        <span class="n">edge_index</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">edge_indices</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">edge_attr</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">edge_attrs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+        <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
+        <span class="n">is_coalesced</span><span class="o">=</span><span class="n">dim</span> <span class="o">==</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="n">layout</span><span class="o">=</span><span class="n">tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">layout</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

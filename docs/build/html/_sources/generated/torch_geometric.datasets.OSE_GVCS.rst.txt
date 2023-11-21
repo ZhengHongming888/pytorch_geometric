@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.OSE\_GVCS
+===================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: OSE_GVCS
+   :show-inheritance:

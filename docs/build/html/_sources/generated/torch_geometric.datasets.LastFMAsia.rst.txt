@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.LastFMAsia
+====================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: LastFMAsia
+   :show-inheritance:

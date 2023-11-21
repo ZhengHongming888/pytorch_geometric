@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.WebKB
+===============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: WebKB
+   :show-inheritance:

@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.GenerateMeshNormals
+===============================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: GenerateMeshNormals
+   :show-inheritance:

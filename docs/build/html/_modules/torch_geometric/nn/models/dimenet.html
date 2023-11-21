@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.nn.models.dimenet &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.nn.models.dimenet</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.nn.models.dimenet</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">osp</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">PI</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">Embedding</span><span class="p">,</span> <span class="n">Linear</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">download_url</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.data.makedirs</span> <span class="kn">import</span> <span class="n">makedirs</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">radius_graph</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn.inits</span> <span class="kn">import</span> <span class="n">glorot_orthogonal</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn.resolver</span> <span class="kn">import</span> <span class="n">activation_resolver</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">OptTensor</span><span class="p">,</span> <span class="n">SparseTensor</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="n">scatter</span>
+
+<span class="n">qm9_target_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="s1">&#39;mu&#39;</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s1">&#39;alpha&#39;</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="s1">&#39;homo&#39;</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="s1">&#39;lumo&#39;</span><span class="p">,</span>
+    <span class="mi">5</span><span class="p">:</span> <span class="s1">&#39;r2&#39;</span><span class="p">,</span>
+    <span class="mi">6</span><span class="p">:</span> <span class="s1">&#39;zpve&#39;</span><span class="p">,</span>
+    <span class="mi">7</span><span class="p">:</span> <span class="s1">&#39;U0&#39;</span><span class="p">,</span>
+    <span class="mi">8</span><span class="p">:</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span>
+    <span class="mi">9</span><span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span>
+    <span class="mi">10</span><span class="p">:</span> <span class="s1">&#39;G&#39;</span><span class="p">,</span>
+    <span class="mi">11</span><span class="p">:</span> <span class="s1">&#39;Cv&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">class</span> <span class="nc">Envelope</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exponent</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">exponent</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">c</span> <span class="o">=</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">c</span>
+        <span class="n">x_pow_p0</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">x_pow_p1</span> <span class="o">=</span> <span class="n">x_pow_p0</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="n">x_pow_p2</span> <span class="o">=</span> <span class="n">x_pow_p1</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">x</span> <span class="o">+</span> <span class="n">a</span> <span class="o">*</span> <span class="n">x_pow_p0</span> <span class="o">+</span> <span class="n">b</span> <span class="o">*</span> <span class="n">x_pow_p1</span> <span class="o">+</span>
+                <span class="n">c</span> <span class="o">*</span> <span class="n">x_pow_p2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">BesselBasisLayer</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_radial</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
+                 <span class="n">envelope_exponent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="n">cutoff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">envelope</span> <span class="o">=</span> <span class="n">Envelope</span><span class="p">(</span><span class="n">envelope_exponent</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">num_radial</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="p">)</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">PI</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dist</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">envelope</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">freq</span> <span class="o">*</span> <span class="n">dist</span><span class="p">)</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">SphericalBasisLayer</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_spherical</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_radial</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
+        <span class="n">envelope_exponent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="kn">import</span> <span class="nn">sympy</span> <span class="k">as</span> <span class="nn">sym</span>
+
+        <span class="kn">from</span> <span class="nn">torch_geometric.nn.models.dimenet_utils</span> <span class="kn">import</span> <span class="p">(</span>
+            <span class="n">bessel_basis</span><span class="p">,</span>
+            <span class="n">real_sph_harm</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">assert</span> <span class="n">num_radial</span> <span class="o">&lt;=</span> <span class="mi">64</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_spherical</span> <span class="o">=</span> <span class="n">num_spherical</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_radial</span> <span class="o">=</span> <span class="n">num_radial</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="n">cutoff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">envelope</span> <span class="o">=</span> <span class="n">Envelope</span><span class="p">(</span><span class="n">envelope_exponent</span><span class="p">)</span>
+
+        <span class="n">bessel_forms</span> <span class="o">=</span> <span class="n">bessel_basis</span><span class="p">(</span><span class="n">num_spherical</span><span class="p">,</span> <span class="n">num_radial</span><span class="p">)</span>
+        <span class="n">sph_harm_forms</span> <span class="o">=</span> <span class="n">real_sph_harm</span><span class="p">(</span><span class="n">num_spherical</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sph_funcs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bessel_funcs</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">x</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;x theta&#39;</span><span class="p">)</span>
+        <span class="n">modules</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sin&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">sin</span><span class="p">,</span> <span class="s1">&#39;cos&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_spherical</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">sph1</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">lambdify</span><span class="p">([</span><span class="n">theta</span><span class="p">],</span> <span class="n">sph_harm_forms</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">modules</span><span class="p">)(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sph_funcs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sph_to_tensor</span><span class="p">,</span> <span class="n">sph1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sph</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">lambdify</span><span class="p">([</span><span class="n">theta</span><span class="p">],</span> <span class="n">sph_harm_forms</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">modules</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sph_funcs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sph</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_radial</span><span class="p">):</span>
+                <span class="n">bessel</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">lambdify</span><span class="p">([</span><span class="n">x</span><span class="p">],</span> <span class="n">bessel_forms</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">modules</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bessel_funcs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bessel</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_sph_to_tensor</span><span class="p">(</span><span class="n">sph</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">sph</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dist</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">idx_kj</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="n">dist</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span>
+        <span class="n">rbf</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bessel_funcs</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">rbf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">envelope</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">rbf</span>
+
+        <span class="n">cbf</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">f</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sph_funcs</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">n</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_spherical</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_radial</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">rbf</span><span class="p">[</span><span class="n">idx_kj</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span> <span class="o">*</span> <span class="n">cbf</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span> <span class="o">*</span> <span class="n">k</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">class</span> <span class="nc">EmbeddingBlock</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_radial</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">act</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">act</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">emb</span> <span class="o">=</span> <span class="n">Embedding</span><span class="p">(</span><span class="mi">95</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">num_radial</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">uniform_</span><span class="p">(</span><span class="o">-</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rbf</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emb</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">rbf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf</span><span class="p">(</span><span class="n">rbf</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">rbf</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)))</span>
+
+
+<span class="k">class</span> <span class="nc">ResidualLayer</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">act</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">act</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin1</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin2</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin1</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin1</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin2</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin1</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span>
+
+
+<span class="k">class</span> <span class="nc">InteractionBlock</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">hidden_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_bilinear</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_spherical</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_radial</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_before_skip</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_after_skip</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">act</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">act</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">num_radial</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_sbf</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">num_spherical</span> <span class="o">*</span> <span class="n">num_radial</span><span class="p">,</span> <span class="n">num_bilinear</span><span class="p">,</span>
+                              <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Dense transformations of input messages.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_kj</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_ji</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">num_bilinear</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers_before_skip</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+            <span class="n">ResidualLayer</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">act</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_before_skip</span><span class="p">)</span>
+        <span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers_after_skip</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+            <span class="n">ResidualLayer</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">act</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_after_skip</span><span class="p">)</span>
+        <span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_sbf</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_kj</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_kj</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_ji</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_ji</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="mi">2</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">res_layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers_before_skip</span><span class="p">:</span>
+            <span class="n">res_layer</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">res_layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers_after_skip</span><span class="p">:</span>
+            <span class="n">res_layer</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rbf</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">sbf</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">idx_kj</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                <span class="n">idx_ji</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">rbf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf</span><span class="p">(</span><span class="n">rbf</span><span class="p">)</span>
+        <span class="n">sbf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_sbf</span><span class="p">(</span><span class="n">sbf</span><span class="p">)</span>
+
+        <span class="n">x_ji</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_ji</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x_kj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_kj</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x_kj</span> <span class="o">=</span> <span class="n">x_kj</span> <span class="o">*</span> <span class="n">rbf</span>
+        <span class="n">x_kj</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;wj,wl,ijl-&gt;wi&#39;</span><span class="p">,</span> <span class="n">sbf</span><span class="p">,</span> <span class="n">x_kj</span><span class="p">[</span><span class="n">idx_kj</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">)</span>
+        <span class="n">x_kj</span> <span class="o">=</span> <span class="n">scatter</span><span class="p">(</span><span class="n">x_kj</span><span class="p">,</span> <span class="n">idx_ji</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim_size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">reduce</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+
+        <span class="n">h</span> <span class="o">=</span> <span class="n">x_ji</span> <span class="o">+</span> <span class="n">x_kj</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers_before_skip</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="p">(</span><span class="n">h</span><span class="p">))</span> <span class="o">+</span> <span class="n">x</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers_after_skip</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">h</span>
+
+
+<span class="k">class</span> <span class="nc">InteractionPPBlock</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">hidden_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">int_emb_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">basis_emb_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_spherical</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_radial</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_before_skip</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_after_skip</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">act</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">act</span>
+
+        <span class="c1"># Transformation of Bessel and spherical basis representations:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf1</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">num_radial</span><span class="p">,</span> <span class="n">basis_emb_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf2</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">basis_emb_size</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_sbf1</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">num_spherical</span> <span class="o">*</span> <span class="n">num_radial</span><span class="p">,</span> <span class="n">basis_emb_size</span><span class="p">,</span>
+                               <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_sbf2</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">basis_emb_size</span><span class="p">,</span> <span class="n">int_emb_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Hidden transformation of input message:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_kj</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_ji</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+
+        <span class="c1"># Embedding projections for interaction triplets:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_down</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">int_emb_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_up</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">int_emb_size</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Residual layers before and after skip connection:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers_before_skip</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+            <span class="n">ResidualLayer</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">act</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_before_skip</span><span class="p">)</span>
+        <span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers_after_skip</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+            <span class="n">ResidualLayer</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">act</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_after_skip</span><span class="p">)</span>
+        <span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf1</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_sbf1</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_sbf2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_kj</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_kj</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_ji</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_ji</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_down</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_up</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">res_layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers_before_skip</span><span class="p">:</span>
+            <span class="n">res_layer</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">res_layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers_after_skip</span><span class="p">:</span>
+            <span class="n">res_layer</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rbf</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">sbf</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">idx_kj</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                <span class="n">idx_ji</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="c1"># Initial transformation:</span>
+        <span class="n">x_ji</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_ji</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x_kj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_kj</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+        <span class="c1"># Transformation via Bessel basis:</span>
+        <span class="n">rbf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf1</span><span class="p">(</span><span class="n">rbf</span><span class="p">)</span>
+        <span class="n">rbf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf2</span><span class="p">(</span><span class="n">rbf</span><span class="p">)</span>
+        <span class="n">x_kj</span> <span class="o">=</span> <span class="n">x_kj</span> <span class="o">*</span> <span class="n">rbf</span>
+
+        <span class="c1"># Down project embedding and generating triple-interactions:</span>
+        <span class="n">x_kj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_down</span><span class="p">(</span><span class="n">x_kj</span><span class="p">))</span>
+
+        <span class="c1"># Transform via 2D spherical basis:</span>
+        <span class="n">sbf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_sbf1</span><span class="p">(</span><span class="n">sbf</span><span class="p">)</span>
+        <span class="n">sbf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_sbf2</span><span class="p">(</span><span class="n">sbf</span><span class="p">)</span>
+        <span class="n">x_kj</span> <span class="o">=</span> <span class="n">x_kj</span><span class="p">[</span><span class="n">idx_kj</span><span class="p">]</span> <span class="o">*</span> <span class="n">sbf</span>
+
+        <span class="c1"># Aggregate interactions and up-project embeddings:</span>
+        <span class="n">x_kj</span> <span class="o">=</span> <span class="n">scatter</span><span class="p">(</span><span class="n">x_kj</span><span class="p">,</span> <span class="n">idx_ji</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim_size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">reduce</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+        <span class="n">x_kj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_up</span><span class="p">(</span><span class="n">x_kj</span><span class="p">))</span>
+
+        <span class="n">h</span> <span class="o">=</span> <span class="n">x_ji</span> <span class="o">+</span> <span class="n">x_kj</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers_before_skip</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="p">(</span><span class="n">h</span><span class="p">))</span> <span class="o">+</span> <span class="n">x</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">layers_after_skip</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">h</span>
+
+
+<span class="k">class</span> <span class="nc">OutputBlock</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_radial</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">hidden_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">out_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_layers</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">act</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">output_initializer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zeros&#39;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">assert</span> <span class="n">output_initializer</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;zeros&#39;</span><span class="p">,</span> <span class="s1">&#39;glorot_orthogonal&#39;</span><span class="p">}</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">act</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_initializer</span> <span class="o">=</span> <span class="n">output_initializer</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">num_radial</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lins</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">lin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lins</span><span class="p">:</span>
+            <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+            <span class="n">lin</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_initializer</span> <span class="o">==</span> <span class="s1">&#39;zeros&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_initializer</span> <span class="o">==</span> <span class="s1">&#39;glorot_orthogonal&#39;</span><span class="p">:</span>
+            <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rbf</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                <span class="n">num_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf</span><span class="p">(</span><span class="n">rbf</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim_size</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">lin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lins</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">lin</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">OutputPPBlock</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_radial</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">hidden_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">out_emb_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">out_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_layers</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">act</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">output_initializer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zeros&#39;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">assert</span> <span class="n">output_initializer</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;zeros&#39;</span><span class="p">,</span> <span class="s1">&#39;glorot_orthogonal&#39;</span><span class="p">}</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">act</span> <span class="o">=</span> <span class="n">act</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_initializer</span> <span class="o">=</span> <span class="n">output_initializer</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">num_radial</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># The up-projection layer:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin_up</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">out_emb_channels</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lins</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="n">out_emb_channels</span><span class="p">,</span> <span class="n">out_emb_channels</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">out_emb_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin_up</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">lin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lins</span><span class="p">:</span>
+            <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+            <span class="n">lin</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_initializer</span> <span class="o">==</span> <span class="s1">&#39;zeros&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_initializer</span> <span class="o">==</span> <span class="s1">&#39;glorot_orthogonal&#39;</span><span class="p">:</span>
+            <span class="n">glorot_orthogonal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rbf</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                <span class="n">num_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_rbf</span><span class="p">(</span><span class="n">rbf</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim_size</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin_up</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">lin</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lins</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">lin</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">triplets</span><span class="p">(</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">num_nodes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+    <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">edge_index</span>  <span class="c1"># j-&gt;i</span>
+
+    <span class="n">value</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">adj_t</span> <span class="o">=</span> <span class="n">SparseTensor</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="n">row</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+                         <span class="n">sparse_sizes</span><span class="o">=</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">))</span>
+    <span class="n">adj_t_row</span> <span class="o">=</span> <span class="n">adj_t</span><span class="p">[</span><span class="n">row</span><span class="p">]</span>
+    <span class="n">num_triplets</span> <span class="o">=</span> <span class="n">adj_t_row</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+
+    <span class="c1"># Node indices (k-&gt;j-&gt;i) for triplets.</span>
+    <span class="n">idx_i</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">repeat_interleave</span><span class="p">(</span><span class="n">num_triplets</span><span class="p">)</span>
+    <span class="n">idx_j</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">repeat_interleave</span><span class="p">(</span><span class="n">num_triplets</span><span class="p">)</span>
+    <span class="n">idx_k</span> <span class="o">=</span> <span class="n">adj_t_row</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">col</span><span class="p">()</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">idx_i</span> <span class="o">!=</span> <span class="n">idx_k</span>  <span class="c1"># Remove i == k triplets.</span>
+    <span class="n">idx_i</span><span class="p">,</span> <span class="n">idx_j</span><span class="p">,</span> <span class="n">idx_k</span> <span class="o">=</span> <span class="n">idx_i</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">idx_j</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">idx_k</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+    <span class="c1"># Edge indices (k-j, j-&gt;i) for triplets.</span>
+    <span class="n">idx_kj</span> <span class="o">=</span> <span class="n">adj_t_row</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">value</span><span class="p">()[</span><span class="n">mask</span><span class="p">]</span>
+    <span class="n">idx_ji</span> <span class="o">=</span> <span class="n">adj_t_row</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">row</span><span class="p">()[</span><span class="n">mask</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">idx_i</span><span class="p">,</span> <span class="n">idx_j</span><span class="p">,</span> <span class="n">idx_k</span><span class="p">,</span> <span class="n">idx_kj</span><span class="p">,</span> <span class="n">idx_ji</span>
+
+
+<div class="viewcode-block" id="DimeNet"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.DimeNet.html#torch_geometric.nn.models.DimeNet">[docs]</a><span class="k">class</span> <span class="nc">DimeNet</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The directional message passing neural network (DimeNet) from the</span>
+<span class="sd">    `&quot;Directional Message Passing for Molecular Graphs&quot;</span>
+<span class="sd">    &lt;https://arxiv.org/abs/2003.03123&gt;`_ paper.</span>
+<span class="sd">    DimeNet transforms messages based on the angle between them in a</span>
+<span class="sd">    rotation-equivariant fashion.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        For an example of using a pretrained DimeNet variant, see</span>
+<span class="sd">        `examples/qm9_pretrained_dimenet.py</span>
+<span class="sd">        &lt;https://github.com/pyg-team/pytorch_geometric/blob/master/examples/</span>
+<span class="sd">        qm9_pretrained_dimenet.py&gt;`_.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        hidden_channels (int): Hidden embedding size.</span>
+<span class="sd">        out_channels (int): Size of each output sample.</span>
+<span class="sd">        num_blocks (int): Number of building blocks.</span>
+<span class="sd">        num_bilinear (int): Size of the bilinear layer tensor.</span>
+<span class="sd">        num_spherical (int): Number of spherical harmonics.</span>
+<span class="sd">        num_radial (int): Number of radial basis functions.</span>
+<span class="sd">        cutoff (float, optional): Cutoff distance for interatomic</span>
+<span class="sd">            interactions. (default: :obj:`5.0`)</span>
+<span class="sd">        max_num_neighbors (int, optional): The maximum number of neighbors to</span>
+<span class="sd">            collect for each node within the :attr:`cutoff` distance.</span>
+<span class="sd">            (default: :obj:`32`)</span>
+<span class="sd">        envelope_exponent (int, optional): Shape of the smooth cutoff.</span>
+<span class="sd">            (default: :obj:`5`)</span>
+<span class="sd">        num_before_skip (int, optional): Number of residual layers in the</span>
+<span class="sd">            interaction blocks before the skip connection. (default: :obj:`1`)</span>
+<span class="sd">        num_after_skip (int, optional): Number of residual layers in the</span>
+<span class="sd">            interaction blocks after the skip connection. (default: :obj:`2`)</span>
+<span class="sd">        num_output_layers (int, optional): Number of linear layers for the</span>
+<span class="sd">            output blocks. (default: :obj:`3`)</span>
+<span class="sd">        act (str or Callable, optional): The activation function.</span>
+<span class="sd">            (default: :obj:`&quot;swish&quot;`)</span>
+<span class="sd">        output_initializer (str, optional): The initialization method for the</span>
+<span class="sd">            output layer (:obj:`&quot;zeros&quot;`, :obj:`&quot;glorot_orthogonal&quot;`).</span>
+<span class="sd">            (default: :obj:`&quot;zeros&quot;`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://github.com/klicperajo/dimenet/raw/master/pretrained/&#39;</span>
+           <span class="s1">&#39;dimenet&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">hidden_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">out_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_blocks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_bilinear</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_spherical</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_radial</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
+        <span class="n">max_num_neighbors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
+        <span class="n">envelope_exponent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="n">num_before_skip</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">num_after_skip</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">num_output_layers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">act</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;swish&#39;</span><span class="p">,</span>
+        <span class="n">output_initializer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zeros&#39;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">num_spherical</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;num_spherical&#39; should be greater than 1&quot;</span><span class="p">)</span>
+
+        <span class="n">act</span> <span class="o">=</span> <span class="n">activation_resolver</span><span class="p">(</span><span class="n">act</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span> <span class="o">=</span> <span class="n">cutoff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_num_neighbors</span> <span class="o">=</span> <span class="n">max_num_neighbors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_blocks</span> <span class="o">=</span> <span class="n">num_blocks</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">rbf</span> <span class="o">=</span> <span class="n">BesselBasisLayer</span><span class="p">(</span><span class="n">num_radial</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">,</span> <span class="n">envelope_exponent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sbf</span> <span class="o">=</span> <span class="n">SphericalBasisLayer</span><span class="p">(</span><span class="n">num_spherical</span><span class="p">,</span> <span class="n">num_radial</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">,</span>
+                                       <span class="n">envelope_exponent</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">emb</span> <span class="o">=</span> <span class="n">EmbeddingBlock</span><span class="p">(</span><span class="n">num_radial</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">act</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_blocks</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+            <span class="n">OutputBlock</span><span class="p">(</span>
+                <span class="n">num_radial</span><span class="p">,</span>
+                <span class="n">hidden_channels</span><span class="p">,</span>
+                <span class="n">out_channels</span><span class="p">,</span>
+                <span class="n">num_output_layers</span><span class="p">,</span>
+                <span class="n">act</span><span class="p">,</span>
+                <span class="n">output_initializer</span><span class="p">,</span>
+            <span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_blocks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">interaction_blocks</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+            <span class="n">InteractionBlock</span><span class="p">(</span>
+                <span class="n">hidden_channels</span><span class="p">,</span>
+                <span class="n">num_bilinear</span><span class="p">,</span>
+                <span class="n">num_spherical</span><span class="p">,</span>
+                <span class="n">num_radial</span><span class="p">,</span>
+                <span class="n">num_before_skip</span><span class="p">,</span>
+                <span class="n">num_after_skip</span><span class="p">,</span>
+                <span class="n">act</span><span class="p">,</span>
+            <span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_blocks</span><span class="p">)</span>
+        <span class="p">])</span>
+
+<div class="viewcode-block" id="DimeNet.reset_parameters"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.DimeNet.html#torch_geometric.nn.models.DimeNet.reset_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Resets all learnable parameters of the module.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rbf</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">out</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_blocks</span><span class="p">:</span>
+            <span class="n">out</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">interaction</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">interaction_blocks</span><span class="p">:</span>
+            <span class="n">interaction</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="DimeNet.from_qm9_pretrained"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.DimeNet.html#torch_geometric.nn.models.DimeNet.from_qm9_pretrained">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_qm9_pretrained</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">dataset</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="s1">&#39;DimeNet&#39;</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">]:</span>  <span class="c1"># pragma: no cover</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns a pre-trained :class:`DimeNet` model on the</span>
+<span class="sd">        :class:`~torch_geometric.datasets.QM9` dataset, trained on the</span>
+<span class="sd">        specified target :obj:`target`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TF_CPP_MIN_LOG_LEVEL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;3&#39;</span>
+        <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+        <span class="k">assert</span> <span class="n">target</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="mi">12</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">target</span> <span class="o">==</span> <span class="mi">4</span>
+
+        <span class="n">root</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">root</span><span class="p">))</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s1">&#39;pretrained_dimenet&#39;</span><span class="p">,</span> <span class="n">qm9_target_dict</span><span class="p">[</span><span class="n">target</span><span class="p">])</span>
+
+        <span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">qm9_target_dict</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">osp</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;checkpoint&#39;</span><span class="p">)):</span>
+            <span class="n">download_url</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">/checkpoint&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="n">download_url</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">/ckpt.data-00000-of-00002&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="n">download_url</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">/ckpt.data-00001-of-00002&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="n">download_url</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">/ckpt.index&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;ckpt&#39;</span><span class="p">)</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">load_checkpoint</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">hidden_channels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">out_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">num_blocks</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="n">num_bilinear</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">num_spherical</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+            <span class="n">num_radial</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="n">cutoff</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+            <span class="n">envelope_exponent</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="n">num_before_skip</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">num_after_skip</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">num_output_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">copy_</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">transpose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="n">init</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">get_tensor</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">/.ATTRIBUTES/VARIABLE_VALUE&#39;</span><span class="p">)</span>
+            <span class="n">init</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;kernel&#39;</span><span class="p">:</span>
+                <span class="n">init</span> <span class="o">=</span> <span class="n">init</span><span class="o">.</span><span class="n">t</span><span class="p">()</span>
+            <span class="n">src</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+
+        <span class="n">copy_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">rbf</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="s1">&#39;rbf_layer/frequencies&#39;</span><span class="p">)</span>
+        <span class="n">copy_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="s1">&#39;emb_block/embeddings&#39;</span><span class="p">)</span>
+        <span class="n">copy_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">lin_rbf</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="s1">&#39;emb_block/dense_rbf/kernel&#39;</span><span class="p">)</span>
+        <span class="n">copy_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">lin_rbf</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="s1">&#39;emb_block/dense_rbf/bias&#39;</span><span class="p">)</span>
+        <span class="n">copy_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="s1">&#39;emb_block/dense/kernel&#39;</span><span class="p">)</span>
+        <span class="n">copy_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="s1">&#39;emb_block/dense/bias&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">block</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">output_blocks</span><span class="p">):</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_rbf</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;output_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_rbf/kernel&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">lin</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lins</span><span class="p">):</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;output_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_layers/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/kernel&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">lin</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;output_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_layers/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/bias&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;output_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_final/kernel&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">block</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">interaction_blocks</span><span class="p">):</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_rbf</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_rbf/kernel&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_sbf</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_sbf/kernel&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_kj</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_kj/kernel&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_kj</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_kj/bias&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_ji</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_ji/kernel&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_ji</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_ji/bias&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">W</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/bilinear&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">layers_before_skip</span><span class="p">):</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin1</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_before_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_1/kernel&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin1</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_before_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_1/bias&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_before_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_2/kernel&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin2</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_before_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_2/bias&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/final_before_skip/kernel&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/final_before_skip/bias&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">layers_after_skip</span><span class="p">):</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin1</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_after_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_1/kernel&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin1</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_after_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_1/bias&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_after_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_2/kernel&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin2</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_after_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_2/bias&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Use the same random seed as the official DimeNet` implementation.</span>
+        <span class="n">random_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+        <span class="n">perm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">random_state</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">130831</span><span class="p">)))</span>
+        <span class="n">perm</span> <span class="o">=</span> <span class="n">perm</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+        <span class="n">train_idx</span> <span class="o">=</span> <span class="n">perm</span><span class="p">[:</span><span class="mi">110000</span><span class="p">]</span>
+        <span class="n">val_idx</span> <span class="o">=</span> <span class="n">perm</span><span class="p">[</span><span class="mi">110000</span><span class="p">:</span><span class="mi">120000</span><span class="p">]</span>
+        <span class="n">test_idx</span> <span class="o">=</span> <span class="n">perm</span><span class="p">[</span><span class="mi">120000</span><span class="p">:]</span>
+
+        <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">dataset</span><span class="p">[</span><span class="n">val_idx</span><span class="p">],</span> <span class="n">dataset</span><span class="p">[</span><span class="n">test_idx</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="DimeNet.forward"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.DimeNet.html#torch_geometric.nn.models.DimeNet.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">z</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">pos</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">batch</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Forward pass.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            z (torch.Tensor): Atomic number of each atom with shape</span>
+<span class="sd">                :obj:`[num_atoms]`.</span>
+<span class="sd">            pos (torch.Tensor): Coordinates of each atom with shape</span>
+<span class="sd">                :obj:`[num_atoms, 3]`.</span>
+<span class="sd">            batch (torch.Tensor, optional): Batch indices assigning each atom</span>
+<span class="sd">                to a separate molecule with shape :obj:`[num_atoms]`.</span>
+<span class="sd">                (default: :obj:`None`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">edge_index</span> <span class="o">=</span> <span class="n">radius_graph</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cutoff</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span>
+                                  <span class="n">max_num_neighbors</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">max_num_neighbors</span><span class="p">)</span>
+
+        <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">idx_i</span><span class="p">,</span> <span class="n">idx_j</span><span class="p">,</span> <span class="n">idx_k</span><span class="p">,</span> <span class="n">idx_kj</span><span class="p">,</span> <span class="n">idx_ji</span> <span class="o">=</span> <span class="n">triplets</span><span class="p">(</span>
+            <span class="n">edge_index</span><span class="p">,</span> <span class="n">num_nodes</span><span class="o">=</span><span class="n">z</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="c1"># Calculate distances.</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sqrt</span><span class="p">()</span>
+
+        <span class="c1"># Calculate angles.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DimeNetPlusPlus</span><span class="p">):</span>
+            <span class="n">pos_jk</span><span class="p">,</span> <span class="n">pos_ij</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="n">idx_j</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="n">idx_k</span><span class="p">],</span> <span class="n">pos</span><span class="p">[</span><span class="n">idx_i</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="n">idx_j</span><span class="p">]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos_ij</span> <span class="o">*</span> <span class="n">pos_jk</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">pos_ij</span><span class="p">,</span> <span class="n">pos_jk</span><span class="p">)</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">DimeNet</span><span class="p">):</span>
+            <span class="n">pos_ji</span><span class="p">,</span> <span class="n">pos_ki</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="n">idx_j</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="n">idx_i</span><span class="p">],</span> <span class="n">pos</span><span class="p">[</span><span class="n">idx_k</span><span class="p">]</span> <span class="o">-</span> <span class="n">pos</span><span class="p">[</span><span class="n">idx_i</span><span class="p">]</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos_ji</span> <span class="o">*</span> <span class="n">pos_ki</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">pos_ji</span><span class="p">,</span> <span class="n">pos_ki</span><span class="p">)</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+
+        <span class="n">rbf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rbf</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+        <span class="n">sbf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sbf</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">idx_kj</span><span class="p">)</span>
+
+        <span class="c1"># Embedding block.</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">emb</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">rbf</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">rbf</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">num_nodes</span><span class="o">=</span><span class="n">pos</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="c1"># Interaction blocks.</span>
+        <span class="k">for</span> <span class="n">interaction_block</span><span class="p">,</span> <span class="n">output_block</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interaction_blocks</span><span class="p">,</span>
+                                                   <span class="bp">self</span><span class="o">.</span><span class="n">output_blocks</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">interaction_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">rbf</span><span class="p">,</span> <span class="n">sbf</span><span class="p">,</span> <span class="n">idx_kj</span><span class="p">,</span> <span class="n">idx_ji</span><span class="p">)</span>
+            <span class="n">P</span> <span class="o">=</span> <span class="n">P</span> <span class="o">+</span> <span class="n">output_block</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">rbf</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">num_nodes</span><span class="o">=</span><span class="n">pos</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">batch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">P</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">scatter</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="DimeNetPlusPlus"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.DimeNetPlusPlus.html#torch_geometric.nn.models.DimeNetPlusPlus">[docs]</a><span class="k">class</span> <span class="nc">DimeNetPlusPlus</span><span class="p">(</span><span class="n">DimeNet</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The DimeNet++ from the `&quot;Fast and Uncertainty-Aware</span>
+<span class="sd">    Directional Message Passing for Non-Equilibrium Molecules&quot;</span>
+<span class="sd">    &lt;https://arxiv.org/abs/2011.14115&gt;`_ paper.</span>
+
+<span class="sd">    :class:`DimeNetPlusPlus` is an upgrade to the :class:`DimeNet` model with</span>
+<span class="sd">    8x faster and 10% more accurate than :class:`DimeNet`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        hidden_channels (int): Hidden embedding size.</span>
+<span class="sd">        out_channels (int): Size of each output sample.</span>
+<span class="sd">        num_blocks (int): Number of building blocks.</span>
+<span class="sd">        int_emb_size (int): Size of embedding in the interaction block.</span>
+<span class="sd">        basis_emb_size (int): Size of basis embedding in the interaction block.</span>
+<span class="sd">        out_emb_channels (int): Size of embedding in the output block.</span>
+<span class="sd">        num_spherical (int): Number of spherical harmonics.</span>
+<span class="sd">        num_radial (int): Number of radial basis functions.</span>
+<span class="sd">        cutoff: (float, optional): Cutoff distance for interatomic</span>
+<span class="sd">            interactions. (default: :obj:`5.0`)</span>
+<span class="sd">        max_num_neighbors (int, optional): The maximum number of neighbors to</span>
+<span class="sd">            collect for each node within the :attr:`cutoff` distance.</span>
+<span class="sd">            (default: :obj:`32`)</span>
+<span class="sd">        envelope_exponent (int, optional): Shape of the smooth cutoff.</span>
+<span class="sd">            (default: :obj:`5`)</span>
+<span class="sd">        num_before_skip: (int, optional): Number of residual layers in the</span>
+<span class="sd">            interaction blocks before the skip connection. (default: :obj:`1`)</span>
+<span class="sd">        num_after_skip: (int, optional): Number of residual layers in the</span>
+<span class="sd">            interaction blocks after the skip connection. (default: :obj:`2`)</span>
+<span class="sd">        num_output_layers: (int, optional): Number of linear layers for the</span>
+<span class="sd">            output blocks. (default: :obj:`3`)</span>
+<span class="sd">        act: (str or Callable, optional): The activation funtion.</span>
+<span class="sd">            (default: :obj:`&quot;swish&quot;`)</span>
+<span class="sd">        output_initializer (str, optional): The initialization method for the</span>
+<span class="sd">            output layer (:obj:`&quot;zeros&quot;`, :obj:`&quot;glorot_orthogonal&quot;`).</span>
+<span class="sd">            (default: :obj:`&quot;zeros&quot;`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/gasteigerjo/dimenet/&#39;</span>
+           <span class="s1">&#39;master/pretrained/dimenet_pp&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">hidden_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">out_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_blocks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">int_emb_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">basis_emb_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">out_emb_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_spherical</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_radial</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">cutoff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span>
+        <span class="n">max_num_neighbors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
+        <span class="n">envelope_exponent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="n">num_before_skip</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">num_after_skip</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">num_output_layers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="n">act</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;swish&#39;</span><span class="p">,</span>
+        <span class="n">output_initializer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;zeros&#39;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">act</span> <span class="o">=</span> <span class="n">activation_resolver</span><span class="p">(</span><span class="n">act</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">hidden_channels</span><span class="o">=</span><span class="n">hidden_channels</span><span class="p">,</span>
+            <span class="n">out_channels</span><span class="o">=</span><span class="n">out_channels</span><span class="p">,</span>
+            <span class="n">num_blocks</span><span class="o">=</span><span class="n">num_blocks</span><span class="p">,</span>
+            <span class="n">num_bilinear</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">num_spherical</span><span class="o">=</span><span class="n">num_spherical</span><span class="p">,</span>
+            <span class="n">num_radial</span><span class="o">=</span><span class="n">num_radial</span><span class="p">,</span>
+            <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">,</span>
+            <span class="n">max_num_neighbors</span><span class="o">=</span><span class="n">max_num_neighbors</span><span class="p">,</span>
+            <span class="n">envelope_exponent</span><span class="o">=</span><span class="n">envelope_exponent</span><span class="p">,</span>
+            <span class="n">num_before_skip</span><span class="o">=</span><span class="n">num_before_skip</span><span class="p">,</span>
+            <span class="n">num_after_skip</span><span class="o">=</span><span class="n">num_after_skip</span><span class="p">,</span>
+            <span class="n">num_output_layers</span><span class="o">=</span><span class="n">num_output_layers</span><span class="p">,</span>
+            <span class="n">act</span><span class="o">=</span><span class="n">act</span><span class="p">,</span>
+            <span class="n">output_initializer</span><span class="o">=</span><span class="n">output_initializer</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># We are re-using the RBF, SBF and embedding layers of `DimeNet` and</span>
+        <span class="c1"># redefine output_block and interaction_block in DimeNet++.</span>
+        <span class="c1"># Hence, it is to be noted that in the above initalization, the</span>
+        <span class="c1"># variable `num_bilinear` does not have any purpose as it is used</span>
+        <span class="c1"># solely in the `OutputBlock` of DimeNet:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_blocks</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+            <span class="n">OutputPPBlock</span><span class="p">(</span>
+                <span class="n">num_radial</span><span class="p">,</span>
+                <span class="n">hidden_channels</span><span class="p">,</span>
+                <span class="n">out_emb_channels</span><span class="p">,</span>
+                <span class="n">out_channels</span><span class="p">,</span>
+                <span class="n">num_output_layers</span><span class="p">,</span>
+                <span class="n">act</span><span class="p">,</span>
+                <span class="n">output_initializer</span><span class="p">,</span>
+            <span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_blocks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">interaction_blocks</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span>
+            <span class="n">InteractionPPBlock</span><span class="p">(</span>
+                <span class="n">hidden_channels</span><span class="p">,</span>
+                <span class="n">int_emb_size</span><span class="p">,</span>
+                <span class="n">basis_emb_size</span><span class="p">,</span>
+                <span class="n">num_spherical</span><span class="p">,</span>
+                <span class="n">num_radial</span><span class="p">,</span>
+                <span class="n">num_before_skip</span><span class="p">,</span>
+                <span class="n">num_after_skip</span><span class="p">,</span>
+                <span class="n">act</span><span class="p">,</span>
+            <span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_blocks</span><span class="p">)</span>
+        <span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DimeNetPlusPlus.from_qm9_pretrained"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.DimeNetPlusPlus.html#torch_geometric.nn.models.DimeNetPlusPlus.from_qm9_pretrained">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_qm9_pretrained</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">root</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">dataset</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="s1">&#39;DimeNetPlusPlus&#39;</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">Dataset</span><span class="p">,</span>
+               <span class="n">Dataset</span><span class="p">]:</span>  <span class="c1"># pragma: no cover</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns a pre-trained :class:`DimeNetPlusPlus` model on the</span>
+<span class="sd">        :class:`~torch_geometric.datasets.QM9` dataset, trained on the</span>
+<span class="sd">        specified target :obj:`target`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TF_CPP_MIN_LOG_LEVEL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;3&#39;</span>
+        <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+        <span class="k">assert</span> <span class="n">target</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">target</span> <span class="o">&lt;=</span> <span class="mi">12</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">target</span> <span class="o">==</span> <span class="mi">4</span>
+
+        <span class="n">root</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">root</span><span class="p">))</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s1">&#39;pretrained_dimenet_pp&#39;</span><span class="p">,</span> <span class="n">qm9_target_dict</span><span class="p">[</span><span class="n">target</span><span class="p">])</span>
+
+        <span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">qm9_target_dict</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">osp</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;checkpoint&#39;</span><span class="p">)):</span>
+            <span class="n">download_url</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">/checkpoint&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="n">download_url</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">/ckpt.data-00000-of-00002&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="n">download_url</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">/ckpt.data-00001-of-00002&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="n">download_url</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s1">/ckpt.index&#39;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="n">path</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;ckpt&#39;</span><span class="p">)</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">load_checkpoint</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="c1"># Configuration from DimeNet++:</span>
+        <span class="c1"># https://github.com/gasteigerjo/dimenet/blob/master/config_pp.yaml</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">hidden_channels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+            <span class="n">out_channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">num_blocks</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+            <span class="n">int_emb_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+            <span class="n">basis_emb_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+            <span class="n">out_emb_channels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+            <span class="n">num_spherical</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+            <span class="n">num_radial</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="n">cutoff</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+            <span class="n">max_num_neighbors</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+            <span class="n">envelope_exponent</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="n">num_before_skip</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">num_after_skip</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">num_output_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">copy_</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">transpose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="n">init</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="n">get_tensor</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">/.ATTRIBUTES/VARIABLE_VALUE&#39;</span><span class="p">)</span>
+            <span class="n">init</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">name</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;kernel&#39;</span><span class="p">:</span>
+                <span class="n">init</span> <span class="o">=</span> <span class="n">init</span><span class="o">.</span><span class="n">t</span><span class="p">()</span>
+            <span class="n">src</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
+
+        <span class="n">copy_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">rbf</span><span class="o">.</span><span class="n">freq</span><span class="p">,</span> <span class="s1">&#39;rbf_layer/frequencies&#39;</span><span class="p">)</span>
+        <span class="n">copy_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="s1">&#39;emb_block/embeddings&#39;</span><span class="p">)</span>
+        <span class="n">copy_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">lin_rbf</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="s1">&#39;emb_block/dense_rbf/kernel&#39;</span><span class="p">)</span>
+        <span class="n">copy_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">lin_rbf</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="s1">&#39;emb_block/dense_rbf/bias&#39;</span><span class="p">)</span>
+        <span class="n">copy_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="s1">&#39;emb_block/dense/kernel&#39;</span><span class="p">)</span>
+        <span class="n">copy_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">emb</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="s1">&#39;emb_block/dense/bias&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">block</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">output_blocks</span><span class="p">):</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_rbf</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;output_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_rbf/kernel&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_up</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                  <span class="sa">f</span><span class="s1">&#39;output_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/up_projection/kernel&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">lin</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lins</span><span class="p">):</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;output_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_layers/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/kernel&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">lin</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;output_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_layers/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/bias&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;output_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_final/kernel&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">block</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">interaction_blocks</span><span class="p">):</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_rbf1</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_rbf1/kernel&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_rbf2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_rbf2/kernel&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_sbf1</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_sbf1/kernel&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_sbf2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_sbf2/kernel&#39;</span><span class="p">)</span>
+
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_ji</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_ji/kernel&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_ji</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_ji/bias&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_kj</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_kj/kernel&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_kj</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/dense_kj/bias&#39;</span><span class="p">)</span>
+
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_down</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                  <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/down_projection/kernel&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin_up</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/up_projection/kernel&#39;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">layers_before_skip</span><span class="p">):</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin1</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_before_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_1/kernel&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin1</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_before_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_1/bias&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_before_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_2/kernel&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin2</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_before_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_2/bias&#39;</span><span class="p">)</span>
+
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/final_before_skip/kernel&#39;</span><span class="p">)</span>
+            <span class="n">copy_</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/final_before_skip/bias&#39;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">layers_after_skip</span><span class="p">):</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin1</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_after_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_1/kernel&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin1</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_after_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_1/bias&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_after_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_2/kernel&#39;</span><span class="p">)</span>
+                <span class="n">copy_</span><span class="p">(</span><span class="n">layer</span><span class="o">.</span><span class="n">lin2</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span>
+                      <span class="sa">f</span><span class="s1">&#39;int_blocks/</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/layers_after_skip/</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">/dense_2/bias&#39;</span><span class="p">)</span>
+
+        <span class="n">random_state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+        <span class="n">perm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">random_state</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">130831</span><span class="p">)))</span>
+        <span class="n">perm</span> <span class="o">=</span> <span class="n">perm</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+        <span class="n">train_idx</span> <span class="o">=</span> <span class="n">perm</span><span class="p">[:</span><span class="mi">110000</span><span class="p">]</span>
+        <span class="n">val_idx</span> <span class="o">=</span> <span class="n">perm</span><span class="p">[</span><span class="mi">110000</span><span class="p">:</span><span class="mi">120000</span><span class="p">]</span>
+        <span class="n">test_idx</span> <span class="o">=</span> <span class="n">perm</span><span class="p">[</span><span class="mi">120000</span><span class="p">:]</span>
+
+        <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">train_idx</span><span class="p">],</span> <span class="n">dataset</span><span class="p">[</span><span class="n">val_idx</span><span class="p">],</span> <span class="n">dataset</span><span class="p">[</span><span class="n">test_idx</span><span class="p">])</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

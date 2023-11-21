@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.NormalizeScale
+==========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: NormalizeScale
+   :show-inheritance:

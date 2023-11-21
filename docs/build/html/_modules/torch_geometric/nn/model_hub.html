@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.nn.model_hub &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.nn.model_hub</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.nn.model_hub</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">huggingface_hub</span> <span class="kn">import</span> <span class="n">ModelHubMixin</span><span class="p">,</span> <span class="n">hf_hub_download</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">ModelHubMixin</span> <span class="o">=</span> <span class="nb">object</span>
+    <span class="n">hf_hub_download</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="n">CONFIG_NAME</span> <span class="o">=</span> <span class="s1">&#39;config.json&#39;</span>
+<span class="n">MODEL_HUB_ORGANIZATION</span> <span class="o">=</span> <span class="s2">&quot;pytorch_geometric&quot;</span>
+<span class="n">MODEL_WEIGHTS_NAME</span> <span class="o">=</span> <span class="s1">&#39;model.pth&#39;</span>
+<span class="n">TAGS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;graph-machine-learning&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="PyGModelHubMixin"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.model_hub.PyGModelHubMixin">[docs]</a><span class="k">class</span> <span class="nc">PyGModelHubMixin</span><span class="p">(</span><span class="n">ModelHubMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;A mixin for saving and loading models to the</span>
+<span class="sd">    `Huggingface Model Hub &lt;https://huggingface.co/docs/hub/index&gt;`_.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">       from torch_geometric.datasets import Planetoid</span>
+<span class="sd">       from torch_geometric.nn import Node2Vec</span>
+<span class="sd">       from torch_geometric.nn.model_hub import PyGModelHubMixin</span>
+
+<span class="sd">       # Define your class with the mixin:</span>
+<span class="sd">       class N2V(Node2Vec, PyGModelHubMixin):</span>
+<span class="sd">           def __init__(self,model_name, dataset_name, model_kwargs):</span>
+<span class="sd">               Node2Vec.__init__(self,**model_kwargs)</span>
+<span class="sd">               PyGModelHubMixin.__init__(self, model_name,</span>
+<span class="sd">                   dataset_name, model_kwargs)</span>
+
+<span class="sd">       # Instantiate your model:</span>
+<span class="sd">       n2v = N2V(model_name=&#39;node2vec&#39;,</span>
+<span class="sd">           dataset_name=&#39;Cora&#39;, model_kwargs=dict(</span>
+<span class="sd">           edge_index=data.edge_index, embedding_dim=128,</span>
+<span class="sd">           walk_length=20, context_size=10, walks_per_node=10,</span>
+<span class="sd">           num_negative_samples=1, p=1, q=1, sparse=True))</span>
+
+<span class="sd">       # Train the model:</span>
+<span class="sd">       ...</span>
+
+<span class="sd">       # Push to the HuggingFace hub:</span>
+<span class="sd">       repo_id = ...  # your repo id</span>
+<span class="sd">       n2v.save_pretrained(</span>
+<span class="sd">           local_file_path,</span>
+<span class="sd">           push_to_hub=True,</span>
+<span class="sd">           repo_id=repo_id,</span>
+<span class="sd">        )</span>
+
+<span class="sd">       # Load the model for inference:</span>
+<span class="sd">       # The required arguments are the repo id/local folder, and any model</span>
+<span class="sd">       # initialisation arguments that are not native python types (e.g</span>
+<span class="sd">       # Node2Vec requires the edge_index argument which is not stored in the</span>
+<span class="sd">       # model hub).</span>
+<span class="sd">       model = N2V.from_pretrained(</span>
+<span class="sd">           repo_id,</span>
+<span class="sd">           model_name=&#39;node2vec&#39;,</span>
+<span class="sd">           dataset_name=&#39;Cora&#39;,</span>
+<span class="sd">           edge_index=data.edge_index,</span>
+<span class="sd">       )</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model_name (str): Name of the model.</span>
+<span class="sd">        dataset_name (str): Name of the dataset the model was trained against.</span>
+<span class="sd">        model_kwargs (Dict[str, Any]): The arguments to initialise the model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
+        <span class="n">ModelHubMixin</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Huggingface Hub API only accepts saving the config as a dict.</span>
+        <span class="c1"># If the model is instantiated with non-native python types</span>
+        <span class="c1"># such as torch Tensors (node2vec being an example), we have to remove</span>
+        <span class="c1"># these as they are not json serialisable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_config</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">k</span><span class="p">:</span> <span class="n">v</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">model_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="n">model_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span> <span class="o">=</span> <span class="n">dataset_name</span>
+
+    <span class="k">def</span> <span class="nf">construct_model_card</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">huggingface_hub</span> <span class="kn">import</span> <span class="n">ModelCard</span><span class="p">,</span> <span class="n">ModelCardData</span>
+        <span class="n">card_data</span> <span class="o">=</span> <span class="n">ModelCardData</span><span class="p">(</span>
+            <span class="n">language</span><span class="o">=</span><span class="s1">&#39;en&#39;</span><span class="p">,</span>
+            <span class="n">license</span><span class="o">=</span><span class="s1">&#39;mit&#39;</span><span class="p">,</span>
+            <span class="n">library_name</span><span class="o">=</span><span class="n">MODEL_HUB_ORGANIZATION</span><span class="p">,</span>
+            <span class="n">tags</span><span class="o">=</span><span class="n">TAGS</span><span class="p">,</span>
+            <span class="n">datasets</span><span class="o">=</span><span class="n">dataset_name</span><span class="p">,</span>
+            <span class="n">model_name</span><span class="o">=</span><span class="n">model_name</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">card</span> <span class="o">=</span> <span class="n">ModelCard</span><span class="o">.</span><span class="n">from_template</span><span class="p">(</span><span class="n">card_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">card</span>
+
+    <span class="k">def</span> <span class="nf">_save_pretrained</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_directory</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_directory</span><span class="p">,</span> <span class="n">MODEL_WEIGHTS_NAME</span><span class="p">)</span>
+        <span class="n">model_to_save</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">module</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;module&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="bp">self</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model_to_save</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="n">path</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PyGModelHubMixin.save_pretrained"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.model_hub.PyGModelHubMixin.save_pretrained">[docs]</a>    <span class="k">def</span> <span class="nf">save_pretrained</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_directory</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+                        <span class="n">push_to_hub</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                        <span class="n">repo_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Save a trained model to a local directory or to the HuggingFace</span>
+<span class="sd">        model hub.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            save_directory (str): The directory where weights are saved.</span>
+<span class="sd">            push_to_hub (bool, optional): If :obj:`True`, push the model to the</span>
+<span class="sd">                HuggingFace model hub. (default: :obj:`False`)</span>
+<span class="sd">            repo_id (str, optional): The repository name in the hub.</span>
+<span class="sd">                If not provided will default to the name of</span>
+<span class="sd">                :obj:`save_directory` in your namespace. (default: :obj:`None`)</span>
+<span class="sd">            **kwargs: Additional keyword arguments passed to</span>
+<span class="sd">                :meth:`huggingface_hub.ModelHubMixin.save_pretrained`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_config</span>
+        <span class="c1"># due to way huggingface hub handles the loading/saving of models,</span>
+        <span class="c1"># the model config can end up in one of the items in the kwargs</span>
+        <span class="c1"># this has to be removed to prevent a duplication of arguments to</span>
+        <span class="c1"># ModelHubMixin.save_pretrained</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span>
+            <span class="n">save_directory</span><span class="o">=</span><span class="n">save_directory</span><span class="p">,</span>
+            <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+            <span class="n">push_to_hub</span><span class="o">=</span><span class="n">push_to_hub</span><span class="p">,</span>
+            <span class="n">repo_id</span><span class="o">=</span><span class="n">repo_id</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">model_card</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">construct_model_card</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span>
+                                               <span class="bp">self</span><span class="o">.</span><span class="n">dataset_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">push_to_hub</span><span class="p">:</span>
+            <span class="n">model_card</span><span class="o">.</span><span class="n">push_to_hub</span><span class="p">(</span><span class="n">repo_id</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_pretrained</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">model_id</span><span class="p">,</span>
+        <span class="n">revision</span><span class="p">,</span>
+        <span class="n">cache_dir</span><span class="p">,</span>
+        <span class="n">force_download</span><span class="p">,</span>
+        <span class="n">proxies</span><span class="p">,</span>
+        <span class="n">resume_download</span><span class="p">,</span>
+        <span class="n">local_files_only</span><span class="p">,</span>
+        <span class="n">token</span><span class="p">,</span>
+        <span class="n">dataset_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+        <span class="n">map_location</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">,</span>
+        <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">model_kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">map_location</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="n">map_location</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">model_id</span><span class="p">):</span>
+            <span class="n">model_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">model_id</span><span class="p">,</span> <span class="n">MODEL_WEIGHTS_NAME</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">model_file</span> <span class="o">=</span> <span class="n">hf_hub_download</span><span class="p">(</span>
+                <span class="n">repo_id</span><span class="o">=</span><span class="n">model_id</span><span class="p">,</span>
+                <span class="n">filename</span><span class="o">=</span><span class="n">MODEL_WEIGHTS_NAME</span><span class="p">,</span>
+                <span class="n">revision</span><span class="o">=</span><span class="n">revision</span><span class="p">,</span>
+                <span class="n">cache_dir</span><span class="o">=</span><span class="n">cache_dir</span><span class="p">,</span>
+                <span class="n">force_download</span><span class="o">=</span><span class="n">force_download</span><span class="p">,</span>
+                <span class="n">proxies</span><span class="o">=</span><span class="n">proxies</span><span class="p">,</span>
+                <span class="n">resume_download</span><span class="o">=</span><span class="n">resume_download</span><span class="p">,</span>
+                <span class="n">token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span>
+                <span class="n">local_files_only</span><span class="o">=</span><span class="n">local_files_only</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">config</span> <span class="o">=</span> <span class="n">model_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">model_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">model_kwargs</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">}</span>
+
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">dataset_name</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">model_kwargs</span><span class="p">)</span>
+
+        <span class="n">state_dict</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">model_file</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="n">map_location</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">model</span>
+
+<div class="viewcode-block" id="PyGModelHubMixin.from_pretrained"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.model_hub.PyGModelHubMixin.from_pretrained">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_pretrained</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">pretrained_model_name_or_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">force_download</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">resume_download</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">proxies</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">token</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">cache_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">local_files_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">model_kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Downloads and instantiates a model from the HuggingFace hub.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pretrained_model_name_or_path (str): Can be either:</span>
+
+<span class="sd">                - The :obj:`model_id` of a pretrained model hosted inside the</span>
+<span class="sd">                  HuggingFace hub.</span>
+
+<span class="sd">                - You can add a :obj:`revision` by appending :obj:`@` at the</span>
+<span class="sd">                  end of :obj:`model_id` to load a specific model version.</span>
+
+<span class="sd">                - A path to a directory containing the saved model weights.</span>
+
+<span class="sd">                - :obj:`None` if you are both providing the configuration</span>
+<span class="sd">                  :obj:`config` and state dictionary :obj:`state_dict`.</span>
+
+<span class="sd">            force_download (bool, optional): Whether to force the</span>
+<span class="sd">                (re-)download of the model weights and configuration files,</span>
+<span class="sd">                overriding the cached versions if they exist.</span>
+<span class="sd">                (default: :obj:`False`)</span>
+<span class="sd">            resume_download (bool, optional): Whether to delete incompletely</span>
+<span class="sd">                received files. Will attempt to resume the download if such a</span>
+<span class="sd">                file exists. (default: :obj:`False`)</span>
+<span class="sd">            proxies (Dict[str, str], optional): A dictionary of proxy servers</span>
+<span class="sd">                to use by protocol or endpoint, *e.g.*,</span>
+<span class="sd">                :obj:`{&#39;http&#39;: &#39;foo.bar:3128&#39;, &#39;http://host&#39;: &#39;foo.bar:4012&#39;}`.</span>
+<span class="sd">                The proxies are used on each request. (default: :obj:`None`)</span>
+<span class="sd">            token (str or bool, optional): The token to use as HTTP bearer</span>
+<span class="sd">                authorization for remote files. If set to :obj:`True`, will use</span>
+<span class="sd">                the token generated when running :obj:`transformers-cli login`</span>
+<span class="sd">                (stored in :obj:`~/.huggingface`). It is **required** if you</span>
+<span class="sd">                want to use a private model. (default: :obj:`None`)</span>
+<span class="sd">            cache_dir (str, optional): The path to a directory in which a</span>
+<span class="sd">                downloaded model configuration should be cached if the</span>
+<span class="sd">                standard cache should not be used. (default: :obj:`None`)</span>
+<span class="sd">            local_files_only (bool, optional): Whether to only look at local</span>
+<span class="sd">                files, *i.e.* do not try to download the model.</span>
+<span class="sd">                (default: :obj:`False`)</span>
+<span class="sd">            **model_kwargs: Additional keyword arguments passed to the</span>
+<span class="sd">                model during initialization.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+            <span class="n">pretrained_model_name_or_path</span><span class="p">,</span>
+            <span class="n">force_download</span><span class="o">=</span><span class="n">force_download</span><span class="p">,</span>
+            <span class="n">resume_download</span><span class="o">=</span><span class="n">resume_download</span><span class="p">,</span>
+            <span class="n">proxies</span><span class="o">=</span><span class="n">proxies</span><span class="p">,</span>
+            <span class="n">use_auth_token</span><span class="o">=</span><span class="n">token</span><span class="p">,</span>
+            <span class="n">cache_dir</span><span class="o">=</span><span class="n">cache_dir</span><span class="p">,</span>
+            <span class="n">local_files_only</span><span class="o">=</span><span class="n">local_files_only</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">model_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

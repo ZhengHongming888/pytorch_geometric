@@ -1,0 +1,9 @@
+﻿torch\_geometric.nn.conv.MessagePassing
+=======================================
+
+.. currentmodule:: torch_geometric.nn.conv
+
+
+.. autoclass:: MessagePassing
+   :show-inheritance:
+   :members:

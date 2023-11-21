@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colab Notebooks and Video Tutorials &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Colab Notebooks and Video Tutorials</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/notes/colabs.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="colab-notebooks-and-video-tutorials">
+<h1>Colab Notebooks and Video Tutorials<a class="headerlink" href="#colab-notebooks-and-video-tutorials" title="Permalink to this heading"></a></h1>
+<section id="official-examples">
+<h2>Official Examples<a class="headerlink" href="#official-examples" title="Permalink to this heading"></a></h2>
+<p>We have prepared a list of <span class="inline-logo colab">Colab</span> notebooks that practically introduces you to the world of <strong>Graph Neural Networks</strong> with <span class="inline-logo pyg">PyG</span>:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1h3-vJGRVloF5zStxL5I0rSy4ZUPNsjy8?usp=sharing">Introduction: Hands-on Graph Neural Networks</a></p></li>
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/14OvFnAXggxB8vM4e8vSURUp1TaKnovzX?usp=sharing">Node Classification with Graph Neural Networks</a></p></li>
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1I8a0DfQ3fI7Njc62__mVXUlcAleUclnb?usp=sharing">Graph Classification with Graph Neural Networks</a></p></li>
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1XAjcjRHrSR_ypCk_feIWFbcBKyT4Lirs?usp=sharing">Scaling Graph Neural Networks</a></p></li>
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1D45E5bUK3gQ40YpZo65ozs7hg5l-eo_U?usp=sharing">Point Cloud Classification with Graph Neural Networks</a></p></li>
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1fLJbFPz0yMCQg81DdCP5I8jXw9LoggKO?usp=sharing">Explaining GNN Model Predictions using</a> <span class="inline-logo captum empty"></span> <a class="reference external" href="https://colab.research.google.com/drive/1fLJbFPz0yMCQg81DdCP5I8jXw9LoggKO?usp=sharing">Captum</a></p></li>
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1KKw-VUDQuHhMo7sCd7ZaRROza3leBjRR?usp=sharing">Customizing Aggregations within Message Passing</a></p></li>
+<li><p><a class="reference external" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pyg/8_Node_Classification_(with_W&amp;B).ipynb">Node Classification Instrumented with</a> <span class="inline-logo wandb empty"></span> <a class="reference external" href="https://colab.research.google.com/github/wandb/examples/blob/master/colabs/pyg/8_Node_Classification_(with_W&amp;B).ipynb">Weights&amp;Biases</a></p></li>
+<li><p><a class="reference external" href="https://colab.research.google.com/github/wandb/examples/blob/pyg/graph-classification/colabs/pyg/Graph_Classification_with_PyG_and_W%26B.ipynb">Graph Classification Instrumented with</a> <span class="inline-logo wandb empty"></span> <a class="reference external" href="https://colab.research.google.com/github/wandb/examples/blob/pyg/graph-classification/colabs/pyg/Graph_Classification_with_PyG_and_W%26B.ipynb">Weights&amp;Biases</a></p></li>
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1xpzn1Nvai1ygd_P5Yambc_oe4VBPK_ZT?usp=sharing">Link Prediction on MovieLens</a></p></li>
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1N3LvAO0AXV4kBPbTMX866OwJM9YS6Ji2?usp=sharing">Link Regression on MovieLens</a></p></li>
+</ol>
+<p>All <span class="inline-logo colab">Colab</span> notebooks are released under the MIT license.</p>
+</section>
+<section id="stanford-cs224w-tutorials">
+<h2>Stanford CS224W Tutorials<a class="headerlink" href="#stanford-cs224w-tutorials" title="Permalink to this heading"></a></h2>
+<a class="reference external image-reference" href="https://medium.com/stanford-cs224w"><img alt="https://data.pyg.org/img/cs224w_tutorials.png" class="align-center" src="https://data.pyg.org/img/cs224w_tutorials.png" style="width: 941px;" /></a>
+<br/><p>The <span class="inline-logo stanford empty"></span> <a class="reference external" href="http://web.stanford.edu/class/cs224w/">Stanford CS224W</a> course has collected a set of <a class="reference external" href="https://medium.com/stanford-cs224w">graph machine learning tutorial blog posts</a>, fully realized with <span class="inline-logo pyg">PyG</span>.
+Students worked on projects spanning all kinds of tasks, model architectures and applications.
+All tutorials also link to a <span class="inline-logo colab">Colab</span> with the code in the tutorial for you to follow along with as you read it!</p>
+</section>
+<section id="pytorch-geometric-tutorial-project">
+<h2>PyTorch Geometric Tutorial Project<a class="headerlink" href="#pytorch-geometric-tutorial-project" title="Permalink to this heading"></a></h2>
+<p>The <span class="inline-logo pyg empty"></span> <a class="reference external" href="https://github.com/AntonioLonga/PytorchGeometricTutorial">PyTorch Geometric Tutorial</a> project provides <strong>video tutorials and</strong> <span class="inline-logo colab empty"></span> <strong>Colab notebooks</strong> for a variety of different methods in <span class="inline-logo pyg">PyG</span>:</p>
+<ol class="arabic simple">
+<li><p>Introduction [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=JtDgmmQ60x8">YouTube</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial1/Tutorial1.ipynb">Colab</a>]</p></li>
+<li><p><span class="inline-logo pytorch">PyTorch</span> basics [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=UHrhp2l_knU">YouTube</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial2/Tutorial2.ipynb">Colab</a>]</p></li>
+<li><p>Graph Attention Networks (GATs) [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=CwsPoa7z2c8">YouTube</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial3/Tutorial3.ipynb">Colab</a>]</p></li>
+<li><p>Spectral Graph Convolutional Layers [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=Ghw-fp_2HFM">YouTube</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial4/Tutorial4.ipynb">Colab</a>]</p></li>
+<li><p>Aggregation Functions in GNNs [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=tGXovxQ7hKU">YouTube</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial5/Aggregation%20Tutorial.ipynb">Colab</a>]</p></li>
+<li><p>(Variational) Graph Autoencoders (GAE and VGAE) [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=qA6U4nIK62E">YouTube</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial6/Tutorial6.ipynb">Colab</a>]</p></li>
+<li><p>Adversarially Regularized Graph Autoencoders (ARGA and ARGVA) [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=hZkLu2OaHD0">YouTube</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial7/Tutorial7.ipynb">Colab</a>]</p></li>
+<li><p>Graph Generation [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=embpBq1gHAE">YouTube</a>]</p></li>
+<li><p>Recurrent Graph Neural Networks [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=v7TQ2DUoaBY">YouTube</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial9/Tutorial9.ipynb">Colab (Part 1)</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial9/RecGNN_tutorial.ipynb">Colab (Part 2)</a>]</p></li>
+<li><p>DeepWalk and Node2Vec [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=QZQBnl1QbCQ">YouTube (Theory)</a>, <span class="inline-logo youtube empty"></span> <a class="reference external" href="https://youtu.be/5YOcpI3dB7I">YouTube (Practice)</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial11/Tutorial11.ipynb">Colab</a>]</p></li>
+<li><p>Edge analysis [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=m1G7oS9hmwE">YouTube</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial12/Tutorial12%20GAE%20for%20link%20prediction.ipynb">Colab (Link Prediction)</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial12/Tutorial12%20Node2Vec%20for%20label%20prediction.ipynb">Colab (Label Prediction)</a>]</p></li>
+<li><p>Data handling in <span class="inline-logo pyg">PyG</span> (Part 1) [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=Vz5bT8Xw6Dc">YouTube</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial14/Tutorial14.ipynb">Colab</a>]</p></li>
+<li><p>Data handling in <span class="inline-logo pyg">PyG</span> (Part 2) [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=Q5T-JdyVCfs">YouTube</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial15/Tutorial15.ipynb">Colab</a>]</p></li>
+<li><p>MetaPath2vec [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=GtPoGehuKYY">YouTube</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial13/Tutorial13.ipynb">Colab</a>]</p></li>
+<li><p>Graph pooling (DiffPool) [<span class="inline-logo youtube empty"></span> <a class="reference external" href="https://www.youtube.com/watch?v=Uqc3O3-oXxM">YouTube</a>, <span class="inline-logo colab empty"></span> <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial16/Tutorial16.ipynb">Colab</a>]</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

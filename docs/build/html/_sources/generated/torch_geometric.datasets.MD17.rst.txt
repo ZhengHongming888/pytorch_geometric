@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.MD17
+==============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: MD17
+   :show-inheritance:

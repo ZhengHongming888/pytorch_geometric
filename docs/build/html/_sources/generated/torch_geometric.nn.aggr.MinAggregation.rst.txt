@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.aggr.MinAggregation
+=======================================
+
+.. currentmodule:: torch_geometric.nn.aggr
+
+.. autoclass:: MinAggregation
+   :show-inheritance:
+   :members:

@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.RadiusGraph
+=======================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: RadiusGraph
+   :show-inheritance:

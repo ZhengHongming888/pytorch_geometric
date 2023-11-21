@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.HydroNet
+==================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: HydroNet
+   :show-inheritance:

@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.AMiner
+================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: AMiner
+   :show-inheritance:

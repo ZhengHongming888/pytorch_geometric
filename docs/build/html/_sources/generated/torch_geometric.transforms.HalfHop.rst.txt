@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.HalfHop
+===================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: HalfHop
+   :show-inheritance:

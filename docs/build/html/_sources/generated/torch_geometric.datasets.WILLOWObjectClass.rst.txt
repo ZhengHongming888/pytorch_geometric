@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.WILLOWObjectClass
+===========================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: WILLOWObjectClass
+   :show-inheritance:

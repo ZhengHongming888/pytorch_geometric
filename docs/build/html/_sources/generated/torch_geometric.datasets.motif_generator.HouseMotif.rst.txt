@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.motif\_generator.HouseMotif
+=====================================================
+
+.. currentmodule:: torch_geometric.datasets.motif_generator
+
+.. autoclass:: HouseMotif
+   :show-inheritance:

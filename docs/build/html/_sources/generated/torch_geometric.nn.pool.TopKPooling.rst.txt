@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.pool.TopKPooling
+====================================
+
+.. currentmodule:: torch_geometric.nn.pool
+
+.. autoclass:: TopKPooling
+   :show-inheritance:
+   :members:

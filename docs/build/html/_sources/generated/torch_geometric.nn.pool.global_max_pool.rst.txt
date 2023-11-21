@@ -1,0 +1,6 @@
+﻿torch\_geometric.nn.pool.global\_max\_pool
+==========================================
+
+.. currentmodule:: torch_geometric.nn.pool
+
+.. autofunction:: global_max_pool

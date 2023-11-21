@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.S3DIS
+===============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: S3DIS
+   :show-inheritance:

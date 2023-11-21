@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.datasets.MD17 &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="torch_geometric.datasets.ZINC" href="torch_geometric.datasets.ZINC.html" />
+    <link rel="prev" title="torch_geometric.datasets.QM9" href="torch_geometric.datasets.QM9.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../modules/datasets.html#homogeneous-datasets">Homogeneous Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/datasets.html#heterogeneous-datasets">Heterogeneous Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/datasets.html#synthetic-datasets">Synthetic Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/datasets.html#graph-generators">Graph Generators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules/datasets.html#motif-generators">Motif Generators</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../modules/datasets.html">torch_geometric.datasets</a></li>
+      <li class="breadcrumb-item active">torch_geometric.datasets.MD17</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/torch_geometric.datasets.MD17.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="torch-geometric-datasets-md17">
+<h1>torch_geometric.datasets.MD17<a class="headerlink" href="#torch-geometric-datasets-md17" title="Permalink to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="torch_geometric.datasets.MD17">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MD17</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">train</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.12)"><span class="pre">Callable</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_transform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.12)"><span class="pre">Callable</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.12)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.12)"><span class="pre">Callable</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">force_reload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/torch_geometric/datasets/md17.html#MD17"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#torch_geometric.datasets.MD17" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="torch_geometric.data.InMemoryDataset.html#torch_geometric.data.InMemoryDataset" title="torch_geometric.data.in_memory_dataset.InMemoryDataset"><code class="xref py py-class docutils literal notranslate"><span class="pre">InMemoryDataset</span></code></a></p>
+<p>A variety of ab-initio molecular dynamics trajectories from the authors
+of <a class="reference external" href="http://quantum-machine.org/gdml">sGDML</a>.
+This class provides access to the original MD17 datasets, their revised
+versions, and the CCSD(T) trajectories.</p>
+<p>For every trajectory, the dataset contains the Cartesian positions of atoms
+(in Angstrom), their atomic numbers, as well as the total energy
+(in kcal/mol) and forces (kcal/mol/Angstrom) on each atom.
+The latter two are the regression targets for this collection.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Data objects contain no edge indices as these are most commonly
+constructed via the <a class="reference internal" href="torch_geometric.transforms.RadiusGraph.html#torch_geometric.transforms.RadiusGraph" title="torch_geometric.transforms.RadiusGraph"><code class="xref py py-obj docutils literal notranslate"><span class="pre">torch_geometric.transforms.RadiusGraph</span></code></a>
+transform, with its cut-off being a hyperparameter.</p>
+</div>
+<p>The <a class="reference external" href="https://arxiv.org/abs/1611.04678">original MD17 dataset</a> contains
+ten molecule trajectories.
+This version of the dataset was found to suffer from high numerical noise.
+The <a class="reference external" href="https://arxiv.org/abs/2007.09593">revised MD17 dataset</a> contains the
+same molecules, but the energies and forces were recalculated at the
+PBE/def2-SVP level of theory using very tight SCF convergence and very
+dense DFT integration grid.
+The third version of the dataset contains fewer molecules, computed at the
+CCSD(T) level of theory.
+The benzene molecule at the DFT FHI-aims level of theory was
+<a class="reference external" href="https://arxiv.org/abs/1802.09238">released separately</a>.</p>
+<p>Check the table below for detailed information on the molecule, level of
+theory and number of data points contained in each dataset.
+Which trajectory is loaded is determined by the <code class="xref py py-attr docutils literal notranslate"><span class="pre">name</span></code> argument.
+For the coupled cluster trajectories, the dataset comes with pre-defined
+training and testing splits which are loaded separately via the
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">train</span></code> argument.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Molecule</p></th>
+<th class="head"><p>Level of Theory</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>#Examples</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Benzene</p></td>
+<td><p>DFT</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">benzene</span></code></p></td>
+<td><p>627,983</p></td>
+</tr>
+<tr class="row-odd"><td><p>Uracil</p></td>
+<td><p>DFT</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">uracil</span></code></p></td>
+<td><p>133,770</p></td>
+</tr>
+<tr class="row-even"><td><p>Naphthalene</p></td>
+<td><p>DFT</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">napthalene</span></code></p></td>
+<td><p>326,250</p></td>
+</tr>
+<tr class="row-odd"><td><p>Aspirin</p></td>
+<td><p>DFT</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">aspirin</span></code></p></td>
+<td><p>211,762</p></td>
+</tr>
+<tr class="row-even"><td><p>Salicylic acid</p></td>
+<td><p>DFT</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">salicylic</span> <span class="pre">acid</span></code></p></td>
+<td><p>320,231</p></td>
+</tr>
+<tr class="row-odd"><td><p>Malonaldehyde</p></td>
+<td><p>DFT</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">malonaldehyde</span></code></p></td>
+<td><p>993,237</p></td>
+</tr>
+<tr class="row-even"><td><p>Ethanol</p></td>
+<td><p>DFT</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ethanol</span></code></p></td>
+<td><p>555,092</p></td>
+</tr>
+<tr class="row-odd"><td><p>Toluene</p></td>
+<td><p>DFT</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">toluene</span></code></p></td>
+<td><p>442,790</p></td>
+</tr>
+<tr class="row-even"><td><p>Paracetamol</p></td>
+<td><p>DFT</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">paracetamol</span></code></p></td>
+<td><p>106,490</p></td>
+</tr>
+<tr class="row-odd"><td><p>Azobenzene</p></td>
+<td><p>DFT</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">azobenzene</span></code></p></td>
+<td><p>99,999</p></td>
+</tr>
+<tr class="row-even"><td><p>Benzene (R)</p></td>
+<td><p>DFT (PBE/def2-SVP)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">revised</span> <span class="pre">benzene</span></code></p></td>
+<td><p>100,000</p></td>
+</tr>
+<tr class="row-odd"><td><p>Uracil (R)</p></td>
+<td><p>DFT (PBE/def2-SVP)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">revised</span> <span class="pre">uracil</span></code></p></td>
+<td><p>100,000</p></td>
+</tr>
+<tr class="row-even"><td><p>Naphthalene (R)</p></td>
+<td><p>DFT (PBE/def2-SVP)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">revised</span> <span class="pre">napthalene</span></code></p></td>
+<td><p>100,000</p></td>
+</tr>
+<tr class="row-odd"><td><p>Aspirin (R)</p></td>
+<td><p>DFT (PBE/def2-SVP)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">revised</span> <span class="pre">aspirin</span></code></p></td>
+<td><p>100,000</p></td>
+</tr>
+<tr class="row-even"><td><p>Salicylic acid (R)</p></td>
+<td><p>DFT (PBE/def2-SVP)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">revised</span> <span class="pre">salicylic</span> <span class="pre">acid</span></code></p></td>
+<td><p>100,000</p></td>
+</tr>
+<tr class="row-odd"><td><p>Malonaldehyde (R)</p></td>
+<td><p>DFT (PBE/def2-SVP)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">revised</span> <span class="pre">malonaldehyde</span></code></p></td>
+<td><p>100,000</p></td>
+</tr>
+<tr class="row-even"><td><p>Ethanol (R)</p></td>
+<td><p>DFT (PBE/def2-SVP)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">revised</span> <span class="pre">ethanol</span></code></p></td>
+<td><p>100,000</p></td>
+</tr>
+<tr class="row-odd"><td><p>Toluene (R)</p></td>
+<td><p>DFT (PBE/def2-SVP)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">revised</span> <span class="pre">toluene</span></code></p></td>
+<td><p>100,000</p></td>
+</tr>
+<tr class="row-even"><td><p>Paracetamol (R)</p></td>
+<td><p>DFT (PBE/def2-SVP)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">revised</span> <span class="pre">paracetamol</span></code></p></td>
+<td><p>100,000</p></td>
+</tr>
+<tr class="row-odd"><td><p>Azobenzene (R)</p></td>
+<td><p>DFT (PBE/def2-SVP)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">revised</span> <span class="pre">azobenzene</span></code></p></td>
+<td><p>99,988</p></td>
+</tr>
+<tr class="row-even"><td><p>Benzene</p></td>
+<td><p>CCSD(T)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">benzene</span> <span class="pre">CCSD(T)</span></code></p></td>
+<td><p>1,500</p></td>
+</tr>
+<tr class="row-odd"><td><p>Aspirin</p></td>
+<td><p>CCSD</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">aspirin</span> <span class="pre">CCSD</span></code></p></td>
+<td><p>1,500</p></td>
+</tr>
+<tr class="row-even"><td><p>Malonaldehyde</p></td>
+<td><p>CCSD(T)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">malonaldehyde</span> <span class="pre">CCSD(T)</span></code></p></td>
+<td><p>1,500</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ethanol</p></td>
+<td><p>CCSD(T)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ethanol</span> <span class="pre">CCSD(T)</span></code></p></td>
+<td><p>2,000</p></td>
+</tr>
+<tr class="row-even"><td><p>Toluene</p></td>
+<td><p>CCSD(T)</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">toluene</span> <span class="pre">CCSD(T)</span></code></p></td>
+<td><p>1,501</p></td>
+</tr>
+<tr class="row-odd"><td><p>Benzene</p></td>
+<td><p>DFT FHI-aims</p></td>
+<td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">benzene</span> <span class="pre">FHI-aims</span></code></p></td>
+<td><p>49,863</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is advised to not train a model on more than 1,000 samples from the
+original or revised MD17 dataset.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>root</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Root directory where the dataset should be saved.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Keyword of the trajectory that should be loaded.</p></li>
+<li><p><strong>train</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Determines whether the train or test split
+gets loaded for the coupled cluster trajectories.
+(default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – A function/transform that takes in an
+<a class="reference internal" href="torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">torch_geometric.data.Data</span></code></a> object and returns a transformed
+version. The data object will be transformed before every access.
+(default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>pre_transform</strong> (<em>callable</em><em>, </em><em>optional</em>) – A function/transform that takes in
+an <a class="reference internal" href="torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">torch_geometric.data.Data</span></code></a> object and returns a
+transformed version. The data object will be transformed before
+being saved to disk. (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>pre_filter</strong> (<em>callable</em><em>, </em><em>optional</em>) – A function that takes in an
+<a class="reference internal" href="torch_geometric.data.Data.html#torch_geometric.data.Data" title="torch_geometric.data.Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">torch_geometric.data.Data</span></code></a> object and returns a boolean
+value, indicating whether the data object should be included in the
+final dataset. (default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>)</p></li>
+<li><p><strong>force_reload</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to re-process the dataset.
+(default: <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<p><strong>STATS:</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>#graphs</p></th>
+<th class="head"><p>#nodes</p></th>
+<th class="head"><p>#edges</p></th>
+<th class="head"><p>#features</p></th>
+<th class="head"><p>#tasks</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Benzene</p></td>
+<td><p>627,983</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Uracil</p></td>
+<td><p>133,770</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Naphthalene</p></td>
+<td><p>326,250</p></td>
+<td><p>10</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Aspirin</p></td>
+<td><p>211,762</p></td>
+<td><p>21</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Salicylic acid</p></td>
+<td><p>320,231</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Malonaldehyde</p></td>
+<td><p>993,237</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Ethanol</p></td>
+<td><p>555,092</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Toluene</p></td>
+<td><p>442,790</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Paracetamol</p></td>
+<td><p>106,490</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Azobenzene</p></td>
+<td><p>99,999</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Benzene (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Uracil (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Naphthalene (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>10</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Aspirin (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>21</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Salicylic acid (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>16</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Malonaldehyde (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Ethanol (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Toluene (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Paracetamol (R)</p></td>
+<td><p>100,000</p></td>
+<td><p>20</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Azobenzene (R)</p></td>
+<td><p>99,988</p></td>
+<td><p>24</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Benzene CCSD-T</p></td>
+<td><p>1,500</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Aspirin CCSD-T</p></td>
+<td><p>1,500</p></td>
+<td><p>21</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Malonaldehyde CCSD-T</p></td>
+<td><p>1,500</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ethanol CCSD-T</p></td>
+<td><p>2000</p></td>
+<td><p>9</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-even"><td><p>Toluene CCSD-T</p></td>
+<td><p>1,501</p></td>
+<td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Benzene FHI-aims</p></td>
+<td><p>49,863</p></td>
+<td><p>12</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="torch_geometric.datasets.QM9.html" class="btn btn-neutral float-left" title="torch_geometric.datasets.QM9" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="torch_geometric.datasets.ZINC.html" class="btn btn-neutral float-right" title="torch_geometric.datasets.ZINC" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

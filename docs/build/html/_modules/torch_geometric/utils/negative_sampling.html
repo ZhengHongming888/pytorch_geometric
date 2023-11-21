@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.utils.negative_sampling &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.utils.negative_sampling</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.utils.negative_sampling</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="n">coalesce</span><span class="p">,</span> <span class="n">cumsum</span><span class="p">,</span> <span class="n">degree</span><span class="p">,</span> <span class="n">remove_self_loops</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils.num_nodes</span> <span class="kn">import</span> <span class="n">maybe_num_nodes</span>
+
+
+<div class="viewcode-block" id="negative_sampling"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.negative_sampling">[docs]</a><span class="k">def</span> <span class="nf">negative_sampling</span><span class="p">(</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">num_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">num_neg_samples</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;sparse&quot;</span><span class="p">,</span>
+    <span class="n">force_undirected</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Samples random negative edges of a graph given by :attr:`edge_index`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+<span class="sd">        num_nodes (int or Tuple[int, int], optional): The number of nodes,</span>
+<span class="sd">            *i.e.* :obj:`max_val + 1` of :attr:`edge_index`.</span>
+<span class="sd">            If given as a tuple, then :obj:`edge_index` is interpreted as a</span>
+<span class="sd">            bipartite graph with shape :obj:`(num_src_nodes, num_dst_nodes)`.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        num_neg_samples (int, optional): The (approximate) number of negative</span>
+<span class="sd">            samples to return.</span>
+<span class="sd">            If set to :obj:`None`, will try to return a negative edge for every</span>
+<span class="sd">            positive edge. (default: :obj:`None`)</span>
+<span class="sd">        method (str, optional): The method to use for negative sampling,</span>
+<span class="sd">            *i.e.* :obj:`&quot;sparse&quot;` or :obj:`&quot;dense&quot;`.</span>
+<span class="sd">            This is a memory/runtime trade-off.</span>
+<span class="sd">            :obj:`&quot;sparse&quot;` will work on any graph of any size, while</span>
+<span class="sd">            :obj:`&quot;dense&quot;` can perform faster true-negative checks.</span>
+<span class="sd">            (default: :obj:`&quot;sparse&quot;`)</span>
+<span class="sd">        force_undirected (bool, optional): If set to :obj:`True`, sampled</span>
+<span class="sd">            negative edges will be undirected. (default: :obj:`False`)</span>
+
+<span class="sd">    :rtype: LongTensor</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; # Standard usage</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.as_tensor([[0, 0, 1, 2],</span>
+<span class="sd">        ...                               [0, 1, 2, 3]])</span>
+<span class="sd">        &gt;&gt;&gt; negative_sampling(edge_index)</span>
+<span class="sd">        tensor([[3, 0, 0, 3],</span>
+<span class="sd">                [2, 3, 2, 1]])</span>
+
+<span class="sd">        &gt;&gt;&gt; # For bipartite graph</span>
+<span class="sd">        &gt;&gt;&gt; negative_sampling(edge_index, num_nodes=(3, 4))</span>
+<span class="sd">        tensor([[0, 2, 2, 1],</span>
+<span class="sd">                [2, 2, 1, 3]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">method</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;sparse&#39;</span><span class="p">,</span> <span class="s1">&#39;dense&#39;</span><span class="p">]</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="n">num_nodes</span>
+    <span class="n">bipartite</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">maybe_num_nodes</span><span class="p">(</span><span class="n">edge_index</span><span class="p">)</span> <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">size</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">bipartite</span> <span class="k">else</span> <span class="n">size</span>
+    <span class="n">force_undirected</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">bipartite</span> <span class="k">else</span> <span class="n">force_undirected</span>
+
+    <span class="n">idx</span><span class="p">,</span> <span class="n">population</span> <span class="o">=</span> <span class="n">edge_index_to_vector</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">bipartite</span><span class="p">,</span>
+                                           <span class="n">force_undirected</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">idx</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">population</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">new_empty</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">num_neg_samples</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">num_neg_samples</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">force_undirected</span><span class="p">:</span>
+        <span class="n">num_neg_samples</span> <span class="o">=</span> <span class="n">num_neg_samples</span> <span class="o">//</span> <span class="mi">2</span>
+
+    <span class="n">prob</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">-</span> <span class="n">idx</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">/</span> <span class="n">population</span>  <span class="c1"># Probability to sample a negative.</span>
+    <span class="n">sample_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1.1</span> <span class="o">*</span> <span class="n">num_neg_samples</span> <span class="o">/</span> <span class="n">prob</span><span class="p">)</span>  <span class="c1"># (Over)-sample size.</span>
+
+    <span class="n">neg_idx</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;dense&#39;</span><span class="p">:</span>
+        <span class="c1"># The dense version creates a mask of shape `population` to check for</span>
+        <span class="c1"># invalid samples.</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">idx</span><span class="o">.</span><span class="n">new_ones</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+        <span class="n">mask</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>  <span class="c1"># Number of tries to sample negative indices.</span>
+            <span class="n">rnd</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">,</span> <span class="n">idx</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">rnd</span> <span class="o">=</span> <span class="n">rnd</span><span class="p">[</span><span class="n">mask</span><span class="p">[</span><span class="n">rnd</span><span class="p">]]</span>  <span class="c1"># Filter true negatives.</span>
+            <span class="n">neg_idx</span> <span class="o">=</span> <span class="n">rnd</span> <span class="k">if</span> <span class="n">neg_idx</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">neg_idx</span><span class="p">,</span> <span class="n">rnd</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">neg_idx</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">num_neg_samples</span><span class="p">:</span>
+                <span class="n">neg_idx</span> <span class="o">=</span> <span class="n">neg_idx</span><span class="p">[:</span><span class="n">num_neg_samples</span><span class="p">]</span>
+                <span class="k">break</span>
+            <span class="n">mask</span><span class="p">[</span><span class="n">neg_idx</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># &#39;sparse&#39;</span>
+        <span class="c1"># The sparse version checks for invalid samples via `np.isin`.</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">idx</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>  <span class="c1"># Number of tries to sample negative indices.</span>
+            <span class="n">rnd</span> <span class="o">=</span> <span class="n">sample</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rnd</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">neg_idx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">mask</span> <span class="o">|=</span> <span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">rnd</span><span class="p">,</span> <span class="n">neg_idx</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">))</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+            <span class="n">rnd</span> <span class="o">=</span> <span class="n">rnd</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">neg_idx</span> <span class="o">=</span> <span class="n">rnd</span> <span class="k">if</span> <span class="n">neg_idx</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">neg_idx</span><span class="p">,</span> <span class="n">rnd</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">neg_idx</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">num_neg_samples</span><span class="p">:</span>
+                <span class="n">neg_idx</span> <span class="o">=</span> <span class="n">neg_idx</span><span class="p">[:</span><span class="n">num_neg_samples</span><span class="p">]</span>
+                <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">vector_to_edge_index</span><span class="p">(</span><span class="n">neg_idx</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">bipartite</span><span class="p">,</span> <span class="n">force_undirected</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="batched_negative_sampling"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.batched_negative_sampling">[docs]</a><span class="k">def</span> <span class="nf">batched_negative_sampling</span><span class="p">(</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">batch</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]],</span>
+    <span class="n">num_neg_samples</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;sparse&quot;</span><span class="p">,</span>
+    <span class="n">force_undirected</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Samples random negative edges of multiple graphs given by</span>
+<span class="sd">    :attr:`edge_index` and :attr:`batch`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+<span class="sd">        batch (LongTensor or Tuple[LongTensor, LongTensor]): Batch vector</span>
+<span class="sd">            :math:`\mathbf{b} \in {\{ 0, \ldots, B-1\}}^N`, which assigns each</span>
+<span class="sd">            node to a specific example.</span>
+<span class="sd">            If given as a tuple, then :obj:`edge_index` is interpreted as a</span>
+<span class="sd">            bipartite graph connecting two different node types.</span>
+<span class="sd">        num_neg_samples (int, optional): The number of negative samples to</span>
+<span class="sd">            return. If set to :obj:`None`, will try to return a negative edge</span>
+<span class="sd">            for every positive edge. (default: :obj:`None`)</span>
+<span class="sd">        method (str, optional): The method to use for negative sampling,</span>
+<span class="sd">            *i.e.* :obj:`&quot;sparse&quot;` or :obj:`&quot;dense&quot;`.</span>
+<span class="sd">            This is a memory/runtime trade-off.</span>
+<span class="sd">            :obj:`&quot;sparse&quot;` will work on any graph of any size, while</span>
+<span class="sd">            :obj:`&quot;dense&quot;` can perform faster true-negative checks.</span>
+<span class="sd">            (default: :obj:`&quot;sparse&quot;`)</span>
+<span class="sd">        force_undirected (bool, optional): If set to :obj:`True`, sampled</span>
+<span class="sd">            negative edges will be undirected. (default: :obj:`False`)</span>
+
+<span class="sd">    :rtype: LongTensor</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; # Standard usage</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.as_tensor([[0, 0, 1, 2], [0, 1, 2, 3]])</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.cat([edge_index, edge_index + 4], dim=1)</span>
+<span class="sd">        &gt;&gt;&gt; edge_index</span>
+<span class="sd">        tensor([[0, 0, 1, 2, 4, 4, 5, 6],</span>
+<span class="sd">                [0, 1, 2, 3, 4, 5, 6, 7]])</span>
+<span class="sd">        &gt;&gt;&gt; batch = torch.tensor([0, 0, 0, 0, 1, 1, 1, 1])</span>
+<span class="sd">        &gt;&gt;&gt; batched_negative_sampling(edge_index, batch)</span>
+<span class="sd">        tensor([[3, 1, 3, 2, 7, 7, 6, 5],</span>
+<span class="sd">                [2, 0, 1, 1, 5, 6, 4, 4]])</span>
+
+<span class="sd">        &gt;&gt;&gt; # For bipartite graph</span>
+<span class="sd">        &gt;&gt;&gt; edge_index1 = torch.as_tensor([[0, 0, 1, 1], [0, 1, 2, 3]])</span>
+<span class="sd">        &gt;&gt;&gt; edge_index2 = edge_index1 + torch.tensor([[2], [4]])</span>
+<span class="sd">        &gt;&gt;&gt; edge_index3 = edge_index2 + torch.tensor([[2], [4]])</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.cat([edge_index1, edge_index2,</span>
+<span class="sd">        ...                         edge_index3], dim=1)</span>
+<span class="sd">        &gt;&gt;&gt; edge_index</span>
+<span class="sd">        tensor([[ 0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5,  5],</span>
+<span class="sd">                [ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11]])</span>
+<span class="sd">        &gt;&gt;&gt; src_batch = torch.tensor([0, 0, 1, 1, 2, 2])</span>
+<span class="sd">        &gt;&gt;&gt; dst_batch = torch.tensor([0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2])</span>
+<span class="sd">        &gt;&gt;&gt; batched_negative_sampling(edge_index,</span>
+<span class="sd">        ...                           (src_batch, dst_batch))</span>
+<span class="sd">        tensor([[ 0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5,  5],</span>
+<span class="sd">                [ 2,  3,  0,  1,  6,  7,  4,  5, 10, 11,  8,  9]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+        <span class="n">src_batch</span><span class="p">,</span> <span class="n">dst_batch</span> <span class="o">=</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">src_batch</span><span class="p">,</span> <span class="n">dst_batch</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">split</span> <span class="o">=</span> <span class="n">degree</span><span class="p">(</span><span class="n">src_batch</span><span class="p">[</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">edge_indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">split</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">num_src</span> <span class="o">=</span> <span class="n">degree</span><span class="p">(</span><span class="n">src_batch</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+    <span class="n">cum_src</span> <span class="o">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">num_src</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+        <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">num_src</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">ptr</span> <span class="o">=</span> <span class="n">cum_src</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">num_dst</span> <span class="o">=</span> <span class="n">degree</span><span class="p">(</span><span class="n">dst_batch</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">cum_dst</span> <span class="o">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">num_dst</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">num_src</span><span class="p">,</span> <span class="n">num_dst</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">ptr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">cum_src</span><span class="p">,</span> <span class="n">cum_dst</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">neg_edge_indices</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">edge_index</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">edge_indices</span><span class="p">):</span>
+        <span class="n">edge_index</span> <span class="o">=</span> <span class="n">edge_index</span> <span class="o">-</span> <span class="n">ptr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">neg_edge_index</span> <span class="o">=</span> <span class="n">negative_sampling</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                           <span class="n">num_neg_samples</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span>
+                                           <span class="n">force_undirected</span><span class="p">)</span>
+        <span class="n">neg_edge_index</span> <span class="o">+=</span> <span class="n">ptr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">neg_edge_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">neg_edge_index</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">neg_edge_indices</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="structured_negative_sampling"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.structured_negative_sampling">[docs]</a><span class="k">def</span> <span class="nf">structured_negative_sampling</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                 <span class="n">contains_neg_self_loops</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Samples a negative edge :obj:`(i,k)` for every positive edge</span>
+<span class="sd">    :obj:`(i,j)` in the graph given by :attr:`edge_index`, and returns it as a</span>
+<span class="sd">    tuple of the form :obj:`(i,j,k)`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+<span class="sd">        num_nodes (int, optional): The number of nodes, *i.e.*</span>
+<span class="sd">            :obj:`max_val + 1` of :attr:`edge_index`. (default: :obj:`None`)</span>
+<span class="sd">        contains_neg_self_loops (bool, optional): If set to</span>
+<span class="sd">            :obj:`False`, sampled negative edges will not contain self loops.</span>
+<span class="sd">            (default: :obj:`True`)</span>
+
+<span class="sd">    :rtype: (LongTensor, LongTensor, LongTensor)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.as_tensor([[0, 0, 1, 2],</span>
+<span class="sd">        ...                               [0, 1, 2, 3]])</span>
+<span class="sd">        &gt;&gt;&gt; structured_negative_sampling(edge_index)</span>
+<span class="sd">        (tensor([0, 0, 1, 2]), tensor([0, 1, 2, 3]), tensor([2, 3, 0, 2]))</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">maybe_num_nodes</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">)</span>
+
+    <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+    <span class="n">pos_idx</span> <span class="o">=</span> <span class="n">row</span> <span class="o">*</span> <span class="n">num_nodes</span> <span class="o">+</span> <span class="n">col</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">contains_neg_self_loops</span><span class="p">:</span>
+        <span class="n">loop_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">num_nodes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">pos_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">pos_idx</span><span class="p">,</span> <span class="n">loop_idx</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">rand</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+    <span class="n">neg_idx</span> <span class="o">=</span> <span class="n">row</span> <span class="o">*</span> <span class="n">num_nodes</span> <span class="o">+</span> <span class="n">rand</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">neg_idx</span><span class="p">,</span> <span class="n">pos_idx</span><span class="p">))</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+    <span class="n">rest</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">as_tuple</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">rest</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="p">(</span><span class="n">rest</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">rand</span><span class="p">[</span><span class="n">rest</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+        <span class="n">neg_idx</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">rest</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_nodes</span> <span class="o">+</span> <span class="n">tmp</span>
+
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">neg_idx</span><span class="p">,</span> <span class="n">pos_idx</span><span class="p">))</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+        <span class="n">rest</span> <span class="o">=</span> <span class="n">rest</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rand</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="structured_negative_sampling_feasible"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.structured_negative_sampling_feasible">[docs]</a><span class="k">def</span> <span class="nf">structured_negative_sampling_feasible</span><span class="p">(</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">num_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">contains_neg_self_loops</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns :obj:`True` if</span>
+<span class="sd">    :meth:`~torch_geometric.utils.structured_negative_sampling` is feasible</span>
+<span class="sd">    on the graph given by :obj:`edge_index`.</span>
+<span class="sd">    :meth:`~torch_geometric.utils.structured_negative_sampling` is infeasible</span>
+<span class="sd">    if atleast one node is connected to all other nodes.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+<span class="sd">        num_nodes (int, optional): The number of nodes, *i.e.*</span>
+<span class="sd">            :obj:`max_val + 1` of :attr:`edge_index`. (default: :obj:`None`)</span>
+<span class="sd">        contains_neg_self_loops (bool, optional): If set to</span>
+<span class="sd">            :obj:`False`, sampled negative edges will not contain self loops.</span>
+<span class="sd">            (default: :obj:`True`)</span>
+
+<span class="sd">    :rtype: bool</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.LongTensor([[0, 0, 1, 1, 2, 2, 2],</span>
+<span class="sd">        ...                                [1, 2, 0, 2, 0, 1, 1]])</span>
+<span class="sd">        &gt;&gt;&gt; structured_negative_sampling_feasible(edge_index, 3, False)</span>
+<span class="sd">        False</span>
+
+<span class="sd">        &gt;&gt;&gt; structured_negative_sampling_feasible(edge_index, 3, True)</span>
+<span class="sd">        True</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">maybe_num_nodes</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">)</span>
+    <span class="n">max_num_neighbors</span> <span class="o">=</span> <span class="n">num_nodes</span>
+
+    <span class="n">edge_index</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">contains_neg_self_loops</span><span class="p">:</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">remove_self_loops</span><span class="p">(</span><span class="n">edge_index</span><span class="p">)</span>
+        <span class="n">max_num_neighbors</span> <span class="o">-=</span> <span class="mi">1</span>  <span class="c1"># Reduce number of valid neighbors</span>
+
+    <span class="n">deg</span> <span class="o">=</span> <span class="n">degree</span><span class="p">(</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">num_nodes</span><span class="p">)</span>
+    <span class="c1"># True if there exists no node that is connected to all other nodes.</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">deg</span> <span class="o">&lt;</span> <span class="n">max_num_neighbors</span><span class="p">))</span></div>
+
+
+<span class="c1">###############################################################################</span>
+
+
+<span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">population</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">population</span> <span class="o">&lt;=</span> <span class="n">k</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">population</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">population</span><span class="p">),</span> <span class="n">k</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">edge_index_to_vector</span><span class="p">(</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
+    <span class="n">bipartite</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">force_undirected</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+
+    <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">edge_index</span>
+
+    <span class="k">if</span> <span class="n">bipartite</span><span class="p">:</span>  <span class="c1"># No need to account for self-loops.</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span> <span class="o">*</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+        <span class="n">population</span> <span class="o">=</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">idx</span><span class="p">,</span> <span class="n">population</span>
+
+    <span class="k">elif</span> <span class="n">force_undirected</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># We only operate on the upper triangular matrix:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">col</span>
+        <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">col</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="mi">0</span><span class="p">)[</span><span class="n">row</span><span class="p">]</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
+        <span class="n">population</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_nodes</span> <span class="o">*</span> <span class="p">(</span><span class="n">num_nodes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">num_nodes</span>
+        <span class="k">return</span> <span class="n">idx</span><span class="p">,</span> <span class="n">population</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># We remove self-loops as we do not want to take them into account</span>
+        <span class="c1"># when sampling negative values.</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">row</span> <span class="o">!=</span> <span class="n">col</span>
+        <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">col</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="n">col</span><span class="p">[</span><span class="n">row</span> <span class="o">&lt;</span> <span class="n">col</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">num_nodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+        <span class="n">population</span> <span class="o">=</span> <span class="n">num_nodes</span> <span class="o">*</span> <span class="n">num_nodes</span> <span class="o">-</span> <span class="n">num_nodes</span>
+        <span class="k">return</span> <span class="n">idx</span><span class="p">,</span> <span class="n">population</span>
+
+
+<span class="k">def</span> <span class="nf">vector_to_edge_index</span><span class="p">(</span><span class="n">idx</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">bipartite</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                         <span class="n">force_undirected</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="n">bipartite</span><span class="p">:</span>  <span class="c1"># No need to account for self-loops.</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">idx</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rounding_mode</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">%</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">force_undirected</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">idx</span><span class="o">.</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_nodes</span> <span class="o">*</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span>
+                           <span class="n">device</span><span class="o">=</span><span class="n">idx</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bucketize</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">end</span><span class="o">.</span><span class="n">sub_</span><span class="p">(</span><span class="n">offset</span><span class="p">),</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">offset</span><span class="p">[</span><span class="n">row</span><span class="p">]</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">%</span> <span class="n">num_nodes</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]),</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">])],</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">row</span> <span class="o">=</span> <span class="n">idx</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">num_nodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rounding_mode</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">%</span> <span class="p">(</span><span class="n">num_nodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">col</span><span class="p">[</span><span class="n">row</span> <span class="o">&lt;=</span> <span class="n">col</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

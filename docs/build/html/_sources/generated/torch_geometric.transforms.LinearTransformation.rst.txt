@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.LinearTransformation
+================================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: LinearTransformation
+   :show-inheritance:

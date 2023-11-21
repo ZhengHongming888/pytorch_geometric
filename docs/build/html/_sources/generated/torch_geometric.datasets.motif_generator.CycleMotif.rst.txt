@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.motif\_generator.CycleMotif
+=====================================================
+
+.. currentmodule:: torch_geometric.datasets.motif_generator
+
+.. autoclass:: CycleMotif
+   :show-inheritance:

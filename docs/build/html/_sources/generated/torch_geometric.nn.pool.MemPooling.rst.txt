@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.pool.MemPooling
+===================================
+
+.. currentmodule:: torch_geometric.nn.pool
+
+.. autoclass:: MemPooling
+   :show-inheritance:
+   :members:

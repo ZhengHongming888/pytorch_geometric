@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.explain.explainer &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.explain.explainer</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.explain.explainer</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.explain</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ExplainerAlgorithm</span><span class="p">,</span>
+    <span class="n">Explanation</span><span class="p">,</span>
+    <span class="n">HeteroExplanation</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.explain.algorithm.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">clear_masks</span><span class="p">,</span>
+    <span class="n">set_hetero_masks</span><span class="p">,</span>
+    <span class="n">set_masks</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.explain.config</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ExplainerConfig</span><span class="p">,</span>
+    <span class="n">ExplanationType</span><span class="p">,</span>
+    <span class="n">MaskType</span><span class="p">,</span>
+    <span class="n">ModelConfig</span><span class="p">,</span>
+    <span class="n">ModelMode</span><span class="p">,</span>
+    <span class="n">ModelReturnType</span><span class="p">,</span>
+    <span class="n">ThresholdConfig</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">EdgeType</span><span class="p">,</span> <span class="n">NodeType</span>
+
+
+<div class="viewcode-block" id="Explainer"><a class="viewcode-back" href="../../../modules/explain.html#torch_geometric.explain.Explainer">[docs]</a><span class="k">class</span> <span class="nc">Explainer</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;An explainer class for instance-level explanations of Graph Neural</span>
+<span class="sd">    Networks.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (torch.nn.Module): The model to explain.</span>
+<span class="sd">        algorithm (ExplainerAlgorithm): The explanation algorithm.</span>
+<span class="sd">        explanation_type (ExplanationType or str): The type of explanation to</span>
+<span class="sd">            compute. The possible values are:</span>
+
+<span class="sd">                - :obj:`&quot;model&quot;`: Explains the model prediction.</span>
+
+<span class="sd">                - :obj:`&quot;phenomenon&quot;`: Explains the phenomenon that the model</span>
+<span class="sd">                  is trying to predict.</span>
+
+<span class="sd">            In practice, this means that the explanation algorithm will either</span>
+<span class="sd">            compute their losses with respect to the model output</span>
+<span class="sd">            (:obj:`&quot;model&quot;`) or the target output (:obj:`&quot;phenomenon&quot;`).</span>
+<span class="sd">        model_config (ModelConfig): The model configuration.</span>
+<span class="sd">            See :class:`~torch_geometric.explain.config.ModelConfig` for</span>
+<span class="sd">            available options. (default: :obj:`None`)</span>
+<span class="sd">        node_mask_type (MaskType or str, optional): The type of mask to apply</span>
+<span class="sd">            on nodes. The possible values are (default: :obj:`None`):</span>
+
+<span class="sd">                - :obj:`None`: Will not apply any mask on nodes.</span>
+
+<span class="sd">                - :obj:`&quot;object&quot;`: Will mask each node.</span>
+
+<span class="sd">                - :obj:`&quot;common_attributes&quot;`: Will mask each feature.</span>
+
+<span class="sd">                - :obj:`&quot;attributes&quot;`: Will mask each feature across all nodes.</span>
+
+<span class="sd">        edge_mask_type (MaskType or str, optional): The type of mask to apply</span>
+<span class="sd">            on edges. Has the sample possible values as :obj:`node_mask_type`.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        threshold_config (ThresholdConfig, optional): The threshold</span>
+<span class="sd">            configuration.</span>
+<span class="sd">            See :class:`~torch_geometric.explain.config.ThresholdConfig` for</span>
+<span class="sd">            available options. (default: :obj:`None`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+        <span class="n">algorithm</span><span class="p">:</span> <span class="n">ExplainerAlgorithm</span><span class="p">,</span>
+        <span class="n">explanation_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ExplanationType</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+        <span class="n">model_config</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ModelConfig</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+        <span class="n">node_mask_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">MaskType</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge_mask_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">MaskType</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">threshold_config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ThresholdConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">explainer_config</span> <span class="o">=</span> <span class="n">ExplainerConfig</span><span class="p">(</span>
+            <span class="n">explanation_type</span><span class="o">=</span><span class="n">explanation_type</span><span class="p">,</span>
+            <span class="n">node_mask_type</span><span class="o">=</span><span class="n">node_mask_type</span><span class="p">,</span>
+            <span class="n">edge_mask_type</span><span class="o">=</span><span class="n">edge_mask_type</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span> <span class="o">=</span> <span class="n">algorithm</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">explanation_type</span> <span class="o">=</span> <span class="n">explainer_config</span><span class="o">.</span><span class="n">explanation_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_config</span> <span class="o">=</span> <span class="n">ModelConfig</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">model_config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_mask_type</span> <span class="o">=</span> <span class="n">explainer_config</span><span class="o">.</span><span class="n">node_mask_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edge_mask_type</span> <span class="o">=</span> <span class="n">explainer_config</span><span class="o">.</span><span class="n">edge_mask_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">threshold_config</span> <span class="o">=</span> <span class="n">ThresholdConfig</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">threshold_config</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">explainer_config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_config</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Explainer.get_prediction"><a class="viewcode-back" href="../../../modules/explain.html#torch_geometric.explain.Explainer.get_prediction">[docs]</a>    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">get_prediction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the prediction of the model on the input graph.</span>
+
+<span class="sd">        If the model mode is :obj:`&quot;regression&quot;`, the prediction is returned as</span>
+<span class="sd">        a scalar value.</span>
+<span class="sd">        If the model mode is :obj:`&quot;multiclass_classification&quot;` or</span>
+<span class="sd">        :obj:`&quot;binary_classification&quot;`, the prediction is returned as the</span>
+<span class="sd">        predicted class label.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args: Arguments passed to the model.</span>
+<span class="sd">            **kwargs (optional): Additional keyword arguments passed to the</span>
+<span class="sd">                model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">training</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">training</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">training</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="Explainer.get_masked_prediction"><a class="viewcode-back" href="../../../modules/explain.html#torch_geometric.explain.Explainer.get_masked_prediction">[docs]</a>    <span class="k">def</span> <span class="nf">get_masked_prediction</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">NodeType</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]],</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]],</span>
+        <span class="n">node_mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">NodeType</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge_mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the prediction of the model on the input graph with node</span>
+<span class="sd">        and edge masks applied.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">)</span> <span class="ow">and</span> <span class="n">node_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">node_mask</span> <span class="o">*</span> <span class="n">x</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">node_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="o">*</span> <span class="n">node_mask</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_mask</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">set_masks</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">edge_mask</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">apply_sigmoid</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_mask</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">set_hetero_masks</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">edge_mask</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span>
+                             <span class="n">apply_sigmoid</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_prediction</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">clear_masks</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="Explainer.__call__"><a class="viewcode-back" href="../../../modules/explain.html#torch_geometric.explain.Explainer.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">NodeType</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]],</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]],</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Explanation</span><span class="p">,</span> <span class="n">HeteroExplanation</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computes the explanation of the GNN for the given inputs and</span>
+<span class="sd">        target.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            If you get an error message like &quot;Trying to backward through the</span>
+<span class="sd">            graph a second time&quot;, make sure that the target you provided</span>
+<span class="sd">            was computed with :meth:`torch.no_grad`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (Union[torch.Tensor, Dict[NodeType, torch.Tensor]]): The input</span>
+<span class="sd">                node features of a homogeneous or heterogeneous graph.</span>
+<span class="sd">            edge_index (Union[torch.Tensor, Dict[NodeType, torch.Tensor]]): The</span>
+<span class="sd">                input edge indices of a homogeneous or heterogeneous graph.</span>
+<span class="sd">            target (torch.Tensor): The target of the model.</span>
+<span class="sd">                If the explanation type is :obj:`&quot;phenomenon&quot;`, the target has</span>
+<span class="sd">                to be provided.</span>
+<span class="sd">                If the explanation type is :obj:`&quot;model&quot;`, the target should be</span>
+<span class="sd">                set to :obj:`None` and will get automatically inferred. For</span>
+<span class="sd">                classification tasks, the target needs to contain the class</span>
+<span class="sd">                labels. (default: :obj:`None`)</span>
+<span class="sd">            index (Union[int, Tensor], optional): The indices in the</span>
+<span class="sd">                first-dimension of the model output to explain.</span>
+<span class="sd">                Can be a single index or a tensor of indices.</span>
+<span class="sd">                If set to :obj:`None`, all model outputs will be explained.</span>
+<span class="sd">                (default: :obj:`None`)</span>
+<span class="sd">            **kwargs: additional arguments to pass to the GNN.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Choose the `target` depending on the explanation type:</span>
+        <span class="n">prediction</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation_type</span> <span class="o">==</span> <span class="n">ExplanationType</span><span class="o">.</span><span class="n">phenomenon</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;The &#39;target&#39; has to be provided for the explanation &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;type &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">explanation_type</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">explanation_type</span> <span class="o">==</span> <span class="n">ExplanationType</span><span class="o">.</span><span class="n">model</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;The &#39;target&#39; should not be provided for the explanation &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;type &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">explanation_type</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+            <span class="n">prediction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_prediction</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_target</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">index</span><span class="p">])</span>
+
+        <span class="n">training</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">training</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+        <span class="n">explanation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">algorithm</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="n">edge_index</span><span class="p">,</span>
+            <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+            <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">training</span><span class="p">)</span>
+
+        <span class="c1"># Add explainer objectives to the `Explanation` object:</span>
+        <span class="n">explanation</span><span class="o">.</span><span class="n">_model_config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_config</span>
+        <span class="n">explanation</span><span class="o">.</span><span class="n">prediction</span> <span class="o">=</span> <span class="n">prediction</span>
+        <span class="n">explanation</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span>
+        <span class="n">explanation</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>
+
+        <span class="c1"># Add model inputs to the `Explanation` object:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">Explanation</span><span class="p">):</span>
+            <span class="n">explanation</span><span class="o">.</span><span class="n">_model_args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="n">explanation</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="n">explanation</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="n">edge_index</span>
+
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  <span class="c1"># Add remaining `kwargs`:</span>
+                <span class="n">explanation</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">explanation</span><span class="p">,</span> <span class="n">HeteroExplanation</span><span class="p">):</span>
+            <span class="c1"># TODO Add `explanation._model_args`</span>
+
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+            <span class="n">explanation</span><span class="o">.</span><span class="n">set_value_dict</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+            <span class="n">explanation</span><span class="o">.</span><span class="n">set_value_dict</span><span class="p">(</span><span class="s1">&#39;edge_index&#39;</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  <span class="c1"># Add remaining `kwargs`:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                    <span class="c1"># Keyword arguments are likely named `{attr_name}_dict`</span>
+                    <span class="c1"># while we only want to assign the `{attr_name}` to the</span>
+                    <span class="c1"># `HeteroExplanation` object:</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_dict&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">key</span>
+                    <span class="n">explanation</span><span class="o">.</span><span class="n">set_value_dict</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">explanation</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">arg</span>
+
+        <span class="n">explanation</span><span class="o">.</span><span class="n">validate_masks</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">explanation</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">threshold_config</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Explainer.get_target"><a class="viewcode-back" href="../../../modules/explain.html#torch_geometric.explain.Explainer.get_target">[docs]</a>    <span class="k">def</span> <span class="nf">get_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prediction</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the target of the model from a given prediction.</span>
+
+<span class="sd">        If the model mode is of type :obj:`&quot;regression&quot;`, the prediction is</span>
+<span class="sd">        returned as it is.</span>
+<span class="sd">        If the model mode is of type :obj:`&quot;multiclass_classification&quot;` or</span>
+<span class="sd">        :obj:`&quot;binary_classification&quot;`, the prediction is returned as the</span>
+<span class="sd">        predicted class label.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">ModelMode</span><span class="o">.</span><span class="n">binary_classification</span><span class="p">:</span>
+            <span class="c1"># TODO: Allow customization of the thresholds used below.</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">return_type</span> <span class="o">==</span> <span class="n">ModelReturnType</span><span class="o">.</span><span class="n">raw</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">prediction</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">return_type</span> <span class="o">==</span> <span class="n">ModelReturnType</span><span class="o">.</span><span class="n">probs</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="n">prediction</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_config</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="n">ModelMode</span><span class="o">.</span><span class="n">multiclass_classification</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">prediction</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">prediction</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

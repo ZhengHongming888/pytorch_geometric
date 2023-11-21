@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.ComposeFilters
+==========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: ComposeFilters
+   :show-inheritance:

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hierarchical Neighborhood Sampling &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Compiled Graph Neural Networks" href="compile.html" />
+    <link rel="prev" title="Memory-Efficient Aggregations" href="sparse_tensor.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hierarchical Neighborhood Sampling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Hierarchical Neighborhood Sampling</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/advanced/hgam.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hierarchical-neighborhood-sampling">
+<h1>Hierarchical Neighborhood Sampling<a class="headerlink" href="#hierarchical-neighborhood-sampling" title="Permalink to this heading"></a></h1>
+<p>One of the design principles of <span class="inline-logo pyg">PyG</span> is that models and data loading routines should be exchangeable to allow for flexible GNN and data loading experimentation.
+As such, models can usually be written in a data loading agnostic fashion, independent of whether one applies full-batch or mini-batch training strategies via, <em>e.g.</em>, <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.DataLoader" title="torch_geometric.loader.DataLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataLoader</span></code></a>, <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> or <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.ClusterLoader" title="torch_geometric.loader.ClusterLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClusterLoader</span></code></a>.
+However, in some scenarios, this flexibility comes at the cost of performance, as the model cannot exploit special characteristics of the underlying data loading routine.
+One such limitation is that a GNN trained with the <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> routine iteratively builds representations for <em>all</em> nodes at <em>all</em> depths of the network, although nodes sampled in later hops do not contribute to the node representations of seed nodes in later GNN layers anymore, thus performing useless computation.</p>
+<p><em>Hierarchical Neighborhood Sampling</em> or <em>Hierarchical Graph Adjacency Matrix (HGAM)</em> is a technique available in <span class="inline-logo pyg">PyG</span> to eliminate this overhead and speeds up training and inference in mini-batch GNNs.
+Its main idea is to progressively trim the adjacency matrix of the returned subgraph before inputting it to each GNN layer.
+It works seamlessly across several models, basically reducing the amount of compute necessary to generate the representations for the seed node of the given mini-batch.</p>
+<p>Crucially, HGAM recognizes that the computation of the final node representations is only necessary for the seed nodes (which are the real target of the batch computation).
+Thus, HGAM allows for every layer of the GNN to compute only the representations of the nodes that are necessary for that layer, leading to a reduction of the computation and a speed up of the training process that grows with the depth of the GNN being considered.
+In practice, this is achieved by <strong>trimming the adjacency matrix</strong> and the various <strong>features matrices</strong> as the computation proceeds throughout the GNN layers.
+This is in line with the fact that in order to compute the representation for the seed/target nodes (from which the mini-batch was build via sampling methods), the depth of the relevant neighborhood shrinks as we proceed through the layers of the GNN.
+The trimming applied by HGAM is possible as the nodes of the subgraph built via sampling are ordered according to a <em>Breadth First Search (BFS)</em> strategy, meaning that the rows and columns of the adjacency matrix refer to a node ordering that starts with the seed nodes (in any order) followed by the 1-hop neighbors of the first seed node, followed by the 1-hop sampled neighbors of the second seed node and so on.
+The BFS ordering of nodes in a mini-batch allows for incremental trimming (reduction) of the adjacency matrix of the subgraph.
+This progressive trimming is done in a computational convenient manner thanks to the BFS ordering that causes the nodes more distant from the seed nodes to be appear farther away in the list of ordered nodes.</p>
+<p>To support this trimming and implement it effectively, the <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> implementation in <span class="inline-logo pyg">PyG</span> and in <span class="inline-logo pyg">pyg-lib</span> additionally return the number of nodes and edges sampled in hop.
+This information allows for fast manipulation of the adjacency matrix, which in turns lead to great computation reduction.
+The <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> prepares this metadata via the dedicated attributes <code class="xref py py-obj docutils literal notranslate"><span class="pre">num_sampled_nodes</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">num_sampled_edges</span></code>.
+It can be accessed from the <a class="reference internal" href="../generated/torch_geometric.data.Batch.html#torch_geometric.data.Batch" title="torch_geometric.data.Batch"><code class="xref py py-class docutils literal notranslate"><span class="pre">Batch</span></code></a> object returned for both homogeneous and heterogeneous graphs.</p>
+<p>To sum up, HGAM is special data structure that enables efficient message passing computation in <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a> scenarios.
+HGAM is implemented in <span class="inline-logo pyg">PyG</span> and can be utilized via the special <a class="reference internal" href="../modules/utils.html#torch_geometric.utils.trim_to_layer" title="torch_geometric.utils.trim_to_layer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">trim_to_layer()</span></code></a> functionality.
+HGAM is currently an option that <span class="inline-logo pyg">PyG</span> users are free to switch on, or leave it off <em>(current default)</em>.</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<p>Here, we show examples of how to use the HGAM functionality in combination with <a class="reference internal" href="../modules/loader.html#torch_geometric.loader.NeighborLoader" title="torch_geometric.loader.NeighborLoader"><code class="xref py py-class docutils literal notranslate"><span class="pre">NeighborLoader</span></code></a>:</p>
+<ul>
+<li><p><strong>Homogeneous data example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.datasets</span> <span class="kn">import</span> <span class="n">Planetoid</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.loader</span> <span class="kn">import</span> <span class="n">NeighborLoader</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">Planetoid</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Cora&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">NeighborLoader</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">num_neighbors</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">batch</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">loader</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Data</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">1883</span><span class="p">,</span> <span class="mi">1433</span><span class="p">],</span> <span class="n">edge_index</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5441</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mi">1883</span><span class="p">],</span> <span class="n">train_mask</span><span class="o">=</span><span class="p">[</span><span class="mi">1883</span><span class="p">],</span>
+         <span class="n">val_mask</span><span class="o">=</span><span class="p">[</span><span class="mi">1883</span><span class="p">],</span> <span class="n">test_mask</span><span class="o">=</span><span class="p">[</span><span class="mi">1883</span><span class="p">],</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+         <span class="n">num_sampled_nodes</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">num_sampled_edges</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="o">.</span><span class="n">num_sampled_nodes</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">425</span><span class="p">,</span> <span class="mi">702</span><span class="p">,</span> <span class="mi">628</span><span class="p">]</span>  <span class="c1"># Number of sampled nodes per hop/layer.</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="o">.</span><span class="n">num_sampled_edges</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">520</span><span class="p">,</span> <span class="mi">2036</span><span class="p">,</span> <span class="mi">2885</span><span class="p">]</span>  <span class="c1"># Number of sampled edges per hop/layer.</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Heterogeneous data example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.datasets</span> <span class="kn">import</span> <span class="n">OGB_MAG</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.loader</span> <span class="kn">import</span> <span class="n">NeighborLoader</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">OGB_MAG</span><span class="p">(</span><span class="n">path</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">NeighborLoader</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span>
+    <span class="n">num_neighbors</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">input_nodes</span><span class="o">=</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">batch</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">loader</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">HeteroData</span><span class="p">(</span>
+    <span class="n">paper</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">2275</span><span class="p">,</span> <span class="mi">128</span><span class="p">],</span>
+        <span class="n">num_sampled_nodes</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">author</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">num_nodes</span><span class="o">=</span><span class="mi">2541</span><span class="p">,</span>
+        <span class="n">num_sampled_nodes</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="n">institution</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">num_nodes</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">num_sampled_nodes</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="n">field_of_study</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">num_nodes</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">num_sampled_nodes</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="p">(</span><span class="n">author</span><span class="p">,</span> <span class="n">affiliated_with</span><span class="p">,</span> <span class="n">institution</span><span class="p">)</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">edge_index</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">num_sampled_edges</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="p">(</span><span class="n">author</span><span class="p">,</span> <span class="n">writes</span><span class="p">,</span> <span class="n">paper</span><span class="p">)</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">edge_index</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3255</span><span class="p">],</span>
+        <span class="n">num_sampled_edges</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="p">(</span><span class="n">paper</span><span class="p">,</span> <span class="n">cites</span><span class="p">,</span> <span class="n">paper</span><span class="p">)</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">edge_index</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2691</span><span class="p">],</span>
+        <span class="n">num_sampled_edges</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="p">},</span>
+    <span class="p">(</span><span class="n">paper</span><span class="p">,</span> <span class="n">has_topic</span><span class="p">,</span> <span class="n">field_of_study</span><span class="p">)</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">edge_index</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="n">num_sampled_edges</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+    <span class="p">}</span>
+    <span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">num_sampled_nodes</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">508</span><span class="p">,</span> <span class="mi">1598</span><span class="p">]</span>  <span class="c1"># Number of sampled paper nodes per hop/layer.</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;writes&#39;</span><span class="p">,</span> <span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">num_sampled_edges</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;&gt;</span> <span class="p">[</span><span class="mi">629</span><span class="p">,</span> <span class="mi">2621</span><span class="p">]</span>  <span class="c1"># Number of sampled autor&lt;&gt;paper edges per hop/layer.</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>The attributes <code class="xref py py-obj docutils literal notranslate"><span class="pre">num_sampled_nodes</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">num_sampled_edges</span></code> can be used by the <a class="reference internal" href="../modules/utils.html#torch_geometric.utils.trim_to_layer" title="torch_geometric.utils.trim_to_layer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">trim_to_layer()</span></code></a> function inside the GNN:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.datasets</span> <span class="kn">import</span> <span class="n">Reddit</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.loader</span> <span class="kn">import</span> <span class="n">NeighborLoader</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">SAGEConv</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="n">trim_to_layer</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">Reddit</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">NeighborLoader</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">num_neighbors</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="o">...</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">GNN</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">convs</span> <span class="o">=</span> <span class="n">ModuleList</span><span class="p">([</span><span class="n">SAGEConv</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="mi">64</span><span class="p">)])</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">convs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SAGEConv</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span> <span class="o">=</span> <span class="n">Linear</span><span class="p">(</span><span class="n">hidden_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">num_sampled_nodes_per_hop</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">num_sampled_edges_per_hop</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">conv</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">convs</span><span class="p">):</span>
+            <span class="c1"># Trim edge and node information to the current layer `i`.</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">trim_to_layer</span><span class="p">(</span>
+                <span class="n">i</span><span class="p">,</span> <span class="n">num_sampled_nodes_per_hop</span><span class="p">,</span> <span class="n">num_sampled_edges_per_hop</span><span class="p">,</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span>
+
+            <span class="n">x</span> <span class="o">=</span> <span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">)</span><span class="o">.</span><span class="n">relu</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h2>
+<p>We provide full examples of HGAM in the <span class="inline-logo pyg">PyG</span> <code class="xref py py-obj docutils literal notranslate"><span class="pre">examples/</span></code> folder:</p>
+<ul class="simple">
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">examples/hierarchical_sampling.py</span></code>: An <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/hierarchical_sampling.py">example</a> to show-case the basic usage of HGAM.</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">examples/hetero/hierarchical_sage.py</span></code>: An <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/hetero/hierarchical_sage.py">example</a> of HGAM on heterogeneous graphs.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="sparse_tensor.html" class="btn btn-neutral float-left" title="Memory-Efficient Aggregations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="compile.html" class="btn btn-neutral float-right" title="Compiled Graph Neural Networks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

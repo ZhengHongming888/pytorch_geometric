@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.loader.neighbor_loader &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.loader.neighbor_loader</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.loader.neighbor_loader</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">Data</span><span class="p">,</span> <span class="n">FeatureStore</span><span class="p">,</span> <span class="n">GraphStore</span><span class="p">,</span> <span class="n">HeteroData</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.loader.node_loader</span> <span class="kn">import</span> <span class="n">NodeLoader</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.sampler</span> <span class="kn">import</span> <span class="n">NeighborSampler</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.sampler.base</span> <span class="kn">import</span> <span class="n">SubgraphType</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">EdgeType</span><span class="p">,</span> <span class="n">InputNodes</span><span class="p">,</span> <span class="n">OptTensor</span>
+
+
+<div class="viewcode-block" id="NeighborLoader"><a class="viewcode-back" href="../../../modules/loader.html#torch_geometric.loader.NeighborLoader">[docs]</a><span class="k">class</span> <span class="nc">NeighborLoader</span><span class="p">(</span><span class="n">NodeLoader</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;A data loader that performs neighbor sampling as introduced in the</span>
+<span class="sd">    `&quot;Inductive Representation Learning on Large Graphs&quot;</span>
+<span class="sd">    &lt;https://arxiv.org/abs/1706.02216&gt;`_ paper.</span>
+<span class="sd">    This loader allows for mini-batch training of GNNs on large-scale graphs</span>
+<span class="sd">    where full-batch training is not feasible.</span>
+
+<span class="sd">    More specifically, :obj:`num_neighbors` denotes how much neighbors are</span>
+<span class="sd">    sampled for each node in each iteration.</span>
+<span class="sd">    :class:`~torch_geometric.loader.NeighborLoader` takes in this list of</span>
+<span class="sd">    :obj:`num_neighbors` and iteratively samples :obj:`num_neighbors[i]` for</span>
+<span class="sd">    each node involved in iteration :obj:`i - 1`.</span>
+
+<span class="sd">    Sampled nodes are sorted based on the order in which they were sampled.</span>
+<span class="sd">    In particular, the first :obj:`batch_size` nodes represent the set of</span>
+<span class="sd">    original mini-batch nodes.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from torch_geometric.datasets import Planetoid</span>
+<span class="sd">        from torch_geometric.loader import NeighborLoader</span>
+
+<span class="sd">        data = Planetoid(path, name=&#39;Cora&#39;)[0]</span>
+
+<span class="sd">        loader = NeighborLoader(</span>
+<span class="sd">            data,</span>
+<span class="sd">            # Sample 30 neighbors for each node for 2 iterations</span>
+<span class="sd">            num_neighbors=[30] * 2,</span>
+<span class="sd">            # Use a batch size of 128 for sampling training nodes</span>
+<span class="sd">            batch_size=128,</span>
+<span class="sd">            input_nodes=data.train_mask,</span>
+<span class="sd">        )</span>
+
+<span class="sd">        sampled_data = next(iter(loader))</span>
+<span class="sd">        print(sampled_data.batch_size)</span>
+<span class="sd">        &gt;&gt;&gt; 128</span>
+
+<span class="sd">    By default, the data loader will only include the edges that were</span>
+<span class="sd">    originally sampled (:obj:`directed = True`).</span>
+<span class="sd">    This option should only be used in case the number of hops is equivalent to</span>
+<span class="sd">    the number of GNN layers.</span>
+<span class="sd">    In case the number of GNN layers is greater than the number of hops,</span>
+<span class="sd">    consider setting :obj:`directed = False`, which will include all edges</span>
+<span class="sd">    between all sampled nodes (but is slightly slower as a result).</span>
+
+<span class="sd">    Furthermore, :class:`~torch_geometric.loader.NeighborLoader` works for both</span>
+<span class="sd">    **homogeneous** graphs stored via :class:`~torch_geometric.data.Data` as</span>
+<span class="sd">    well as **heterogeneous** graphs stored via</span>
+<span class="sd">    :class:`~torch_geometric.data.HeteroData`.</span>
+<span class="sd">    When operating in heterogeneous graphs, up to :obj:`num_neighbors`</span>
+<span class="sd">    neighbors will be sampled for each :obj:`edge_type`.</span>
+<span class="sd">    However, more fine-grained control over</span>
+<span class="sd">    the amount of sampled neighbors of individual edge types is possible:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from torch_geometric.datasets import OGB_MAG</span>
+<span class="sd">        from torch_geometric.loader import NeighborLoader</span>
+
+<span class="sd">        hetero_data = OGB_MAG(path)[0]</span>
+
+<span class="sd">        loader = NeighborLoader(</span>
+<span class="sd">            hetero_data,</span>
+<span class="sd">            # Sample 30 neighbors for each node and edge type for 2 iterations</span>
+<span class="sd">            num_neighbors={key: [30] * 2 for key in hetero_data.edge_types},</span>
+<span class="sd">            # Use a batch size of 128 for sampling training nodes of type paper</span>
+<span class="sd">            batch_size=128,</span>
+<span class="sd">            input_nodes=(&#39;paper&#39;, hetero_data[&#39;paper&#39;].train_mask),</span>
+<span class="sd">        )</span>
+
+<span class="sd">        sampled_hetero_data = next(iter(loader))</span>
+<span class="sd">        print(sampled_hetero_data[&#39;paper&#39;].batch_size)</span>
+<span class="sd">        &gt;&gt;&gt; 128</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        For an example of using</span>
+<span class="sd">        :class:`~torch_geometric.loader.NeighborLoader`, see</span>
+<span class="sd">        `examples/hetero/to_hetero_mag.py &lt;https://github.com/pyg-team/</span>
+<span class="sd">        pytorch_geometric/blob/master/examples/hetero/to_hetero_mag.py&gt;`_.</span>
+
+<span class="sd">    The :class:`~torch_geometric.loader.NeighborLoader` will return subgraphs</span>
+<span class="sd">    where global node indices are mapped to local indices corresponding to this</span>
+<span class="sd">    specific subgraph. However, often times it is desired to map the nodes of</span>
+<span class="sd">    the current subgraph back to the global node indices. The</span>
+<span class="sd">    :class:`~torch_geometric.loader.NeighborLoader` will include this mapping</span>
+<span class="sd">    as part of the :obj:`data` object:</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        loader = NeighborLoader(data, ...)</span>
+<span class="sd">        sampled_data = next(iter(loader))</span>
+<span class="sd">        print(sampled_data.n_id)  # Global node index of each node in batch.</span>
+
+<span class="sd">    In particular, the data loader will add the following attributes to the</span>
+<span class="sd">    returned mini-batch:</span>
+
+<span class="sd">    * :obj:`batch_size` The number of seed nodes (first nodes in the batch)</span>
+<span class="sd">    * :obj:`n_id` The global node index for every sampled node</span>
+<span class="sd">    * :obj:`e_id` The global edge index for every sampled edge</span>
+<span class="sd">    * :obj:`input_id`: The global index of the :obj:`input_nodes`</span>
+<span class="sd">    * :obj:`num_sampled_nodes`: The number of sampled nodes in each hop</span>
+<span class="sd">    * :obj:`num_sampled_edges`: The number of sampled edges in each hop</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (Any): A :class:`~torch_geometric.data.Data`,</span>
+<span class="sd">            :class:`~torch_geometric.data.HeteroData`, or</span>
+<span class="sd">            (:class:`~torch_geometric.data.FeatureStore`,</span>
+<span class="sd">            :class:`~torch_geometric.data.GraphStore`) data object.</span>
+<span class="sd">        num_neighbors (List[int] or Dict[Tuple[str, str, str], List[int]]): The</span>
+<span class="sd">            number of neighbors to sample for each node in each iteration.</span>
+<span class="sd">            If an entry is set to :obj:`-1`, all neighbors will be included.</span>
+<span class="sd">            In heterogeneous graphs, may also take in a dictionary denoting</span>
+<span class="sd">            the amount of neighbors to sample for each individual edge type.</span>
+<span class="sd">        input_nodes (torch.Tensor or str or Tuple[str, torch.Tensor]): The</span>
+<span class="sd">            indices of nodes for which neighbors are sampled to create</span>
+<span class="sd">            mini-batches.</span>
+<span class="sd">            Needs to be either given as a :obj:`torch.LongTensor` or</span>
+<span class="sd">            :obj:`torch.BoolTensor`.</span>
+<span class="sd">            If set to :obj:`None`, all nodes will be considered.</span>
+<span class="sd">            In heterogeneous graphs, needs to be passed as a tuple that holds</span>
+<span class="sd">            the node type and node indices. (default: :obj:`None`)</span>
+<span class="sd">        input_time (torch.Tensor, optional): Optional values to override the</span>
+<span class="sd">            timestamp for the input nodes given in :obj:`input_nodes`. If not</span>
+<span class="sd">            set, will use the timestamps in :obj:`time_attr` as default (if</span>
+<span class="sd">            present). The :obj:`time_attr` needs to be set for this to work.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        replace (bool, optional): If set to :obj:`True`, will sample with</span>
+<span class="sd">            replacement. (default: :obj:`False`)</span>
+<span class="sd">        subgraph_type (SubgraphType or str, optional): The type of the returned</span>
+<span class="sd">            subgraph.</span>
+<span class="sd">            If set to :obj:`&quot;directional&quot;`, the returned subgraph only holds</span>
+<span class="sd">            the sampled (directed) edges which are necessary to compute</span>
+<span class="sd">            representations for the sampled seed nodes.</span>
+<span class="sd">            If set to :obj:`&quot;bidirectional&quot;`, sampled edges are converted to</span>
+<span class="sd">            bidirectional edges.</span>
+<span class="sd">            If set to :obj:`&quot;induced&quot;`, the returned subgraph contains the</span>
+<span class="sd">            induced subgraph of all sampled nodes.</span>
+<span class="sd">            (default: :obj:`&quot;directional&quot;`)</span>
+<span class="sd">        disjoint (bool, optional): If set to :obj: `True`, each seed node will</span>
+<span class="sd">            create its own disjoint subgraph.</span>
+<span class="sd">            If set to :obj:`True`, mini-batch outputs will have a :obj:`batch`</span>
+<span class="sd">            vector holding the mapping of nodes to their respective subgraph.</span>
+<span class="sd">            Will get automatically set to :obj:`True` in case of temporal</span>
+<span class="sd">            sampling. (default: :obj:`False`)</span>
+<span class="sd">        temporal_strategy (str, optional): The sampling strategy when using</span>
+<span class="sd">            temporal sampling (:obj:`&quot;uniform&quot;`, :obj:`&quot;last&quot;`).</span>
+<span class="sd">            If set to :obj:`&quot;uniform&quot;`, will sample uniformly across neighbors</span>
+<span class="sd">            that fulfill temporal constraints.</span>
+<span class="sd">            If set to :obj:`&quot;last&quot;`, will sample the last `num_neighbors` that</span>
+<span class="sd">            fulfill temporal constraints.</span>
+<span class="sd">            (default: :obj:`&quot;uniform&quot;`)</span>
+<span class="sd">        time_attr (str, optional): The name of the attribute that denotes</span>
+<span class="sd">            timestamps for the nodes in the graph.</span>
+<span class="sd">            If set, temporal sampling will be used such that neighbors are</span>
+<span class="sd">            guaranteed to fulfill temporal constraints, *i.e.* neighbors have</span>
+<span class="sd">            an earlier or equal timestamp than the center node.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        weight_attr (str, optional): The name of the attribute that denotes</span>
+<span class="sd">            edge weights in the graph.</span>
+<span class="sd">            If set, weighted/biased sampling will be used such that neighbors</span>
+<span class="sd">            are more likely to get sampled the higher their edge weights are.</span>
+<span class="sd">            Edge weights do not need to sum to one, but must be non-negative,</span>
+<span class="sd">            finite and have a non-zero sum within local neighborhoods.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        transform (callable, optional): A function/transform that takes in</span>
+<span class="sd">            a sampled mini-batch and returns a transformed version.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        transform_sampler_output (callable, optional): A function/transform</span>
+<span class="sd">            that takes in a :class:`torch_geometric.sampler.SamplerOutput` and</span>
+<span class="sd">            returns a transformed version. (default: :obj:`None`)</span>
+<span class="sd">        is_sorted (bool, optional): If set to :obj:`True`, assumes that</span>
+<span class="sd">            :obj:`edge_index` is sorted by column.</span>
+<span class="sd">            If :obj:`time_attr` is set, additionally requires that rows are</span>
+<span class="sd">            sorted according to time within individual neighborhoods.</span>
+<span class="sd">            This avoids internal re-sorting of the data and can improve</span>
+<span class="sd">            runtime and memory efficiency. (default: :obj:`False`)</span>
+<span class="sd">        filter_per_worker (bool, optional): If set to :obj:`True`, will filter</span>
+<span class="sd">            the returned data in each worker&#39;s subprocess.</span>
+<span class="sd">            If set to :obj:`False`, will filter the returned data in the main</span>
+<span class="sd">            process.</span>
+<span class="sd">            If set to :obj:`None`, will automatically infer the decision based</span>
+<span class="sd">            on whether data partially lives on the GPU</span>
+<span class="sd">            (:obj:`filter_per_worker=True`) or entirely on the CPU</span>
+<span class="sd">            (:obj:`filter_per_worker=False`).</span>
+<span class="sd">            There exists different trade-offs for setting this option.</span>
+<span class="sd">            Specifically, setting this option to :obj:`True` for in-memory</span>
+<span class="sd">            datasets will move all features to shared memory, which may result</span>
+<span class="sd">            in too many open file handles. (default: :obj:`None`)</span>
+<span class="sd">        **kwargs (optional): Additional arguments of</span>
+<span class="sd">            :class:`torch.utils.data.DataLoader`, such as :obj:`batch_size`,</span>
+<span class="sd">            :obj:`shuffle`, :obj:`drop_last` or :obj:`num_workers`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Data</span><span class="p">,</span> <span class="n">HeteroData</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">FeatureStore</span><span class="p">,</span> <span class="n">GraphStore</span><span class="p">]],</span>
+        <span class="n">num_neighbors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]],</span>
+        <span class="n">input_nodes</span><span class="p">:</span> <span class="n">InputNodes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">replace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">subgraph_type</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">SubgraphType</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;directional&#39;</span><span class="p">,</span>
+        <span class="n">disjoint</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">temporal_strategy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;uniform&#39;</span><span class="p">,</span>
+        <span class="n">time_attr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">weight_attr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">transform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">transform_sampler_output</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">is_sorted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">filter_per_worker</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">neighbor_sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NeighborSampler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">directed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>  <span class="c1"># Deprecated.</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">input_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">time_attr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Received conflicting &#39;input_time&#39; and &quot;</span>
+                             <span class="s2">&quot;&#39;time_attr&#39; arguments: &#39;input_time&#39; is set &quot;</span>
+                             <span class="s2">&quot;while &#39;time_attr&#39; is not set.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">neighbor_sampler</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">neighbor_sampler</span> <span class="o">=</span> <span class="n">NeighborSampler</span><span class="p">(</span>
+                <span class="n">data</span><span class="p">,</span>
+                <span class="n">num_neighbors</span><span class="o">=</span><span class="n">num_neighbors</span><span class="p">,</span>
+                <span class="n">replace</span><span class="o">=</span><span class="n">replace</span><span class="p">,</span>
+                <span class="n">subgraph_type</span><span class="o">=</span><span class="n">subgraph_type</span><span class="p">,</span>
+                <span class="n">disjoint</span><span class="o">=</span><span class="n">disjoint</span><span class="p">,</span>
+                <span class="n">temporal_strategy</span><span class="o">=</span><span class="n">temporal_strategy</span><span class="p">,</span>
+                <span class="n">time_attr</span><span class="o">=</span><span class="n">time_attr</span><span class="p">,</span>
+                <span class="n">weight_attr</span><span class="o">=</span><span class="n">weight_attr</span><span class="p">,</span>
+                <span class="n">is_sorted</span><span class="o">=</span><span class="n">is_sorted</span><span class="p">,</span>
+                <span class="n">share_memory</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num_workers&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span>
+                <span class="n">directed</span><span class="o">=</span><span class="n">directed</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">node_sampler</span><span class="o">=</span><span class="n">neighbor_sampler</span><span class="p">,</span>
+            <span class="n">input_nodes</span><span class="o">=</span><span class="n">input_nodes</span><span class="p">,</span>
+            <span class="n">input_time</span><span class="o">=</span><span class="n">input_time</span><span class="p">,</span>
+            <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span>
+            <span class="n">transform_sampler_output</span><span class="o">=</span><span class="n">transform_sampler_output</span><span class="p">,</span>
+            <span class="n">filter_per_worker</span><span class="o">=</span><span class="n">filter_per_worker</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

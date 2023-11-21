@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loading Graphs from CSV &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Use-Cases &amp; Applications" href="application.html" />
+    <link rel="prev" title="Creating Graph Datasets" href="create_dataset.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="dataset.html">Working with Graph Datasets</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="create_dataset.html">Creating Graph Datasets</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Loading Graphs from CSV</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="dataset.html">Working with Graph Datasets</a></li>
+      <li class="breadcrumb-item active">Loading Graphs from CSV</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/load_csv.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="loading-graphs-from-csv">
+<h1>Loading Graphs from CSV<a class="headerlink" href="#loading-graphs-from-csv" title="Permalink to this heading"></a></h1>
+<p>In this example, we will show how to load a set of <code class="xref py py-obj docutils literal notranslate"><span class="pre">*.csv</span></code> files as input and construct a <strong>heterogeneous graph</strong> from it, which can be used as input to a <a class="reference external" href="heterogeneous.html">heterogeneous graph model</a>.
+This tutorial is also available as an executable <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/tree/master/examples/hetero/load_csv.py">example script</a> in the <code class="xref py py-obj docutils literal notranslate"><span class="pre">examples/hetero</span></code> directory.</p>
+<p>We are going to use the <a class="reference external" href="https://grouplens.org/datasets/movielens/">MovieLens dataset</a> collected by the GroupLens research group.
+This toy dataset describes 5-star rating and tagging activity from MovieLens.
+The dataset contains approximately 100k ratings across more than 9k movies from more than 600 users.
+We are going to use this dataset to generate two node types holding data for <strong>movies</strong> and <strong>users</strong>, respectively, and one edge type connecting <strong>users and movies</strong>, representing the relation of how a user has rated a specific movie.</p>
+<p>First, we download the dataset to an arbitrary folder (in this case, the current directory):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">download_url</span><span class="p">,</span> <span class="n">extract_zip</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://files.grouplens.org/datasets/movielens/ml-latest-small.zip&#39;</span>
+<span class="n">extract_zip</span><span class="p">(</span><span class="n">download_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">),</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+
+<span class="n">movie_path</span> <span class="o">=</span> <span class="s1">&#39;./ml-latest-small/movies.csv&#39;</span>
+<span class="n">rating_path</span> <span class="o">=</span> <span class="s1">&#39;./ml-latest-small/ratings.csv&#39;</span>
+</pre></div>
+</div>
+<p>Before we create the heterogeneous graph, let’s take a look at the data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">movie_path</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">rating_path</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+<table class="docutils align-default" id="id1">
+<caption><span class="caption-text">Head of <code class="xref py py-obj docutils literal notranslate"><span class="pre">movies.csv</span></code></span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 38%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>movieId</p></th>
+<th class="head"><p>title</p></th>
+<th class="head"><p>genres</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Toy Story (1995)</p></td>
+<td><p>Adventure|Animation|Children|Comedy|Fantasy</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Jumanji (1995)</p></td>
+<td><p>Adventure|Children|Fantasy</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Grumpier Old Men (1995)</p></td>
+<td><p>Comedy|Romance</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>Waiting to Exhale (1995)</p></td>
+<td><p>Comedy|Drama|Romance</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Father of the Bride Part II (1995)</p></td>
+<td><p>Comedy</p></td>
+</tr>
+</tbody>
+</table>
+<p>We see that the <code class="xref py py-obj docutils literal notranslate"><span class="pre">movies.csv</span></code> file provides three columns: <code class="xref py py-obj docutils literal notranslate"><span class="pre">movieId</span></code> assigns a unique identifier to each movie, while the <code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">genres</span></code> columns represent title and genres of the given movie.
+We can make use of those two columns to define a feature representation that can be easily interpreted by machine learning models.</p>
+<table class="docutils align-default" id="id2">
+<caption><span class="caption-text">Head of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ratings.csv</span></code></span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 20%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>userId</p></th>
+<th class="head"><p>movieId</p></th>
+<th class="head"><p>rating</p></th>
+<th class="head"><p>timestamp</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>4.0</p></td>
+<td><p>964982703</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>3</p></td>
+<td><p>4.0</p></td>
+<td><p>964981247</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>6</p></td>
+<td><p>4.0</p></td>
+<td><p>964982224</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>47</p></td>
+<td><p>5.0</p></td>
+<td><p>964983815</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>50</p></td>
+<td><p>5.0</p></td>
+<td><p>964982931</p></td>
+</tr>
+</tbody>
+</table>
+<p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">ratings.csv</span></code> data connects users (as given by <code class="xref py py-obj docutils literal notranslate"><span class="pre">userId</span></code>) and movies (as given by <code class="xref py py-obj docutils literal notranslate"><span class="pre">movieId</span></code>), and defines how a given user has rated a specific movie (<code class="xref py py-obj docutils literal notranslate"><span class="pre">rating</span></code>).
+Due to simplicity, we do not make use of the additional <code class="xref py py-obj docutils literal notranslate"><span class="pre">timestamp</span></code> information.</p>
+<p>For representing this data in the <span class="inline-logo pyg">PyG</span> data format, we first define a method <code class="xref py py-meth docutils literal notranslate"><span class="pre">load_node_csv()</span></code> that reads in a <code class="xref py py-obj docutils literal notranslate"><span class="pre">*.csv</span></code> file and returns a node-level feature representation <code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code> of shape <code class="xref py py-obj docutils literal notranslate"><span class="pre">[num_nodes,</span> <span class="pre">num_features]</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="k">def</span> <span class="nf">load_node_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">index_col</span><span class="p">,</span> <span class="n">encoders</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="n">index_col</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">index</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">unique</span><span class="p">())}</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">encoders</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="p">[</span><span class="n">encoder</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">encoder</span> <span class="ow">in</span> <span class="n">encoders</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">mapping</span>
+</pre></div>
+</div>
+<p>Here, <code class="xref py py-meth docutils literal notranslate"><span class="pre">load_node_csv()</span></code> reads the <code class="xref py py-obj docutils literal notranslate"><span class="pre">*.csv</span></code> file from <code class="xref py py-obj docutils literal notranslate"><span class="pre">path</span></code>, and creates a dictionary <code class="xref py py-obj docutils literal notranslate"><span class="pre">mapping</span></code> that maps its index column to a consecutive value in the range <code class="xref py py-obj docutils literal notranslate"><span class="pre">{</span> <span class="pre">0,</span> <span class="pre">...,</span> <span class="pre">num_rows</span> <span class="pre">-</span> <span class="pre">1</span> <span class="pre">}</span></code>.
+This is needed as we want our final data representation to be as compact as possible, <em>e.g.</em>, the representation of a movie in the first row should be accessible via <code class="xref py py-obj docutils literal notranslate"><span class="pre">x[0]</span></code>.</p>
+<p>We further utilize the concept of encoders, which define how the values of specific columns should be encoded into a numerical feature representation.
+For example, we can define a sentence encoder that encodes raw column strings into low-dimensional embeddings.
+For this, we make use of the excellent <a class="reference external" href="https://www.sbert.net/">sentence-transformers</a> library which provides a large number of state-of-the-art pretrained NLP embedding models:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>sentence-transformers
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">SequenceEncoder</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;all-MiniLM-L6-v2&#39;</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">SentenceTransformer</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">show_progress_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                              <span class="n">convert_to_tensor</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceEncoder</span></code> class loads a pre-trained NLP model as given by <code class="xref py py-obj docutils literal notranslate"><span class="pre">model_name</span></code>, and uses it to encode a list of strings into a <span class="inline-logo pytorch">PyTorch</span> tensor of shape <code class="xref py py-obj docutils literal notranslate"><span class="pre">[num_strings,</span> <span class="pre">embedding_dim]</span></code>.
+We can use this <code class="xref py py-class docutils literal notranslate"><span class="pre">SequenceEncoder</span></code> to encode the <code class="xref py py-obj docutils literal notranslate"><span class="pre">title</span></code> of the <code class="xref py py-obj docutils literal notranslate"><span class="pre">movies.csv</span></code> file.</p>
+<p>In a similar fashion, we can create another encoder that converts the genres of movies, <em>e.g.</em>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">Adventure|Children|Fantasy</span></code>, into categorical labels.
+For this, we first need to find all existing genres present in the data, create a feature representation <code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code> of shape <code class="xref py py-obj docutils literal notranslate"><span class="pre">[num_movies,</span> <span class="pre">num_genres]</span></code>, and assign a <code class="xref py py-obj docutils literal notranslate"><span class="pre">1</span></code> to <code class="xref py py-obj docutils literal notranslate"><span class="pre">x[i,</span> <span class="pre">j]</span></code> in case the genre <code class="xref py py-obj docutils literal notranslate"><span class="pre">j</span></code> is present in movie <code class="xref py py-obj docutils literal notranslate"><span class="pre">i</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">GenresEncoder</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sep</span> <span class="o">=</span> <span class="n">sep</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="n">genres</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">g</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">col</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sep</span><span class="p">))</span>
+        <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">genre</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">genre</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">genres</span><span class="p">)}</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">mapping</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">genre</span> <span class="ow">in</span> <span class="n">col</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sep</span><span class="p">):</span>
+                <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">mapping</span><span class="p">[</span><span class="n">genre</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>With this, we can obtain our final representation of movies via:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">movie_x</span><span class="p">,</span> <span class="n">movie_mapping</span> <span class="o">=</span> <span class="n">load_node_csv</span><span class="p">(</span>
+    <span class="n">movie_path</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;movieId&#39;</span><span class="p">,</span> <span class="n">encoders</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">SequenceEncoder</span><span class="p">(),</span>
+        <span class="s1">&#39;genres&#39;</span><span class="p">:</span> <span class="n">GenresEncoder</span><span class="p">()</span>
+    <span class="p">})</span>
+</pre></div>
+</div>
+<p>Similarly, we can utilize <code class="xref py py-meth docutils literal notranslate"><span class="pre">load_node_csv()</span></code> for obtaining a user mapping from <code class="xref py py-obj docutils literal notranslate"><span class="pre">userId</span></code> to consecutive values as well.
+However, there is no additional feature information for users present in this dataset.
+As such, we do not define any encoders:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">user_mapping</span> <span class="o">=</span> <span class="n">load_node_csv</span><span class="p">(</span><span class="n">rating_path</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;userId&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With this, we are ready to initialize our <a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData" title="torch_geometric.data.HeteroData"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeteroData</span></code></a> object and pass two node types into it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">HeteroData</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">HeteroData</span><span class="p">()</span>
+
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">user_mapping</span><span class="p">)</span>  <span class="c1"># Users do not have any features.</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;movie&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">movie_x</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">HeteroData</span><span class="p">(</span>
+  <span class="n">user</span><span class="o">=</span><span class="p">{</span> <span class="n">num_nodes</span><span class="o">=</span><span class="mi">610</span> <span class="p">},</span>
+  <span class="n">movie</span><span class="o">=</span><span class="p">{</span> <span class="n">x</span><span class="p">[</span><span class="mi">9742</span><span class="p">,</span> <span class="mi">404</span><span class="p">]</span> <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>As users do not have any node-level information, we solely define its number of nodes.
+As a result, we likely need to learn distinct user embeddings via <a class="reference external" href="https://pytorch.org/docs/master/generated/torch.nn.Embedding.html#torch.nn.Embedding" title="(in PyTorch vmaster (2.1.0a0+gitbe0b12e ))"><code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.Embedding</span></code></a> in an end-to-end fashion during training of a heterogeneous graph model.</p>
+<p>Next, we take a look at connecting users with movies as defined by their ratings.
+For this, we define a method <code class="xref py py-meth docutils literal notranslate"><span class="pre">load_edge_csv()</span></code> that returns the final <code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_index</span></code> representation of shape <code class="xref py py-obj docutils literal notranslate"><span class="pre">[2,</span> <span class="pre">num_ratings]</span></code> from <code class="xref py py-obj docutils literal notranslate"><span class="pre">ratings.csv</span></code>, as well as any additional features present in the raw <code class="xref py py-obj docutils literal notranslate"><span class="pre">*.csv</span></code> file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">load_edge_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">src_index_col</span><span class="p">,</span> <span class="n">src_mapping</span><span class="p">,</span> <span class="n">dst_index_col</span><span class="p">,</span> <span class="n">dst_mapping</span><span class="p">,</span>
+                  <span class="n">encoders</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">src</span> <span class="o">=</span> <span class="p">[</span><span class="n">src_mapping</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">src_index_col</span><span class="p">]]</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="p">[</span><span class="n">dst_mapping</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">dst_index_col</span><span class="p">]]</span>
+    <span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">])</span>
+
+    <span class="n">edge_attr</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">encoders</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">edge_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">encoder</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">])</span> <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">encoder</span> <span class="ow">in</span> <span class="n">encoders</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+        <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">edge_attrs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span>
+</pre></div>
+</div>
+<p>Here, <code class="xref py py-obj docutils literal notranslate"><span class="pre">src_index_col</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">dst_index_col</span></code> define the index columns of source and destination nodes, respectively.
+We further make use of the node-level mappings <code class="xref py py-obj docutils literal notranslate"><span class="pre">src_mapping</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">dst_mapping</span></code> to ensure that raw indices are mapped to the correct consecutive indices in our final representation.
+For every edge defined in the file, it looks up the forward indices in <code class="xref py py-obj docutils literal notranslate"><span class="pre">src_mapping</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">dst_mapping</span></code>, and moves the data appropriately.</p>
+<p>Similarly to <code class="xref py py-meth docutils literal notranslate"><span class="pre">load_node_csv()</span></code>, encoders are used to return additional edge-level feature information.
+For example, for loading the ratings from the <code class="xref py py-obj docutils literal notranslate"><span class="pre">rating</span></code> column in <code class="xref py py-obj docutils literal notranslate"><span class="pre">ratings.csv</span></code>, we can define an <code class="xref py py-class docutils literal notranslate"><span class="pre">IdentityEncoder</span></code> that simply converts a list of floating-point values into a <span class="inline-logo pytorch">PyTorch</span> tensor:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">IdentityEncoder</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With this, we are ready to finalize our <a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData" title="torch_geometric.data.HeteroData"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeteroData</span></code></a> object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_label</span> <span class="o">=</span> <span class="n">load_edge_csv</span><span class="p">(</span>
+    <span class="n">rating_path</span><span class="p">,</span>
+    <span class="n">src_index_col</span><span class="o">=</span><span class="s1">&#39;userId&#39;</span><span class="p">,</span>
+    <span class="n">src_mapping</span><span class="o">=</span><span class="n">user_mapping</span><span class="p">,</span>
+    <span class="n">dst_index_col</span><span class="o">=</span><span class="s1">&#39;movieId&#39;</span><span class="p">,</span>
+    <span class="n">dst_mapping</span><span class="o">=</span><span class="n">movie_mapping</span><span class="p">,</span>
+    <span class="n">encoders</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;rating&#39;</span><span class="p">:</span> <span class="n">IdentityEncoder</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)},</span>
+<span class="p">)</span>
+
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;rates&#39;</span><span class="p">,</span> <span class="s1">&#39;movie&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="n">edge_index</span>
+<span class="n">data</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="s1">&#39;rates&#39;</span><span class="p">,</span> <span class="s1">&#39;movie&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">edge_label</span> <span class="o">=</span> <span class="n">edge_label</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">HeteroData</span><span class="p">(</span>
+  <span class="n">user</span><span class="o">=</span><span class="p">{</span> <span class="n">num_nodes</span><span class="o">=</span><span class="mi">610</span> <span class="p">},</span>
+  <span class="n">movie</span><span class="o">=</span><span class="p">{</span> <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">9742</span><span class="p">,</span> <span class="mi">404</span><span class="p">]</span> <span class="p">},</span>
+  <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">rates</span><span class="p">,</span> <span class="n">movie</span><span class="p">)</span><span class="o">=</span><span class="p">{</span>
+    <span class="n">edge_index</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">100836</span><span class="p">],</span>
+    <span class="n">edge_label</span><span class="o">=</span><span class="p">[</span><span class="mi">100836</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>This <a class="reference internal" href="../generated/torch_geometric.data.HeteroData.html#torch_geometric.data.HeteroData" title="torch_geometric.data.HeteroData"><code class="xref py py-class docutils literal notranslate"><span class="pre">HeteroData</span></code></a> object is the native format of heterogeneous graphs in <span class="inline-logo pyg">PyG</span> and can be used as input for <a class="reference external" href="heterogeneous.html">heterogeneous graph models</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/tree/master/examples/hetero/load_csv.py">here</a> to see the final example script.</p>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="create_dataset.html" class="btn btn-neutral float-left" title="Creating Graph Datasets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="application.html" class="btn btn-neutral float-right" title="Use-Cases &amp; Applications" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

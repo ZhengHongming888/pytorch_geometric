@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.PascalPF
+==================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: PascalPF
+   :show-inheritance:

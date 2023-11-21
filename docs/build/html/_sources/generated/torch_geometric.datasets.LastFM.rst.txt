@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.LastFM
+================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: LastFM
+   :show-inheritance:

@@ -1,0 +1,10 @@
+﻿torch\_geometric.data.InMemoryDataset
+=====================================
+
+.. currentmodule:: torch_geometric.data
+
+.. autoclass:: InMemoryDataset
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :special-members: __cat_dim__, __inc__

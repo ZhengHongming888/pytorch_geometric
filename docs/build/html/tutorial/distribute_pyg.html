@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Distributed Training for PyG &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Advanced Mini-Batching" href="../advanced/batching.html" />
+    <link rel="prev" title="Multi-Node Training using SLURM" href="multi_node_multi_gpu_vanilla.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_gpu.html">Multi-GPU Training</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Distributed Training for PyG</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#graph-partitioning">1. Graph Partitioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#localgraphstore-and-localfeaturestore">2. LocalGraphStore and LocalFeatureStore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#torch-rpc-and-dist-context">3. Torch RPC and dist Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distributed-neighborloader">4. Distributed NeighborLoader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distributed-sampling">5. Distributed Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edge-sampling">6. Edge Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-run-for-homo-hetero-example">7. Installation &amp; Run for Homo/Hetero Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-with-launch-py">8. Run with Launch.py</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Distributed Training for PyG</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/distribute_pyg.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="distributed-training-for-pyg">
+<h1>Distributed Training for PyG<a class="headerlink" href="#distributed-training-for-pyg" title="Permalink to this heading"></a></h1>
+<p>As we all know there are two distributed application scenarios:</p>
+<ol class="arabic simple">
+<li><p>when data is really big we can use <code class="docutils literal notranslate"><span class="pre">torch.distribute.ddp</span></code> to do DDP/data parallel over multiple nodes.</p></li>
+<li><p>When model is really big we can do distributed model parallel over multiple nodes.</p></li>
+</ol>
+<p>For the scenario 1) When the data is graph we need to do two steps a) distributed sampling first and b) distributed training like torch DDP.
+In the following tutorial we will introduce the distributed training for PyG by step-by-step.</p>
+<p>Brief Summary for Key features on distributed training for PyG:</p>
+<ol class="arabic simple">
+<li><p>Large-Graph into Partitions with halonodes</p></li>
+<li><p>Separate GraphStore /FeatureStore</p></li>
+<li><p>DistNeighborLoader with multi-processes</p></li>
+<li><p>DistNeighborSampler with local/remote capabilities</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.distribute.DDP</span></code> /<code class="docutils literal notranslate"><span class="pre">torch.distribute.RPC</span></code> as main commu. Tech.</p></li>
+<li><p>Homo/Hereto support for distributed</p></li>
+<li><p>Node/Edge Sampling supported for distributed</p></li>
+</ol>
+<p>When we deal with one really big graph and one single machine can not cover one whole big graph we need partition this graph into multiple partitioned subgraph and load into multiple nodes for further sampling and training as shown in figure below for whole flow.</p>
+<ol class="arabic simple">
+<li><p>In partition algorithm we used the pyg metis algorithm to do the partition and also we keep the halonodes when splitting the graph. Halonodes is to keep one remote node which make the edge information all kept.</p></li>
+<li><p>After partition we will use the graphstore/featurestore to load the partition information including graph topo, features and ids. Butt they are different for graph / features over the different nodes.</p></li>
+<li><p>Then we will do sampling for the subgraph in locally / remotely based on input seeds. Some seeds in locally and other are in remote. We will use <code class="docutils literal notranslate"><span class="pre">torch.distribute.rpc</span></code> to remotely execute the same function as locally. After done with locally/remotely we will merge together.</p></li>
+<li><p>Based on the sampled global node ids we still will look up the features based on these sampled node ids. We still will do locally/remotely and combine together.</p></li>
+<li><p>Last one is to formalize into PyG data format for data loader</p></li>
+</ol>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/distribute_pyg_flow.png"><img alt="../_images/distribute_pyg_flow.png" src="../_images/distribute_pyg_flow.png" style="width: 90%;" /></a>
+</figure>
+<section id="graph-partitioning">
+<h2>1. Graph Partitioning<a class="headerlink" href="#graph-partitioning" title="Permalink to this heading"></a></h2>
+<p>The first step for distributed training is to partition the graph into multiples which can be used by multiple nodes.</p>
+<p>There are two partition examples in latest pyg from <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/edit/master/examples/distributed/pyg">here</a> for homo/hetero partition cases. Here we will use the <code class="docutils literal notranslate"><span class="pre">ogbn-products</span></code> as homo dataset/<code class="docutils literal notranslate"><span class="pre">ogbn-mags</span></code> as hetero dataset to demonstrate how to partition it into two parts for distributed training.
+The complete script for partitioning <code class="docutils literal notranslate"><span class="pre">ogbn-products</span></code> dataset/<code class="docutils literal notranslate"><span class="pre">ogbn-mags</span></code> for hetero dataset  can be found <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/edit/master/examples/distributed/pyg/partition_graph.py">here</a> for homo partition and <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/distributed/pyg/partition_hetero_graph.py">here</a> for hetero partition.</p>
+<section id="partitioning-the-graph">
+<h3>1.1 Partitioning the graph<a class="headerlink" href="#partitioning-the-graph" title="Permalink to this heading"></a></h3>
+<p>First, in <code class="docutils literal notranslate"><span class="pre">examples/distributed/pyg/partition_graph.py</span></code> script we use the following script to load the <code class="docutils literal notranslate"><span class="pre">ogbn-products</span></code> dataset and partition it into <code class="docutils literal notranslate"><span class="pre">num_parts</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ogb.nodeproppred</span> <span class="kn">import</span> <span class="n">PygNodePropPredDataset</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.distributed</span> <span class="kn">import</span> <span class="n">Partitioner</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">PygNodePropPredDataset</span><span class="p">(</span><span class="n">ogbn_dataset</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">partitioner</span> <span class="o">=</span> <span class="n">Partitioner</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">num_parts</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">,</span> <span class="n">recursive</span><span class="p">)</span>
+<span class="n">partitioner</span><span class="o">.</span><span class="n">generate_partition</span><span class="p">()</span>
+<span class="n">split_idx</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">get_idx_split</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-- Saving label ...&#39;</span><span class="p">)</span>
+<span class="n">label_dir</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ogbn_dataset</span><span class="si">}</span><span class="s1">-label&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">label_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">label_dir</span><span class="p">,</span> <span class="s1">&#39;label.pt&#39;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-- Partitioning training indices ...&#39;</span><span class="p">)</span>
+<span class="n">train_idx</span> <span class="o">=</span> <span class="n">split_idx</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">]</span>
+<span class="n">train_idx</span> <span class="o">=</span> <span class="n">train_idx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">train_idx</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">//</span> <span class="n">num_parts</span><span class="p">)</span>
+<span class="n">train_part_dir</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ogbn_dataset</span><span class="si">}</span><span class="s1">-train-partitions&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">train_part_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_parts</span><span class="p">):</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">train_idx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">train_part_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;partition</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">.pt&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Second, in <code class="docutils literal notranslate"><span class="pre">examples/distributed/pyg/partition_hetero_graph.py</span></code> script we use the following script to load the <code class="docutils literal notranslate"><span class="pre">ogbn-mags</span></code> dataset and partition it into <code class="docutils literal notranslate"><span class="pre">num_parts</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.datasets</span> <span class="kn">import</span> <span class="n">OGB_MAG</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.distributed</span> <span class="kn">import</span> <span class="n">Partitioner</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">OGB_MAG</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="n">ogbn_dataset</span><span class="p">,</span> <span class="n">preprocess</span><span class="o">=</span><span class="s1">&#39;metapath2vec&#39;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">partitioner</span> <span class="o">=</span> <span class="n">Partitioner</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">num_parts</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">,</span> <span class="n">recursive</span><span class="p">)</span>
+<span class="n">partitioner</span><span class="o">.</span><span class="n">generate_partition</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-- Saving label ...&#39;</span><span class="p">)</span>
+<span class="n">label_dir</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ogbn_dataset</span><span class="si">}</span><span class="s1">-label&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">label_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">label_dir</span><span class="p">,</span> <span class="s1">&#39;label.pt&#39;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;-- Partitioning training indices ...&#39;</span><span class="p">)</span>
+<span class="n">train_idx</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;paper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">train_mask</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">train_idx</span> <span class="o">=</span> <span class="n">train_idx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">train_idx</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">//</span> <span class="n">num_parts</span><span class="p">)</span>
+<span class="n">train_part_dir</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ogbn_dataset</span><span class="si">}</span><span class="s1">-train-partitions&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">train_part_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_parts</span><span class="p">):</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">train_idx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">train_part_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;partition</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">.pt&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<section id="partitioning-algorithm-outputs">
+<h3>1.2 Partitioning algorithm &amp; outputs<a class="headerlink" href="#partitioning-algorithm-outputs" title="Permalink to this heading"></a></h3>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/distribute_partition_algorithm.png"><img alt="../_images/distribute_partition_algorithm.png" src="../_images/distribute_partition_algorithm.png" style="width: 90%;" /></a>
+</figure>
+<p>We used metis algorithm to do the partition work with the PyG’s ClusterData API. During the partition we keep the halonode when cutting the edges with another partition as shown in the figure above.</p>
+<p>Under the partition folder there are four folders:</p>
+<ol class="arabic simple">
+<li><p>labels:</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>label.pt:   labels</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="2">
+<li><p>partition:</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>edge_map.pt:   partition book between edge_id and partition_id</p></li>
+<li><p>node_map.pt:   partition book between node_id and partition_id</p></li>
+<li><p>META.json:  {‘num_parts’: 2, ‘is_hetero’: false, ‘node_types’: self.node_types, ‘edge_types’: self.edge_types, ‘is_sorted’: true }</p></li>
+<li><p>part0:      partition 0</p>
+<ul>
+<li><p>graph.pt:     graph topo</p></li>
+<li><p>node_feats.pt:   node features</p></li>
+<li><p>edge_feats.pt:   edge features</p></li>
+</ul>
+</li>
+<li><p>part1:      partition 1</p>
+<ul>
+<li><p>graph.pt:     graph topo</p></li>
+<li><p>node_feats.pt:   node features</p></li>
+<li><p>edge_feats.pt:   edge features</p></li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li><p>training:</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>partion0.pt:  training seeds for partition0</p></li>
+<li><p>partion1.pt:  training seeds for partition1</p></li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li><p>test:</p></li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><p>partion0.pt:  test seeds for partition0</p></li>
+<li><p>partion0.pt:  test seeds for partition1</p></li>
+</ul>
+</div></blockquote>
+<p>In distributed training, each node in the cluster holds a partition of the graph. Before the training starts, we will need partition the graph dataset into multiple partitions, each of which corresponds to a specific training node.</p>
+</section>
+</section>
+<section id="localgraphstore-and-localfeaturestore">
+<h2>2. LocalGraphStore and LocalFeatureStore<a class="headerlink" href="#localgraphstore-and-localfeaturestore" title="Permalink to this heading"></a></h2>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/distribute_graph_feature_store.png"><img alt="../_images/distribute_graph_feature_store.png" src="../_images/distribute_graph_feature_store.png" style="width: 90%;" /></a>
+</figure>
+<section id="architecture-for-lgs-lfs">
+<h3>2.1 Architecture for LGS/LFS<a class="headerlink" href="#architecture-for-lgs-lfs" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>LocalGraphStore</p></li>
+</ol>
+<p>There are three parts for LocalGraphStore:</p>
+<ul class="simple">
+<li><p>Graph Stores:</p>
+<ul>
+<li><p>graph topology, edge IDs, and parition information like num_partitions, partition_idx, node_pb (node partition book), edge_pb (edge partition book), partition_meta, partition label</p></li>
+</ul>
+</li>
+<li><p>APIs for PyG Data:</p>
+<ul>
+<li><p>API function <code class="docutils literal notranslate"><span class="pre">from_data()</span></code> is to creates a local graph store from a homogeneous PyG graph</p></li>
+<li><p>API function <code class="docutils literal notranslate"><span class="pre">from_hetero_data()</span></code> is to creates a local graph store from a heterogeneous PyG graph</p></li>
+</ul>
+</li>
+<li><p>API for Partition:</p>
+<ul>
+<li><p>API function <code class="docutils literal notranslate"><span class="pre">from_partition()</span></code> is to creates a local graph store from one PyG data partition.</p></li>
+</ul>
+</li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>LocalFeatureStore</p></li>
+</ol>
+<p>There are four parts for LocalGraphStore:</p>
+<ul class="simple">
+<li><p>Features Stores:</p>
+<ul>
+<li><p>node/edge features, node IDs, and parition information like num_partitions, partition_idx, node_pb (node partition book), edge_pb (edge partition book), partition_meta, partition label</p></li>
+</ul>
+</li>
+<li><p>APIs for PyG Data:</p>
+<ul>
+<li><p>API function <code class="docutils literal notranslate"><span class="pre">from_data()</span></code> is to creates a local feature store from homogeneous PyG tensors</p></li>
+<li><p>API function <code class="docutils literal notranslate"><span class="pre">from_hetero_data()</span></code> is to creates a local feature store from heterogeneous PyG tensors</p></li>
+</ul>
+</li>
+<li><p>API for Partition:</p>
+<ul>
+<li><p>API function <code class="docutils literal notranslate"><span class="pre">from_partition()</span></code> is to creates a local feature store from one PyG data partition.</p></li>
+</ul>
+</li>
+<li><p>API for feature lookup</p>
+<ul>
+<li><p>API function <code class="docutils literal notranslate"><span class="pre">lookup_features()</span></code> is to lookup the features from local partition and remote partitions which will include the sub-apis of <code class="docutils literal notranslate"><span class="pre">_remote_lookup_features()</span></code> and <code class="docutils literal notranslate"><span class="pre">_local_lookup_features()</span></code>.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="loading-partition-into-stores">
+<h3>2.2 Loading partition into Stores<a class="headerlink" href="#loading-partition-into-stores" title="Permalink to this heading"></a></h3>
+<p>Based on the above APIs from LFS/LGS you can load the partitions into graphstore/featurestore over the multiple nodes as below code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># load partition into graph</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">LocalGraphStore</span><span class="o">.</span><span class="n">from_partition</span><span class="p">(</span>
+    <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s1">-partitions&#39;</span><span class="p">),</span> <span class="n">node_rank</span><span class="p">)</span>
+<span class="n">edge_attrs</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">get_all_edge_attrs</span><span class="p">()</span>
+
+<span class="c1"># load partition into feature</span>
+<span class="n">feature</span> <span class="o">=</span> <span class="n">LocalFeatureStore</span><span class="o">.</span><span class="n">from_partition</span><span class="p">(</span>
+    <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s1">-partitions&#39;</span><span class="p">),</span> <span class="n">node_rank</span><span class="p">)</span>
+
+<span class="c1"># load partition information</span>
+<span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="n">num_partitions</span><span class="p">,</span> <span class="n">partition_idx</span><span class="p">,</span> <span class="n">node_pb</span><span class="p">,</span>
+ <span class="n">edge_pb</span><span class="p">)</span> <span class="o">=</span> <span class="n">load_partition_info</span><span class="p">(</span>
+     <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">dataset_name</span><span class="si">}</span><span class="s1">-partitions&#39;</span><span class="p">),</span> <span class="n">node_rank</span><span class="p">)</span>
+
+<span class="c1"># setup the partition information in graph</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">num_partitions</span> <span class="o">=</span> <span class="n">num_partitions</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">partition_idx</span> <span class="o">=</span> <span class="n">partition_idx</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">node_pb</span> <span class="o">=</span> <span class="n">node_pb</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">edge_pb</span> <span class="o">=</span> <span class="n">edge_pb</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">meta</span>
+
+<span class="c1"># setup the partition information in feature</span>
+<span class="n">feature</span><span class="o">.</span><span class="n">num_partitions</span> <span class="o">=</span> <span class="n">num_partitions</span>
+<span class="n">feature</span><span class="o">.</span><span class="n">partition_idx</span> <span class="o">=</span> <span class="n">partition_idx</span>
+<span class="n">feature</span><span class="o">.</span><span class="n">node_feat_pb</span> <span class="o">=</span> <span class="n">node_pb</span>
+<span class="n">feature</span><span class="o">.</span><span class="n">edge_feat_pb</span> <span class="o">=</span> <span class="n">edge_pb</span>
+<span class="n">feature</span><span class="o">.</span><span class="n">feature_pb</span> <span class="o">=</span> <span class="n">node_pb</span>
+<span class="n">feature</span><span class="o">.</span><span class="n">meta</span> <span class="o">=</span> <span class="n">meta</span>
+
+<span class="c1"># load the label file and put into graph as labels</span>
+<span class="k">if</span> <span class="n">node_label_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_label_file</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">whole_node_labels</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">ntype</span><span class="p">,</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">node_label_file</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">whole_node_labels</span><span class="p">[</span><span class="n">ntype</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">whole_node_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">node_label_file</span><span class="p">)</span>
+<span class="n">node_labels</span> <span class="o">=</span> <span class="n">whole_node_labels</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">node_labels</span>
+
+<span class="n">partition_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>At the same time we also store the partition information like num_partitions, partition_idx, node_pb (node partition book), edge_pb (edge partition book), partition_meta, partition label into graphstore/featurestore. Finally we construct one tuple structure to provide the input for the DistNeighborLoader/DistNeighborSampler like (featurestore, graphstore).</p>
+</section>
+</section>
+<section id="torch-rpc-and-dist-context">
+<h2>3. Torch RPC and dist Context<a class="headerlink" href="#torch-rpc-and-dist-context" title="Permalink to this heading"></a></h2>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/distribute_torch_rpc.png"><img alt="../_images/distribute_torch_rpc.png" src="../_images/distribute_torch_rpc.png" style="width: 90%;" /></a>
+</figure>
+<p>In the distributed pyg two torch.distributed parallel technologies are used:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.distributed.ddp</span></code> used for data parallel on training side</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.distributed.rpc</span></code> for remote sampling over multiple nodes. there are two times to use RPC in distributed sampling:</p>
+<ul>
+<li><p>Node sampling over different partitions belong to different nodes</p></li>
+<li><p>Feature looking up over the different nodes</p></li>
+</ul>
+</li>
+</ul>
+<p>Here we used the torch.distributed.rpc instead of gRPC, etc because torch.distributed.rpc already understand tensor type data. Some other RPC like gRPC need to serialize /digitalize the json or other user data into tensor type which will put more serialize/digitalize overhead in loss backward for gradient communication.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize distributed context.</span>
+<span class="n">current_ctx</span> <span class="o">=</span> <span class="n">DistContext</span><span class="p">(</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="n">num_nodes</span> <span class="o">*</span> <span class="n">num_training_procs_per_node</span><span class="p">,</span>
+    <span class="n">rank</span><span class="o">=</span><span class="n">node_rank</span> <span class="o">*</span> <span class="n">num_training_procs_per_node</span> <span class="o">+</span> <span class="n">local_proc_rank</span><span class="p">,</span>
+    <span class="n">global_world_size</span><span class="o">=</span><span class="n">num_nodes</span> <span class="o">*</span> <span class="n">num_training_procs_per_node</span><span class="p">,</span>
+    <span class="n">global_rank</span><span class="o">=</span><span class="n">node_rank</span> <span class="o">*</span> <span class="n">num_training_procs_per_node</span> <span class="o">+</span> <span class="n">local_proc_rank</span><span class="p">,</span>
+    <span class="n">group_name</span><span class="o">=</span><span class="s1">&#39;distributed-sage-supervised-trainer&#39;</span><span class="p">)</span>
+<span class="n">current_device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+<span class="n">rpc_worker_names</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># Initialize DDP training process group.</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">init_process_group</span><span class="p">(</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;gloo&#39;</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="n">current_ctx</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span>
+    <span class="n">world_size</span><span class="o">=</span><span class="n">current_ctx</span><span class="o">.</span><span class="n">world_size</span><span class="p">,</span>
+    <span class="n">init_method</span><span class="o">=</span><span class="s1">&#39;tcp://</span><span class="si">{}</span><span class="s1">:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">master_addr</span><span class="p">,</span> <span class="n">training_pg_master_port</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Distributed class <code class="docutils literal notranslate"><span class="pre">DistContext</span></code> is used to contain the distributed information like world_size, rank, global_world_size, global_rank, group_name, etc which is easy for distributed communication.</p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">torch.distributed.ddp</span></code> communication we support all kinds of backend, like NCCL, Gloo, MPI, etc.</p>
+</section>
+<section id="distributed-neighborloader">
+<h2>4. Distributed NeighborLoader<a class="headerlink" href="#distributed-neighborloader" title="Permalink to this heading"></a></h2>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/distribute_neighborloader.png"><img alt="../_images/distribute_neighborloader.png" src="../_images/distribute_neighborloader.png" style="width: 90%;" /></a>
+</figure>
+<p>Distributed class <code class="docutils literal notranslate"><span class="pre">DistNeighborLoader</span></code> is used to provide batch-sized data for distributed trainer. This class will have the input of data partition, num_neighbors, train_idx, batch_size, shuffle flag, device, number of sampler workers, master addr/port for ddp, context and rpc_worker_names, etc.</p>
+<p>As the DistNeighborLoader architecture shown above there are the separate processes for sampler and trainer.</p>
+<ul class="simple">
+<li><p><strong>Main process</strong>:   cover the loading of data partition, distloader and model training, etc</p></li>
+<li><p><strong>Sampler process</strong>: cover the distNeighborSampler and message queue like here we used <code class="docutils literal notranslate"><span class="pre">torch.mp.queue</span></code> to send the sampler message from one process to another.</p></li>
+</ul>
+<p>The working flow is from load partition into graphstore/featurestore, distNeighborSampler with local and remote sampling,  sampled nodes/features to be formed into PyG data for dataloader and finally into trainer for training.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/distribute_distloader.png"><img alt="../_images/distribute_distloader.png" src="../_images/distribute_distloader.png" style="width: 90%;" /></a>
+</figure>
+<p>Distributed class <code class="docutils literal notranslate"><span class="pre">DistLoader</span></code> is used to create distributed data loading routines like initializing the parameters of current_ctx, rpc_worker_names, master_addr/port, channel, num_rpc_threads, num_workers, etc and then at the same time will initialize the context/rpc for distributed sampling based on <code class="docutils literal notranslate"><span class="pre">worker_init_fn</span></code>.</p>
+<p>Distributed class <code class="docutils literal notranslate"><span class="pre">NodeLoader</span></code> is used to do the distributed node sampling and feature collection from local/remotely based on the function of <code class="docutils literal notranslate"><span class="pre">collate_fn</span></code> and <code class="docutils literal notranslate"><span class="pre">filter_fn</span></code> in <code class="docutils literal notranslate"><span class="pre">NodeLoader</span></code> and finally formed sampled results into PyG data for dataloader output.</p>
+<p>There are several key features for <code class="docutils literal notranslate"><span class="pre">DistNeighborLoader</span></code> and  <code class="docutils literal notranslate"><span class="pre">DistLoader</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DistNeighborLoader</span></code> inherits all basic functionality from PyG Loaders and rely on PyTorch multiprocessing backend with modified <code class="docutils literal notranslate"><span class="pre">_worker_loop</span></code> arguments.</p></li>
+<li><p>Modified args passed to the <code class="docutils literal notranslate"><span class="pre">worker_init_fn</span></code> control process initialization and closing behaviors, i.e. establish RPC and close it at process exit.</p></li>
+<li><p>Each loader handles a number (num_workers) of spawned sampler subprocesses that exchange data through RPC.</p></li>
+<li><p>RPC requests can be executed in synchronous or asynchronous manner with asyncio module.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DistLoader</span></code> consumes input in custom format (<code class="docutils literal notranslate"><span class="pre">LocalFeatureStore</span></code>, <code class="docutils literal notranslate"><span class="pre">LocalGraphStore</span></code>) and outputs standard DataHeteroData object.</p></li>
+<li><p>The same principles apply to <code class="docutils literal notranslate"><span class="pre">DistLinkNeighborLoader</span></code></p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># setup the train seeds for the loader</span>
+<span class="n">train_idx</span> <span class="o">=</span> <span class="n">train_idx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
+    <span class="n">train_idx</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">//</span> <span class="n">num_training_procs_per_node</span><span class="p">)[</span><span class="n">local_proc_rank</span><span class="p">]</span>
+
+<span class="n">num_neighbors</span> <span class="o">=</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="c1"># Create distributed neighbor loader for training</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">pyg_dist</span><span class="o">.</span><span class="n">DistNeighborLoader</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">partition_data</span><span class="p">,</span> <span class="n">num_neighbors</span><span class="o">=</span><span class="n">num_neighbors</span><span class="p">,</span>
+    <span class="n">input_nodes</span><span class="o">=</span><span class="n">train_idx</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">),</span> <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">,</span>
+    <span class="n">concurrency</span><span class="o">=</span><span class="n">concurrency</span><span class="p">,</span> <span class="n">master_addr</span><span class="o">=</span><span class="n">master_addr</span><span class="p">,</span>
+    <span class="n">master_port</span><span class="o">=</span><span class="n">train_loader_master_port</span><span class="p">,</span> <span class="n">async_sampling</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">filter_per_worker</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">current_ctx</span><span class="o">=</span><span class="n">current_ctx</span><span class="p">,</span>
+    <span class="n">rpc_worker_names</span><span class="o">=</span><span class="n">rpc_worker_names</span><span class="p">)</span>
+
+<span class="c1"># setup the train seeds for the loader</span>
+<span class="n">test_idx</span> <span class="o">=</span> <span class="n">test_idx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">test_idx</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">//</span>
+                          <span class="n">num_training_procs_per_node</span><span class="p">)[</span><span class="n">local_proc_rank</span><span class="p">]</span>
+
+<span class="c1"># Create distributed neighbor loader for testing.</span>
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">pyg_dist</span><span class="o">.</span><span class="n">DistNeighborLoader</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">partition_data</span><span class="p">,</span> <span class="n">num_neighbors</span><span class="o">=</span><span class="n">num_neighbors</span><span class="p">,</span> <span class="n">input_nodes</span><span class="o">=</span><span class="n">test_idx</span><span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">),</span>
+    <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">,</span> <span class="n">concurrency</span><span class="o">=</span><span class="n">concurrency</span><span class="p">,</span>
+    <span class="n">master_addr</span><span class="o">=</span><span class="n">master_addr</span><span class="p">,</span> <span class="n">master_port</span><span class="o">=</span><span class="n">test_loader_master_port</span><span class="p">,</span>
+    <span class="n">async_sampling</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">filter_per_worker</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">current_ctx</span><span class="o">=</span><span class="n">current_ctx</span><span class="p">,</span>
+    <span class="n">rpc_worker_names</span><span class="o">=</span><span class="n">rpc_worker_names</span><span class="p">)</span>
+
+<span class="c1"># Define model and optimizer.</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GraphSAGE</span><span class="p">(</span>
+    <span class="n">in_channels</span><span class="o">=</span><span class="n">in_channels</span><span class="p">,</span>
+    <span class="n">hidden_channels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
+    <span class="n">num_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">out_channels</span><span class="o">=</span><span class="n">out_channels</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">current_device</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">DistributedDataParallel</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.004</span><span class="p">)</span>
+
+<span class="c1"># Train and test.</span>
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;dist_train_sage_for_homo_rank</span><span class="si">{</span><span class="n">node_rank</span><span class="si">}</span><span class="s1">.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;a+&#39;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">epochs</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">total</span><span class="o">=</span><span class="n">train_idx</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">pbar</span><span class="o">.</span><span class="n">set_description</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span>
+            <span class="n">batch</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
+            <span class="n">batch</span><span class="o">.</span><span class="n">edge_index</span><span class="p">)[:</span><span class="n">batch</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">nll_loss</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">batch</span><span class="o">.</span><span class="n">y</span><span class="p">[:</span><span class="n">batch</span><span class="o">.</span><span class="n">batch_size</span><span class="p">])</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">distributed</span><span class="o">.</span><span class="n">barrier</span><span class="p">()</span>
+        <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+    <span class="n">pbar</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="distributed-sampling">
+<h2>5. Distributed Sampling<a class="headerlink" href="#distributed-sampling" title="Permalink to this heading"></a></h2>
+<p>The figure below shows the architecture of the deployment mode:</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/distribute_arch.png"><img alt="../_images/distribute_arch.png" src="../_images/distribute_arch.png" style="width: 90%;" /></a>
+</figure>
+<p>There are two communication groups. One is ddp group used for distributed training. Another is rpc group used for distributed sampling including node sampling and feature collection over multiple partitions.</p>
+<p>From this diagram there are two nodes and each node will load one partition in graphstore/featurestore for their respective partition.</p>
+<p>distributed training in PyG has two basic roles: sampler and trainer:</p>
+<ul class="simple">
+<li><p><strong>Sampler Process</strong> creates the distributed sampler for distributed neighbor sampling and feature collection based on torch.distributed.rpc.
+The sampled results will be sent to the sampling message channel to be consumed by trainers.</p></li>
+<li><p><strong>Trainer Process</strong> corresponds to a participant of PyTorch’s DDP training, loads sampled results from the sampling message channel, and conducts model training.</p></li>
+</ul>
+<p>The working flow is -</p>
+<ul class="simple">
+<li><p><strong>distributed node sampling</strong>:  Based on training seeds (some seeds are in local and some are in remote nodes) the distributed node sampling will be performed. After the local sampling and remote sampling under these seeds the sampling results will be merged.</p></li>
+<li><p><strong>distributed feature lookup</strong>: Based on the sampled global node ids (some are in local and some are in remote nodes) the distributed feature lookup still will be performance. Finally the local/remote features will be merged also.</p></li>
+<li><p><strong>form into PyG data format</strong>:  Based on sampled nodes/features these sampled messages will be formed into PyG data as dataloader output for trainer input.</p></li>
+</ul>
+<p>The key code structure of distributed class <code class="docutils literal notranslate"><span class="pre">DistNeighborSampler</span></code> shown as below.</p>
+<p>The key steps for distributed node sampling -</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">node_sample()</span></code>:
+- Node sampling function based on layer-by-layer sampling, each layer of which is done by <code class="docutils literal notranslate"><span class="pre">simple_one_hop()</span></code>.
+- After one layer sampled there will remove duplication in sampled results
+- Add with the sampled nodes from previous layers</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">simple_one_hop()</span></code>:
+- one layer sampling including the local sampling and remote node sampling
+- return the merged sampled results</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_simple_one_hop()</span></code>:
+- meta sampling algorithm from <code class="docutils literal notranslate"><span class="pre">pyg_lib</span></code> based on graphstore/featurestore tuple input
+- c++ based implementation</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">node_sample</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">inputs</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">NodeSamplerInput</span><span class="p">,</span> <span class="n">EdgeSamplerInput</span><span class="p">],</span><span class="o">..</span>
+    <span class="p">):</span>
+    <span class="c1"># ...</span>
+    <span class="c1"># for homo ..</span>
+    <span class="c1"># loop over the layers</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">one_hop_num</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_neighbors</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_one_hop</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">one_hop_num</span><span class="p">,</span> <span class="n">seed_time</span><span class="p">,</span>
+                                            <span class="n">src_batch</span><span class="p">)</span>
+        <span class="c1"># remove duplicates</span>
+        <span class="n">src</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">src_batch</span><span class="p">,</span> <span class="n">batch</span> <span class="o">=</span> <span class="n">remove_duplicates</span><span class="p">(</span>
+                <span class="n">out</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">disjoint</span><span class="p">)</span>
+
+        <span class="n">node_with_dupl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">node</span><span class="p">)</span>
+        <span class="n">edge</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">edge</span><span class="p">)</span>
+
+    <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">pyg</span><span class="o">.</span><span class="n">relabel_neighborhood</span><span class="p">(</span>
+            <span class="n">seed</span><span class="p">,</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">node_with_dupl</span><span class="p">),</span>
+            <span class="n">sampled_nbrs_per_node</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_sampler</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">batch_with_dupl</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disjoint</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">csc</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">disjoint</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">sampler_output</span> <span class="o">=</span> <span class="n">SamplerOutput</span><span class="p">(</span>
+            <span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">,</span>
+            <span class="n">row</span><span class="o">=</span><span class="n">row</span><span class="p">,</span>
+            <span class="n">col</span><span class="o">=</span><span class="n">col</span><span class="p">,</span>
+            <span class="n">edge</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">edge</span><span class="p">),</span>
+            <span class="n">batch</span><span class="o">=</span><span class="n">batch</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">disjoint</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">num_sampled_nodes</span><span class="o">=</span><span class="n">num_sampled_nodes</span><span class="p">,</span>
+            <span class="n">num_sampled_edges</span><span class="o">=</span><span class="n">num_sampled_edges</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">sampler_output</span>
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">sample_one_hop</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">srcs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">one_hop_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">seed_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">src_batch</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">edge_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SamplerOutput</span><span class="p">:</span>
+
+    <span class="c1"># ...</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">num_partitions</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">p_srcs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">p_id</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_store</span><span class="o">.</span><span class="n">partition_idx</span><span class="p">:</span>
+                <span class="c1"># Sample for one hop on a local machine:</span>
+                <span class="n">p_nbr_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample_one_hop</span><span class="p">(</span><span class="n">p_srcs</span><span class="p">,</span> <span class="n">one_hop_num</span><span class="p">,</span>
+                                                 <span class="n">p_seed_time</span><span class="p">,</span> <span class="n">edge_type</span><span class="p">)</span>
+                <span class="n">p_outputs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">p_id</span><span class="p">)</span>
+                <span class="n">p_outputs</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">p_id</span><span class="p">,</span> <span class="n">p_nbr_out</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># Sample on a remote machine:</span>
+                <span class="n">local_only</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">to_worker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpc_router</span><span class="o">.</span><span class="n">get_to_worker</span><span class="p">(</span><span class="n">p_id</span><span class="p">)</span>
+                <span class="n">futs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">rpc_async</span><span class="p">(</span>
+                        <span class="n">to_worker</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">rpc_sample_callee_id</span><span class="p">,</span>
+                        <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">p_srcs</span><span class="p">,</span> <span class="n">one_hop_num</span><span class="p">,</span> <span class="n">p_seed_time</span><span class="p">,</span> <span class="n">edge_type</span><span class="p">),</span>
+                    <span class="p">))</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">merge_sampler_outputs</span><span class="p">(</span><span class="n">partition_ids</span><span class="p">,</span> <span class="n">partition_orders</span><span class="p">,</span>
+                                      <span class="n">p_outputs</span><span class="p">,</span> <span class="n">one_hop_num</span><span class="p">,</span> <span class="n">src_batch</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_sample_one_hop</span><span class="p">(</span>
+    <span class="bp">self</span><span class="p">,</span>
+    <span class="n">input_nodes</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">num_neighbors</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">seed_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">edge_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SamplerOutput</span><span class="p">:</span>
+    <span class="c1"># ...</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">pyg</span><span class="o">.</span><span class="n">dist_neighbor_sample</span><span class="p">(</span>
+        <span class="n">colptr</span><span class="p">,</span>
+        <span class="n">row</span><span class="p">,</span>
+        <span class="n">input_nodes</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">colptr</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span>
+        <span class="n">num_neighbors</span><span class="p">,</span>
+        <span class="n">node_time</span><span class="p">,</span>
+        <span class="kc">None</span><span class="p">,</span>  <span class="c1"># edge_time</span>
+        <span class="n">seed_time</span><span class="p">,</span>
+        <span class="kc">None</span><span class="p">,</span>  <span class="c1"># TODO: edge_weight</span>
+        <span class="kc">True</span><span class="p">,</span>  <span class="c1"># csc</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">replace</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">subgraph_type</span> <span class="o">!=</span> <span class="n">SubgraphType</span><span class="o">.</span><span class="n">induced</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disjoint</span> <span class="ow">and</span> <span class="n">node_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">temporal_strategy</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">node</span><span class="p">,</span> <span class="n">edge</span><span class="p">,</span> <span class="n">cumsum_neighbors_per_node</span> <span class="o">=</span> <span class="n">out</span>
+
+    <span class="c1"># ...</span>
+    <span class="k">return</span> <span class="n">SamplerOutput</span><span class="p">(</span>
+        <span class="n">node</span><span class="o">=</span><span class="n">node</span><span class="p">,</span>
+        <span class="n">row</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge</span><span class="o">=</span><span class="n">edge</span><span class="p">,</span>
+        <span class="n">batch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="p">(</span><span class="n">cumsum_neighbors_per_node</span><span class="p">,</span> <span class="p">),</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p>One example based on the DistNeighborSampler is shown as below.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/distribute_neighborsampler.png"><img alt="../_images/distribute_neighborsampler.png" src="../_images/distribute_neighborsampler.png" style="width: 90%;" /></a>
+</figure>
+<p>Key steps in this example as -</p>
+<p>1) Input node is located on a local partition?
+-&gt; Sample on a local machine</p>
+<p>2) Input node is located on a remote partition?
+-&gt; the local machine initiates an RPC request to the remote machine to perform sampling</p>
+<p>3) All nodes sampled?
+-&gt; merge the outputs from all machines and rearrange nodes according to the sampling order
+-&gt; remove duplicates</p>
+<ol class="arabic simple" start="4">
+<li><p>All layers sampled?</p></li>
+</ol>
+<ul class="simple">
+<li><p>yes -&gt; collect node and edge features -&gt; send results to the message channel</p></li>
+<li><p>no -&gt; obtain new input nodes for the subsequent layer -&gt; go back to 1.</p></li>
+</ul>
+</section>
+<section id="edge-sampling">
+<h2>6. Edge Sampling<a class="headerlink" href="#edge-sampling" title="Permalink to this heading"></a></h2>
+</section>
+<section id="installation-run-for-homo-hetero-example">
+<h2>7. Installation &amp; Run for Homo/Hetero Example<a class="headerlink" href="#installation-run-for-homo-hetero-example" title="Permalink to this heading"></a></h2>
+<section id="installation">
+<h3>7.1 Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h3>
+<p>Requirement:</p>
+<ul class="simple">
+<li><p>latest PyG</p></li>
+<li><dl class="simple">
+<dt>environment</dt><dd><ol class="arabic simple">
+<li><p>Password-less ssh needs to be set up on all the nodes that you are using.</p></li>
+<li><p>A network file system (NFS) is set up for all the nodes to access.</p></li>
+<li><p>To perform distributed sampling, files and codes need to be accessed across multiple machines. A distributed file system (i.e., NFS, SSHFS, Ceph, …) is required to allow you for synchnonizing files such as partition information.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="run-for-homo-example">
+<h3>7.2 Run for Homo Example<a class="headerlink" href="#run-for-homo-example" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Prepare and partition the data</p></li>
+</ol>
+<p>In distributed training, each node in the cluster holds a partition of the graph. Before the training starts, we partition the <code class="docutils literal notranslate"><span class="pre">ogbn-products</span></code> dataset into multiple partitions, each of which corresponds to a specific training node.</p>
+<p>Here, we use <code class="docutils literal notranslate"><span class="pre">ogbn-products</span></code> and partition it into two partitions (in default) by the <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/distributed/pyg/partition_graph.py">[partition example]</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">partition_graph</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">dataset</span><span class="o">=</span><span class="n">ogbn</span><span class="o">-</span><span class="n">products</span> <span class="o">--</span><span class="n">root_dir</span><span class="o">=./</span><span class="n">data</span><span class="o">/</span><span class="n">products</span> <span class="o">--</span><span class="n">num_partitions</span><span class="o">=</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>The generated partition will have the folder below.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/distribute_homo_partition.png"><img alt="../_images/distribute_homo_partition.png" src="../_images/distribute_homo_partition.png" style="width: 40%;" /></a>
+</figure>
+<p>You can put/move the products partition folder into one public folder that each node can access this shared folder.</p>
+<ol class="arabic simple" start="2">
+<li><p>Run the example in each training node</p></li>
+</ol>
+<p>For example, running the example in two nodes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Node 0:</span>
+<span class="n">python</span> <span class="n">dist_train_sage_for_homo</span><span class="o">.</span><span class="n">py</span> \
+  <span class="o">--</span><span class="n">dataset_root_dir</span><span class="o">=</span><span class="n">your</span> <span class="n">partition</span> <span class="n">folder</span> \
+  <span class="o">--</span><span class="n">num_nodes</span><span class="o">=</span><span class="mi">2</span> <span class="o">--</span><span class="n">node_rank</span><span class="o">=</span><span class="mi">0</span> <span class="o">--</span><span class="n">num_training_procs</span><span class="o">=</span><span class="mi">1</span> \
+  <span class="o">--</span><span class="n">master_addr</span><span class="o">=</span> <span class="n">master</span> <span class="n">ip</span>
+
+<span class="c1"># Node 1:</span>
+<span class="n">python</span> <span class="n">dist_train_sage_for_homo</span><span class="o">.</span><span class="n">py</span> \
+  <span class="o">--</span><span class="n">dataset_root_dir</span><span class="o">=</span><span class="n">your</span> <span class="n">partition</span> <span class="n">folder</span> \
+  <span class="o">--</span><span class="n">num_nodes</span><span class="o">=</span><span class="mi">2</span> <span class="o">--</span><span class="n">node_rank</span><span class="o">=</span><span class="mi">1</span> <span class="o">--</span><span class="n">num_training_procs</span><span class="o">=</span><span class="mi">1</span> \
+  <span class="o">--</span><span class="n">master_addr</span><span class="o">=</span> <span class="n">master</span> <span class="n">ip</span>
+</pre></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ol class="arabic simple">
+<li><p>You should change the <cite>master_addr</cite> to the IP of <cite>node#0</cite>.</p></li>
+<li><p>In default this example will use the num_workers = 2 for number of sampling workers and concurrency=2 for mp.queue. you can also add these argument to speed up the training like “–num_workers=8 –concurrency=8”</p></li>
+<li><p>All nodes need to use the same partitioned data when running <cite>dist_train_sage_for_homo.py</cite>.</p></li>
+</ol>
+</section>
+<section id="run-for-hetero-example">
+<h3>7.3 Run for Hetero Example<a class="headerlink" href="#run-for-hetero-example" title="Permalink to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Prepare and partition the data</p></li>
+</ol>
+<p>Here, we use <code class="docutils literal notranslate"><span class="pre">ogbn-mags</span></code> and partition it into two partitions (in default) by the [<a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/distributed/pyg/partition_hetero_graph.py">partition example</a>] :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">partition_hetero_graph</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">dataset</span><span class="o">=</span><span class="n">ogbn</span><span class="o">-</span><span class="n">mag</span> <span class="o">--</span><span class="n">root_dir</span><span class="o">=./</span><span class="n">data</span><span class="o">/</span><span class="n">mag</span> <span class="o">--</span><span class="n">num_partitions</span><span class="o">=</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>The generated partition will have the folder below.</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/distribute_hetero_partition.png"><img alt="../_images/distribute_hetero_partition.png" src="../_images/distribute_hetero_partition.png" style="width: 40%;" /></a>
+</figure>
+<p>You can put/move the products partition folder into one public folder that each node can access this shared folder.</p>
+<ol class="arabic simple" start="2">
+<li><p>Run the example in each training node</p></li>
+</ol>
+<p>For example, running the example in two nodes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Node 0:</span>
+<span class="n">python</span> <span class="n">dist_train_sage_for_hetero</span><span class="o">.</span><span class="n">py</span> \
+  <span class="o">--</span><span class="n">dataset_root_dir</span><span class="o">=</span><span class="n">your</span> <span class="n">partition</span> <span class="n">folder</span> \
+  <span class="o">--</span><span class="n">dataset</span><span class="o">=</span><span class="n">ogbn</span><span class="o">-</span><span class="n">mags</span> \
+  <span class="o">--</span><span class="n">num_nodes</span><span class="o">=</span><span class="mi">2</span> <span class="o">--</span><span class="n">node_rank</span><span class="o">=</span><span class="mi">0</span> <span class="o">--</span><span class="n">num_training_procs</span><span class="o">=</span><span class="mi">1</span> \
+  <span class="o">--</span><span class="n">master_addr</span><span class="o">=</span> <span class="n">master</span> <span class="n">ip</span>
+
+<span class="c1"># Node 1:</span>
+<span class="n">python</span> <span class="n">dist_train_sage_for_hetero</span><span class="o">.</span><span class="n">py</span> \
+  <span class="o">--</span><span class="n">dataset_root_dir</span><span class="o">=</span><span class="n">your</span> <span class="n">partition</span> <span class="n">folder</span> \
+  <span class="o">--</span><span class="n">dataset</span><span class="o">=</span><span class="n">ogbn</span><span class="o">-</span><span class="n">mags</span> \
+  <span class="o">--</span><span class="n">num_nodes</span><span class="o">=</span><span class="mi">2</span> <span class="o">--</span><span class="n">node_rank</span><span class="o">=</span><span class="mi">1</span> <span class="o">--</span><span class="n">num_training_procs</span><span class="o">=</span><span class="mi">1</span> \
+  <span class="o">--</span><span class="n">master_addr</span><span class="o">=</span> <span class="n">master</span> <span class="n">ip</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="run-with-launch-py">
+<h2>8. Run with Launch.py<a class="headerlink" href="#run-with-launch-py" title="Permalink to this heading"></a></h2>
+<p>As you can see the run in previous paragraph we need run the script in separate nodes which is not easy for the case of big partition numbers. So in this chapter we will use one script to run just in one node for multiple partitions.</p>
+<p>The requirement for this single-script run is that you still need multiple nodes with NFS supported &amp; ssh with password-less.</p>
+<p>In the followings we will show the files to run with single-scripts.</p>
+<ol class="arabic simple">
+<li><p><strong>ip_config.yaml</strong></p></li>
+</ol>
+<p>There are the 2 ip and 2 ports list for 2 partitions inside this file as example below.</p>
+<ul class="simple">
+<li><p>x.x.x.10 1234</p></li>
+<li><p>x.x.x.12 1234</p></li>
+</ul>
+<p>The node with first IP address will be the host node to run with launch.py as below.</p>
+<ol class="arabic simple" start="2">
+<li><p><strong>launch.py</strong></p></li>
+</ol>
+<p>In the launch.py you need setup the parameters as below</p>
+<ul class="simple">
+<li><p>workspace</p></li>
+<li><p>parameters used in e2e example</p></li>
+<li><p>part_config:  “partition config”</p></li>
+<li><p>ip_config:  “ip_config.yaml”</p></li>
+<li><p>remote cmd &amp; “e2e_xxx.py” in remote nodes</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">launch</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">workspace</span> <span class="o">./</span><span class="n">distributed_pyg</span><span class="o">/</span><span class="n">pytorch_geometric</span> <span class="o">--</span><span class="n">num_nodes</span> <span class="mi">2</span> <span class="o">--</span><span class="n">num_neighbors</span> <span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span> <span class="o">--</span><span class="n">num_training_procs</span> <span class="mi">1</span> <span class="o">--</span><span class="n">dataset_root_dir</span> <span class="o">./</span><span class="n">partition_ds</span><span class="o">/</span><span class="n">products</span> <span class="o">--</span><span class="n">dataset</span> <span class="n">ogbn</span><span class="o">-</span><span class="n">product</span> <span class="o">--</span><span class="n">epochs</span> <span class="mi">20</span> <span class="o">--</span><span class="n">batch_size</span> <span class="mi">1024</span> <span class="o">--</span><span class="n">num_workers</span> <span class="mi">2</span> <span class="o">--</span><span class="n">concurrency</span> <span class="mi">2</span> <span class="o">--</span><span class="n">part_config</span> <span class="o">./</span><span class="n">partition_ds</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">ogbn</span><span class="o">-</span><span class="n">products</span><span class="o">-</span><span class="n">partitions</span><span class="o">/</span><span class="n">META</span><span class="o">.</span><span class="n">json</span> <span class="o">--</span><span class="n">ip_config</span> <span class="o">./</span><span class="n">distributed_pyg</span><span class="o">/</span><span class="n">pytorch_geometric</span><span class="o">/</span><span class="n">ip_config</span><span class="o">.</span><span class="n">yaml</span> <span class="s1">&#39;cd /home/userXXX; source anaconda3/envs/PyGDistributed/bin/activate; cd /home/userXXX/distributed_pyg/pytorch_geometric; /home/userXXX/anaconda3/envs/PyGDistributed/bin/python /home/userXXX/distributed_pyg/pytorch_geometric/e2e_homo.py&#39;</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>run_dist.sh</strong></p></li>
+</ol>
+<p>You also create one .sh file to run this distributed script with all parameters inside of this .sh file and if you need run another setting you just need change a little settting in this .sh file.</p>
+<p>The below .sh example is assume that you have the anaconda virtual environment in all nodes.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
+
+CONDA_ENV=/home/userXXX/anaconda3/envs/PyGDistributed
+PYG_WORKSPACE=$PWD    #/home/userXXX/distributed_pyg/pytorch_geometric
+PY_EXEC=${CONDA_ENV}/bin/python
+EXEC_SCRIPT=${PYG_WORKSPACE}/e2e_homo.py
+
+# node number
+NUM_NODES=2
+
+# dataset folder
+DATASET_ROOT_DIR=&quot;/home/userXXX/partition_ds/products&quot;
+
+# process number for training
+NUM_TRAINING_PROCS=1
+
+# dataset name
+DATASET=ogbn-product
+
+# num epochs to run for
+EPOCHS=20
+
+BATCH_SIZE=1024
+
+# number of workers for sampling
+NUM_WORKERS=2
+CONCURRENCY=2
+
+#partition data directory
+PART_CONFIG=&quot;/home/userXXX/partition_ds/products/ogbn-products-partitions/META.json&quot;
+NUMPART=2
+
+# fanout per layer
+NUM_NEIGHBORS=&quot;15,10,5&quot;
+
+#ip_config path
+IP_CONFIG=${PYG_WORKSPACE}/ip_config.yaml
+
+
+# Folder and filename where you want your logs.
+logdir=&quot;logs&quot;
+mkdir -p &quot;logs&quot;
+logname=log_${DATASET}_${NUMPART}_$RANDOM
+echo $logname
+set -x
+
+# stdout stored in /logdir/logname.out
+python launch.py --workspace ${PYG_WORKSPACE} --num_nodes ${NUM_NODES} --num_neighbors ${NUM_NEIGHBORS} --num_training_procs ${NUM_TRAINING_PROCS} --dataset_root_dir ${DATASET_ROOT_DIR} --dataset ${DATASET} --epochs ${EPOCHS} --batch_size ${BATCH_SIZE} --num_workers ${NUM_WORKERS} --concurrency ${CONCURRENCY} --part_config ${PART_CONFIG} --ip_config ${IP_CONFIG} &quot;cd /home/userXXX; source anaconda3/envs/PyGDistributed/bin/activate; cd ${PYG_WORKSPACE}; ${PY_EXEC} ${EXEC_SCRIPT}&quot; |&amp; tee ${logdir}/${logname}.txt
+set +x
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="multi_node_multi_gpu_vanilla.html" class="btn btn-neutral float-left" title="Multi-Node Training using SLURM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../advanced/batching.html" class="btn btn-neutral float-right" title="Advanced Mini-Batching" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

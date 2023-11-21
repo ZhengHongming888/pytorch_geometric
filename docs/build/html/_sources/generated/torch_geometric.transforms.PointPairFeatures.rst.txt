@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.PointPairFeatures
+=============================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: PointPairFeatures
+   :show-inheritance:

@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.OneHotDegree
+========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: OneHotDegree
+   :show-inheritance:

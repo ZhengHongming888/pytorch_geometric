@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.GDC
+===============================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: GDC
+   :show-inheritance:

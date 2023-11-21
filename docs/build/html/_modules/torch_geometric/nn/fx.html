@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.nn.fx &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.nn.fx</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.nn.fx</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">Module</span><span class="p">,</span> <span class="n">ModuleDict</span><span class="p">,</span> <span class="n">ModuleList</span><span class="p">,</span> <span class="n">Sequential</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">torch.fx</span> <span class="kn">import</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">GraphModule</span><span class="p">,</span> <span class="n">Node</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">):</span>
+    <span class="n">GraphModule</span><span class="p">,</span> <span class="n">Graph</span><span class="p">,</span> <span class="n">Node</span> <span class="o">=</span> <span class="s1">&#39;GraphModule&#39;</span><span class="p">,</span> <span class="s1">&#39;Graph&#39;</span><span class="p">,</span> <span class="s1">&#39;Node&#39;</span>
+
+
+<div class="viewcode-block" id="Transformer"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer">[docs]</a><span class="k">class</span> <span class="nc">Transformer</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;A :class:`Transformer` executes an FX graph node-by-node, applies</span>
+<span class="sd">    transformations to each node, and produces a new :class:`torch.nn.Module`.</span>
+<span class="sd">    It exposes a :func:`transform` method that returns the transformed</span>
+<span class="sd">    :class:`~torch.nn.Module`.</span>
+<span class="sd">    :class:`Transformer` works entirely symbolically.</span>
+
+<span class="sd">    Methods in the :class:`Transformer` class can be overriden to customize the</span>
+<span class="sd">    behavior of transformation.</span>
+
+<span class="sd">    .. code-block:: none</span>
+
+<span class="sd">        transform()</span>
+<span class="sd">            +-- Iterate over each node in the graph</span>
+<span class="sd">                +-- placeholder()</span>
+<span class="sd">                +-- get_attr()</span>
+<span class="sd">                +-- call_function()</span>
+<span class="sd">                +-- call_method()</span>
+<span class="sd">                +-- call_module()</span>
+<span class="sd">                +-- call_message_passing_module()</span>
+<span class="sd">                +-- call_global_pooling_module()</span>
+<span class="sd">                +-- output()</span>
+<span class="sd">            +-- Erase unused nodes in the graph</span>
+<span class="sd">            +-- Iterate over each children module</span>
+<span class="sd">                +-- init_submodule()</span>
+
+<span class="sd">    In contrast to the :class:`torch.fx.Transformer` class, the</span>
+<span class="sd">    :class:`Transformer` exposes additional functionality:</span>
+
+<span class="sd">    #. It subdivides :func:`call_module` into nodes that call a regular</span>
+<span class="sd">       :class:`torch.nn.Module` (:func:`call_module`), a</span>
+<span class="sd">       :class:`MessagePassing` module (:func:`call_message_passing_module`),</span>
+<span class="sd">       or a :class:`GlobalPooling` module (:func:`call_global_pooling_module`).</span>
+
+<span class="sd">    #. It allows to customize or initialize new children modules via</span>
+<span class="sd">       :func:`init_submodule`</span>
+
+<span class="sd">    #. It allows to infer whether a node returns node-level or edge-level</span>
+<span class="sd">       information via :meth:`is_edge_level`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        module (torch.nn.Module): The module to be transformed.</span>
+<span class="sd">        input_map (Dict[str, str], optional): A dictionary holding information</span>
+<span class="sd">            about the type of input arguments of :obj:`module.forward`.</span>
+<span class="sd">            For example, in case :obj:`arg` is a node-level argument, then</span>
+<span class="sd">            :obj:`input_map[&#39;arg&#39;] = &#39;node&#39;`, and</span>
+<span class="sd">            :obj:`input_map[&#39;arg&#39;] = &#39;edge&#39;` otherwise.</span>
+<span class="sd">            In case :obj:`input_map` is not further specified, will try to</span>
+<span class="sd">            automatically determine the correct type of input arguments.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        debug (bool, optional): If set to :obj:`True`, will perform</span>
+<span class="sd">            transformation in debug mode. (default: :obj:`False`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">module</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span>
+        <span class="n">input_map</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">module</span> <span class="o">=</span> <span class="n">module</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gm</span> <span class="o">=</span> <span class="n">symbolic_trace</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_map</span> <span class="o">=</span> <span class="n">input_map</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
+
+    <span class="c1"># Methods to override #####################################################</span>
+
+<div class="viewcode-block" id="Transformer.placeholder"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.placeholder">[docs]</a>    <span class="k">def</span> <span class="nf">placeholder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Transformer.get_attr"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.get_attr">[docs]</a>    <span class="k">def</span> <span class="nf">get_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Transformer.call_message_passing_module"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.call_message_passing_module">[docs]</a>    <span class="k">def</span> <span class="nf">call_message_passing_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Transformer.call_global_pooling_module"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.call_global_pooling_module">[docs]</a>    <span class="k">def</span> <span class="nf">call_global_pooling_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Transformer.call_module"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.call_module">[docs]</a>    <span class="k">def</span> <span class="nf">call_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Transformer.call_method"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.call_method">[docs]</a>    <span class="k">def</span> <span class="nf">call_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Transformer.call_function"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.call_function">[docs]</a>    <span class="k">def</span> <span class="nf">call_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Transformer.output"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.output">[docs]</a>    <span class="k">def</span> <span class="nf">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Transformer.init_submodule"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.init_submodule">[docs]</a>    <span class="k">def</span> <span class="nf">init_submodule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Module</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">module</span></div>
+
+    <span class="c1"># Internal functionality ##################################################</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">graph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gm</span><span class="o">.</span><span class="n">graph</span>
+
+<div class="viewcode-block" id="Transformer.transform"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphModule</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Transforms :obj:`self.module` and returns a transformed</span>
+<span class="sd">        :class:`torch.fx.GraphModule`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">print_tabular</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">()</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">python_code</span><span class="p">(</span><span class="s1">&#39;self&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">code</span><span class="o">.</span><span class="n">src</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="s1">&#39;src&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">code</span><span class="p">)</span>
+
+        <span class="c1"># We create a private dictionary `self._state` which holds information</span>
+        <span class="c1"># about whether a node returns node-level or edge-level information:</span>
+        <span class="c1"># `self._state[node.name] in { &#39;node&#39;, &#39;edge&#39; }`</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_map</span> <span class="ow">or</span> <span class="p">{})</span>
+
+        <span class="c1"># We iterate over each node and determine its output level</span>
+        <span class="c1"># (node-level, edge-level) by filling `self._state`:</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;call_function&#39;</span> <span class="ow">and</span> <span class="s1">&#39;training&#39;</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Found function &#39;</span><span class="si">{</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; with keyword &quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot;argument &#39;training&#39;. During FX tracing, this &quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot;will likely be baked in as a constant value. &quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot;Consider replacing this function by a module &quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot;to properly encapsulate its training flag.&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;placeholder&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s1">&#39;edge&#39;</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="s1">&#39;adj&#39;</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;edge&#39;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;node&#39;</span>
+            <span class="k">elif</span> <span class="n">is_message_passing_op</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">module</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">target</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;node&#39;</span>
+            <span class="k">elif</span> <span class="n">is_global_pooling_op</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">module</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">target</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;graph&#39;</span>
+            <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;call_module&#39;</span><span class="p">,</span> <span class="s1">&#39;call_method&#39;</span><span class="p">,</span> <span class="s1">&#39;call_function&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_edge_level_arg</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;edge&#39;</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_node_level_arg</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;node&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;graph&#39;</span>
+
+        <span class="c1"># We iterate over each node and may transform it:</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">):</span>
+            <span class="c1"># Call the corresponding `Transformer` method for each `node.op`,</span>
+            <span class="c1"># e.g.: `call_module(...)`, `call_function(...)`, ...</span>
+            <span class="n">op</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span>
+            <span class="k">if</span> <span class="n">is_message_passing_op</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">module</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">target</span><span class="p">):</span>
+                <span class="n">op</span> <span class="o">=</span> <span class="s1">&#39;call_message_passing_module&#39;</span>
+            <span class="k">elif</span> <span class="n">is_global_pooling_op</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">module</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">target</span><span class="p">):</span>
+                <span class="n">op</span> <span class="o">=</span> <span class="s1">&#39;call_global_pooling_module&#39;</span>
+            <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">op</span><span class="p">)(</span><span class="n">node</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="c1"># Remove all unused nodes in the computation graph, i.e., all nodes</span>
+        <span class="c1"># which have been replaced by node type-wise or edge type-wise variants</span>
+        <span class="c1"># but which are still present in the computation graph.</span>
+        <span class="c1"># We do this by iterating over the computation graph in reversed order,</span>
+        <span class="c1"># and try to remove every node. This does only succeed in case there</span>
+        <span class="c1"># are no users of that node left in the computation graph.</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">)):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;placeholder&#39;</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">erase_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+        <span class="k">for</span> <span class="n">target</span><span class="p">,</span> <span class="n">submodule</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="n">_modules</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gm</span><span class="o">.</span><span class="n">_modules</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_submodule</span><span class="p">(</span><span class="n">submodule</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">gm</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">print_tabular</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">()</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">python_code</span><span class="p">(</span><span class="s1">&#39;self&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">code</span><span class="o">.</span><span class="n">src</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="s1">&#39;src&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">code</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">gm</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">lint</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gm</span><span class="o">.</span><span class="n">recompile</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">gm</span></div>
+
+    <span class="k">def</span> <span class="nf">_init_submodule</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Module</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">ModuleList</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">Sequential</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">ModuleList</span><span class="p">([</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_init_submodule</span><span class="p">(</span><span class="n">submodule</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">submodule</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+            <span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">ModuleDict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">ModuleDict</span><span class="p">({</span>
+                <span class="n">key</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_init_submodule</span><span class="p">(</span><span class="n">submodule</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">submodule</span> <span class="ow">in</span> <span class="n">module</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_submodule</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_is_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">_has_level_arg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">_recurse</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Node</span><span class="p">):</span>
+                <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;is_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">_level&#39;</span><span class="p">)(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">return</span> <span class="nb">any</span><span class="p">([</span><span class="n">_recurse</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+                <span class="k">return</span> <span class="nb">any</span><span class="p">([</span><span class="n">_recurse</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="nb">any</span><span class="p">([</span><span class="n">_recurse</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">])</span>
+                <span class="ow">or</span> <span class="nb">any</span><span class="p">([</span><span class="n">_recurse</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">values</span><span class="p">()]))</span>
+
+<div class="viewcode-block" id="Transformer.is_node_level"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.is_node_level">[docs]</a>    <span class="k">def</span> <span class="nf">is_node_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_level</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;node&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Transformer.is_edge_level"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.is_edge_level">[docs]</a>    <span class="k">def</span> <span class="nf">is_edge_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_level</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;edge&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Transformer.is_graph_level"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.is_graph_level">[docs]</a>    <span class="k">def</span> <span class="nf">is_graph_level</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_level</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;graph&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Transformer.has_node_level_arg"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.has_node_level_arg">[docs]</a>    <span class="k">def</span> <span class="nf">has_node_level_arg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_level_arg</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;node&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Transformer.has_edge_level_arg"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.has_edge_level_arg">[docs]</a>    <span class="k">def</span> <span class="nf">has_edge_level_arg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_level_arg</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;edge&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Transformer.has_graph_level_arg"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.has_graph_level_arg">[docs]</a>    <span class="k">def</span> <span class="nf">has_graph_level_arg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">Node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_level_arg</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;graph&#39;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">find_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Node</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">node</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">find_by_target</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Node</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">target</span> <span class="o">==</span> <span class="n">target</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">node</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Transformer.replace_all_uses_with"><a class="viewcode-back" href="../../../modules/nn.html#torch_geometric.nn.fx.Transformer.replace_all_uses_with">[docs]</a>    <span class="k">def</span> <span class="nf">replace_all_uses_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">to_replace</span><span class="p">:</span> <span class="n">Node</span><span class="p">,</span> <span class="n">replace_with</span><span class="p">:</span> <span class="n">Node</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">maybe_replace_node</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="n">Node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Node</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">replace_with</span> <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="n">to_replace</span> <span class="k">else</span> <span class="n">n</span>
+
+        <span class="n">node</span> <span class="o">=</span> <span class="n">replace_with</span><span class="o">.</span><span class="n">next</span>
+        <span class="k">while</span> <span class="n">node</span><span class="o">.</span><span class="n">op</span> <span class="o">!=</span> <span class="s1">&#39;root&#39;</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">fx</span><span class="o">.</span><span class="n">map_arg</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="n">maybe_replace_node</span><span class="p">)</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">fx</span><span class="o">.</span><span class="n">map_arg</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">maybe_replace_node</span><span class="p">)</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">next</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">symbolic_trace</span><span class="p">(</span>
+        <span class="n">module</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span>
+        <span class="n">concrete_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GraphModule</span><span class="p">:</span>
+
+    <span class="c1"># This is to support compatibility with pytorch version 1.9 and lower</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">torch.fx._symbolic_trace</span> <span class="k">as</span> <span class="nn">st</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">torch.fx.symbolic_trace</span> <span class="k">as</span> <span class="nn">st</span>
+
+    <span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">Aggregation</span>
+
+    <span class="k">class</span> <span class="nc">Tracer</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">fx</span><span class="o">.</span><span class="n">Tracer</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">is_leaf_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <span class="c1"># TODO We currently only trace top-level modules.</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">)</span>
+
+        <span class="c1"># Note: This is a hack around the fact that `Aggregaton.__call__`</span>
+        <span class="c1"># is not patched by the base implementation of `trace`.</span>
+        <span class="c1"># see https://github.com/pyg-team/pytorch_geometric/pull/5021 for</span>
+        <span class="c1"># details on the rationale</span>
+        <span class="c1"># TODO: Revisit https://github.com/pyg-team/pytorch_geometric/pull/5021</span>
+        <span class="nd">@st</span><span class="o">.</span><span class="n">compatibility</span><span class="p">(</span><span class="n">is_backward_compatible</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">trace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">]],</span>
+                  <span class="n">concrete_args</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Graph</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
+                <span class="n">fn</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">.</span><span class="n">forward</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">submodule_paths</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="n">mod</span><span class="p">:</span> <span class="n">name</span>
+                    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">mod</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">named_modules</span><span class="p">()</span>
+                <span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+                <span class="n">fn</span> <span class="o">=</span> <span class="n">root</span>
+
+            <span class="n">tracer_cls</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">st</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="s1">&#39;Tracer&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;__class__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">Graph</span><span class="p">(</span><span class="n">tracer_cls</span><span class="o">=</span><span class="n">tracer_cls</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">tensor_attrs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">st</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">ScriptObject</span><span class="p">],</span>
+                                    <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="k">def</span> <span class="nf">collect_tensor_attrs</span><span class="p">(</span><span class="n">m</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+                                     <span class="n">prefix_atoms</span><span class="p">:</span> <span class="n">st</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">ScriptObject</span><span class="p">)):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">tensor_attrs</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">prefix_atoms</span> <span class="o">+</span> <span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">named_children</span><span class="p">():</span>
+                    <span class="n">collect_tensor_attrs</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">prefix_atoms</span> <span class="o">+</span> <span class="p">[</span><span class="n">k</span><span class="p">])</span>
+
+            <span class="n">collect_tensor_attrs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">,</span> <span class="p">[])</span>
+
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">)</span>
+
+            <span class="n">fn_globals</span> <span class="o">=</span> <span class="n">fn</span><span class="o">.</span><span class="vm">__globals__</span>  <span class="c1"># run before it gets patched</span>
+            <span class="n">fn</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_args_for_root</span><span class="p">(</span>
+                <span class="n">fn</span><span class="p">,</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">),</span> <span class="n">concrete_args</span><span class="p">)</span>
+
+            <span class="n">parameter_proxy_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">st</span><span class="o">.</span><span class="n">Proxy</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="p">}</span>  <span class="c1"># Reduce number of get_attr calls</span>
+
+            <span class="nd">@st</span><span class="o">.</span><span class="n">functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">_orig_module_getattr</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">module_getattr_wrapper</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+                <span class="n">attr_val</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">_orig_module_getattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+                <span class="c1"># Support for PyTorch &gt; 1.12, see:</span>
+                <span class="c1"># https://github.com/pytorch/pytorch/pull/84011</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;getattr&#39;</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">getattr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">attr_val</span><span class="p">,</span> <span class="n">parameter_proxy_cache</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_module_getattr</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">attr_val</span><span class="p">,</span>
+                                            <span class="n">parameter_proxy_cache</span><span class="p">)</span>
+
+            <span class="nd">@st</span><span class="o">.</span><span class="n">functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">st</span><span class="o">.</span><span class="n">_orig_module_call</span><span class="p">)</span>
+            <span class="k">def</span> <span class="nf">module_call_wrapper</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">st</span><span class="o">.</span><span class="n">_orig_module_call</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+                <span class="n">st</span><span class="o">.</span><span class="n">_autowrap_check</span><span class="p">(</span>
+                    <span class="n">patcher</span><span class="p">,</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="s2">&quot;forward&quot;</span><span class="p">,</span> <span class="n">mod</span><span class="p">),</span> <span class="s2">&quot;__globals__&quot;</span><span class="p">,</span> <span class="p">{}),</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_autowrap_function_ids</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_module</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">forward</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="k">with</span> <span class="n">st</span><span class="o">.</span><span class="n">_Patcher</span><span class="p">()</span> <span class="k">as</span> <span class="n">patcher</span><span class="p">:</span>
+                <span class="c1"># allow duplicate patches to support the case of nested calls</span>
+                <span class="n">patcher</span><span class="o">.</span><span class="n">patch_method</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="s2">&quot;__getattr__&quot;</span><span class="p">,</span>
+                                     <span class="n">module_getattr_wrapper</span><span class="p">,</span> <span class="n">deduplicate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">patcher</span><span class="o">.</span><span class="n">patch_method</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="s2">&quot;__call__&quot;</span><span class="p">,</span>
+                                     <span class="n">module_call_wrapper</span><span class="p">,</span> <span class="n">deduplicate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">patcher</span><span class="o">.</span><span class="n">patch_method</span><span class="p">(</span><span class="n">Aggregation</span><span class="p">,</span> <span class="s2">&quot;__call__&quot;</span><span class="p">,</span>
+                                     <span class="n">module_call_wrapper</span><span class="p">,</span> <span class="n">deduplicate</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">_patch_wrapped_functions</span><span class="p">(</span><span class="n">patcher</span><span class="p">)</span>
+                <span class="n">st</span><span class="o">.</span><span class="n">_autowrap_check</span><span class="p">(</span><span class="n">patcher</span><span class="p">,</span> <span class="n">fn_globals</span><span class="p">,</span>
+                                   <span class="bp">self</span><span class="o">.</span><span class="n">_autowrap_function_ids</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_autowrap_search</span><span class="p">:</span>
+                    <span class="n">st</span><span class="o">.</span><span class="n">_autowrap_check</span><span class="p">(</span><span class="n">patcher</span><span class="p">,</span> <span class="n">module</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span>
+                                       <span class="bp">self</span><span class="o">.</span><span class="n">_autowrap_function_ids</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">create_node</span><span class="p">(</span>
+                    <span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="s1">&#39;output&#39;</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">create_arg</span><span class="p">(</span><span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)),</span> <span class="p">),</span> <span class="p">{},</span>
+                    <span class="n">type_expr</span><span class="o">=</span><span class="n">fn</span><span class="o">.</span><span class="vm">__annotations__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;return&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">submodule_paths</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span>
+
+    <span class="k">return</span> <span class="n">GraphModule</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">Tracer</span><span class="p">()</span><span class="o">.</span><span class="n">trace</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">concrete_args</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">get_submodule</span><span class="p">(</span><span class="n">module</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Module</span><span class="p">:</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">module</span>
+    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">def</span> <span class="nf">is_message_passing_op</span><span class="p">(</span><span class="n">module</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span> <span class="n">op</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">MessagePassing</span>
+    <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;call_module&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">get_submodule</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="n">MessagePassing</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span> <span class="nf">is_global_pooling_op</span><span class="p">(</span><span class="n">module</span><span class="p">:</span> <span class="n">Module</span><span class="p">,</span> <span class="n">op</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">Aggregation</span>
+    <span class="k">if</span> <span class="n">op</span> <span class="o">==</span> <span class="s1">&#39;call_module&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">get_submodule</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="n">Aggregation</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

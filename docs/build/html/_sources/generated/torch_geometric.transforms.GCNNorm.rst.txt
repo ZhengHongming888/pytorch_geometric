@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.GCNNorm
+===================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: GCNNorm
+   :show-inheritance:

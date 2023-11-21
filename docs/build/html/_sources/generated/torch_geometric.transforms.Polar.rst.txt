@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.Polar
+=================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: Polar
+   :show-inheritance:

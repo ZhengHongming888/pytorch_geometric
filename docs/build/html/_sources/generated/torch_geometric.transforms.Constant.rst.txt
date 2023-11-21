@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.Constant
+====================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: Constant
+   :show-inheritance:

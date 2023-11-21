@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compiled Graph Neural Networks &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Compiled Graph Neural Networks</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/compile.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="compiled-graph-neural-networks">
+<h1>Compiled Graph Neural Networks<a class="headerlink" href="#compiled-graph-neural-networks" title="Permalink to this heading"></a></h1>
+<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.compile()</span></code> is the latest method to speed up your <span class="inline-logo pytorch">PyTorch</span> code in <code class="xref py py-obj docutils literal notranslate"><span class="pre">torch</span> <span class="pre">&gt;=</span> <span class="pre">2.0.0</span></code>!
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.compile()</span></code> makes PyTorch code run faster by JIT-compiling it into optimized kernels, all while required minimal code changes.</p>
+<p>Under the hood, <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.compile()</span></code> captures <span class="inline-logo pytorch">PyTorch</span> programs via <code class="xref py py-obj docutils literal notranslate"><span class="pre">TorchDynamo</span></code>, canonicalizes over 2,000 <span class="inline-logo pytorch">PyTorch</span> operators via <code class="xref py py-obj docutils literal notranslate"><span class="pre">PrimTorch</span></code>, and finally generates fast code out of it across multiple accelerators and backends via the deep learning compiler <code class="xref py py-obj docutils literal notranslate"><span class="pre">TorchInductor</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>See <a class="reference external" href="https://pytorch.org/tutorials/intermediate/torch_compile_tutorial.html">here</a> for a general tutorial on how to leverage <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.compile()</span></code>, and <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.compile.html">here</a> for a description of its interface.</p>
+</div>
+<p>In this tutorial, we show how to optimize your custom <span class="inline-logo pyg">PyG</span> model via <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.compile()</span></code>.</p>
+<section id="torch-geometric-compile">
+<h2><a class="reference internal" href="../modules/root.html#module-torch_geometric.compile" title="torch_geometric.compile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.compile()</span></code></a><a class="headerlink" href="#torch-geometric-compile" title="Permalink to this heading"></a></h2>
+<p>By default, <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.compile()</span></code> struggles to optimize a custom <span class="inline-logo pyg">PyG</span> model since its underlying <a class="reference internal" href="../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing" title="torch_geometric.nn.conv.MessagePassing"><code class="xref py py-class docutils literal notranslate"><span class="pre">MessagePassing</span></code></a> interface is JIT-unfriendly due to its generality.
+As such, in <span class="inline-logo pyg">PyG 2.3</span>, we introduce <a class="reference internal" href="../modules/root.html#module-torch_geometric.compile" title="torch_geometric.compile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.compile()</span></code></a>, a wrapper around <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.compile()</span></code> with the same signature.</p>
+<p><a class="reference internal" href="../modules/root.html#module-torch_geometric.compile" title="torch_geometric.compile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.compile()</span></code></a> applies further optimizations to make <span class="inline-logo pyg">PyG</span> models more compiler-friendly.
+Specifically, it:</p>
+<ol class="arabic simple">
+<li><p>Temporarily disables the usage of the extension packages <code class="xref py py-obj docutils literal notranslate"><span class="pre">torch_scatter</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">torch_sparse</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">pyg_lib</span></code> during GNN execution workflows (since these are not <em>yet</em> directly optimizable by <span class="inline-logo pytorch">PyTorch</span>).
+From <span class="inline-logo pyg">PyG 2.3</span> onwards, these packages are purely optional and not required anymore for running <span class="inline-logo pyg">PyG</span> models (but <code class="xref py py-obj docutils literal notranslate"><span class="pre">pyg_lib</span></code> may be required for graph sampling routines).</p></li>
+<li><p>Converts all instances of <a class="reference internal" href="../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing" title="torch_geometric.nn.conv.MessagePassing"><code class="xref py py-class docutils literal notranslate"><span class="pre">MessagePassing</span></code></a> modules into their jittable instances (see <a class="reference internal" href="../generated/torch_geometric.nn.conv.MessagePassing.html#torch_geometric.nn.conv.MessagePassing.jittable" title="torch_geometric.nn.conv.MessagePassing.jittable"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.nn.conv.MessagePassing.jittable()</span></code></a>)</p></li>
+</ol>
+<p>Without these adjustments, <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.compile()</span></code> may currently fail to correctly optimize your <span class="inline-logo pyg">PyG</span> model.
+We are working on fully relying on <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.compile()</span></code> for future releases.</p>
+</section>
+<section id="basic-usage">
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this heading"></a></h2>
+<p>Leveraging <a class="reference internal" href="../modules/root.html#module-torch_geometric.compile" title="torch_geometric.compile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.compile()</span></code></a> is as simple as the usage of <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.compile()</span></code>.
+Once you have a <span class="inline-logo pyg">PyG</span> model defined, simply wrap it with <a class="reference internal" href="../modules/root.html#module-torch_geometric.compile" title="torch_geometric.compile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.compile()</span></code></a> to obtain its optimized version:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch_geometric</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">GraphSAGE</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">GraphSAGE</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span> <span class="n">hidden_channels</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and execute it as usual:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.datasets</span> <span class="kn">import</span> <span class="n">Planetoid</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">Planetoid</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cora&quot;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">out</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="maximizing-performance">
+<h2>Maximizing Performance<a class="headerlink" href="#maximizing-performance" title="Permalink to this heading"></a></h2>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.compile()</span></code>/<a class="reference internal" href="../modules/root.html#module-torch_geometric.compile" title="torch_geometric.compile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.compile()</span></code></a> method provides two important arguments to be aware of:</p>
+<ul>
+<li><p>Most of the mini-batches observed in <span class="inline-logo pyg">PyG</span> are dynamic by nature, meaning that their shape varies across different mini-batches.
+For these scenarios, we can enforce dynamic shape tracing in <span class="inline-logo pytorch">PyTorch</span> via the <code class="xref py py-obj docutils literal notranslate"><span class="pre">dynamic=True</span></code> argument:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch_geometric</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dynamic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With this, <span class="inline-logo pytorch">PyTorch</span> will up-front attempt to generate a kernel that is as dynamic as possible to avoid recompilations when sizes change across mini-batches changes.
+Note that when <code class="xref py py-obj docutils literal notranslate"><span class="pre">dynamic</span></code> is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>, <span class="inline-logo pytorch">PyTorch</span> will <em>never</em> generate dynamic kernels, and thus only works when graph sizes are guaranteed to never change (<em>e.g.</em>, in full-batch training on small graphs).
+By default, <code class="xref py py-obj docutils literal notranslate"><span class="pre">dynamic</span></code> is set to <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> in <span class="inline-logo pytorch">PyTorch</span> <code class="xref py py-obj docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">2.1.0</span></code>, and <span class="inline-logo pytorch">PyTorch</span> will automatically detect if dynamism has occured.
+Note that support for dynamic shape tracing requires <span class="inline-logo pytorch">PyTorch</span> <code class="xref py py-obj docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">2.1.0</span></code> to be installed.</p>
+</li>
+<li><p>In order to maximize speedup, graphs breaks in the compiled model should be limited.
+We can force compilation to raise an error upon the first graph break encountered by using the <code class="xref py py-obj docutils literal notranslate"><span class="pre">fullgraph=True</span></code> argument:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">torch_geometric</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">fullgraph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It is generally a good practice to confirm that your written model does not contain any graph breaks.
+Importantly, there exists a few operations in <span class="inline-logo pyg">PyG</span> that will currently lead to graph breaks (but workaround exists), <em>e.g.</em>:</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="../generated/torch_geometric.nn.pool.global_mean_pool.html#torch_geometric.nn.pool.global_mean_pool" title="torch_geometric.nn.pool.global_mean_pool"><code class="xref py py-meth docutils literal notranslate"><span class="pre">global_mean_pool()</span></code></a> (and other pooling operators) perform device synchronization in case the batch size <code class="xref py py-obj docutils literal notranslate"><span class="pre">size</span></code> is not passed, leading to a graph break.</p></li>
+<li><p><a class="reference internal" href="../modules/utils.html#torch_geometric.utils.remove_self_loops" title="torch_geometric.utils.remove_self_loops"><code class="xref py py-meth docutils literal notranslate"><span class="pre">remove_self_loops()</span></code></a> and <a class="reference internal" href="../modules/utils.html#torch_geometric.utils.add_remaining_self_loops" title="torch_geometric.utils.add_remaining_self_loops"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_remaining_self_loops()</span></code></a> mask the given <code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_index</span></code>, leading to a device synchronization to compute its final output shape.
+As such, we recommend to augment your graph <em>before</em> inputting it into your GNN, <em>e.g.</em>, via the <a class="reference internal" href="../generated/torch_geometric.transforms.AddSelfLoops.html#torch_geometric.transforms.AddSelfLoops" title="torch_geometric.transforms.AddSelfLoops"><code class="xref py py-class docutils literal notranslate"><span class="pre">AddSelfLoops</span></code></a> or <a class="reference internal" href="../generated/torch_geometric.transforms.GCNNorm.html#torch_geometric.transforms.GCNNorm" title="torch_geometric.transforms.GCNNorm"><code class="xref py py-class docutils literal notranslate"><span class="pre">GCNNorm</span></code></a> transformations, and setting <code class="xref py py-obj docutils literal notranslate"><span class="pre">add_self_loops=False</span></code>/<code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize=False</span></code> when initializing layers such as <code class="xref py py-class docutils literal notranslate"><span class="pre">GCNNorm</span></code>.</p></li>
+</ol>
+</li>
+</ul>
+</section>
+<section id="exampe-scripts">
+<h2>Exampe Scripts<a class="headerlink" href="#exampe-scripts" title="Permalink to this heading"></a></h2>
+<p>We have incorporated multiple examples in <code class="xref py py-obj docutils literal notranslate"><span class="pre">examples/compile</span></code> that further show the practical usage of <a class="reference internal" href="../modules/root.html#module-torch_geometric.compile" title="torch_geometric.compile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.compile()</span></code></a>:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/compile/gcn.py">Node Classification</a> via <a class="reference internal" href="../generated/torch_geometric.nn.models.GCN.html#torch_geometric.nn.models.GCN" title="torch_geometric.nn.models.GCN"><code class="xref py py-class docutils literal notranslate"><span class="pre">GCN</span></code></a> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dynamic=False</span></code>)</p></li>
+<li><p><a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/compile/gin.py">Graph Classification</a> via <a class="reference internal" href="../generated/torch_geometric.nn.models.GIN.html#torch_geometric.nn.models.GIN" title="torch_geometric.nn.models.GIN"><code class="xref py py-class docutils literal notranslate"><span class="pre">GIN</span></code></a> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">dynamic=True</span></code>)</p></li>
+</ol>
+<p>If you notice that <a class="reference internal" href="../modules/root.html#module-torch_geometric.compile" title="torch_geometric.compile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compile()</span></code></a> fails for a certain <span class="inline-logo pyg">PyG</span> model, do not hesitate to reach out either on <span class="inline-logo github empty"></span> <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/issues">GitHub</a> or <span class="inline-logo slack empty"></span> <a class="reference external" href="https://data.pyg.org/slack.html">Slack</a>.
+We are very eager to improve <a class="reference internal" href="../modules/root.html#module-torch_geometric.compile" title="torch_geometric.compile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">compile()</span></code></a> support across the whole <span class="inline-logo pyg">PyG</span> code base.</p>
+</section>
+<section id="benchmark">
+<h2>Benchmark<a class="headerlink" href="#benchmark" title="Permalink to this heading"></a></h2>
+<p><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch.compile()</span></code> works <strong>fantastically well</strong> for many <span class="inline-logo pyg">PyG</span> models.
+<strong>Overall, we observe runtime improvements of nearly up to 300%.</strong></p>
+<p>Specifically, we benchmark <a class="reference internal" href="../generated/torch_geometric.nn.models.GCN.html#torch_geometric.nn.models.GCN" title="torch_geometric.nn.models.GCN"><code class="xref py py-class docutils literal notranslate"><span class="pre">GCN</span></code></a>, <a class="reference internal" href="../generated/torch_geometric.nn.models.GraphSAGE.html#torch_geometric.nn.models.GraphSAGE" title="torch_geometric.nn.models.GraphSAGE"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphSAGE</span></code></a> and <a class="reference internal" href="../generated/torch_geometric.nn.models.GIN.html#torch_geometric.nn.models.GIN" title="torch_geometric.nn.models.GIN"><code class="xref py py-class docutils literal notranslate"><span class="pre">GIN</span></code></a> and compare runtimes obtained from traditional eager mode and <a class="reference internal" href="../modules/root.html#module-torch_geometric.compile" title="torch_geometric.compile"><code class="xref py py-meth docutils literal notranslate"><span class="pre">torch_geometric.compile()</span></code></a>.
+We use a synthetic graph with 10,000 nodes and 200,000 edges, and a hidden feature dimensionality of 64.
+We report runtimes over 500 optimization steps:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>Mode</p></th>
+<th class="head"><p>Forward</p></th>
+<th class="head"><p>Backward</p></th>
+<th class="head"><p>Total</p></th>
+<th class="head"><p>Speedup</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.models.GCN.html#torch_geometric.nn.models.GCN" title="torch_geometric.nn.models.GCN"><code class="xref py py-class docutils literal notranslate"><span class="pre">GCN</span></code></a></p></td>
+<td><p>Eager</p></td>
+<td><p>2.6396s</p></td>
+<td><p>2.1697s</p></td>
+<td><p>4.8093s</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.models.GCN.html#torch_geometric.nn.models.GCN" title="torch_geometric.nn.models.GCN"><code class="xref py py-class docutils literal notranslate"><span class="pre">GCN</span></code></a></p></td>
+<td><p><strong>Compiled</strong></p></td>
+<td><p><strong>1.1082s</strong></p></td>
+<td><p><strong>0.5896s</strong></p></td>
+<td><p><strong>1.6978s</strong></p></td>
+<td><p><strong>2.83x</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.models.GraphSAGE.html#torch_geometric.nn.models.GraphSAGE" title="torch_geometric.nn.models.GraphSAGE"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphSAGE</span></code></a></p></td>
+<td><p>Eager</p></td>
+<td><p>1.6023s</p></td>
+<td><p>1.6428s</p></td>
+<td><p>3.2451s</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.models.GraphSAGE.html#torch_geometric.nn.models.GraphSAGE" title="torch_geometric.nn.models.GraphSAGE"><code class="xref py py-class docutils literal notranslate"><span class="pre">GraphSAGE</span></code></a></p></td>
+<td><p><strong>Compiled</strong></p></td>
+<td><p><strong>0.7033s</strong></p></td>
+<td><p><strong>0.7465s</strong></p></td>
+<td><p><strong>1.4498s</strong></p></td>
+<td><p><strong>2.24x</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.models.GIN.html#torch_geometric.nn.models.GIN" title="torch_geometric.nn.models.GIN"><code class="xref py py-class docutils literal notranslate"><span class="pre">GIN</span></code></a></p></td>
+<td><p>Eager</p></td>
+<td><p>1.6701s</p></td>
+<td><p>1.6990s</p></td>
+<td><p>3.3690s</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../generated/torch_geometric.nn.models.GIN.html#torch_geometric.nn.models.GIN" title="torch_geometric.nn.models.GIN"><code class="xref py py-class docutils literal notranslate"><span class="pre">GIN</span></code></a></p></td>
+<td><p><strong>Compiled</strong></p></td>
+<td><p><strong>0.7320s</strong></p></td>
+<td><p><strong>0.7407s</strong></p></td>
+<td><p><strong>1.4727s</strong></p></td>
+<td><p><strong>2.29x</strong></p></td>
+</tr>
+</tbody>
+</table>
+<p>To reproduce these results, run</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python test/nn/models/test_basic_gnn.py</span>
+</pre></div>
+</div>
+<p>from the root folder of your checked out <span class="inline-logo pyg">PyG</span> repository from <span class="inline-logo github">GitHub</span>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

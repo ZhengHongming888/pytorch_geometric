@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.graph\_generator.BAGraph
+==================================================
+
+.. currentmodule:: torch_geometric.datasets.graph_generator
+
+.. autoclass:: BAGraph
+   :show-inheritance:

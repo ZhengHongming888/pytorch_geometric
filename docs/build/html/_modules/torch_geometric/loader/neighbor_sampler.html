@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.loader.neighbor_sampler &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.loader.neighbor_sampler</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.loader.neighbor_sampler</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">SparseTensor</span>
+
+
+<span class="k">class</span> <span class="nc">EdgeIndex</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">e_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">edge_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">e_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_id</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">EdgeIndex</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">e_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Adj</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">adj_t</span><span class="p">:</span> <span class="n">SparseTensor</span>
+    <span class="n">e_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">to</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">adj_t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adj_t</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">e_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_id</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">Adj</span><span class="p">(</span><span class="n">adj_t</span><span class="p">,</span> <span class="n">e_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="NeighborSampler"><a class="viewcode-back" href="../../../modules/loader.html#torch_geometric.loader.NeighborSampler">[docs]</a><span class="k">class</span> <span class="nc">NeighborSampler</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The neighbor sampler from the `&quot;Inductive Representation Learning on</span>
+<span class="sd">    Large Graphs&quot; &lt;https://arxiv.org/abs/1706.02216&gt;`_ paper, which allows</span>
+<span class="sd">    for mini-batch training of GNNs on large-scale graphs where full-batch</span>
+<span class="sd">    training is not feasible.</span>
+
+<span class="sd">    Given a GNN with :math:`L` layers and a specific mini-batch of nodes</span>
+<span class="sd">    :obj:`node_idx` for which we want to compute embeddings, this module</span>
+<span class="sd">    iteratively samples neighbors and constructs bipartite graphs that simulate</span>
+<span class="sd">    the actual computation flow of GNNs.</span>
+
+<span class="sd">    More specifically, :obj:`sizes` denotes how much neighbors we want to</span>
+<span class="sd">    sample for each node in each layer.</span>
+<span class="sd">    This module then takes in these :obj:`sizes` and iteratively samples</span>
+<span class="sd">    :obj:`sizes[l]` for each node involved in layer :obj:`l`.</span>
+<span class="sd">    In the next layer, sampling is repeated for the union of nodes that were</span>
+<span class="sd">    already encountered.</span>
+<span class="sd">    The actual computation graphs are then returned in reverse-mode, meaning</span>
+<span class="sd">    that we pass messages from a larger set of nodes to a smaller one, until we</span>
+<span class="sd">    reach the nodes for which we originally wanted to compute embeddings.</span>
+
+<span class="sd">    Hence, an item returned by :class:`NeighborSampler` holds the current</span>
+<span class="sd">    :obj:`batch_size`, the IDs :obj:`n_id` of all nodes involved in the</span>
+<span class="sd">    computation, and a list of bipartite graph objects via the tuple</span>
+<span class="sd">    :obj:`(edge_index, e_id, size)`, where :obj:`edge_index` represents the</span>
+<span class="sd">    bipartite edges between source and target nodes, :obj:`e_id` denotes the</span>
+<span class="sd">    IDs of original edges in the full graph, and :obj:`size` holds the shape</span>
+<span class="sd">    of the bipartite graph.</span>
+<span class="sd">    For each bipartite graph, target nodes are also included at the beginning</span>
+<span class="sd">    of the list of source nodes so that one can easily apply skip-connections</span>
+<span class="sd">    or add self-loops.</span>
+
+<span class="sd">    .. warning::</span>
+
+<span class="sd">        :class:`~torch_geometric.loader.NeighborSampler` is deprecated and will</span>
+<span class="sd">        be removed in a future release.</span>
+<span class="sd">        Use :class:`torch_geometric.loader.NeighborLoader` instead.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        For an example of using :obj:`NeighborSampler`, see</span>
+<span class="sd">        `examples/reddit.py</span>
+<span class="sd">        &lt;https://github.com/pyg-team/pytorch_geometric/blob/master/examples/</span>
+<span class="sd">        reddit.py&gt;`_ or</span>
+<span class="sd">        `examples/ogbn_products_sage.py</span>
+<span class="sd">        &lt;https://github.com/pyg-team/pytorch_geometric/blob/master/examples/</span>
+<span class="sd">        ogbn_products_sage.py&gt;`_.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (Tensor or SparseTensor): A :obj:`torch.LongTensor` or a</span>
+<span class="sd">            :class:`torch_sparse.SparseTensor` that defines the underlying</span>
+<span class="sd">            graph connectivity/message passing flow.</span>
+<span class="sd">            :obj:`edge_index` holds the indices of a (sparse) symmetric</span>
+<span class="sd">            adjacency matrix.</span>
+<span class="sd">            If :obj:`edge_index` is of type :obj:`torch.LongTensor`, its shape</span>
+<span class="sd">            must be defined as :obj:`[2, num_edges]`, where messages from nodes</span>
+<span class="sd">            :obj:`edge_index[0]` are sent to nodes in :obj:`edge_index[1]`</span>
+<span class="sd">            (in case :obj:`flow=&quot;source_to_target&quot;`).</span>
+<span class="sd">            If :obj:`edge_index` is of type :class:`torch_sparse.SparseTensor`,</span>
+<span class="sd">            its sparse indices :obj:`(row, col)` should relate to</span>
+<span class="sd">            :obj:`row = edge_index[1]` and :obj:`col = edge_index[0]`.</span>
+<span class="sd">            The major difference between both formats is that we need to input</span>
+<span class="sd">            the *transposed* sparse adjacency matrix.</span>
+<span class="sd">        sizes ([int]): The number of neighbors to sample for each node in each</span>
+<span class="sd">            layer. If set to :obj:`sizes[l] = -1`, all neighbors are included</span>
+<span class="sd">            in layer :obj:`l`.</span>
+<span class="sd">        node_idx (LongTensor, optional): The nodes that should be considered</span>
+<span class="sd">            for creating mini-batches. If set to :obj:`None`, all nodes will be</span>
+<span class="sd">            considered.</span>
+<span class="sd">        num_nodes (int, optional): The number of nodes in the graph.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        return_e_id (bool, optional): If set to :obj:`False`, will not return</span>
+<span class="sd">            original edge indices of sampled edges. This is only useful in case</span>
+<span class="sd">            when operating on graphs without edge features to save memory.</span>
+<span class="sd">            (default: :obj:`True`)</span>
+<span class="sd">        transform (callable, optional): A function/transform that takes in</span>
+<span class="sd">            a sampled mini-batch and returns a transformed version.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        **kwargs (optional): Additional arguments of</span>
+<span class="sd">            :class:`torch.utils.data.DataLoader`, such as :obj:`batch_size`,</span>
+<span class="sd">            :obj:`shuffle`, :obj:`drop_last` or :obj:`num_workers`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">SparseTensor</span><span class="p">],</span>
+                 <span class="n">sizes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">node_idx</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">num_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">return_e_id</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                 <span class="n">transform</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="n">edge_index</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Remove for PyTorch Lightning:</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;dataset&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;collate_fn&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># Save for Pytorch Lightning &lt; 1.6:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="n">edge_index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_idx</span> <span class="o">=</span> <span class="n">node_idx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="n">num_nodes</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sizes</span> <span class="o">=</span> <span class="n">sizes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">return_e_id</span> <span class="o">=</span> <span class="n">return_e_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_sparse_tensor</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">SparseTensor</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__val__</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Obtain a *transposed* `SparseTensor` instance.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_sparse_tensor</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">num_nodes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">node_idx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                    <span class="ow">and</span> <span class="n">node_idx</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">):</span>
+                <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">node_idx</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">num_nodes</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">node_idx</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                    <span class="ow">and</span> <span class="n">node_idx</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">):</span>
+                <span class="n">num_nodes</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span> <span class="nb">int</span><span class="p">(</span><span class="n">node_idx</span><span class="o">.</span><span class="n">max</span><span class="p">()))</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">num_nodes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">num_nodes</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+
+            <span class="n">value</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">if</span> <span class="n">return_e_id</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">adj_t</span> <span class="o">=</span> <span class="n">SparseTensor</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">col</span><span class="o">=</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                      <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+                                      <span class="n">sparse_sizes</span><span class="o">=</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">))</span><span class="o">.</span><span class="n">t</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">adj_t</span> <span class="o">=</span> <span class="n">edge_index</span>
+            <span class="k">if</span> <span class="n">return_e_id</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__val__</span> <span class="o">=</span> <span class="n">adj_t</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">adj_t</span><span class="o">.</span><span class="n">nnz</span><span class="p">())</span>
+                <span class="n">adj_t</span> <span class="o">=</span> <span class="n">adj_t</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;coo&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">adj_t</span> <span class="o">=</span> <span class="n">adj_t</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">adj_t</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">rowptr</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">node_idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">node_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">adj_t</span><span class="o">.</span><span class="n">sparse_size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">node_idx</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">:</span>
+            <span class="n">node_idx</span> <span class="o">=</span> <span class="n">node_idx</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">as_tuple</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">node_idx</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">collate_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+
+        <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+
+        <span class="n">adjs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">n_id</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sizes</span><span class="p">:</span>
+            <span class="n">adj_t</span><span class="p">,</span> <span class="n">n_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adj_t</span><span class="o">.</span><span class="n">sample_adj</span><span class="p">(</span><span class="n">n_id</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">e_id</span> <span class="o">=</span> <span class="n">adj_t</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="n">adj_t</span><span class="o">.</span><span class="n">sparse_sizes</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__val__</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">adj_t</span><span class="o">.</span><span class="n">set_value_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__val__</span><span class="p">[</span><span class="n">e_id</span><span class="p">],</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;coo&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_sparse_tensor</span><span class="p">:</span>
+                <span class="n">adjs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Adj</span><span class="p">(</span><span class="n">adj_t</span><span class="p">,</span> <span class="n">e_id</span><span class="p">,</span> <span class="n">size</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">adj_t</span><span class="o">.</span><span class="n">coo</span><span class="p">()</span>
+                <span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">adjs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">EdgeIndex</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">e_id</span><span class="p">,</span> <span class="n">size</span><span class="p">))</span>
+
+        <span class="n">adjs</span> <span class="o">=</span> <span class="n">adjs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">adjs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">adjs</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">n_id</span><span class="p">,</span> <span class="n">adjs</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="o">*</span><span class="n">out</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">out</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(sizes=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sizes</span><span class="si">}</span><span class="s1">)&#39;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.MixHopSyntheticDataset
+================================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: MixHopSyntheticDataset
+   :show-inheritance:

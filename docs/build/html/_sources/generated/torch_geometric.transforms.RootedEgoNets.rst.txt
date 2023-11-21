@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.RootedEgoNets
+=========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: RootedEgoNets
+   :show-inheritance:

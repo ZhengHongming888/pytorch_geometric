@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.TOSCA
+===============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: TOSCA
+   :show-inheritance:

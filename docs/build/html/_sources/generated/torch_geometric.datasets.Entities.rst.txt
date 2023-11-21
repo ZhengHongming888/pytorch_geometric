@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.Entities
+==================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: Entities
+   :show-inheritance:

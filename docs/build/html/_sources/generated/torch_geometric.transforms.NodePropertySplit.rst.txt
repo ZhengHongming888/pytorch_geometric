@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.NodePropertySplit
+=============================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: NodePropertySplit
+   :show-inheritance:

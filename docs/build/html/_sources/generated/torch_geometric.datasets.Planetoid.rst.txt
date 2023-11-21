@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.Planetoid
+===================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: Planetoid
+   :show-inheritance:

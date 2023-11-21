@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.kge.KGEModel
+================================
+
+.. currentmodule:: torch_geometric.nn.kge
+
+.. autoclass:: KGEModel
+   :show-inheritance:
+   :members:

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shallow Node Embeddings &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/js/on_pyg_load.js"></script>
+        <script src="../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multi-GPU Training" href="multi_gpu.html" />
+    <link rel="prev" title="Explaining Graph Neural Networks" href="explain.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="application.html">Use-Cases &amp; Applications</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="neighbor_loader.html">Scaling GNNs via Neighbor Sampling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="explain.html">Explaining Graph Neural Networks</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Shallow Node Embeddings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="application.html">Use-Cases &amp; Applications</a></li>
+      <li class="breadcrumb-item active">Shallow Node Embeddings</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/shallow_node_embeddings.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="shallow-node-embeddings">
+<h1>Shallow Node Embeddings<a class="headerlink" href="#shallow-node-embeddings" title="Permalink to this heading"></a></h1>
+<p>In this tutorial, we will take a closer look at how to learn <em>shallow node embeddings</em> in an unsupervised fashion via <span class="inline-logo pyg">PyG</span>.</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
+<p>The key difference between <em>shallow</em> node embeddings (<em>e.g.,</em> <a class="reference internal" href="../generated/torch_geometric.nn.models.Node2Vec.html#torch_geometric.nn.models.Node2Vec" title="torch_geometric.nn.models.Node2Vec"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node2Vec</span></code></a>) and <em>deep</em> node embeddings (<em>e.g.,</em> GNNs) is the choice of the encoder <span class="math notranslate nohighlight">\(\textrm{ENC}(v, \mathcal{G}) = \mathbf{z}_v \in \mathbb{R}^d\)</span>.
+Specifically, shallow node embedding techniques rely on embedding nodes into low-dimensional vectorial representations <span class="math notranslate nohighlight">\(\mathbf{z}_v\)</span> via a <em>shallow embedding lookup table</em> such that the likelihood of preserving neighborhoods is maximized, <em>i.e.</em> nearby nodes should receive similar embeddings while distant nodes should receive distinct embedding.
+These techniques generalize the famous <a class="reference external" href="https://arxiv.org/abs/1310.4546">SkipGram</a> model for obtaining low-dimensional word embeddings, in which sequences of words are now interpreted as sequences of nodes, <em>e.g.</em>, given via randomly-generated walks:</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../_images/shallow_node_embeddings.png"><img alt="../_images/shallow_node_embeddings.png" src="../_images/shallow_node_embeddings.png" style="width: 100%;" /></a>
+</figure>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>Specifically, given a <em>random walk</em> <span class="math notranslate nohighlight">\(\mathcal{W} = (v_{\pi(1)}, \ldots, v_{\pi_(k)})\)</span> of length <span class="math notranslate nohighlight">\(k\)</span> starting at node <span class="math notranslate nohighlight">\(v \in \mathcal{V}\)</span>, the objective is to maximize the likelihood of observing node <span class="math notranslate nohighlight">\(v_{\pi(i)}\)</span> given node <span class="math notranslate nohighlight">\(v\)</span>.
+This objective can be efficiently trained via stochastic gradient descent in a contrastive learning scenario</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{L} = \sum_{w \in \mathcal{W}} - \log \left(\sigma(\mathbf{z}_v^{\top} \mathbf{z}_w) \right) + \sum_{w \sim \mathcal{V} \setminus \mathcal{W}} - \log \left( 1 - \sigma(\mathbf{z}_v^{\top} \mathbf{z}_w) \right),\]</div>
+<p>in which non-existent walks (so called <em>negative examples</em>) are sampled and trained jointly, and <span class="math notranslate nohighlight">\(\sigma\)</span> denotes the <span class="math notranslate nohighlight">\(\textrm{sigmoid}\)</span> function.
+Noteworthy, the dot-product <span class="math notranslate nohighlight">\(\mathbf{z}_v^{\top} \mathbf{z}_w\)</span> between the embeddings is usually used to measure similarity, but other similarity measures are applicable as well.</p>
+<p>Importantly, shallow node embeddings are trained in an unsupervised fashion, and can eventually be used as input for a given down-stream task, <em>e.g.</em>, in node-level tasks <span class="math notranslate nohighlight">\(\mathbf{z}_v\)</span> can directly be used as input to a final classifier.
+For edge-level tasks, edge-level representations can be obtained via averaging <span class="math notranslate nohighlight">\(\frac{1}{2} (\mathbf{z}_v + \mathbf{z}_w)\)</span> or via the Hadamard product <span class="math notranslate nohighlight">\(\mathbf{z}_v \odot \mathbf{z}_w\)</span>.</p>
+<p>Despite the simplicity of node embedding techniques, they are also subject to certain shortcomings.
+In particular, they fail to incorporate rich feature information attached to nodes and edges, and cannot be trivially applied to unseen
+graphs as learnable parameters are fixed to the nodes of a particular graph (making this approach transductive by nature and hard-to-scale due to the <span class="math notranslate nohighlight">\(\mathcal{O}(|\mathcal{V}| \cdot d)\)</span> parameter complexity).
+However, it is still a commonly used technique to preserve structural graph information into fixed-size vectors, and is often times also used to generate inputs to GNNs for further processing in case the initial set of node features is not rich.</p>
+</section>
+<section id="node2vec">
+<h2>Node2Vec<a class="headerlink" href="#node2vec" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In this section of the tutorial, we will learn node embeddings for <strong>homogenous graphs</strong> using the <a class="reference internal" href="../generated/torch_geometric.nn.models.Node2Vec.html#torch_geometric.nn.models.Node2Vec" title="torch_geometric.nn.models.Node2Vec"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node2Vec</span></code></a> module of <span class="inline-logo pyg">PyG</span>.
+The code is available in <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/node2vec.py">examples/node2vec.py</a> and as a <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial11/Tutorial11.ipynb">Google Colab tutorial notebook</a>.</p>
+</div>
+<p><a class="reference internal" href="../generated/torch_geometric.nn.models.Node2Vec.html#torch_geometric.nn.models.Node2Vec" title="torch_geometric.nn.models.Node2Vec"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node2Vec</span></code></a> is a method for learning shallow node embeddings, which allows for flexible
+control of random walk procedures based on breadth-first or depth-first samplers.
+In particular, its parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">p</span></code> dictates the likelihood of immediately revisiting a node in the walk, while its parameter <code class="xref py py-obj docutils literal notranslate"><span class="pre">q</span></code> interpolates between breadth-first and depth-first strategies.</p>
+<p>To begin the example, let us load in the needed packages and the data that we will be working with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">Node2Vec</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">Planetoid</span><span class="p">(</span><span class="s1">&#39;./data/Planetoid&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Cora&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>We are now ready to initialize our <code class="xref py py-class docutils literal notranslate"><span class="pre">Node2Vec</span></code> module:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.nn</span> <span class="kn">import</span> <span class="n">Node2Vec</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Node2Vec</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span>
+    <span class="n">embedding_dim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+    <span class="n">walks_per_node</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">walk_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+    <span class="n">context_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">p</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">q</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+    <span class="n">num_negative_samples</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../generated/torch_geometric.nn.models.Node2Vec.html#torch_geometric.nn.models.Node2Vec" title="torch_geometric.nn.models.Node2Vec"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node2Vec</span></code></a> takes the graph structure <code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_index</span></code> as input (but none of its feature information), the <code class="xref py py-obj docutils literal notranslate"><span class="pre">embedding_dim</span></code> of the shallow embeddings, and additional parameters to control the random walk and negative sampling procedures.
+In particular, <code class="xref py py-obj docutils literal notranslate"><span class="pre">walks_per_node</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">walk_length</span></code> specify the number of walks to perform for each node and their length, respectively.
+The <code class="xref py py-obj docutils literal notranslate"><span class="pre">context_size</span></code> then denotes how many nodes in the walk are actually used for gradient optimization, <em>i.e</em> <a class="reference internal" href="../generated/torch_geometric.nn.models.Node2Vec.html#torch_geometric.nn.models.Node2Vec" title="torch_geometric.nn.models.Node2Vec"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node2Vec</span></code></a> slides over each sampled walk and splits them into windows of size <code class="xref py py-obj docutils literal notranslate"><span class="pre">context_size</span></code>.
+As previously mentioned, <code class="xref py py-obj docutils literal notranslate"><span class="pre">p</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">q</span></code> denote how random walks are generated.
+Finally, <code class="xref py py-obj docutils literal notranslate"><span class="pre">num_negative_samples</span></code> specifies how many negative walks we want to generate for each positive walk.</p>
+<p>After initializing, we can go ahead and train our <a class="reference internal" href="../generated/torch_geometric.nn.models.Node2Vec.html#torch_geometric.nn.models.Node2Vec" title="torch_geometric.nn.models.Node2Vec"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node2Vec</span></code></a> model right away.
+We start this by creating a data loader that will generate positive and negative random walks for us:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">loader</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">loader</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To generate random walks, we can simply iterate over the data loader, <em>e.g.</em>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pos_rw</span><span class="p">,</span> <span class="n">neg_rw</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">loader</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Here, <code class="xref py py-obj docutils literal notranslate"><span class="pre">pos_rw</span></code> will contain the node indices of positive random walks and <code class="xref py py-obj docutils literal notranslate"><span class="pre">neg_rw</span></code> will contain the node indices of negative walks.
+In particular, <code class="xref py py-obj docutils literal notranslate"><span class="pre">pos_rw</span></code> is a two-dimensional matrix of shape <code class="xref py py-obj docutils literal notranslate"><span class="pre">[batch_size</span> <span class="pre">*</span> <span class="pre">walks_per_node</span> <span class="pre">*</span> <span class="pre">(2</span> <span class="pre">+</span> <span class="pre">walk_length</span> <span class="pre">-</span> <span class="pre">context_size),</span> <span class="pre">context_size]</span></code>, and <code class="xref py py-obj docutils literal notranslate"><span class="pre">neg_rw</span></code> is a two-dimensional matrix of shape <code class="xref py py-obj docutils literal notranslate"><span class="pre">[num_negative_samples</span> <span class="pre">*</span> <span class="pre">pos_rw.size(0),</span> <span class="pre">context_size]</span></code>.</p>
+<p>Using this <code class="xref py py-obj docutils literal notranslate"><span class="pre">loader</span></code> and the built-in constrastive <a class="reference internal" href="../generated/torch_geometric.nn.models.Node2Vec.html#torch_geometric.nn.models.Node2Vec.loss" title="torch_geometric.nn.models.Node2Vec.loss"><code class="xref py py-meth docutils literal notranslate"><span class="pre">loss()</span></code></a> function, we can define our <code class="xref py py-meth docutils literal notranslate"><span class="pre">train()</span></code> function as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">train</span><span class="p">():</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="n">total_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">pos_rw</span><span class="p">,</span> <span class="n">neg_rw</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">pos_rw</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">neg_rw</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">total_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">loader</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>After finishing training, we can obtain the final node embeddings from the model as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="o">=</span> <span class="n">model</span><span class="p">()</span>  <span class="c1"># Full node-level embeddings.</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>  <span class="c1"># Embeddings of first three nodes.</span>
+</pre></div>
+</div>
+</section>
+<section id="metapath2vec">
+<h2>MetaPath2Vec<a class="headerlink" href="#metapath2vec" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In this section of the tutorial, we will learn node embeddings for <strong>heterogenous graphs</strong> using the <a class="reference internal" href="../generated/torch_geometric.nn.models.MetaPath2Vec.html#torch_geometric.nn.models.MetaPath2Vec" title="torch_geometric.nn.models.MetaPath2Vec"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetaPath2Vec</span></code></a> module of <span class="inline-logo pyg">PyG</span>.
+The code is available as <a class="reference external" href="https://github.com/pyg-team/pytorch_geometric/blob/master/examples/hetero/metapath2vec.py">examples/hetero/metapath2vec.py</a> and as a <a class="reference external" href="https://colab.research.google.com/github/AntonioLonga/PytorchGeometricTutorial/blob/main/Tutorial11/Tutorial11.ipynb">Google Colab tutorial notebook</a>.</p>
+</div>
+<p>An extension of <a class="reference internal" href="../generated/torch_geometric.nn.models.Node2Vec.html#torch_geometric.nn.models.Node2Vec" title="torch_geometric.nn.models.Node2Vec"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node2Vec</span></code></a> to <em>heterogeneous graphs</em> is the <a class="reference internal" href="../generated/torch_geometric.nn.models.MetaPath2Vec.html#torch_geometric.nn.models.MetaPath2Vec" title="torch_geometric.nn.models.MetaPath2Vec"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetaPath2Vec</span></code></a> model.
+<a class="reference internal" href="../generated/torch_geometric.nn.models.MetaPath2Vec.html#torch_geometric.nn.models.MetaPath2Vec" title="torch_geometric.nn.models.MetaPath2Vec"><code class="xref py py-class docutils literal notranslate"><span class="pre">MetaPath2Vec</span></code></a> works similar to <a class="reference internal" href="../generated/torch_geometric.nn.models.Node2Vec.html#torch_geometric.nn.models.Node2Vec" title="torch_geometric.nn.models.Node2Vec"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node2Vec</span></code></a> but expects a dictionary of edge indices as input (holding the <code class="xref py py-obj docutils literal notranslate"><span class="pre">edge_index</span></code> for each edge type in the graph), and samples random walks based on a given <code class="xref py py-obj docutils literal notranslate"><span class="pre">metapath</span></code> formulation, <em>e.g.</em>,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">metapath</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;writes&#39;</span><span class="p">,</span> <span class="s1">&#39;paper&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;published_in&#39;</span><span class="p">,</span> <span class="s1">&#39;venue&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;venue&#39;</span><span class="p">,</span> <span class="s1">&#39;publishes&#39;</span><span class="p">,</span> <span class="s1">&#39;paper&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;paper&#39;</span><span class="p">,</span> <span class="s1">&#39;written_by&#39;</span><span class="p">,</span> <span class="s1">&#39;author&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>denotes that random walk sampling is performed from author nodes to paper nodes to venue nodes back to paper nodes and author nodes.
+Otherwise, initialization and training of the model stays the same as in the <a class="reference internal" href="../generated/torch_geometric.nn.models.Node2Vec.html#torch_geometric.nn.models.Node2Vec" title="torch_geometric.nn.models.Node2Vec"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node2Vec</span></code></a> case.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="explain.html" class="btn btn-neutral float-left" title="Explaining Graph Neural Networks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="multi_gpu.html" class="btn btn-neutral float-right" title="Multi-GPU Training" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

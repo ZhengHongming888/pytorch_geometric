@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.LINKXDataset
+======================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: LINKXDataset
+   :show-inheritance:

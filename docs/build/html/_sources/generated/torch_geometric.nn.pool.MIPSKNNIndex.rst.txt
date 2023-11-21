@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.pool.MIPSKNNIndex
+=====================================
+
+.. currentmodule:: torch_geometric.nn.pool
+
+.. autoclass:: MIPSKNNIndex
+   :show-inheritance:
+   :members:

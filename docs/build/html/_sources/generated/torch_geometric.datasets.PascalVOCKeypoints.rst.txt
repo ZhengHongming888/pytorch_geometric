@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.PascalVOCKeypoints
+============================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: PascalVOCKeypoints
+   :show-inheritance:

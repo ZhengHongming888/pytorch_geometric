@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.utils.loop &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.utils.loop</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.utils.loop</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">OptTensor</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="n">scatter</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils.num_nodes</span> <span class="kn">import</span> <span class="n">maybe_num_nodes</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils.sparse</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_torch_sparse_tensor</span><span class="p">,</span>
+    <span class="n">to_edge_index</span><span class="p">,</span>
+    <span class="n">to_torch_coo_tensor</span><span class="p">,</span>
+    <span class="n">to_torch_csr_tensor</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="contains_self_loops"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.contains_self_loops">[docs]</a><span class="k">def</span> <span class="nf">contains_self_loops</span><span class="p">(</span><span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns :obj:`True` if the graph given by :attr:`edge_index` contains</span>
+<span class="sd">    self-loops.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+
+<span class="sd">    :rtype: bool</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.tensor([[0, 1, 0],</span>
+<span class="sd">        ...                            [1, 0, 0]])</span>
+<span class="sd">        &gt;&gt;&gt; contains_self_loops(edge_index)</span>
+<span class="sd">        True</span>
+
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.tensor([[0, 1, 1],</span>
+<span class="sd">        ...                            [1, 0, 2]])</span>
+<span class="sd">        &gt;&gt;&gt; contains_self_loops(edge_index)</span>
+<span class="sd">        False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="remove_self_loops"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.remove_self_loops">[docs]</a><span class="k">def</span> <span class="nf">remove_self_loops</span><span class="p">(</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">edge_attr</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">OptTensor</span><span class="p">]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Removes every self-loop in the graph given by :attr:`edge_index`, so</span>
+<span class="sd">    that :math:`(i,i) \not\in \mathcal{E}` for every :math:`i \in \mathcal{V}`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+<span class="sd">        edge_attr (Tensor, optional): Edge weights or multi-dimensional</span>
+<span class="sd">            edge features. (default: :obj:`None`)</span>
+
+<span class="sd">    :rtype: (:class:`LongTensor`, :class:`Tensor`)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.tensor([[0, 1, 0],</span>
+<span class="sd">        ...                            [1, 0, 0]])</span>
+<span class="sd">        &gt;&gt;&gt; edge_attr = [[1, 2], [3, 4], [5, 6]]</span>
+<span class="sd">        &gt;&gt;&gt; edge_attr = torch.tensor(edge_attr)</span>
+<span class="sd">        &gt;&gt;&gt; remove_self_loops(edge_index, edge_attr)</span>
+<span class="sd">        (tensor([[0, 1],</span>
+<span class="sd">                [1, 0]]),</span>
+<span class="sd">        tensor([[1, 2],</span>
+<span class="sd">                [3, 4]]))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">layout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">is_torch_sparse_tensor</span><span class="p">(</span><span class="n">edge_index</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">edge_attr</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">layout</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">to_edge_index</span><span class="p">(</span><span class="n">edge_index</span><span class="p">)</span>
+
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">edge_index</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[:,</span> <span class="n">mask</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">layout</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">edge_attr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">edge_attr</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;torch.sparse_coo&#39;</span><span class="p">:</span>  <span class="c1"># str(...) for TorchScript :(</span>
+            <span class="k">return</span> <span class="n">to_torch_coo_tensor</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;torch.sparse_csr&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">to_torch_csr_tensor</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="kc">None</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected sparse tensor layout (got &#39;</span><span class="si">{</span><span class="n">layout</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">edge_attr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">edge_index</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="segregate_self_loops"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.segregate_self_loops">[docs]</a><span class="k">def</span> <span class="nf">segregate_self_loops</span><span class="p">(</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">OptTensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">OptTensor</span><span class="p">]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Segregates self-loops from the graph.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+<span class="sd">        edge_attr (Tensor, optional): Edge weights or multi-dimensional</span>
+<span class="sd">            edge features. (default: :obj:`None`)</span>
+
+<span class="sd">    :rtype: (:class:`LongTensor`, :class:`Tensor`, :class:`LongTensor`,</span>
+<span class="sd">        :class:`Tensor`)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.tensor([[0, 0, 1],</span>
+<span class="sd">        ...                            [0, 1, 0]])</span>
+<span class="sd">        &gt;&gt;&gt; (edge_index, edge_attr,</span>
+<span class="sd">        ...  loop_edge_index,</span>
+<span class="sd">        ...  loop_edge_attr) = segregate_self_loops(edge_index)</span>
+<span class="sd">        &gt;&gt;&gt;  loop_edge_index</span>
+<span class="sd">        tensor([[0],</span>
+<span class="sd">                [0]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">inv_mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">mask</span>
+
+    <span class="n">loop_edge_index</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[:,</span> <span class="n">inv_mask</span><span class="p">]</span>
+    <span class="n">loop_edge_attr</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">edge_attr</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">edge_attr</span><span class="p">[</span><span class="n">inv_mask</span><span class="p">]</span>
+    <span class="n">edge_index</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[:,</span> <span class="n">mask</span><span class="p">]</span>
+    <span class="n">edge_attr</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">edge_attr</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">edge_attr</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">loop_edge_index</span><span class="p">,</span> <span class="n">loop_edge_attr</span></div>
+
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">_overload</span>
+<span class="k">def</span> <span class="nf">add_self_loops</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">):</span>  <span class="c1"># noqa: F811</span>
+    <span class="c1"># type: (Tensor, OptTensor, Optional[float], Optional[int]) -&gt; Tuple[Tensor, OptTensor]  # noqa</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">_overload</span>
+<span class="k">def</span> <span class="nf">add_self_loops</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">):</span>  <span class="c1"># noqa: F811</span>
+    <span class="c1"># type: (Tensor, OptTensor, Optional[float], Optional[Tuple[int, int]]) -&gt; Tuple[Tensor, OptTensor]  # noqa</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">_overload</span>
+<span class="k">def</span> <span class="nf">add_self_loops</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">):</span>  <span class="c1"># noqa: F811</span>
+    <span class="c1"># type: (Tensor, OptTensor, OptTensor, Optional[int]) -&gt; Tuple[Tensor, OptTensor]  # noqa</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">_overload</span>
+<span class="k">def</span> <span class="nf">add_self_loops</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">):</span>  <span class="c1"># noqa: F811</span>
+    <span class="c1"># type: (Tensor, OptTensor, OptTensor, Optional[Tuple[int, int]]) -&gt; Tuple[Tensor, OptTensor]  # noqa</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">_overload</span>
+<span class="k">def</span> <span class="nf">add_self_loops</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">):</span>  <span class="c1"># noqa: F811</span>
+    <span class="c1"># type: (Tensor, OptTensor, Optional[str], Optional[int]) -&gt; Tuple[Tensor, OptTensor]  # noqa</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">_overload</span>
+<span class="k">def</span> <span class="nf">add_self_loops</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">):</span>  <span class="c1"># noqa: F811</span>
+    <span class="c1"># type: (Tensor, OptTensor, Optional[str], Optional[Tuple[int, int]]) -&gt; Tuple[Tensor, OptTensor]  # noqa</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="add_self_loops"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.add_self_loops">[docs]</a><span class="k">def</span> <span class="nf">add_self_loops</span><span class="p">(</span>  <span class="c1"># noqa: F811</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">edge_attr</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">num_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">OptTensor</span><span class="p">]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Adds a self-loop :math:`(i,i) \in \mathcal{E}` to every node</span>
+<span class="sd">    :math:`i \in \mathcal{V}` in the graph given by :attr:`edge_index`.</span>
+<span class="sd">    In case the graph is weighted or has multi-dimensional edge features</span>
+<span class="sd">    (:obj:`edge_attr != None`), edge features of self-loops will be added</span>
+<span class="sd">    according to :obj:`fill_value`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+<span class="sd">        edge_attr (Tensor, optional): Edge weights or multi-dimensional edge</span>
+<span class="sd">            features. (default: :obj:`None`)</span>
+<span class="sd">        fill_value (float or Tensor or str, optional): The way to generate</span>
+<span class="sd">            edge features of self-loops (in case :obj:`edge_attr != None`).</span>
+<span class="sd">            If given as :obj:`float` or :class:`torch.Tensor`, edge features of</span>
+<span class="sd">            self-loops will be directly given by :obj:`fill_value`.</span>
+<span class="sd">            If given as :obj:`str`, edge features of self-loops are computed by</span>
+<span class="sd">            aggregating all features of edges that point to the specific node,</span>
+<span class="sd">            according to a reduce operation. (:obj:`&quot;add&quot;`, :obj:`&quot;mean&quot;`,</span>
+<span class="sd">            :obj:`&quot;min&quot;`, :obj:`&quot;max&quot;`, :obj:`&quot;mul&quot;`). (default: :obj:`1.`)</span>
+<span class="sd">        num_nodes (int or Tuple[int, int], optional): The number of nodes,</span>
+<span class="sd">            *i.e.* :obj:`max_val + 1` of :attr:`edge_index`.</span>
+<span class="sd">            If given as a tuple, then :obj:`edge_index` is interpreted as a</span>
+<span class="sd">            bipartite graph with shape :obj:`(num_src_nodes, num_dst_nodes)`.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+
+<span class="sd">    :rtype: (:class:`LongTensor`, :class:`Tensor`)</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.tensor([[0, 1, 0],</span>
+<span class="sd">        ...                            [1, 0, 0]])</span>
+<span class="sd">        &gt;&gt;&gt; edge_weight = torch.tensor([0.5, 0.5, 0.5])</span>
+<span class="sd">        &gt;&gt;&gt; add_self_loops(edge_index)</span>
+<span class="sd">        (tensor([[0, 1, 0, 0, 1],</span>
+<span class="sd">                [1, 0, 0, 0, 1]]),</span>
+<span class="sd">        None)</span>
+
+<span class="sd">        &gt;&gt;&gt; add_self_loops(edge_index, edge_weight)</span>
+<span class="sd">        (tensor([[0, 1, 0, 0, 1],</span>
+<span class="sd">                [1, 0, 0, 0, 1]]),</span>
+<span class="sd">        tensor([0.5000, 0.5000, 0.5000, 1.0000, 1.0000]))</span>
+
+<span class="sd">        &gt;&gt;&gt; # edge features of self-loops are filled by constant `2.0`</span>
+<span class="sd">        &gt;&gt;&gt; add_self_loops(edge_index, edge_weight,</span>
+<span class="sd">        ...                fill_value=2.)</span>
+<span class="sd">        (tensor([[0, 1, 0, 0, 1],</span>
+<span class="sd">                [1, 0, 0, 0, 1]]),</span>
+<span class="sd">        tensor([0.5000, 0.5000, 0.5000, 2.0000, 2.0000]))</span>
+
+<span class="sd">        &gt;&gt;&gt; # Use &#39;add&#39; operation to merge edge features for self-loops</span>
+<span class="sd">        &gt;&gt;&gt; add_self_loops(edge_index, edge_weight,</span>
+<span class="sd">        ...                fill_value=&#39;add&#39;)</span>
+<span class="sd">        (tensor([[0, 1, 0, 0, 1],</span>
+<span class="sd">                [1, 0, 0, 0, 1]]),</span>
+<span class="sd">        tensor([0.5000, 0.5000, 0.5000, 1.0000, 0.5000]))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">layout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">is_sparse</span> <span class="o">=</span> <span class="n">is_torch_sparse_tensor</span><span class="p">(</span><span class="n">edge_index</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">is_sparse</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">edge_attr</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">layout</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">to_edge_index</span><span class="p">(</span><span class="n">edge_index</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">num_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="n">maybe_num_nodes</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">)</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+
+    <span class="n">loop_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">loop_index</span> <span class="o">=</span> <span class="n">loop_index</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">edge_attr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fill_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">new_full</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">:],</span> <span class="mf">1.</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fill_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">new_full</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">:],</span>
+                                           <span class="n">fill_value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fill_value</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">fill_value</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">edge_attr</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">!=</span> <span class="n">loop_attr</span><span class="o">.</span><span class="n">dim</span><span class="p">():</span>
+                <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">loop_attr</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">N</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">loop_attr</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">loop_attr</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fill_value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">is_sparse</span> <span class="k">else</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">scatter</span><span class="p">(</span><span class="n">edge_attr</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;No valid &#39;fill_value&#39; provided&quot;</span><span class="p">)</span>
+
+        <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">edge_attr</span><span class="p">,</span> <span class="n">loop_attr</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">loop_index</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_sparse</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;torch.sparse_coo&#39;</span><span class="p">:</span>  <span class="c1"># str(...) for TorchScript :(</span>
+            <span class="k">return</span> <span class="n">to_torch_coo_tensor</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">size</span><span class="p">),</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="nb">str</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;torch.sparse_csr&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">to_torch_csr_tensor</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">size</span><span class="p">),</span> <span class="kc">None</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected sparse tensor layout (got &#39;</span><span class="si">{</span><span class="n">layout</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span></div>
+
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">_overload</span>
+<span class="k">def</span> <span class="nf">add_remaining_self_loops</span><span class="p">(</span>  <span class="c1"># noqa: F811</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">):</span>
+    <span class="c1"># type: (Tensor, OptTensor, Optional[float], Optional[int]) -&gt; Tuple[Tensor, OptTensor]  # noqa</span>
+    <span class="k">pass</span>
+
+
+<span class="c1"># @torch.jit._overload</span>
+<span class="k">def</span> <span class="nf">add_remaining_self_loops</span><span class="p">(</span>  <span class="c1"># noqa: F811</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">):</span>
+    <span class="c1"># type: (Tensor, OptTensor, OptTensor, Optional[int]) -&gt; Tuple[Tensor, OptTensor]  # noqa</span>
+    <span class="k">pass</span>
+
+
+<span class="nd">@torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">_overload</span>
+<span class="k">def</span> <span class="nf">add_remaining_self_loops</span><span class="p">(</span>  <span class="c1"># noqa: F811</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">):</span>
+    <span class="c1"># type: (Tensor, OptTensor, Optional[str], Optional[int]) -&gt; Tuple[Tensor, OptTensor]  # noqa</span>
+    <span class="k">pass</span>
+
+
+<div class="viewcode-block" id="add_remaining_self_loops"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.add_remaining_self_loops">[docs]</a><span class="k">def</span> <span class="nf">add_remaining_self_loops</span><span class="p">(</span>  <span class="c1"># noqa: F811</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="n">edge_attr</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">fill_value</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">num_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">OptTensor</span><span class="p">]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Adds remaining self-loop :math:`(i,i) \in \mathcal{E}` to every node</span>
+<span class="sd">    :math:`i \in \mathcal{V}` in the graph given by :attr:`edge_index`.</span>
+<span class="sd">    In case the graph is weighted or has multi-dimensional edge features</span>
+<span class="sd">    (:obj:`edge_attr != None`), edge features of non-existing self-loops will</span>
+<span class="sd">    be added according to :obj:`fill_value`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+<span class="sd">        edge_attr (Tensor, optional): Edge weights or multi-dimensional edge</span>
+<span class="sd">            features. (default: :obj:`None`)</span>
+<span class="sd">        fill_value (float or Tensor or str, optional): The way to generate</span>
+<span class="sd">            edge features of self-loops (in case :obj:`edge_attr != None`).</span>
+<span class="sd">            If given as :obj:`float` or :class:`torch.Tensor`, edge features of</span>
+<span class="sd">            self-loops will be directly given by :obj:`fill_value`.</span>
+<span class="sd">            If given as :obj:`str`, edge features of self-loops are computed by</span>
+<span class="sd">            aggregating all features of edges that point to the specific node,</span>
+<span class="sd">            according to a reduce operation. (:obj:`&quot;add&quot;`, :obj:`&quot;mean&quot;`,</span>
+<span class="sd">            :obj:`&quot;min&quot;`, :obj:`&quot;max&quot;`, :obj:`&quot;mul&quot;`). (default: :obj:`1.`)</span>
+<span class="sd">        num_nodes (int, optional): The number of nodes, *i.e.*</span>
+<span class="sd">            :obj:`max_val + 1` of :attr:`edge_index`. (default: :obj:`None`)</span>
+
+<span class="sd">    :rtype: (:class:`LongTensor`, :class:`Tensor`)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.tensor([[0, 1],</span>
+<span class="sd">        ...                            [1, 0]])</span>
+<span class="sd">        &gt;&gt;&gt; edge_weight = torch.tensor([0.5, 0.5])</span>
+<span class="sd">        &gt;&gt;&gt; add_remaining_self_loops(edge_index, edge_weight)</span>
+<span class="sd">        (tensor([[0, 1, 0, 1],</span>
+<span class="sd">                [1, 0, 0, 1]]),</span>
+<span class="sd">        tensor([0.5000, 0.5000, 1.0000, 1.0000]))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">maybe_num_nodes</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">loop_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">loop_index</span> <span class="o">=</span> <span class="n">loop_index</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">edge_attr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fill_value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">new_full</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">:],</span> <span class="mf">1.</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fill_value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">new_full</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">:],</span>
+                                           <span class="n">fill_value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fill_value</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">fill_value</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">edge_attr</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">edge_attr</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">!=</span> <span class="n">loop_attr</span><span class="o">.</span><span class="n">dim</span><span class="p">():</span>
+                <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">loop_attr</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">N</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">loop_attr</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">loop_attr</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="o">*</span><span class="n">sizes</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fill_value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">scatter</span><span class="p">(</span><span class="n">edge_attr</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim_size</span><span class="o">=</span><span class="n">N</span><span class="p">,</span>
+                                <span class="n">reduce</span><span class="o">=</span><span class="n">fill_value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="s2">&quot;No valid &#39;fill_value&#39; provided&quot;</span><span class="p">)</span>
+
+        <span class="n">inv_mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">mask</span>
+        <span class="n">loop_attr</span><span class="p">[</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">inv_mask</span><span class="p">]]</span> <span class="o">=</span> <span class="n">edge_attr</span><span class="p">[</span><span class="n">inv_mask</span><span class="p">]</span>
+
+        <span class="n">edge_attr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">edge_attr</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">loop_attr</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">edge_index</span><span class="p">[:,</span> <span class="n">mask</span><span class="p">],</span> <span class="n">loop_index</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span></div>
+
+
+<div class="viewcode-block" id="get_self_loop_attr"><a class="viewcode-back" href="../../../modules/utils.html#torch_geometric.utils.get_self_loop_attr">[docs]</a><span class="k">def</span> <span class="nf">get_self_loop_attr</span><span class="p">(</span><span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">num_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the edge features or weights of self-loops</span>
+<span class="sd">    :math:`(i, i)` of every node :math:`i \in \mathcal{V}` in the</span>
+<span class="sd">    graph given by :attr:`edge_index`. Edge features of missing self-loops not</span>
+<span class="sd">    present in :attr:`edge_index` will be filled with zeros. If</span>
+<span class="sd">    :attr:`edge_attr` is not given, it will be the vector of ones.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        This operation is analogous to getting the diagonal elements of the</span>
+<span class="sd">        dense adjacency matrix.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_index (LongTensor): The edge indices.</span>
+<span class="sd">        edge_attr (Tensor, optional): Edge weights or multi-dimensional edge</span>
+<span class="sd">            features. (default: :obj:`None`)</span>
+<span class="sd">        num_nodes (int, optional): The number of nodes, *i.e.*</span>
+<span class="sd">            :obj:`max_val + 1` of :attr:`edge_index`. (default: :obj:`None`)</span>
+
+<span class="sd">    :rtype: :class:`Tensor`</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; edge_index = torch.tensor([[0, 1, 0],</span>
+<span class="sd">        ...                            [1, 0, 0]])</span>
+<span class="sd">        &gt;&gt;&gt; edge_weight = torch.tensor([0.2, 0.3, 0.5])</span>
+<span class="sd">        &gt;&gt;&gt; get_self_loop_attr(edge_index, edge_weight)</span>
+<span class="sd">        tensor([0.5000, 0.0000])</span>
+
+<span class="sd">        &gt;&gt;&gt; get_self_loop_attr(edge_index, edge_weight, num_nodes=4)</span>
+<span class="sd">        tensor([0.5000, 0.0000, 0.0000, 0.0000])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">loop_mask</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">loop_index</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">loop_mask</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">edge_attr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">edge_attr</span><span class="p">[</span><span class="n">loop_mask</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># A vector of ones:</span>
+        <span class="n">loop_attr</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">loop_index</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+
+    <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">maybe_num_nodes</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">)</span>
+    <span class="n">full_loop_attr</span> <span class="o">=</span> <span class="n">loop_attr</span><span class="o">.</span><span class="n">new_zeros</span><span class="p">((</span><span class="n">num_nodes</span><span class="p">,</span> <span class="p">)</span> <span class="o">+</span> <span class="n">loop_attr</span><span class="o">.</span><span class="n">size</span><span class="p">()[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="n">full_loop_attr</span><span class="p">[</span><span class="n">loop_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">loop_attr</span>
+
+    <span class="k">return</span> <span class="n">full_loop_attr</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

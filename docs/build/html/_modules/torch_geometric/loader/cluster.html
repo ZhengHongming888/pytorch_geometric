@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.loader.cluster &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.loader.cluster</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.loader.cluster</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">osp</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.utils.data</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="kn">import</span> <span class="nn">torch_geometric.typing</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">Data</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">pyg_lib</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="n">index_sort</span><span class="p">,</span> <span class="n">narrow</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">sort_edge_index</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils.map</span> <span class="kn">import</span> <span class="n">map_index</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils.sparse</span> <span class="kn">import</span> <span class="n">index2ptr</span><span class="p">,</span> <span class="n">ptr2index</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Partition</span><span class="p">:</span>
+    <span class="n">rowptr</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">col</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">partptr</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">node_perm</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">edge_perm</span><span class="p">:</span> <span class="n">Tensor</span>
+
+
+<div class="viewcode-block" id="ClusterData"><a class="viewcode-back" href="../../../modules/loader.html#torch_geometric.loader.ClusterData">[docs]</a><span class="k">class</span> <span class="nc">ClusterData</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Clusters/partitions a graph data object into multiple subgraphs, as</span>
+<span class="sd">    motivated by the `&quot;Cluster-GCN: An Efficient Algorithm for Training Deep</span>
+<span class="sd">    and Large Graph Convolutional Networks&quot;</span>
+<span class="sd">    &lt;https://arxiv.org/abs/1905.07953&gt;`_ paper.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        The underlying METIS algorithm requires undirected graphs as input.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (torch_geometric.data.Data): The graph data object.</span>
+<span class="sd">        num_parts (int): The number of partitions.</span>
+<span class="sd">        recursive (bool, optional): If set to :obj:`True`, will use multilevel</span>
+<span class="sd">            recursive bisection instead of multilevel k-way partitioning.</span>
+<span class="sd">            (default: :obj:`False`)</span>
+<span class="sd">        save_dir (str, optional): If set, will save the partitioned data to the</span>
+<span class="sd">            :obj:`save_dir` directory for faster re-use. (default: :obj:`None`)</span>
+<span class="sd">        log (bool, optional): If set to :obj:`False`, will not log any</span>
+<span class="sd">            progress. (default: :obj:`True`)</span>
+<span class="sd">        keep_inter_cluster_edges (bool, optional): If set to :obj:`True`,</span>
+<span class="sd">            will keep inter-cluster edge connections. (default: :obj:`False`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">num_parts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">save_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">keep_inter_cluster_edges</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_parts</span> <span class="o">=</span> <span class="n">num_parts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recursive</span> <span class="o">=</span> <span class="n">recursive</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keep_inter_cluster_edges</span> <span class="o">=</span> <span class="n">keep_inter_cluster_edges</span>
+
+        <span class="n">recursive_str</span> <span class="o">=</span> <span class="s1">&#39;_recursive&#39;</span> <span class="k">if</span> <span class="n">recursive</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;metis_</span><span class="si">{</span><span class="n">num_parts</span><span class="si">}{</span><span class="n">recursive_str</span><span class="si">}</span><span class="s1">.pt&#39;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_dir</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">save_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">osp</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">partition</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">log</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Computing METIS partitioning...&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+
+            <span class="n">cluster</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metis</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">partition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_partition</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">cluster</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">save_dir</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">log</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Done!&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_permute_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_metis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="c1"># Computes a node-level partition assignment vector via METIS.</span>
+
+        <span class="c1"># Calculate CSR representation:</span>
+        <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">sort_edge_index</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">)</span>
+        <span class="n">rowptr</span> <span class="o">=</span> <span class="n">index2ptr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">)</span>
+
+        <span class="c1"># Compute METIS partitioning:</span>
+        <span class="n">cluster</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_TORCH_SPARSE</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">cluster</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">torch_sparse</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span>
+                    <span class="n">rowptr</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span>
+                    <span class="n">col</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span>
+                    <span class="kc">None</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">num_parts</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">recursive</span><span class="p">,</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">):</span>
+                <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="n">cluster</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">torch_geometric</span><span class="o">.</span><span class="n">typing</span><span class="o">.</span><span class="n">WITH_METIS</span><span class="p">:</span>
+            <span class="n">cluster</span> <span class="o">=</span> <span class="n">pyg_lib</span><span class="o">.</span><span class="n">partition</span><span class="o">.</span><span class="n">metis</span><span class="p">(</span>
+                <span class="n">rowptr</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span>
+                <span class="n">col</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">num_parts</span><span class="p">,</span>
+                <span class="n">recursive</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">recursive</span><span class="p">,</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">cluster</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; requires either &quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot;&#39;pyg-lib&#39; or &#39;torch-sparse&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cluster</span>
+
+    <span class="k">def</span> <span class="nf">_partition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">cluster</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Partition</span><span class="p">:</span>
+        <span class="c1"># Computes node-level and edge-level permutations and permutes the edge</span>
+        <span class="c1"># connectivity accordingly:</span>
+
+        <span class="c1"># Sort `cluster` and compute boundaries `partptr`:</span>
+        <span class="n">cluster</span><span class="p">,</span> <span class="n">node_perm</span> <span class="o">=</span> <span class="n">index_sort</span><span class="p">(</span><span class="n">cluster</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_parts</span><span class="p">)</span>
+        <span class="n">partptr</span> <span class="o">=</span> <span class="n">index2ptr</span><span class="p">(</span><span class="n">cluster</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_parts</span><span class="p">)</span>
+
+        <span class="c1"># Permute `edge_index` based on node permutation:</span>
+        <span class="n">edge_perm</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">arange</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">node_perm</span><span class="p">)</span>
+        <span class="n">arange</span><span class="p">[</span><span class="n">node_perm</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">cluster</span><span class="o">.</span><span class="n">numel</span><span class="p">(),</span>
+                                         <span class="n">device</span><span class="o">=</span><span class="n">cluster</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">edge_index</span> <span class="o">=</span> <span class="n">arange</span><span class="p">[</span><span class="n">edge_index</span><span class="p">]</span>
+
+        <span class="c1"># Compute final CSR representation:</span>
+        <span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">),</span> <span class="n">edge_perm</span> <span class="o">=</span> <span class="n">sort_edge_index</span><span class="p">(</span>
+            <span class="n">edge_index</span><span class="p">,</span>
+            <span class="n">edge_attr</span><span class="o">=</span><span class="n">edge_perm</span><span class="p">,</span>
+            <span class="n">num_nodes</span><span class="o">=</span><span class="n">cluster</span><span class="o">.</span><span class="n">numel</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="n">rowptr</span> <span class="o">=</span> <span class="n">index2ptr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">cluster</span><span class="o">.</span><span class="n">numel</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">Partition</span><span class="p">(</span><span class="n">rowptr</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">partptr</span><span class="p">,</span> <span class="n">node_perm</span><span class="p">,</span> <span class="n">edge_perm</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_permute_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Data</span><span class="p">,</span> <span class="n">partition</span><span class="p">:</span> <span class="n">Partition</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Data</span><span class="p">:</span>
+        <span class="c1"># Permute node-level and edge-level attributes according to the</span>
+        <span class="c1"># calculated permutations in `Partition`:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;edge_index&#39;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">is_node_attr</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="n">cat_dim</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">__cat_dim__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">partition</span><span class="o">.</span><span class="n">node_perm</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">cat_dim</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">data</span><span class="o">.</span><span class="n">is_edge_attr</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="n">cat_dim</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">__cat_dim__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">partition</span><span class="o">.</span><span class="n">edge_perm</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">cat_dim</span><span class="p">)</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="o">.</span><span class="n">partptr</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Data</span><span class="p">:</span>
+        <span class="n">node_start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="o">.</span><span class="n">partptr</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="n">node_end</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="o">.</span><span class="n">partptr</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">node_length</span> <span class="o">=</span> <span class="n">node_end</span> <span class="o">-</span> <span class="n">node_start</span>
+
+        <span class="n">rowptr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="o">.</span><span class="n">rowptr</span><span class="p">[</span><span class="n">node_start</span><span class="p">:</span><span class="n">node_end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">edge_start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rowptr</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">edge_end</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rowptr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">edge_length</span> <span class="o">=</span> <span class="n">edge_end</span> <span class="o">-</span> <span class="n">edge_start</span>
+        <span class="n">rowptr</span> <span class="o">=</span> <span class="n">rowptr</span> <span class="o">-</span> <span class="n">edge_start</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">ptr2index</span><span class="p">(</span><span class="n">rowptr</span><span class="p">)</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">partition</span><span class="o">.</span><span class="n">col</span><span class="p">[</span><span class="n">edge_start</span><span class="p">:</span><span class="n">edge_end</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_inter_cluster_edges</span><span class="p">:</span>
+            <span class="n">edge_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">col</span> <span class="o">&gt;=</span> <span class="n">node_start</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">col</span> <span class="o">&lt;</span> <span class="n">node_end</span><span class="p">)</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">edge_mask</span><span class="p">]</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">[</span><span class="n">edge_mask</span><span class="p">]</span> <span class="o">-</span> <span class="n">node_start</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;num_nodes&#39;</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="n">node_length</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">is_node_attr</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="n">cat_dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__cat_dim__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">narrow</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">cat_dim</span><span class="p">,</span> <span class="n">node_start</span><span class="p">,</span> <span class="n">node_length</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">is_edge_attr</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="n">cat_dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__cat_dim__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">narrow</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">cat_dim</span><span class="p">,</span> <span class="n">edge_start</span><span class="p">,</span> <span class="n">edge_length</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_inter_cluster_edges</span><span class="p">:</span>
+                    <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">edge_mask</span><span class="p">]</span>
+
+        <span class="n">out</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_parts</span><span class="si">}</span><span class="s1">)&#39;</span></div>
+
+
+<div class="viewcode-block" id="ClusterLoader"><a class="viewcode-back" href="../../../modules/loader.html#torch_geometric.loader.ClusterLoader">[docs]</a><span class="k">class</span> <span class="nc">ClusterLoader</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The data loader scheme from the `&quot;Cluster-GCN: An Efficient Algorithm</span>
+<span class="sd">    for Training Deep and Large Graph Convolutional Networks&quot;</span>
+<span class="sd">    &lt;https://arxiv.org/abs/1905.07953&gt;`_ paper which merges partioned subgraphs</span>
+<span class="sd">    and their between-cluster links from a large-scale graph data object to</span>
+<span class="sd">    form a mini-batch.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        Use :class:`~torch_geometric.loader.ClusterData` and</span>
+<span class="sd">        :class:`~torch_geometric.loader.ClusterLoader` in conjunction to</span>
+<span class="sd">        form mini-batches of clusters.</span>
+<span class="sd">        For an example of using Cluster-GCN, see</span>
+<span class="sd">        `examples/cluster_gcn_reddit.py &lt;https://github.com/pyg-team/</span>
+<span class="sd">        pytorch_geometric/blob/master/examples/cluster_gcn_reddit.py&gt;`_ or</span>
+<span class="sd">        `examples/cluster_gcn_ppi.py &lt;https://github.com/pyg-team/</span>
+<span class="sd">        pytorch_geometric/blob/master/examples/cluster_gcn_ppi.py&gt;`_.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        cluster_data (torch_geometric.loader.ClusterData): The already</span>
+<span class="sd">            partioned data object.</span>
+<span class="sd">        **kwargs (optional): Additional arguments of</span>
+<span class="sd">            :class:`torch.utils.data.DataLoader`, such as :obj:`batch_size`,</span>
+<span class="sd">            :obj:`shuffle`, :obj:`drop_last` or :obj:`num_workers`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cluster_data</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cluster_data</span> <span class="o">=</span> <span class="n">cluster_data</span>
+        <span class="n">iterator</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cluster_data</span><span class="p">))</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">iterator</span><span class="p">,</span> <span class="n">collate_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_collate</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_collate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Data</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+
+        <span class="n">global_rowptr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_data</span><span class="o">.</span><span class="n">partition</span><span class="o">.</span><span class="n">rowptr</span>
+        <span class="n">global_col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_data</span><span class="o">.</span><span class="n">partition</span><span class="o">.</span><span class="n">col</span>
+
+        <span class="c1"># Get all node-level and edge-level start and end indices for the</span>
+        <span class="c1"># current mini-batch:</span>
+        <span class="n">node_start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_data</span><span class="o">.</span><span class="n">partition</span><span class="o">.</span><span class="n">partptr</span><span class="p">[</span><span class="n">batch</span><span class="p">]</span>
+        <span class="n">node_end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_data</span><span class="o">.</span><span class="n">partition</span><span class="o">.</span><span class="n">partptr</span><span class="p">[</span><span class="n">batch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">edge_start</span> <span class="o">=</span> <span class="n">global_rowptr</span><span class="p">[</span><span class="n">node_start</span><span class="p">]</span>
+        <span class="n">edge_end</span> <span class="o">=</span> <span class="n">global_rowptr</span><span class="p">[</span><span class="n">node_end</span><span class="p">]</span>
+
+        <span class="c1"># Iterate over each partition in the batch and calculate new edge</span>
+        <span class="c1"># connectivity. This is done by slicing the corresponding source and</span>
+        <span class="c1"># destination indices for each partition and adjusting their indices to</span>
+        <span class="c1"># start from zero:</span>
+        <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">cumsum</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batch</span><span class="o">.</span><span class="n">numel</span><span class="p">()):</span>
+            <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">node_start</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">node_end</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+            <span class="n">rowptr</span> <span class="o">=</span> <span class="n">global_rowptr</span><span class="p">[</span><span class="n">node_start</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">node_end</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">rowptr</span> <span class="o">=</span> <span class="n">rowptr</span> <span class="o">-</span> <span class="n">edge_start</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">ptr2index</span><span class="p">(</span><span class="n">rowptr</span><span class="p">)</span> <span class="o">+</span> <span class="n">cumsum</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="n">global_col</span><span class="p">[</span><span class="n">edge_start</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">edge_end</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+            <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+            <span class="n">cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+            <span class="n">cumsum</span> <span class="o">+=</span> <span class="n">rowptr</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+
+        <span class="n">node</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Map `col` vector to valid entries and remove any entries that do not</span>
+        <span class="c1"># connect two nodes within the same mini-batch:</span>
+        <span class="n">col</span><span class="p">,</span> <span class="n">edge_mask</span> <span class="o">=</span> <span class="n">map_index</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">edge_mask</span><span class="p">]</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cluster_data</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># Slice node-level and edge-level attributes according to its offsets:</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_data</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;num_nodes&#39;</span><span class="p">:</span>
+                <span class="n">out</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="n">cumsum</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_data</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">is_node_attr</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="n">cat_dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_data</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__cat_dim__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span>
+                    <span class="n">narrow</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">cat_dim</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">node_start</span><span class="p">,</span> <span class="n">node_end</span><span class="p">)</span>
+                <span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="n">cat_dim</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_data</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">is_edge_attr</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+                <span class="n">cat_dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cluster_data</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">__cat_dim__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span>
+                    <span class="n">narrow</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">cat_dim</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">edge_start</span><span class="p">,</span> <span class="n">edge_end</span><span class="p">)</span>
+                <span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="n">cat_dim</span><span class="p">)</span>
+                <span class="n">out</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">edge_mask</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">cat_dim</span><span class="p">)</span>
+
+        <span class="n">out</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

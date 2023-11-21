@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.SVDFeatureReduction
+===============================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: SVDFeatureReduction
+   :show-inheritance:

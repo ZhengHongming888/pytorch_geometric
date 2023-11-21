@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.ToUndirected
+========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: ToUndirected
+   :show-inheritance:

@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.BitcoinOTC
+====================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: BitcoinOTC
+   :show-inheritance:

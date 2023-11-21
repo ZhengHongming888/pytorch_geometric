@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.norm.LayerNorm
+==================================
+
+.. currentmodule:: torch_geometric.nn.norm
+
+.. autoclass:: LayerNorm
+   :show-inheritance:
+   :members:

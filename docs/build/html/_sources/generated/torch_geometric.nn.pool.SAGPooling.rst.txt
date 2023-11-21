@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.pool.SAGPooling
+===================================
+
+.. currentmodule:: torch_geometric.nn.pool
+
+.. autoclass:: SAGPooling
+   :show-inheritance:
+   :members:

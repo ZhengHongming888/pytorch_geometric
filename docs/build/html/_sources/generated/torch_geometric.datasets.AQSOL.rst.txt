@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.AQSOL
+===============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: AQSOL
+   :show-inheritance:

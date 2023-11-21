@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.Coauthor
+==================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: Coauthor
+   :show-inheritance:

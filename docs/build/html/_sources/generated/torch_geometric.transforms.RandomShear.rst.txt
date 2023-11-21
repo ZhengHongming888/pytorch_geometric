@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.RandomShear
+=======================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: RandomShear
+   :show-inheritance:

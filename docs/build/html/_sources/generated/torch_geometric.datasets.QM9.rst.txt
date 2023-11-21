@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.QM9
+=============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: QM9
+   :show-inheritance:

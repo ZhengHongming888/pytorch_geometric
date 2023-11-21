@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.data.graph_store &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.data.graph_store</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.data.graph_store</h1><div class="highlight"><pre>
+<span></span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;This class defines the abstraction for a backend-agnostic graph store. The</span>
+<span class="sd">goal of the graph store is to abstract away all graph edge index memory</span>
+<span class="sd">management so that varying implementations can allow for independent scale-out.</span>
+
+<span class="sd">This particular graph store abstraction makes a few key assumptions:</span>
+<span class="sd">* The edge indices we care about storing are represented either in COO, CSC,</span>
+<span class="sd">  or CSR format. They can be uniquely identified by an edge type (in PyG,</span>
+<span class="sd">  this is a tuple of the source node, relation type, and destination node).</span>
+<span class="sd">* Edge indices are static once they are stored in the graph. That is, we do not</span>
+<span class="sd">  support dynamic modification of edge indices once they have been inserted</span>
+<span class="sd">  into the graph store.</span>
+
+<span class="sd">It is the job of a graph store implementor class to handle these assumptions</span>
+<span class="sd">properly. For example, a simple in-memory graph store implementation may</span>
+<span class="sd">concatenate all metadata values with an edge index and use this as a unique</span>
+<span class="sd">index in a KV store. More complicated implementations may choose to partition</span>
+<span class="sd">the graph in interesting manners based on the provided metadata.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">EdgeTensorType</span><span class="p">,</span> <span class="n">EdgeType</span><span class="p">,</span> <span class="n">OptTensor</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="n">index_sort</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils.mixin</span> <span class="kn">import</span> <span class="n">CastMixin</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils.sparse</span> <span class="kn">import</span> <span class="n">index2ptr</span><span class="p">,</span> <span class="n">ptr2index</span>
+
+<span class="c1"># The output of converting between two types in the GraphStore is a Tuple of</span>
+<span class="c1"># dictionaries: row, col, and perm. The dictionaries are keyed by the edge</span>
+<span class="c1"># type of the input edge attribute.</span>
+<span class="c1">#   * The row dictionary contains the row tensor for COO, the row pointer for</span>
+<span class="c1">#     CSR, or the row tensor for CSC</span>
+<span class="c1">#   * The col dictionary contains the col tensor for COO, the col tensor for</span>
+<span class="c1">#     CSR, or the col pointer for CSC</span>
+<span class="c1">#   * The perm dictionary contains the permutation of edges that was applied</span>
+<span class="c1">#     in converting between formats, if applicable.</span>
+<span class="n">ConversionOutputType</span> <span class="o">=</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span>
+                             <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">OptTensor</span><span class="p">]]</span>
+
+
+<span class="k">class</span> <span class="nc">EdgeLayout</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">COO</span> <span class="o">=</span> <span class="s1">&#39;coo&#39;</span>
+    <span class="n">CSC</span> <span class="o">=</span> <span class="s1">&#39;csc&#39;</span>
+    <span class="n">CSR</span> <span class="o">=</span> <span class="s1">&#39;csr&#39;</span>
+
+
+<div class="viewcode-block" id="EdgeAttr"><a class="viewcode-back" href="../../../generated/torch_geometric.data.EdgeAttr.html#torch_geometric.data.EdgeAttr">[docs]</a><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">EdgeAttr</span><span class="p">(</span><span class="n">CastMixin</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Defines the attributes of a :obj:`GraphStore` edge.</span>
+<span class="sd">    It holds all the parameters necessary to uniquely identify an edge from</span>
+<span class="sd">    the :class:`GraphStore`.</span>
+
+<span class="sd">    Note that the order of the attributes is important; this is the order in</span>
+<span class="sd">    which attributes must be provided for indexing calls. :class:`GraphStore`</span>
+<span class="sd">    implementations can define a different ordering by overriding</span>
+<span class="sd">    :meth:`EdgeAttr.__init__`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># The type of the edge:</span>
+    <span class="n">edge_type</span><span class="p">:</span> <span class="n">EdgeType</span>
+
+    <span class="c1"># The layout of the edge representation:</span>
+    <span class="n">layout</span><span class="p">:</span> <span class="n">EdgeLayout</span>
+
+    <span class="c1"># Whether the edge index is sorted by destination node. Useful for</span>
+    <span class="c1"># avoiding sorting costs when performing neighbor sampling, and only</span>
+    <span class="c1"># meaningful for COO (CSC is sorted and CSR is not sorted by definition):</span>
+    <span class="n">is_sorted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># The number of source and destination nodes in this edge type:</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># NOTE we define __init__ to force-cast layout</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_type</span><span class="p">:</span> <span class="n">EdgeType</span><span class="p">,</span>
+        <span class="n">layout</span><span class="p">:</span> <span class="n">EdgeLayout</span><span class="p">,</span>
+        <span class="n">is_sorted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="n">EdgeLayout</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">layout</span> <span class="o">==</span> <span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSR</span> <span class="ow">and</span> <span class="n">is_sorted</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot create a &#39;CSR&#39; edge attribute with &quot;</span>
+                             <span class="s2">&quot;option &#39;is_sorted=True&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">layout</span> <span class="o">==</span> <span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSC</span><span class="p">:</span>
+            <span class="n">is_sorted</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">edge_type</span> <span class="o">=</span> <span class="n">edge_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">layout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_sorted</span> <span class="o">=</span> <span class="n">is_sorted</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span></div>
+
+
+<div class="viewcode-block" id="GraphStore"><a class="viewcode-back" href="../../../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore">[docs]</a><span class="k">class</span> <span class="nc">GraphStore</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;An abstract base class to access edges from a remote graph store.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        edge_attr_cls (EdgeAttr, optional): A user-defined</span>
+<span class="sd">            :class:`EdgeAttr` class to customize the required attributes and</span>
+<span class="sd">            their ordering to uniquely identify edges. (default: :obj:`None`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_attr_cls</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;_edge_attr_cls&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edge_attr_cls</span> <span class="ow">or</span> <span class="n">EdgeAttr</span>
+
+    <span class="c1"># Core (CRUD) #############################################################</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_put_edge_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">:</span> <span class="n">EdgeTensorType</span><span class="p">,</span>
+                        <span class="n">edge_attr</span><span class="p">:</span> <span class="n">EdgeAttr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;To be implemented by :class:`GraphStore` subclasses.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="GraphStore.put_edge_index"><a class="viewcode-back" href="../../../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore.put_edge_index">[docs]</a>    <span class="k">def</span> <span class="nf">put_edge_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">:</span> <span class="n">EdgeTensorType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+                       <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Synchronously adds an :obj:`edge_index` tuple to the</span>
+<span class="sd">        :class:`GraphStore`.</span>
+<span class="sd">        Returns whether insertion was successful.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_index (Tuple[torch.Tensor, torch.Tensor]): The</span>
+<span class="sd">                :obj:`edge_index` tuple in a format specified in</span>
+<span class="sd">                :class:`EdgeAttr`.</span>
+<span class="sd">            *args: Arguments passed to :class:`EdgeAttr`.</span>
+<span class="sd">            **kwargs: Keyword arguments passed to :class:`EdgeAttr`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">edge_attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edge_attr_cls</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_put_edge_index</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">)</span></div>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_get_edge_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">:</span> <span class="n">EdgeAttr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeTensorType</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;To be implemented by :class:`GraphStore` subclasses.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="GraphStore.get_edge_index"><a class="viewcode-back" href="../../../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore.get_edge_index">[docs]</a>    <span class="k">def</span> <span class="nf">get_edge_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EdgeTensorType</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Synchronously obtains an :obj:`edge_index` tuple from the</span>
+<span class="sd">        :class:`GraphStore`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args: Arguments passed to :class:`EdgeAttr`.</span>
+<span class="sd">            **kwargs: Keyword arguments passed to :class:`EdgeAttr`.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError: If the :obj:`edge_index` corresponding to the input</span>
+<span class="sd">                :class:`EdgeAttr` was not found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">edge_attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edge_attr_cls</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">edge_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_edge_index</span><span class="p">(</span><span class="n">edge_attr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">edge_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;edge_index&#39; for &#39;</span><span class="si">{</span><span class="n">edge_attr</span><span class="si">}</span><span class="s2">&#39; not found&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">edge_index</span></div>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_remove_edge_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_attr</span><span class="p">:</span> <span class="n">EdgeAttr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;To be implemented by :class:`GraphStore` subclasses.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="GraphStore.remove_edge_index"><a class="viewcode-back" href="../../../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore.remove_edge_index">[docs]</a>    <span class="k">def</span> <span class="nf">remove_edge_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Synchronously deletes an :obj:`edge_index` tuple from the</span>
+<span class="sd">        :class:`GraphStore`.</span>
+<span class="sd">        Returns whether deletion was successful.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *args: Arguments passed to :class:`EdgeAttr`.</span>
+<span class="sd">            **kwargs: Keyword arguments passed to :class:`EdgeAttr`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">edge_attr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edge_attr_cls</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remove_edge_index</span><span class="p">(</span><span class="n">edge_attr</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GraphStore.get_all_edge_attrs"><a class="viewcode-back" href="../../../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore.get_all_edge_attrs">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_all_edge_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">EdgeAttr</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns all registered edge attributes.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+    <span class="c1"># Layout Conversion #######################################################</span>
+
+<div class="viewcode-block" id="GraphStore.coo"><a class="viewcode-back" href="../../../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore.coo">[docs]</a>    <span class="k">def</span> <span class="nf">coo</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">store</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConversionOutputType</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the edge indices in the :class:`GraphStore` in COO format.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_types (List[Any], optional): The edge types of edge indices</span>
+<span class="sd">                to obtain. If set to :obj:`None`, will return the edge indices</span>
+<span class="sd">                of all existing edge types. (default: :obj:`None`)</span>
+<span class="sd">            store (bool, optional): Whether to store converted edge indices in</span>
+<span class="sd">                the :class:`GraphStore`. (default: :obj:`False`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges_to_layout</span><span class="p">(</span><span class="n">EdgeLayout</span><span class="o">.</span><span class="n">COO</span><span class="p">,</span> <span class="n">edge_types</span><span class="p">,</span> <span class="n">store</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GraphStore.csr"><a class="viewcode-back" href="../../../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore.csr">[docs]</a>    <span class="k">def</span> <span class="nf">csr</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">store</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConversionOutputType</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the edge indices in the :class:`GraphStore` in CSR format.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_types (List[Any], optional): The edge types of edge indices</span>
+<span class="sd">                to obtain. If set to :obj:`None`, will return the edge indices</span>
+<span class="sd">                of all existing edge types. (default: :obj:`None`)</span>
+<span class="sd">            store (bool, optional): Whether to store converted edge indices in</span>
+<span class="sd">                the :class:`GraphStore`. (default: :obj:`False`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges_to_layout</span><span class="p">(</span><span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSR</span><span class="p">,</span> <span class="n">edge_types</span><span class="p">,</span> <span class="n">store</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GraphStore.csc"><a class="viewcode-back" href="../../../generated/torch_geometric.data.GraphStore.html#torch_geometric.data.GraphStore.csc">[docs]</a>    <span class="k">def</span> <span class="nf">csc</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">store</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConversionOutputType</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the edge indices in the :class:`GraphStore` in CSC format.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_types (List[Any], optional): The edge types of edge indices</span>
+<span class="sd">                to obtain. If set to :obj:`None`, will return the edge indices</span>
+<span class="sd">                of all existing edge types. (default: :obj:`None`)</span>
+<span class="sd">            store (bool, optional): Whether to store converted edge indices in</span>
+<span class="sd">                the :class:`GraphStore`. (default: :obj:`False`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edges_to_layout</span><span class="p">(</span><span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSC</span><span class="p">,</span> <span class="n">edge_types</span><span class="p">,</span> <span class="n">store</span><span class="p">)</span></div>
+
+    <span class="c1"># Python built-ins ########################################################</span>
+
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">EdgeAttr</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">EdgeTensorType</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">put_edge_index</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">EdgeAttr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeTensorType</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_edge_index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">EdgeAttr</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_edge_index</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">()&#39;</span>
+
+    <span class="c1"># Helper methods ##########################################################</span>
+
+    <span class="k">def</span> <span class="nf">_edge_to_layout</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">attr</span><span class="p">:</span> <span class="n">EdgeAttr</span><span class="p">,</span>
+        <span class="n">layout</span><span class="p">:</span> <span class="n">EdgeLayout</span><span class="p">,</span>
+        <span class="n">store</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">OptTensor</span><span class="p">]:</span>
+
+        <span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">),</span> <span class="n">perm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_edge_index</span><span class="p">(</span><span class="n">attr</span><span class="p">),</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">layout</span> <span class="o">==</span> <span class="n">EdgeLayout</span><span class="o">.</span><span class="n">COO</span><span class="p">:</span>  <span class="c1"># COO output requested:</span>
+            <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSR</span><span class="p">:</span>  <span class="c1"># CSR-&gt;COO</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="n">ptr2index</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">attr</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSC</span><span class="p">:</span>  <span class="c1"># CSC-&gt;COO</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="n">ptr2index</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">layout</span> <span class="o">==</span> <span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSR</span><span class="p">:</span>  <span class="c1"># CSR output requested:</span>
+            <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSC</span><span class="p">:</span>  <span class="c1"># CSC-&gt;COO</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="n">ptr2index</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">layout</span> <span class="o">!=</span> <span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSR</span><span class="p">:</span>  <span class="c1"># COO-&gt;CSR</span>
+                <span class="n">num_rows</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">row</span><span class="p">,</span> <span class="n">perm</span> <span class="o">=</span> <span class="n">index_sort</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="n">num_rows</span><span class="p">)</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">[</span><span class="n">perm</span><span class="p">]</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="n">index2ptr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">num_rows</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># CSC output requested:</span>
+            <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">layout</span> <span class="o">==</span> <span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSR</span><span class="p">:</span>  <span class="c1"># CSR-&gt;COO</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="n">ptr2index</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">layout</span> <span class="o">!=</span> <span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSC</span><span class="p">:</span>  <span class="c1"># COO-&gt;CSC</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;meta&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;is_hetero&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                    <span class="c1"># Hotfix for `LocalGraphStore`, where in heterogeneous</span>
+                    <span class="c1"># graphs, edge indices for different edge types have</span>
+                    <span class="c1"># continuous indices not starting at 0.</span>
+                    <span class="n">num_cols</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">elif</span> <span class="n">attr</span><span class="o">.</span><span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">num_cols</span> <span class="o">=</span> <span class="n">attr</span><span class="o">.</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">num_cols</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">col</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">+</span> <span class="mi">1</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">attr</span><span class="o">.</span><span class="n">is_sorted</span><span class="p">:</span>  <span class="c1"># Not sorted by destination.</span>
+                    <span class="n">col</span><span class="p">,</span> <span class="n">perm</span> <span class="o">=</span> <span class="n">index_sort</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="n">num_cols</span><span class="p">)</span>
+                    <span class="n">row</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">perm</span><span class="p">]</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="n">index2ptr</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">attr</span><span class="o">.</span><span class="n">layout</span> <span class="o">!=</span> <span class="n">layout</span> <span class="ow">and</span> <span class="n">store</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+            <span class="n">attr</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">layout</span>
+            <span class="k">if</span> <span class="n">perm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">attr</span><span class="o">.</span><span class="n">is_sorted</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">put_edge_index</span><span class="p">((</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">),</span> <span class="n">attr</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">perm</span>
+
+    <span class="k">def</span> <span class="nf">_edges_to_layout</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">layout</span><span class="p">:</span> <span class="n">EdgeLayout</span><span class="p">,</span>
+        <span class="n">edge_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">store</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ConversionOutputType</span><span class="p">:</span>
+
+        <span class="n">is_hetero</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Default.</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;meta&#39;</span><span class="p">):</span>  <span class="c1"># `LocalGraphStore` hack.</span>
+            <span class="n">is_hetero</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;is_hetero&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_hetero</span><span class="p">:</span>
+            <span class="n">edge_attrs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EdgeAttr</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_edge_attrs</span><span class="p">():</span>
+                <span class="n">edge_attrs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edge_to_layout</span><span class="p">(</span><span class="n">edge_attrs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">layout</span><span class="p">,</span> <span class="n">store</span><span class="p">)</span>
+
+        <span class="c1"># Obtain all edge attributes, grouped by type:</span>
+        <span class="n">edge_type_attrs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">EdgeAttr</span><span class="p">]]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_edge_attrs</span><span class="p">():</span>
+            <span class="n">edge_type_attrs</span><span class="p">[</span><span class="n">attr</span><span class="o">.</span><span class="n">edge_type</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+
+        <span class="c1"># Check that requested edge types exist and filter:</span>
+        <span class="k">if</span> <span class="n">edge_types</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">edge_type</span> <span class="ow">in</span> <span class="n">edge_types</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">edge_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">edge_type_attrs</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The &#39;edge_index&#39; of type &#39;</span><span class="si">{</span><span class="n">edge_type</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                                     <span class="sa">f</span><span class="s2">&quot;was not found in the graph store.&quot;</span><span class="p">)</span>
+
+            <span class="n">edge_type_attrs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">attr</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">edge_type_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">edge_types</span>
+            <span class="p">}</span>
+
+        <span class="c1"># Convert layout from its most favorable original layout:</span>
+        <span class="n">row_dict</span><span class="p">,</span> <span class="n">col_dict</span><span class="p">,</span> <span class="n">perm_dict</span> <span class="o">=</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">edge_type</span><span class="p">,</span> <span class="n">attrs</span> <span class="ow">in</span> <span class="n">edge_type_attrs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">layouts</span> <span class="o">=</span> <span class="p">[</span><span class="n">attr</span><span class="o">.</span><span class="n">layout</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">layout</span> <span class="ow">in</span> <span class="n">layouts</span><span class="p">:</span>  <span class="c1"># No conversion needed.</span>
+                <span class="n">attr</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="n">layouts</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">layout</span><span class="p">)]</span>
+            <span class="k">elif</span> <span class="n">EdgeLayout</span><span class="o">.</span><span class="n">COO</span> <span class="ow">in</span> <span class="n">layouts</span><span class="p">:</span>  <span class="c1"># Prefer COO for conversion.</span>
+                <span class="n">attr</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="n">layouts</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">EdgeLayout</span><span class="o">.</span><span class="n">COO</span><span class="p">)]</span>
+            <span class="k">elif</span> <span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSC</span> <span class="ow">in</span> <span class="n">layouts</span><span class="p">:</span>
+                <span class="n">attr</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="n">layouts</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSC</span><span class="p">)]</span>
+            <span class="k">elif</span> <span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSR</span> <span class="ow">in</span> <span class="n">layouts</span><span class="p">:</span>
+                <span class="n">attr</span> <span class="o">=</span> <span class="n">attrs</span><span class="p">[</span><span class="n">layouts</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">EdgeLayout</span><span class="o">.</span><span class="n">CSR</span><span class="p">)]</span>
+
+            <span class="n">row_dict</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span> <span class="n">col_dict</span><span class="p">[</span><span class="n">edge_type</span><span class="p">],</span> <span class="n">perm_dict</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_edge_to_layout</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">layout</span><span class="p">,</span> <span class="n">store</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">row_dict</span><span class="p">,</span> <span class="n">col_dict</span><span class="p">,</span> <span class="n">perm_dict</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

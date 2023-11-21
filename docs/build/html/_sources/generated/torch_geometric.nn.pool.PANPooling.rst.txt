@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.pool.PANPooling
+===================================
+
+.. currentmodule:: torch_geometric.nn.pool
+
+.. autoclass:: PANPooling
+   :show-inheritance:
+   :members:

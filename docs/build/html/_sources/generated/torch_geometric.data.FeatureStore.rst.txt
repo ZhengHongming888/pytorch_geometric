@@ -1,0 +1,8 @@
+﻿torch\_geometric.data.FeatureStore
+==================================
+
+.. currentmodule:: torch_geometric.data
+
+.. autoclass:: FeatureStore
+   :show-inheritance:
+   :members:

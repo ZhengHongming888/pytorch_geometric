@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.pool.ASAPooling
+===================================
+
+.. currentmodule:: torch_geometric.nn.pool
+
+.. autoclass:: ASAPooling
+   :show-inheritance:
+   :members:

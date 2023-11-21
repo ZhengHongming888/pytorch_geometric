@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.RemoveIsolatedNodes
+===============================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: RemoveIsolatedNodes
+   :show-inheritance:

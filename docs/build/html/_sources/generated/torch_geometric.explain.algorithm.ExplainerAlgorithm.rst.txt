@@ -1,0 +1,8 @@
+﻿torch\_geometric.explain.algorithm.ExplainerAlgorithm
+=====================================================
+
+.. currentmodule:: torch_geometric.explain.algorithm
+
+.. autoclass:: ExplainerAlgorithm
+   :show-inheritance:
+   :members:

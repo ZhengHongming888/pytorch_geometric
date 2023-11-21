@@ -1,0 +1,6 @@
+﻿torch\_geometric.nn.pool.knn
+============================
+
+.. currentmodule:: torch_geometric.nn.pool
+
+.. autofunction:: knn

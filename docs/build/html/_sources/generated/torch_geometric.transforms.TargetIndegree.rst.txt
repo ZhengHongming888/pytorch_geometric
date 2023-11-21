@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.TargetIndegree
+==========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: TargetIndegree
+   :show-inheritance:

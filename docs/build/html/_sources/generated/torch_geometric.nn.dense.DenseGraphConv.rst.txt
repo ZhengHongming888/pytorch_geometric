@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.dense.DenseGraphConv
+========================================
+
+.. currentmodule:: torch_geometric.nn.dense
+
+.. autoclass:: DenseGraphConv
+   :show-inheritance:
+   :members:

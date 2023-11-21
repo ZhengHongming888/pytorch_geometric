@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.RandomPartitionGraphDataset
+=====================================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: RandomPartitionGraphDataset
+   :show-inheritance:

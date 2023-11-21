@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.Twitch
+================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: Twitch
+   :show-inheritance:

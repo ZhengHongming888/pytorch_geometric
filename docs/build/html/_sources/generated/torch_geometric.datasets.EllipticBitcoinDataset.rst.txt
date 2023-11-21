@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.EllipticBitcoinDataset
+================================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: EllipticBitcoinDataset
+   :show-inheritance:

@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.NELL
+==============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: NELL
+   :show-inheritance:

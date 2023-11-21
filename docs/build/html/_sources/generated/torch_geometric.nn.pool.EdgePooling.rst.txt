@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.pool.EdgePooling
+====================================
+
+.. currentmodule:: torch_geometric.nn.pool
+
+.. autoclass:: EdgePooling
+   :show-inheritance:
+   :members:

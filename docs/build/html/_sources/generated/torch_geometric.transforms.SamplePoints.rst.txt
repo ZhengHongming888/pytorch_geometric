@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.SamplePoints
+========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: SamplePoints
+   :show-inheritance:

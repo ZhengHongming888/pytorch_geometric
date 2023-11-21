@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.aggr.LSTMAggregation
+========================================
+
+.. currentmodule:: torch_geometric.nn.aggr
+
+.. autoclass:: LSTMAggregation
+   :show-inheritance:
+   :members:

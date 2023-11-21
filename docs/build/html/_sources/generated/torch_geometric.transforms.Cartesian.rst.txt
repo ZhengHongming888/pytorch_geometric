@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.Cartesian
+=====================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: Cartesian
+   :show-inheritance:

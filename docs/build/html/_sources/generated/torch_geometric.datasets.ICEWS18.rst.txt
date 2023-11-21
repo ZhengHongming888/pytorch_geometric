@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.ICEWS18
+=================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: ICEWS18
+   :show-inheritance:

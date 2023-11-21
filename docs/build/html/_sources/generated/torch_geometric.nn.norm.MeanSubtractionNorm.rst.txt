@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.norm.MeanSubtractionNorm
+============================================
+
+.. currentmodule:: torch_geometric.nn.norm
+
+.. autoclass:: MeanSubtractionNorm
+   :show-inheritance:
+   :members:

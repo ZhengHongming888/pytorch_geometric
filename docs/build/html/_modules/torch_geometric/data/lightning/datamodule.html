@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.data.lightning.datamodule &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.data.lightning.datamodule</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.data.lightning.datamodule</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Data</span><span class="p">,</span>
+    <span class="n">Dataset</span><span class="p">,</span>
+    <span class="n">FeatureStore</span><span class="p">,</span>
+    <span class="n">GraphStore</span><span class="p">,</span>
+    <span class="n">HeteroData</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.loader</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">LinkLoader</span><span class="p">,</span> <span class="n">NodeLoader</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.sampler</span> <span class="kn">import</span> <span class="n">BaseSampler</span><span class="p">,</span> <span class="n">NeighborSampler</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">InputEdges</span><span class="p">,</span> <span class="n">InputNodes</span><span class="p">,</span> <span class="n">OptTensor</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">pytorch_lightning</span> <span class="kn">import</span> <span class="n">LightningDataModule</span> <span class="k">as</span> <span class="n">PLLightningDataModule</span>
+    <span class="n">no_pytorch_lightning</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">ModuleNotFoundError</span><span class="p">):</span>
+    <span class="n">PLLightningDataModule</span> <span class="o">=</span> <span class="nb">object</span>
+    <span class="n">no_pytorch_lightning</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="k">class</span> <span class="nc">LightningDataModule</span><span class="p">(</span><span class="n">PLLightningDataModule</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">has_val</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">has_test</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">no_pytorch_lightning</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
+                <span class="s2">&quot;No module named &#39;pytorch_lightning&#39; found on this machine. &quot;</span>
+                <span class="s2">&quot;Run &#39;pip install pytorch_lightning&#39; to install the library.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_val</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">val_dataloader</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">has_test</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">test_dataloader</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;batch_size&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;num_workers&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;pin_memory&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;persistent_workers&#39;</span><span class="p">,</span>
+                          <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;num_workers&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s1">&#39;shuffle&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The &#39;shuffle=</span><span class="si">{</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;shuffle&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; option is &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;ignored in &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;. Remove it &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;from the argument list to disable this warning&quot;</span><span class="p">)</span>
+            <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;shuffle&#39;</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="n">kwargs_repr</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span>
+
+
+<span class="k">class</span> <span class="nc">LightningData</span><span class="p">(</span><span class="n">LightningDataModule</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Data</span><span class="p">,</span> <span class="n">HeteroData</span><span class="p">],</span>
+        <span class="n">has_val</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">has_test</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">loader</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;neighbor&#39;</span><span class="p">,</span>
+        <span class="n">graph_sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseSampler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">eval_loader_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;batch_size&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;num_workers&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">graph_sampler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">loader</span> <span class="o">=</span> <span class="s1">&#39;custom&#39;</span>
+
+        <span class="c1"># For full-batch training, we use reasonable defaults for a lot of</span>
+        <span class="c1"># data-loading options:</span>
+        <span class="k">if</span> <span class="n">loader</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="s1">&#39;neighbor&#39;</span><span class="p">,</span> <span class="s1">&#39;link_neighbor&#39;</span><span class="p">,</span> <span class="s1">&#39;custom&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Undefined &#39;loader&#39; option (got &#39;</span><span class="si">{</span><span class="n">loader</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">loader</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Re-setting &#39;batch_size&#39; to 1 in &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; for loader=&#39;full&#39; &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;(got &#39;</span><span class="si">{</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">loader</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;num_workers&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Re-setting &#39;num_workers&#39; to 0 in &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; for loader=&#39;full&#39; &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;(got &#39;</span><span class="si">{</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;num_workers&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;num_workers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="n">loader</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sampler&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;sampler&#39; option is not supported for &quot;</span>
+                          <span class="s2">&quot;loader=&#39;full&#39;&quot;</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">loader</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span> <span class="ow">and</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;batch_sampler&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;batch_sampler&#39; option is not supported for &quot;</span>
+                          <span class="s2">&quot;loader=&#39;full&#39;&quot;</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;batch_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">has_val</span><span class="p">,</span> <span class="n">has_test</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">loader</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;pin_memory&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Re-setting &#39;pin_memory&#39; to &#39;False&#39; in &quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; for loader=&#39;full&#39; &quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot;(got &#39;True&#39;)&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;pin_memory&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loader</span> <span class="o">=</span> <span class="n">loader</span>
+
+        <span class="c1"># Determine sampler and loader arguments ##############################</span>
+
+        <span class="k">if</span> <span class="n">loader</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;neighbor&#39;</span><span class="p">,</span> <span class="s1">&#39;link_neighbor&#39;</span><span class="p">]:</span>
+
+            <span class="c1"># Define a new `NeighborSampler` to be re-used across data loaders:</span>
+            <span class="n">sampler_kwargs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader_kwargs</span> <span class="o">=</span> <span class="n">split_kwargs</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">,</span>
+                <span class="n">NeighborSampler</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">sampler_kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;share_memory&#39;</span><span class="p">,</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;num_workers&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph_sampler</span> <span class="o">=</span> <span class="n">NeighborSampler</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">**</span><span class="n">sampler_kwargs</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">graph_sampler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sampler_kwargs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader_kwargs</span> <span class="o">=</span> <span class="n">split_kwargs</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">,</span>
+                <span class="n">graph_sampler</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sampler_kwargs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ignoring the arguments &quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">sampler_kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2"> in &quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; since a custom &quot;</span>
+                              <span class="sa">f</span><span class="s2">&quot;&#39;graph_sampler&#39; was passed&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph_sampler</span> <span class="o">=</span> <span class="n">graph_sampler</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">loader</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loader_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span>
+
+        <span class="c1"># Determine validation sampler and loader arguments ###################</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval_loader_kwargs</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loader_kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">eval_loader_kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># If the user wants to override certain values during evaluation,</span>
+            <span class="c1"># we shallow-copy the graph sampler and update its attributes.</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;graph_sampler&#39;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">eval_graph_sampler</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_sampler</span><span class="p">)</span>
+
+                <span class="n">eval_sampler_kwargs</span><span class="p">,</span> <span class="n">eval_loader_kwargs</span> <span class="o">=</span> <span class="n">split_kwargs</span><span class="p">(</span>
+                    <span class="n">eval_loader_kwargs</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">graph_sampler</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">eval_sampler_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eval_graph_sampler</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">eval_loader_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">eval_loader_kwargs</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;graph_sampler&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eval_graph_sampler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_sampler</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval_loader_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval_loader_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;batch_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">train_shuffle</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">shuffle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="n">shuffle</span> <span class="o">&amp;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;batch_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">shuffle</span>
+
+    <span class="k">def</span> <span class="nf">prepare_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">num_devices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainer</span><span class="o">.</span><span class="n">num_devices</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="c1"># PyTorch Lightning &lt; 1.6 backward compatibility:</span>
+                <span class="n">num_devices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainer</span><span class="o">.</span><span class="n">num_processes</span>
+                <span class="n">num_devices</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">num_devices</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">trainer</span><span class="o">.</span><span class="n">num_gpus</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">num_devices</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; with loader=&#39;full&#39; requires &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;training on a single device&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">prepare_data</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">full_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="s1">&#39;.*does not have many workers.*&#39;</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="s1">&#39;.*data loading bottlenecks.*&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
+            <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">],</span>
+            <span class="n">collate_fn</span><span class="o">=</span><span class="k">lambda</span> <span class="n">xs</span><span class="p">:</span> <span class="n">xs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs_repr</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">loader</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">loader</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s1">)&#39;</span>
+
+
+<div class="viewcode-block" id="LightningDataset"><a class="viewcode-back" href="../../../../generated/torch_geometric.data.lightning.LightningDataset.html#torch_geometric.data.lightning.LightningDataset">[docs]</a><span class="k">class</span> <span class="nc">LightningDataset</span><span class="p">(</span><span class="n">LightningDataModule</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Converts a set of :class:`~torch_geometric.data.Dataset` objects into a</span>
+<span class="sd">    :class:`pytorch_lightning.LightningDataModule` variant. It can then be</span>
+<span class="sd">    automatically used as a :obj:`datamodule` for multi-GPU graph-level</span>
+<span class="sd">    training via :lightning:`null`</span>
+<span class="sd">    `PyTorch Lightning &lt;https://www.pytorchlightning.ai&gt;`__.</span>
+<span class="sd">    :class:`LightningDataset` will take care of providing mini-batches via</span>
+<span class="sd">    :class:`~torch_geometric.loader.DataLoader`.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        Currently only the</span>
+<span class="sd">        :class:`pytorch_lightning.strategies.SingleDeviceStrategy` and</span>
+<span class="sd">        :class:`pytorch_lightning.strategies.DDPStrategy` training</span>
+<span class="sd">        strategies of :lightning:`null` `PyTorch Lightning</span>
+<span class="sd">        &lt;https://pytorch-lightning.readthedocs.io/en/latest/guides/</span>
+<span class="sd">        speed.html&gt;`__ are supported in order to correctly share data across</span>
+<span class="sd">        all devices/processes:</span>
+
+<span class="sd">        .. code-block::</span>
+
+<span class="sd">            import pytorch_lightning as pl</span>
+<span class="sd">            trainer = pl.Trainer(strategy=&quot;ddp_spawn&quot;, accelerator=&quot;gpu&quot;,</span>
+<span class="sd">                                 devices=4)</span>
+<span class="sd">            trainer.fit(model, datamodule)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        train_dataset (Dataset): The training dataset.</span>
+<span class="sd">        val_dataset (Dataset, optional): The validation dataset.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        test_dataset (Dataset, optional): The test dataset.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        pred_dataset (Dataset, optional): The prediction dataset.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        **kwargs (optional): Additional arguments of</span>
+<span class="sd">            :class:`torch_geometric.loader.DataLoader`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">train_dataset</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">,</span>
+        <span class="n">val_dataset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dataset</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">test_dataset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dataset</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">pred_dataset</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dataset</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">has_val</span><span class="o">=</span><span class="n">val_dataset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">has_test</span><span class="o">=</span><span class="n">test_dataset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_dataset</span> <span class="o">=</span> <span class="n">train_dataset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val_dataset</span> <span class="o">=</span> <span class="n">val_dataset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">test_dataset</span> <span class="o">=</span> <span class="n">test_dataset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pred_dataset</span> <span class="o">=</span> <span class="n">pred_dataset</span>
+
+    <span class="k">def</span> <span class="nf">dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">train_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">IterableDataset</span>
+
+        <span class="n">shuffle</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">IterableDataset</span><span class="p">)</span>
+        <span class="n">shuffle</span> <span class="o">&amp;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="n">shuffle</span> <span class="o">&amp;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;batch_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="n">shuffle</span><span class="p">,</span>
+                               <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">val_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;batch_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;batch_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">predict_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;batch_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pred_dataset</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs_repr</span><span class="p">(</span><span class="n">train_dataset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">train_dataset</span><span class="p">,</span>
+                             <span class="n">val_dataset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">val_dataset</span><span class="p">,</span>
+                             <span class="n">test_dataset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">test_dataset</span><span class="p">,</span>
+                             <span class="n">pred_dataset</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pred_dataset</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s1">)&#39;</span></div>
+
+
+<div class="viewcode-block" id="LightningNodeData"><a class="viewcode-back" href="../../../../generated/torch_geometric.data.lightning.LightningNodeData.html#torch_geometric.data.lightning.LightningNodeData">[docs]</a><span class="k">class</span> <span class="nc">LightningNodeData</span><span class="p">(</span><span class="n">LightningData</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Converts a :class:`~torch_geometric.data.Data` or</span>
+<span class="sd">    :class:`~torch_geometric.data.HeteroData` object into a</span>
+<span class="sd">    :class:`pytorch_lightning.LightningDataModule` variant. It can then be</span>
+<span class="sd">    automatically used as a :obj:`datamodule` for multi-GPU node-level</span>
+<span class="sd">    training via :lightning:`null`</span>
+<span class="sd">    `PyTorch Lightning &lt;https://www.pytorchlightning.ai&gt;`__.</span>
+<span class="sd">    :class:`LightningDataset` will take care of providing mini-batches via</span>
+<span class="sd">    :class:`~torch_geometric.loader.NeighborLoader`.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        Currently only the</span>
+<span class="sd">        :class:`pytorch_lightning.strategies.SingleDeviceStrategy` and</span>
+<span class="sd">        :class:`pytorch_lightning.strategies.DDPStrategy` training</span>
+<span class="sd">        strategies of :lightning:`null` `PyTorch Lightning</span>
+<span class="sd">        &lt;https://pytorch-lightning.readthedocs.io/en/latest/guides/</span>
+<span class="sd">        speed.html&gt;`__ are supported in order to correctly share data across</span>
+<span class="sd">        all devices/processes:</span>
+
+<span class="sd">        .. code-block::</span>
+
+<span class="sd">            import pytorch_lightning as pl</span>
+<span class="sd">            trainer = pl.Trainer(strategy=&quot;ddp_spawn&quot;, accelerator=&quot;gpu&quot;,</span>
+<span class="sd">                                 devices=4)</span>
+<span class="sd">            trainer.fit(model, datamodule)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (Data or HeteroData): The :class:`~torch_geometric.data.Data` or</span>
+<span class="sd">            :class:`~torch_geometric.data.HeteroData` graph object.</span>
+<span class="sd">        input_train_nodes (torch.Tensor or str or (str, torch.Tensor)): The</span>
+<span class="sd">            indices of training nodes.</span>
+<span class="sd">            If not given, will try to automatically infer them from the</span>
+<span class="sd">            :obj:`data` object by searching for :obj:`train_mask`,</span>
+<span class="sd">            :obj:`train_idx`, or :obj:`train_index` attributes.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        input_train_time (torch.Tensor, optional): The timestamp</span>
+<span class="sd">            of training nodes. (default: :obj:`None`)</span>
+<span class="sd">        input_val_nodes (torch.Tensor or str or (str, torch.Tensor)): The</span>
+<span class="sd">            indices of validation nodes.</span>
+<span class="sd">            If not given, will try to automatically infer them from the</span>
+<span class="sd">            :obj:`data` object by searching for :obj:`val_mask`,</span>
+<span class="sd">            :obj:`valid_mask`, :obj:`val_idx`, :obj:`valid_idx`,</span>
+<span class="sd">            :obj:`val_index`, or :obj:`valid_index` attributes.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        input_val_time (torch.Tensor, optional): The timestamp</span>
+<span class="sd">            of validation edges. (default: :obj:`None`)</span>
+<span class="sd">        input_test_nodes (torch.Tensor or str or (str, torch.Tensor)): The</span>
+<span class="sd">            indices of test nodes.</span>
+<span class="sd">            If not given, will try to automatically infer them from the</span>
+<span class="sd">            :obj:`data` object by searching for :obj:`test_mask`,</span>
+<span class="sd">            :obj:`test_idx`, or :obj:`test_index` attributes.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        input_test_time (torch.Tensor, optional): The timestamp</span>
+<span class="sd">            of test nodes. (default: :obj:`None`)</span>
+<span class="sd">        input_pred_nodes (torch.Tensor or str or (str, torch.Tensor)): The</span>
+<span class="sd">            indices of prediction nodes.</span>
+<span class="sd">            If not given, will try to automatically infer them from the</span>
+<span class="sd">            :obj:`data` object by searching for :obj:`pred_mask`,</span>
+<span class="sd">            :obj:`pred_idx`, or :obj:`pred_index` attributes.</span>
+<span class="sd">            (default: :obj:`None`)</span>
+<span class="sd">        input_pred_time (torch.Tensor, optional): The timestamp</span>
+<span class="sd">            of prediction nodes. (default: :obj:`None`)</span>
+<span class="sd">        loader (str): The scalability technique to use (:obj:`&quot;full&quot;`,</span>
+<span class="sd">            :obj:`&quot;neighbor&quot;`). (default: :obj:`&quot;neighbor&quot;`)</span>
+<span class="sd">        node_sampler (BaseSampler, optional): A custom sampler object to</span>
+<span class="sd">            generate mini-batches. If set, will ignore the :obj:`loader`</span>
+<span class="sd">            option. (default: :obj:`None`)</span>
+<span class="sd">        eval_loader_kwargs (Dict[str, Any], optional): Custom keyword arguments</span>
+<span class="sd">            that override the :class:`torch_geometric.loader.NeighborLoader`</span>
+<span class="sd">            configuration during evaluation. (default: :obj:`None`)</span>
+<span class="sd">        **kwargs (optional): Additional arguments of</span>
+<span class="sd">            :class:`torch_geometric.loader.NeighborLoader`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Data</span><span class="p">,</span> <span class="n">HeteroData</span><span class="p">],</span>
+        <span class="n">input_train_nodes</span><span class="p">:</span> <span class="n">InputNodes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_train_time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_val_nodes</span><span class="p">:</span> <span class="n">InputNodes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_val_time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_test_nodes</span><span class="p">:</span> <span class="n">InputNodes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_test_time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_pred_nodes</span><span class="p">:</span> <span class="n">InputNodes</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_pred_time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">loader</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;neighbor&#39;</span><span class="p">,</span>
+        <span class="n">node_sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseSampler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">eval_loader_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">input_train_nodes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">input_train_nodes</span> <span class="o">=</span> <span class="n">infer_input_nodes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">input_val_nodes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">input_val_nodes</span> <span class="o">=</span> <span class="n">infer_input_nodes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;val&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">input_val_nodes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">input_val_nodes</span> <span class="o">=</span> <span class="n">infer_input_nodes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;valid&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">input_test_nodes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">input_test_nodes</span> <span class="o">=</span> <span class="n">infer_input_nodes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">input_pred_nodes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">input_pred_nodes</span> <span class="o">=</span> <span class="n">infer_input_nodes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;pred&#39;</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">has_val</span><span class="o">=</span><span class="n">input_val_nodes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">has_test</span><span class="o">=</span><span class="n">input_test_nodes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">loader</span><span class="o">=</span><span class="n">loader</span><span class="p">,</span>
+            <span class="n">graph_sampler</span><span class="o">=</span><span class="n">node_sampler</span><span class="p">,</span>
+            <span class="n">eval_loader_kwargs</span><span class="o">=</span><span class="n">eval_loader_kwargs</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_train_nodes</span> <span class="o">=</span> <span class="n">input_train_nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_train_time</span> <span class="o">=</span> <span class="n">input_train_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_train_id</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_val_nodes</span> <span class="o">=</span> <span class="n">input_val_nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_val_time</span> <span class="o">=</span> <span class="n">input_val_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_val_id</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_test_nodes</span> <span class="o">=</span> <span class="n">input_test_nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_test_time</span> <span class="o">=</span> <span class="n">input_test_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_test_id</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_nodes</span> <span class="o">=</span> <span class="n">input_pred_nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_time</span> <span class="o">=</span> <span class="n">input_pred_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_id</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">dataloader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_nodes</span><span class="p">:</span> <span class="n">InputNodes</span><span class="p">,</span>
+        <span class="n">input_time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_id</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">node_sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseSampler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_dataloader</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="n">node_sampler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">NodeLoader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">node_sampler</span><span class="o">=</span><span class="n">node_sampler</span><span class="p">,</span>
+            <span class="n">input_nodes</span><span class="o">=</span><span class="n">input_nodes</span><span class="p">,</span>
+            <span class="n">input_time</span><span class="o">=</span><span class="n">input_time</span><span class="p">,</span>
+            <span class="n">input_id</span><span class="o">=</span><span class="n">input_id</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">train_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_train_nodes</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_train_time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_train_id</span><span class="p">,</span>
+            <span class="n">node_sampler</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;graph_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">train_shuffle</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">loader_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">val_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_val_nodes</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_val_time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_val_id</span><span class="p">,</span>
+            <span class="n">node_sampler</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;eval_graph_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">eval_loader_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_test_nodes</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_test_time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_test_id</span><span class="p">,</span>
+            <span class="n">node_sampler</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;eval_graph_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">eval_loader_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">predict_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_nodes</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_id</span><span class="p">,</span>
+            <span class="n">node_sampler</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;eval_graph_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">eval_loader_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LightningLinkData"><a class="viewcode-back" href="../../../../generated/torch_geometric.data.lightning.LightningLinkData.html#torch_geometric.data.lightning.LightningLinkData">[docs]</a><span class="k">class</span> <span class="nc">LightningLinkData</span><span class="p">(</span><span class="n">LightningData</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Converts a :class:`~torch_geometric.data.Data` or</span>
+<span class="sd">    :class:`~torch_geometric.data.HeteroData` object into a</span>
+<span class="sd">    :class:`pytorch_lightning.LightningDataModule` variant. It can then be</span>
+<span class="sd">    automatically used as a :obj:`datamodule` for multi-GPU link-level</span>
+<span class="sd">    training via :lightning:`null`</span>
+<span class="sd">    `PyTorch Lightning &lt;https://www.pytorchlightning.ai&gt;`__.</span>
+<span class="sd">    :class:`LightningDataset` will take care of providing mini-batches via</span>
+<span class="sd">    :class:`~torch_geometric.loader.LinkNeighborLoader`.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        Currently only the</span>
+<span class="sd">        :class:`pytorch_lightning.strategies.SingleDeviceStrategy` and</span>
+<span class="sd">        :class:`pytorch_lightning.strategies.DDPStrategy` training</span>
+<span class="sd">        strategies of :lightning:`null` `PyTorch Lightning</span>
+<span class="sd">        &lt;https://pytorch-lightning.readthedocs.io/en/latest/guides/</span>
+<span class="sd">        speed.html&gt;`__ are supported in order to correctly share data across</span>
+<span class="sd">        all devices/processes:</span>
+
+<span class="sd">        .. code-block::</span>
+
+<span class="sd">            import pytorch_lightning as pl</span>
+<span class="sd">            trainer = pl.Trainer(strategy=&quot;ddp_spawn&quot;, accelerator=&quot;gpu&quot;,</span>
+<span class="sd">                                 devices=4)</span>
+<span class="sd">            trainer.fit(model, datamodule)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (Data or HeteroData or Tuple[FeatureStore, GraphStore]): The</span>
+<span class="sd">            :class:`~torch_geometric.data.Data` or</span>
+<span class="sd">            :class:`~torch_geometric.data.HeteroData` graph object, or a</span>
+<span class="sd">            tuple of a :class:`~torch_geometric.data.FeatureStore` and</span>
+<span class="sd">            :class:`~torch_geometric.data.GraphStore` objects.</span>
+<span class="sd">        input_train_edges (Tensor or EdgeType or Tuple[EdgeType, Tensor]):</span>
+<span class="sd">            The training edges. (default: :obj:`None`)</span>
+<span class="sd">        input_train_labels (torch.Tensor, optional):</span>
+<span class="sd">            The labels of training edges. (default: :obj:`None`)</span>
+<span class="sd">        input_train_time (torch.Tensor, optional): The timestamp</span>
+<span class="sd">            of training edges. (default: :obj:`None`)</span>
+<span class="sd">        input_val_edges (Tensor or EdgeType or Tuple[EdgeType, Tensor]):</span>
+<span class="sd">            The validation edges. (default: :obj:`None`)</span>
+<span class="sd">        input_val_labels (torch.Tensor, optional):</span>
+<span class="sd">            The labels of validation edges. (default: :obj:`None`)</span>
+<span class="sd">        input_val_time (torch.Tensor, optional): The timestamp</span>
+<span class="sd">            of validation edges. (default: :obj:`None`)</span>
+<span class="sd">        input_test_edges (Tensor or EdgeType or Tuple[EdgeType, Tensor]):</span>
+<span class="sd">            The test edges. (default: :obj:`None`)</span>
+<span class="sd">        input_test_labels (torch.Tensor, optional):</span>
+<span class="sd">            The labels of test edges. (default: :obj:`None`)</span>
+<span class="sd">        input_test_time (torch.Tensor, optional): The timestamp</span>
+<span class="sd">            of test edges. (default: :obj:`None`)</span>
+<span class="sd">        input_pred_edges (Tensor or EdgeType or Tuple[EdgeType, Tensor]):</span>
+<span class="sd">            The prediction edges. (default: :obj:`None`)</span>
+<span class="sd">        input_pred_labels (torch.Tensor, optional):</span>
+<span class="sd">            The labels of prediction edges. (default: :obj:`None`)</span>
+<span class="sd">        input_pred_time (torch.Tensor, optional): The timestamp</span>
+<span class="sd">            of prediction edges. (default: :obj:`None`)</span>
+<span class="sd">        loader (str): The scalability technique to use (:obj:`&quot;full&quot;`,</span>
+<span class="sd">            :obj:`&quot;neighbor&quot;`). (default: :obj:`&quot;neighbor&quot;`)</span>
+<span class="sd">        link_sampler (BaseSampler, optional): A custom sampler object to</span>
+<span class="sd">            generate mini-batches. If set, will ignore the :obj:`loader`</span>
+<span class="sd">            option. (default: :obj:`None`)</span>
+<span class="sd">        eval_loader_kwargs (Dict[str, Any], optional): Custom keyword arguments</span>
+<span class="sd">            that override the</span>
+<span class="sd">            :class:`torch_geometric.loader.LinkNeighborLoader` configuration</span>
+<span class="sd">            during evaluation. (default: :obj:`None`)</span>
+<span class="sd">        **kwargs (optional): Additional arguments of</span>
+<span class="sd">            :class:`torch_geometric.loader.LinkNeighborLoader`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Data</span><span class="p">,</span> <span class="n">HeteroData</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">FeatureStore</span><span class="p">,</span> <span class="n">GraphStore</span><span class="p">]],</span>
+        <span class="n">input_train_edges</span><span class="p">:</span> <span class="n">InputEdges</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_train_labels</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_train_time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_val_edges</span><span class="p">:</span> <span class="n">InputEdges</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_val_labels</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_val_time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_test_edges</span><span class="p">:</span> <span class="n">InputEdges</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_test_labels</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_test_time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_pred_edges</span><span class="p">:</span> <span class="n">InputEdges</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_pred_labels</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_pred_time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">loader</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;neighbor&#39;</span><span class="p">,</span>
+        <span class="n">link_sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseSampler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">eval_loader_kwargs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">has_val</span><span class="o">=</span><span class="n">input_val_edges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">has_test</span><span class="o">=</span><span class="n">input_test_edges</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">loader</span><span class="o">=</span><span class="n">loader</span><span class="p">,</span>
+            <span class="n">graph_sampler</span><span class="o">=</span><span class="n">link_sampler</span><span class="p">,</span>
+            <span class="n">eval_loader_kwargs</span><span class="o">=</span><span class="n">eval_loader_kwargs</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_train_edges</span> <span class="o">=</span> <span class="n">input_train_edges</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_train_labels</span> <span class="o">=</span> <span class="n">input_train_labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_train_time</span> <span class="o">=</span> <span class="n">input_train_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_train_id</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_val_edges</span> <span class="o">=</span> <span class="n">input_val_edges</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_val_labels</span> <span class="o">=</span> <span class="n">input_val_labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_val_time</span> <span class="o">=</span> <span class="n">input_val_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_val_id</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_test_edges</span> <span class="o">=</span> <span class="n">input_test_edges</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_test_labels</span> <span class="o">=</span> <span class="n">input_test_labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_test_time</span> <span class="o">=</span> <span class="n">input_test_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_test_id</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_edges</span> <span class="o">=</span> <span class="n">input_pred_edges</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_labels</span> <span class="o">=</span> <span class="n">input_pred_labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_time</span> <span class="o">=</span> <span class="n">input_pred_time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_id</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">dataloader</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_edges</span><span class="p">:</span> <span class="n">InputEdges</span><span class="p">,</span>
+        <span class="n">input_labels</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_time</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_id</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">link_sampler</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseSampler</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loader</span> <span class="o">==</span> <span class="s1">&#39;full&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">full_dataloader</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="n">link_sampler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="n">LinkLoader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">link_sampler</span><span class="o">=</span><span class="n">link_sampler</span><span class="p">,</span>
+            <span class="n">edge_label_index</span><span class="o">=</span><span class="n">input_edges</span><span class="p">,</span>
+            <span class="n">edge_label</span><span class="o">=</span><span class="n">input_labels</span><span class="p">,</span>
+            <span class="n">edge_label_time</span><span class="o">=</span><span class="n">input_time</span><span class="p">,</span>
+            <span class="n">input_id</span><span class="o">=</span><span class="n">input_id</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">train_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_train_edges</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_train_labels</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_train_time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_train_id</span><span class="p">,</span>
+            <span class="n">link_sampler</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;graph_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">train_shuffle</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">loader_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">val_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_val_edges</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_val_labels</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_val_time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_val_id</span><span class="p">,</span>
+            <span class="n">link_sampler</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;eval_graph_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">eval_loader_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_test_edges</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_test_labels</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_test_time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_test_id</span><span class="p">,</span>
+            <span class="n">link_sampler</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;eval_graph_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">eval_loader_kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">predict_dataloader</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataLoader</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataloader</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_edges</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_labels</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_time</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_pred_id</span><span class="p">,</span>
+            <span class="n">link_sampler</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;eval_graph_sampler&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">eval_loader_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<span class="c1">###############################################################################</span>
+
+
+<span class="c1"># TODO support Tuple[FeatureStore, GraphStore]</span>
+<span class="k">def</span> <span class="nf">infer_input_nodes</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Data</span><span class="p">,</span> <span class="n">HeteroData</span><span class="p">],</span> <span class="n">split</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">InputNodes</span><span class="p">:</span>
+    <span class="n">attr_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s1">_mask&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">attr_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s1">_mask&#39;</span>
+    <span class="k">elif</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s1">_idx&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">attr_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s1">_idx&#39;</span>
+    <span class="k">elif</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s1">_index&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">attr_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s1">_index&#39;</span>
+
+    <span class="k">if</span> <span class="n">attr_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">HeteroData</span><span class="p">):</span>
+        <span class="n">input_nodes_dict</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">attr_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_nodes_dict</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not automatically determine the input &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;nodes of </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2"> since there exists multiple &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;types with attribute &#39;</span><span class="si">{</span><span class="n">attr_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">input_nodes_dict</span><span class="o">.</span><span class="n">items</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">kwargs_repr</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">=</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+
+
+<span class="k">def</span> <span class="nf">split_kwargs</span><span class="p">(</span>
+    <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="n">sampler_cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Splits keyword arguments into sampler and loader arguments.&quot;&quot;&quot;</span>
+    <span class="n">sampler_args</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">sampler_cls</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span>
+
+    <span class="n">sampler_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">loader_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">sampler_args</span><span class="p">:</span>
+            <span class="n">sampler_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">loader_kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">return</span> <span class="n">sampler_kwargs</span><span class="p">,</span> <span class="n">loader_kwargs</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

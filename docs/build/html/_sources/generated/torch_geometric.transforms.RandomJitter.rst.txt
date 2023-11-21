@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.RandomJitter
+========================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: RandomJitter
+   :show-inheritance:

@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.MovieLens100K
+=======================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: MovieLens100K
+   :show-inheritance:

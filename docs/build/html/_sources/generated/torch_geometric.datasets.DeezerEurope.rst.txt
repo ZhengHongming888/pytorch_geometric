@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.DeezerEurope
+======================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: DeezerEurope
+   :show-inheritance:

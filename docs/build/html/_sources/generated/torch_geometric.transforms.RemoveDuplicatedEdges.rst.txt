@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.RemoveDuplicatedEdges
+=================================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: RemoveDuplicatedEdges
+   :show-inheritance:

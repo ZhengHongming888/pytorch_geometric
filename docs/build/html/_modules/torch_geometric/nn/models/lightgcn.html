@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.nn.models.lightgcn &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.nn.models.lightgcn</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.nn.models.lightgcn</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">torch.nn</span> <span class="kn">import</span> <span class="n">Embedding</span><span class="p">,</span> <span class="n">ModuleList</span>
+<span class="kn">from</span> <span class="nn">torch.nn.modules.loss</span> <span class="kn">import</span> <span class="n">_Loss</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.nn.conv</span> <span class="kn">import</span> <span class="n">LGConv</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">Adj</span><span class="p">,</span> <span class="n">OptTensor</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="n">is_sparse</span><span class="p">,</span> <span class="n">to_edge_index</span>
+
+
+<div class="viewcode-block" id="LightGCN"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.LightGCN.html#torch_geometric.nn.models.LightGCN">[docs]</a><span class="k">class</span> <span class="nc">LightGCN</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The LightGCN model from the `&quot;LightGCN: Simplifying and Powering</span>
+<span class="sd">    Graph Convolution Network for Recommendation&quot;</span>
+<span class="sd">    &lt;https://arxiv.org/abs/2002.02126&gt;`_ paper.</span>
+
+<span class="sd">    :class:`~torch_geometric.nn.models.LightGCN` learns embeddings by linearly</span>
+<span class="sd">    propagating them on the underlying graph, and uses the weighted sum of the</span>
+<span class="sd">    embeddings learned at all layers as the final embedding</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \textbf{x}_i = \sum_{l=0}^{L} \alpha_l \textbf{x}^{(l)}_i,</span>
+
+<span class="sd">    where each layer&#39;s embedding is computed as</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        \mathbf{x}^{(l+1)}_i = \sum_{j \in \mathcal{N}(i)}</span>
+<span class="sd">        \frac{1}{\sqrt{\deg(i)\deg(j)}}\mathbf{x}^{(l)}_j.</span>
+
+<span class="sd">    Two prediction heads and training objectives are provided:</span>
+<span class="sd">    **link prediction** (via</span>
+<span class="sd">    :meth:`~torch_geometric.nn.models.LightGCN.link_pred_loss` and</span>
+<span class="sd">    :meth:`~torch_geometric.nn.models.LightGCN.predict_link`) and</span>
+<span class="sd">    **recommendation** (via</span>
+<span class="sd">    :meth:`~torch_geometric.nn.models.LightGCN.recommendation_loss` and</span>
+<span class="sd">    :meth:`~torch_geometric.nn.models.LightGCN.recommend`).</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        Embeddings are propagated according to the graph connectivity specified</span>
+<span class="sd">        by :obj:`edge_index` while rankings or link probabilities are computed</span>
+<span class="sd">        according to the edges specified by :obj:`edge_label_index`.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        For an example of using :class:`LightGCN`, see `examples/lightgcn.py</span>
+<span class="sd">        &lt;https://github.com/pyg-team/pytorch_geometric/blob/master/examples/</span>
+<span class="sd">        lightgcn.py&gt;`_.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        num_nodes (int): The number of nodes in the graph.</span>
+<span class="sd">        embedding_dim (int): The dimensionality of node embeddings.</span>
+<span class="sd">        num_layers (int): The number of</span>
+<span class="sd">            :class:`~torch_geometric.nn.conv.LGConv` layers.</span>
+<span class="sd">        alpha (float or torch.Tensor, optional): The scalar or vector</span>
+<span class="sd">            specifying the re-weighting coefficients for aggregating the final</span>
+<span class="sd">            embedding. If set to :obj:`None`, the uniform initialization of</span>
+<span class="sd">            :obj:`1 / (num_layers + 1)` is used. (default: :obj:`None`)</span>
+<span class="sd">        **kwargs (optional): Additional arguments of the underlying</span>
+<span class="sd">            :class:`~torch_geometric.nn.conv.LGConv` layers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">num_nodes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">embedding_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">num_layers</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="n">num_nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding_dim</span> <span class="o">=</span> <span class="n">embedding_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="n">num_layers</span>
+
+        <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_layers</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="n">alpha</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="n">num_layers</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">alpha</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">alpha</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">num_layers</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s1">&#39;alpha&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">Embedding</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">embedding_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">convs</span> <span class="o">=</span> <span class="n">ModuleList</span><span class="p">([</span><span class="n">LGConv</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">)])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+<div class="viewcode-block" id="LightGCN.reset_parameters"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.LightGCN.html#torch_geometric.nn.models.LightGCN.reset_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Resets all learnable parameters of the module.&quot;&quot;&quot;</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">xavier_uniform_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">conv</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">convs</span><span class="p">:</span>
+            <span class="n">conv</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LightGCN.get_embedding"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.LightGCN.html#torch_geometric.nn.models.LightGCN.get_embedding">[docs]</a>    <span class="k">def</span> <span class="nf">get_embedding</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Adj</span><span class="p">,</span>
+        <span class="n">edge_weight</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Returns the embedding of nodes in the graph.&quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">weight</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convs</span><span class="p">[</span><span class="n">i</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_weight</span><span class="p">)</span>
+            <span class="n">out</span> <span class="o">=</span> <span class="n">out</span> <span class="o">+</span> <span class="n">x</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="LightGCN.forward"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.LightGCN.html#torch_geometric.nn.models.LightGCN.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Adj</span><span class="p">,</span>
+        <span class="n">edge_label_index</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge_weight</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computes rankings for pairs of nodes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_index (torch.Tensor or SparseTensor): Edge tensor specifying</span>
+<span class="sd">                the connectivity of the graph.</span>
+<span class="sd">            edge_label_index (torch.Tensor, optional): Edge tensor specifying</span>
+<span class="sd">                the node pairs for which to compute rankings or probabilities.</span>
+<span class="sd">                If :obj:`edge_label_index` is set to :obj:`None`, all edges in</span>
+<span class="sd">                :obj:`edge_index` will be used instead. (default: :obj:`None`)</span>
+<span class="sd">            edge_weight (torch.Tensor, optional): The weight of each edge in</span>
+<span class="sd">                :obj:`edge_index`. (default: :obj:`None`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">edge_label_index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_sparse</span><span class="p">(</span><span class="n">edge_index</span><span class="p">):</span>
+                <span class="n">edge_label_index</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">to_edge_index</span><span class="p">(</span><span class="n">edge_index</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">edge_label_index</span> <span class="o">=</span> <span class="n">edge_index</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_embedding</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_weight</span><span class="p">)</span>
+
+        <span class="n">out_src</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="n">edge_label_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">out_dst</span> <span class="o">=</span> <span class="n">out</span><span class="p">[</span><span class="n">edge_label_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">out_src</span> <span class="o">*</span> <span class="n">out_dst</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LightGCN.predict_link"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.LightGCN.html#torch_geometric.nn.models.LightGCN.predict_link">[docs]</a>    <span class="k">def</span> <span class="nf">predict_link</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Adj</span><span class="p">,</span>
+        <span class="n">edge_label_index</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edge_weight</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">prob</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Predict links between nodes specified in :obj:`edge_label_index`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_index (torch.Tensor or SparseTensor): Edge tensor specifying</span>
+<span class="sd">                the connectivity of the graph.</span>
+<span class="sd">            edge_label_index (torch.Tensor, optional): Edge tensor specifying</span>
+<span class="sd">                the node pairs for which to compute probabilities.</span>
+<span class="sd">                If :obj:`edge_label_index` is set to :obj:`None`, all edges in</span>
+<span class="sd">                :obj:`edge_index` will be used instead. (default: :obj:`None`)</span>
+<span class="sd">            edge_weight (torch.Tensor, optional): The weight of each edge in</span>
+<span class="sd">                :obj:`edge_index`. (default: :obj:`None`)</span>
+<span class="sd">            prob (bool, optional): Whether probabilities should be returned.</span>
+<span class="sd">                (default: :obj:`False`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_label_index</span><span class="p">,</span> <span class="n">edge_weight</span><span class="p">)</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">pred</span> <span class="k">if</span> <span class="n">prob</span> <span class="k">else</span> <span class="n">pred</span><span class="o">.</span><span class="n">round</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="LightGCN.recommend"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.LightGCN.html#torch_geometric.nn.models.LightGCN.recommend">[docs]</a>    <span class="k">def</span> <span class="nf">recommend</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Adj</span><span class="p">,</span>
+        <span class="n">edge_weight</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">src_index</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dst_index</span><span class="p">:</span> <span class="n">OptTensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nb">sorted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Get top-:math:`k` recommendations for nodes in :obj:`src_index`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            edge_index (torch.Tensor or SparseTensor): Edge tensor specifying</span>
+<span class="sd">                the connectivity of the graph.</span>
+<span class="sd">            edge_weight (torch.Tensor, optional): The weight of each edge in</span>
+<span class="sd">                :obj:`edge_index`. (default: :obj:`None`)</span>
+<span class="sd">            src_index (torch.Tensor, optional): Node indices for which</span>
+<span class="sd">                recommendations should be generated.</span>
+<span class="sd">                If set to :obj:`None`, all nodes will be used.</span>
+<span class="sd">                (default: :obj:`None`)</span>
+<span class="sd">            dst_index (torch.Tensor, optional): Node indices which represent</span>
+<span class="sd">                the possible recommendation choices.</span>
+<span class="sd">                If set to :obj:`None`, all nodes will be used.</span>
+<span class="sd">                (default: :obj:`None`)</span>
+<span class="sd">            k (int, optional): Number of recommendations. (default: :obj:`1`)</span>
+<span class="sd">            sorted (bool, optional): Whether to sort the recommendations</span>
+<span class="sd">                by score. (default: :obj:`True`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">out_src</span> <span class="o">=</span> <span class="n">out_dst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_embedding</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_weight</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">src_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out_src</span> <span class="o">=</span> <span class="n">out_src</span><span class="p">[</span><span class="n">src_index</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">dst_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">out_dst</span> <span class="o">=</span> <span class="n">out_dst</span><span class="p">[</span><span class="n">dst_index</span><span class="p">]</span>
+
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">out_src</span> <span class="o">@</span> <span class="n">out_dst</span><span class="o">.</span><span class="n">t</span><span class="p">()</span>
+        <span class="n">top_index</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">sorted</span><span class="o">=</span><span class="nb">sorted</span><span class="p">)</span><span class="o">.</span><span class="n">indices</span>
+
+        <span class="k">if</span> <span class="n">dst_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># Map local top-indices to original indices.</span>
+            <span class="n">top_index</span> <span class="o">=</span> <span class="n">dst_index</span><span class="p">[</span><span class="n">top_index</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">*</span><span class="n">top_index</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">top_index</span></div>
+
+<div class="viewcode-block" id="LightGCN.link_pred_loss"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.LightGCN.html#torch_geometric.nn.models.LightGCN.link_pred_loss">[docs]</a>    <span class="k">def</span> <span class="nf">link_pred_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">edge_label</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                       <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computes the model loss for a link prediction objective via the</span>
+<span class="sd">        :class:`torch.nn.BCEWithLogitsLoss`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pred (torch.Tensor): The predictions.</span>
+<span class="sd">            edge_label (torch.Tensor): The ground-truth edge labels.</span>
+<span class="sd">            **kwargs (optional): Additional arguments of the underlying</span>
+<span class="sd">                :class:`torch.nn.BCEWithLogitsLoss` loss function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BCEWithLogitsLoss</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">edge_label</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="LightGCN.recommendation_loss"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.models.LightGCN.html#torch_geometric.nn.models.LightGCN.recommendation_loss">[docs]</a>    <span class="k">def</span> <span class="nf">recommendation_loss</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pos_edge_rank</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">neg_edge_rank</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">node_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">lambda_reg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Computes the model loss for a ranking objective via the Bayesian</span>
+<span class="sd">        Personalized Ranking (BPR) loss.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            The i-th entry in the :obj:`pos_edge_rank` vector and i-th entry</span>
+<span class="sd">            in the :obj:`neg_edge_rank` entry must correspond to ranks of</span>
+<span class="sd">            positive and negative edges of the same entity (*e.g.*, user).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pos_edge_rank (torch.Tensor): Positive edge rankings.</span>
+<span class="sd">            neg_edge_rank (torch.Tensor): Negative edge rankings.</span>
+<span class="sd">            node_id (torch.Tensor): The indices of the nodes involved for</span>
+<span class="sd">                deriving a prediction for both positive and negative edges.</span>
+<span class="sd">                If set to :obj:`None`, all nodes will be used.</span>
+<span class="sd">            lambda_reg (int, optional): The :math:`L_2` regularization strength</span>
+<span class="sd">                of the Bayesian Personalized Ranking (BPR) loss.</span>
+<span class="sd">                (default: :obj:`1e-4`)</span>
+<span class="sd">            **kwargs (optional): Additional arguments of the underlying</span>
+<span class="sd">                :class:`torch_geometric.nn.models.lightgcn.BPRLoss` loss</span>
+<span class="sd">                function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">BPRLoss</span><span class="p">(</span><span class="n">lambda_reg</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">emb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">weight</span>
+        <span class="n">emb</span> <span class="o">=</span> <span class="n">emb</span> <span class="k">if</span> <span class="n">node_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">emb</span><span class="p">[</span><span class="n">node_id</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">pos_edge_rank</span><span class="p">,</span> <span class="n">neg_edge_rank</span><span class="p">,</span> <span class="n">emb</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="si">}</span><span class="s1">, &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_dim</span><span class="si">}</span><span class="s1">, num_layers=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">BPRLoss</span><span class="p">(</span><span class="n">_Loss</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The Bayesian Personalized Ranking (BPR) loss.</span>
+
+<span class="sd">    The BPR loss is a pairwise loss that encourages the prediction of an</span>
+<span class="sd">    observed entry to be higher than its unobserved counterparts</span>
+<span class="sd">    (see `here &lt;https://arxiv.org/abs/2002.02126&gt;`__).</span>
+
+<span class="sd">    .. math::</span>
+<span class="sd">        L_{\text{BPR}} = - \sum_{u=1}^{M} \sum_{i \in \mathcal{N}_u}</span>
+<span class="sd">        \sum_{j \not\in \mathcal{N}_u} \ln \sigma(\hat{y}_{ui} - \hat{y}_{uj})</span>
+<span class="sd">        + \lambda \vert\vert \textbf{x}^{(0)} \vert\vert^2</span>
+
+<span class="sd">    where :math:`lambda` controls the :math:`L_2` regularization strength.</span>
+<span class="sd">    We compute the mean BPR loss for simplicity.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        lambda_reg (float, optional): The :math:`L_2` regularization strength</span>
+<span class="sd">            (default: 0).</span>
+<span class="sd">        **kwargs (optional): Additional arguments of the underlying</span>
+<span class="sd">            :class:`torch.nn.modules.loss._Loss` class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__constants__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;lambda_reg&#39;</span><span class="p">]</span>
+    <span class="n">lambda_reg</span><span class="p">:</span> <span class="nb">float</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lambda_reg</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;sum&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_reg</span> <span class="o">=</span> <span class="n">lambda_reg</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">positives</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">negatives</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                <span class="n">parameters</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the mean Bayesian Personalized Ranking (BPR) loss.</span>
+
+<span class="sd">        .. note::</span>
+
+<span class="sd">            The i-th entry in the :obj:`positives` vector and i-th entry</span>
+<span class="sd">            in the :obj:`negatives` entry should correspond to the same</span>
+<span class="sd">            entity (*.e.g*, user), as the BPR is a personalized ranking loss.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            positives (Tensor): The vector of positive-pair rankings.</span>
+<span class="sd">            negatives (Tensor): The vector of negative-pair rankings.</span>
+<span class="sd">            parameters (Tensor, optional): The tensor of parameters which</span>
+<span class="sd">                should be used for :math:`L_2` regularization</span>
+<span class="sd">                (default: :obj:`None`).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">log_prob</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">logsigmoid</span><span class="p">(</span><span class="n">positives</span> <span class="o">-</span> <span class="n">negatives</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="n">regularization</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_reg</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">regularization</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_reg</span> <span class="o">*</span> <span class="n">parameters</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">regularization</span> <span class="o">=</span> <span class="n">regularization</span> <span class="o">/</span> <span class="n">positives</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="o">-</span><span class="n">log_prob</span> <span class="o">+</span> <span class="n">regularization</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

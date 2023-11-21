@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.AttributedGraphDataset
+================================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: AttributedGraphDataset
+   :show-inheritance:

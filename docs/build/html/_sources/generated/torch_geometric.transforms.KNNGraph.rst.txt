@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.KNNGraph
+====================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: KNNGraph
+   :show-inheritance:

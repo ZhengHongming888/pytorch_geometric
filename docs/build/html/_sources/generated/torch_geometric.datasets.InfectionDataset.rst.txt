@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.InfectionDataset
+==========================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: InfectionDataset
+   :show-inheritance:

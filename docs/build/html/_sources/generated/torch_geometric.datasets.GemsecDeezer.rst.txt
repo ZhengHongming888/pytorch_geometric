@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.GemsecDeezer
+======================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: GemsecDeezer
+   :show-inheritance:

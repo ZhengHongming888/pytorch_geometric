@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.ZINC
+==============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: ZINC
+   :show-inheritance:

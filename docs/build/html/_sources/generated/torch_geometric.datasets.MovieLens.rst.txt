@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.MovieLens
+===================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: MovieLens
+   :show-inheritance:

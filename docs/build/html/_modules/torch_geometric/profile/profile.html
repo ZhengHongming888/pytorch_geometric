@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.profile.profile &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.profile.profile</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.profile.profile</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">ContextDecorator</span><span class="p">,</span> <span class="n">contextmanager</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.autograd.profiler</span> <span class="kn">import</span> <span class="n">EventList</span>
+<span class="kn">from</span> <span class="nn">torch.profiler</span> <span class="kn">import</span> <span class="n">ProfilerActivity</span><span class="p">,</span> <span class="n">profile</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.profile.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">byte_to_megabyte</span><span class="p">,</span>
+    <span class="n">get_gpu_memory_from_nvidia_smi</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Stats</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">time</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">max_allocated_cuda</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">max_reserved_cuda</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">max_active_cuda</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">nvidia_smi_free_cuda</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">nvidia_smi_used_cuda</span><span class="p">:</span> <span class="nb">float</span>
+
+
+<span class="k">class</span> <span class="nc">StatsSummary</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">time_mean</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">time_std</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">max_allocated_cuda</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">max_reserved_cuda</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">max_active_cuda</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">min_nvidia_smi_free_cuda</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">max_nvidia_smi_used_cuda</span><span class="p">:</span> <span class="nb">float</span>
+
+
+<div class="viewcode-block" id="profileit"><a class="viewcode-back" href="../../../modules/profile.html#torch_geometric.profile.profileit">[docs]</a><span class="k">def</span> <span class="nf">profileit</span><span class="p">():</span>  <span class="c1"># pragma: no cover</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;A decorator to facilitate profiling a function, *e.g.*, obtaining</span>
+<span class="sd">    training runtime and memory statistics of a specific model on a specific</span>
+<span class="sd">    dataset.</span>
+<span class="sd">    Returns a :obj:`Stats` object with the attributes :obj:`time`,</span>
+<span class="sd">    :obj:`max_active_cuda`, :obj:`max_reserved_cuda`, :obj:`max_active_cuda`,</span>
+<span class="sd">    :obj:`nvidia_smi_free_cuda`, :obj:`nvidia_smi_used_cuda`.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        @profileit()</span>
+<span class="sd">        def train(model, optimizer, x, edge_index, y):</span>
+<span class="sd">            optimizer.zero_grad()</span>
+<span class="sd">            out = model(x, edge_index)</span>
+<span class="sd">            loss = criterion(out, y)</span>
+<span class="sd">            loss.backward()</span>
+<span class="sd">            optimizer.step()</span>
+<span class="sd">            return float(loss)</span>
+
+<span class="sd">        loss, stats = train(model, x, edge_index, y)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Stats</span><span class="p">]:</span>
+            <span class="kn">from</span> <span class="nn">pytorch_memlab</span> <span class="kn">import</span> <span class="n">LineProfiler</span>
+
+            <span class="n">model</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                    <span class="s1">&#39;First argument for profiling needs to be torch.nn.Module&#39;</span><span class="p">)</span>
+
+            <span class="n">device</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+                    <span class="n">device</span> <span class="o">=</span> <span class="n">arg</span><span class="o">.</span><span class="n">get_device</span><span class="p">()</span>
+                    <span class="k">break</span>
+            <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                    <span class="s2">&quot;Could not infer CUDA device from the args in the &quot;</span>
+                    <span class="s2">&quot;function being profiled&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">device</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                    <span class="s2">&quot;The profiling decorator does not support profiling &quot;</span>
+                    <span class="s2">&quot;on non CUDA devices&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Init `pytorch_memlab` for analyzing the model forward pass:</span>
+            <span class="n">line_profiler</span> <span class="o">=</span> <span class="n">LineProfiler</span><span class="p">(</span><span class="n">target_gpu</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">line_profiler</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span>
+            <span class="n">line_profiler</span><span class="o">.</span><span class="n">add_function</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">forward</span><span class="p">)</span>
+
+            <span class="n">start</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">enable_timing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">Event</span><span class="p">(</span><span class="n">enable_timing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">start</span><span class="o">.</span><span class="n">record</span><span class="p">()</span>
+
+            <span class="n">out</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="n">end</span><span class="o">.</span><span class="n">record</span><span class="p">()</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="n">start</span><span class="o">.</span><span class="n">elapsed_time</span><span class="p">(</span><span class="n">end</span><span class="p">)</span> <span class="o">/</span> <span class="mi">1000</span>
+
+            <span class="c1"># Get the global memory statistics collected by `pytorch_memlab`:</span>
+            <span class="n">memlab</span> <span class="o">=</span> <span class="n">read_from_memlab</span><span class="p">(</span><span class="n">line_profiler</span><span class="p">)</span>
+            <span class="n">max_allocated_cuda</span><span class="p">,</span> <span class="n">max_reserved_cuda</span><span class="p">,</span> <span class="n">max_active_cuda</span> <span class="o">=</span> <span class="n">memlab</span>
+            <span class="n">line_profiler</span><span class="o">.</span><span class="n">disable</span><span class="p">()</span>
+
+            <span class="c1"># Get additional information from `nvidia-smi`:</span>
+            <span class="n">free_cuda</span><span class="p">,</span> <span class="n">used_cuda</span> <span class="o">=</span> <span class="n">get_gpu_memory_from_nvidia_smi</span><span class="p">(</span>
+                <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+            <span class="n">stats</span> <span class="o">=</span> <span class="n">Stats</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">max_allocated_cuda</span><span class="p">,</span> <span class="n">max_reserved_cuda</span><span class="p">,</span>
+                          <span class="n">max_active_cuda</span><span class="p">,</span> <span class="n">free_cuda</span><span class="p">,</span> <span class="n">used_cuda</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">stats</span>
+
+        <span class="k">return</span> <span class="n">wrapper</span>
+
+    <span class="k">return</span> <span class="n">decorator</span></div>
+
+
+<div class="viewcode-block" id="timeit"><a class="viewcode-back" href="../../../modules/profile.html#torch_geometric.profile.timeit">[docs]</a><span class="k">class</span> <span class="nc">timeit</span><span class="p">(</span><span class="n">ContextDecorator</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;A context decorator to facilitate timing a function, *e.g.*, obtaining</span>
+<span class="sd">    the runtime of a specific model on a specific dataset.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        @torch.no_grad()</span>
+<span class="sd">        def test(model, x, edge_index):</span>
+<span class="sd">            return model(x, edge_index)</span>
+
+<span class="sd">        with timeit() as t:</span>
+<span class="sd">            z = test(model, x, edge_index)</span>
+<span class="sd">        time = t.duration</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        log (bool, optional): If set to :obj:`False`, will not log any runtime</span>
+<span class="sd">            to the console. (default: :obj:`True`)</span>
+<span class="sd">        avg_time_divisor (int, optional): If set to a value greater than</span>
+<span class="sd">            :obj:`1`, will divide the total time by this value. Useful for</span>
+<span class="sd">            calculating the average of runtimes within a for-loop.</span>
+<span class="sd">            (default: :obj:`0`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">avg_time_divisor</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">log</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avg_time_divisor</span> <span class="o">=</span> <span class="n">avg_time_divisor</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_end</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg_time_divisor</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg_time_divisor</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Time: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">duration</span><span class="si">:</span><span class="s1">.8f</span><span class="si">}</span><span class="s1">s&#39;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="timeit.reset"><a class="viewcode-back" href="../../../modules/profile.html#torch_geometric.profile.timeit.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Prints the duration and resets current timer.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_start</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Timer wasn&#39;t started.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__exit__</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__enter__</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="get_stats_summary"><a class="viewcode-back" href="../../../modules/profile.html#torch_geometric.profile.get_stats_summary">[docs]</a><span class="k">def</span> <span class="nf">get_stats_summary</span><span class="p">(</span><span class="n">stats_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Stats</span><span class="p">]):</span>  <span class="c1"># pragma: no cover</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Creates a summary of collected runtime and memory statistics.</span>
+<span class="sd">    Returns a :obj:`StatsSummary` object with the attributes :obj:`time_mean`,</span>
+<span class="sd">    :obj:`time_std`,</span>
+<span class="sd">    :obj:`max_active_cuda`, :obj:`max_reserved_cuda`, :obj:`max_active_cuda`,</span>
+<span class="sd">    :obj:`min_nvidia_smi_free_cuda`, :obj:`max_nvidia_smi_used_cuda`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        stats_list (List[Stats]): A list of :obj:`Stats` objects, as returned</span>
+<span class="sd">            by :meth:`~torch_geometric.profile.profileit`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">StatsSummary</span><span class="p">(</span>
+        <span class="n">time_mean</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">time</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stats_list</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span>
+        <span class="n">time_std</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">time</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stats_list</span><span class="p">])</span><span class="o">.</span><span class="n">std</span><span class="p">()),</span>
+        <span class="n">max_allocated_cuda</span><span class="o">=</span><span class="nb">max</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">max_allocated_cuda</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stats_list</span><span class="p">]),</span>
+        <span class="n">max_reserved_cuda</span><span class="o">=</span><span class="nb">max</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">max_reserved_cuda</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stats_list</span><span class="p">]),</span>
+        <span class="n">max_active_cuda</span><span class="o">=</span><span class="nb">max</span><span class="p">([</span><span class="n">s</span><span class="o">.</span><span class="n">max_active_cuda</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stats_list</span><span class="p">]),</span>
+        <span class="n">min_nvidia_smi_free_cuda</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">nvidia_smi_free_cuda</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stats_list</span><span class="p">]),</span>
+        <span class="n">max_nvidia_smi_used_cuda</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">nvidia_smi_used_cuda</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stats_list</span><span class="p">]),</span>
+    <span class="p">)</span></div>
+
+
+<span class="c1">###############################################################################</span>
+
+
+<span class="k">def</span> <span class="nf">read_from_memlab</span><span class="p">(</span><span class="n">line_profiler</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>  <span class="c1"># pragma: no cover</span>
+    <span class="kn">from</span> <span class="nn">pytorch_memlab.line_profiler.line_records</span> <span class="kn">import</span> <span class="n">LineRecords</span>
+
+    <span class="c1"># See: https://pytorch.org/docs/stable/cuda.html#torch.cuda.memory_stats</span>
+
+    <span class="n">track_stats</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># Different statistic can be collected as needed.</span>
+        <span class="s1">&#39;allocated_bytes.all.peak&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;reserved_bytes.all.peak&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;active_bytes.all.peak&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="n">records</span> <span class="o">=</span> <span class="n">LineRecords</span><span class="p">(</span><span class="n">line_profiler</span><span class="o">.</span><span class="n">_raw_line_records</span><span class="p">,</span>
+                          <span class="n">line_profiler</span><span class="o">.</span><span class="n">_code_infos</span><span class="p">)</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">track_stats</span><span class="p">)</span><span class="o">.</span><span class="n">_line_records</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">byte_to_megabyte</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stats</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
+
+
+<div class="viewcode-block" id="trace_handler"><a class="viewcode-back" href="../../../modules/profile.html#torch_geometric.profile.trace_handler">[docs]</a><span class="k">def</span> <span class="nf">trace_handler</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+    <span class="n">print_time_total</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="n">profile_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+    <span class="n">timeline_file</span> <span class="o">=</span> <span class="n">profile_dir</span> <span class="o">+</span> <span class="s1">&#39;timeline&#39;</span> <span class="o">+</span> <span class="s1">&#39;.json&#39;</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">export_chrome_trace</span><span class="p">(</span><span class="n">timeline_file</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="print_time_total"><a class="viewcode-back" href="../../../modules/profile.html#torch_geometric.profile.print_time_total">[docs]</a><span class="k">def</span> <span class="nf">print_time_total</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+        <span class="n">profile_sort</span> <span class="o">=</span> <span class="s1">&#39;self_cuda_time_total&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">profile_sort</span> <span class="o">=</span> <span class="s1">&#39;self_cpu_time_total&#39;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">key_averages</span><span class="p">()</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">sort_by</span><span class="o">=</span><span class="n">profile_sort</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">output</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="rename_profile_file"><a class="viewcode-back" href="../../../modules/profile.html#torch_geometric.profile.rename_profile_file">[docs]</a><span class="k">def</span> <span class="nf">rename_profile_file</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">profile_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+    <span class="n">timeline_file</span> <span class="o">=</span> <span class="n">profile_dir</span> <span class="o">+</span> <span class="s1">&#39;profile&#39;</span>
+    <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="n">timeline_file</span> <span class="o">+=</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">arg</span>
+    <span class="n">timeline_file</span> <span class="o">+=</span> <span class="s1">&#39;.json&#39;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;timeline.json&#39;</span><span class="p">,</span> <span class="n">timeline_file</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="torch_profile"><a class="viewcode-back" href="../../../modules/profile.html#torch_geometric.profile.torch_profile">[docs]</a><span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">torch_profile</span><span class="p">(</span><span class="n">export_chrome_trace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">csv_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">write_csv</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">use_cuda</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span>
+
+    <span class="n">activities</span> <span class="o">=</span> <span class="p">[</span><span class="n">ProfilerActivity</span><span class="o">.</span><span class="n">CPU</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">use_cuda</span><span class="p">:</span>
+        <span class="n">activities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ProfilerActivity</span><span class="o">.</span><span class="n">CUDA</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">export_chrome_trace</span><span class="p">:</span>
+        <span class="n">p_trace_handler</span> <span class="o">=</span> <span class="n">trace_handler</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p_trace_handler</span> <span class="o">=</span> <span class="n">print_time_total</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">profile</span><span class="p">(</span><span class="n">activities</span><span class="o">=</span><span class="n">activities</span><span class="p">,</span> <span class="n">on_trace_ready</span><span class="o">=</span><span class="n">p_trace_handler</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">p</span><span class="p">:</span>
+        <span class="k">yield</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">csv_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">write_csv</span> <span class="o">==</span> <span class="s1">&#39;prof&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">use_cuda</span><span class="p">:</span>
+            <span class="n">profile_sort</span> <span class="o">=</span> <span class="s1">&#39;self_cuda_time_total&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">profile_sort</span> <span class="o">=</span> <span class="s1">&#39;self_cpu_time_total&#39;</span>
+        <span class="n">events</span> <span class="o">=</span> <span class="n">EventList</span><span class="p">(</span>
+            <span class="nb">sorted</span><span class="p">(</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">key_averages</span><span class="p">(),</span>
+                <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">evt</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">evt</span><span class="p">,</span> <span class="n">profile_sort</span><span class="p">),</span>
+                <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">),</span> <span class="n">use_cuda</span><span class="o">=</span><span class="n">use_cuda</span><span class="p">)</span>
+
+        <span class="n">save_profile_data</span><span class="p">(</span><span class="n">csv_data</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">use_cuda</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="xpu_profile"><a class="viewcode-back" href="../../../modules/profile.html#torch_geometric.profile.xpu_profile">[docs]</a><span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">xpu_profile</span><span class="p">(</span><span class="n">export_chrome_trace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">profiler_legacy</span><span class="o">.</span><span class="n">profile</span><span class="p">(</span><span class="n">use_xpu</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">profile</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">profile</span><span class="o">.</span><span class="n">key_averages</span><span class="p">()</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">sort_by</span><span class="o">=</span><span class="s1">&#39;self_xpu_time_total&#39;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">export_chrome_trace</span><span class="p">:</span>
+        <span class="n">profile</span><span class="o">.</span><span class="n">export_chrome_trace</span><span class="p">(</span><span class="s1">&#39;timeline.json&#39;</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">format_prof_time</span><span class="p">(</span><span class="n">time</span><span class="p">):</span>
+    <span class="c1"># Profile time is in micro seconds, so format it appropriately:</span>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">time</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">save_profile_data</span><span class="p">(</span><span class="n">csv_data</span><span class="p">,</span> <span class="n">events</span><span class="p">,</span> <span class="n">use_cuda</span><span class="p">):</span>
+    <span class="n">sum_self_cpu_time_total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">self_cpu_time_total</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">])</span>
+    <span class="n">sum_cpu_time_total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">event</span><span class="o">.</span><span class="n">self_cpu_time_total</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">])</span>
+    <span class="n">sum_self_cuda_time_total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">self_cuda_time_total</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">])</span> <span class="k">if</span> <span class="n">use_cuda</span> <span class="k">else</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">events</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>  <span class="c1"># Save top 5 most time consuming operations:</span>
+        <span class="n">csv_data</span><span class="p">[</span><span class="s1">&#39;NAME&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">csv_data</span><span class="p">[</span><span class="s1">&#39;SELF CPU %&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">self_cpu_time_total</span> <span class="o">*</span> <span class="mf">100.0</span> <span class="o">/</span> <span class="n">sum_self_cpu_time_total</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">csv_data</span><span class="p">[</span><span class="s1">&#39;SELF CPU&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">format_prof_time</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">self_cpu_time_total</span><span class="p">))</span>
+        <span class="n">csv_data</span><span class="p">[</span><span class="s1">&#39;CPU TOTAL %&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">cpu_time_total</span> <span class="o">*</span> <span class="mf">100.0</span> <span class="o">/</span> <span class="n">sum_cpu_time_total</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="n">csv_data</span><span class="p">[</span><span class="s1">&#39;CPU TOTAL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">format_prof_time</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">cpu_time_total</span><span class="p">))</span>
+        <span class="n">csv_data</span><span class="p">[</span><span class="s1">&#39;CPU TIME AVG&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">format_prof_time</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">cpu_time_total</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">use_cuda</span><span class="p">:</span>
+            <span class="n">csv_data</span><span class="p">[</span><span class="s1">&#39;SELF CUDA %&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">self_cuda_time_total</span> <span class="o">*</span> <span class="mf">100.0</span> <span class="o">/</span>
+                                           <span class="n">sum_self_cuda_time_total</span><span class="p">)</span>
+            <span class="n">csv_data</span><span class="p">[</span><span class="s1">&#39;SELF CUDA&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">format_prof_time</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">self_cuda_time_total</span><span class="p">))</span>
+            <span class="n">csv_data</span><span class="p">[</span><span class="s1">&#39;CUDA TOTAL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">format_prof_time</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">cpu_time_total</span><span class="p">))</span>
+            <span class="n">csv_data</span><span class="p">[</span><span class="s1">&#39;CUDA TIME AVG&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">format_prof_time</span><span class="p">(</span>
+                <span class="n">e</span><span class="o">.</span><span class="n">cpu_time_total</span><span class="p">))</span>
+        <span class="n">csv_data</span><span class="p">[</span><span class="s1">&#39;# OF CALLS&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">count</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

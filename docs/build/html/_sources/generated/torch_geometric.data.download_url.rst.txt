@@ -1,0 +1,6 @@
+﻿torch\_geometric.data.download\_url
+===================================
+
+.. currentmodule:: torch_geometric.data
+
+.. autofunction:: download_url

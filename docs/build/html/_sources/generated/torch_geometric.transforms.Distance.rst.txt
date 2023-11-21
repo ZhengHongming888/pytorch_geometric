@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.Distance
+====================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: Distance
+   :show-inheritance:

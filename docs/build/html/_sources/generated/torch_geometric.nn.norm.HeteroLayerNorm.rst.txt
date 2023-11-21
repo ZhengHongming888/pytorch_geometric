@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.norm.HeteroLayerNorm
+========================================
+
+.. currentmodule:: torch_geometric.nn.norm
+
+.. autoclass:: HeteroLayerNorm
+   :show-inheritance:
+   :members:

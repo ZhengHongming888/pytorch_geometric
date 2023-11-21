@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.WikiCS
+================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: WikiCS
+   :show-inheritance:

@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.aggr.Set2Set
+================================
+
+.. currentmodule:: torch_geometric.nn.aggr
+
+.. autoclass:: Set2Set
+   :show-inheritance:
+   :members:

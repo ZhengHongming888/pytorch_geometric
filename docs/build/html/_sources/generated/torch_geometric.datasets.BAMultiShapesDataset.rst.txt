@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.BAMultiShapesDataset
+==============================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: BAMultiShapesDataset
+   :show-inheritance:

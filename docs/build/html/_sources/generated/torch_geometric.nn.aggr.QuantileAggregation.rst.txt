@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.aggr.QuantileAggregation
+============================================
+
+.. currentmodule:: torch_geometric.nn.aggr
+
+.. autoclass:: QuantileAggregation
+   :show-inheritance:
+   :members:

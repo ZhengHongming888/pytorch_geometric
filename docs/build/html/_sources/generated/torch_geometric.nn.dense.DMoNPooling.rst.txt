@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.dense.DMoNPooling
+=====================================
+
+.. currentmodule:: torch_geometric.nn.dense
+
+.. autoclass:: DMoNPooling
+   :show-inheritance:
+   :members:

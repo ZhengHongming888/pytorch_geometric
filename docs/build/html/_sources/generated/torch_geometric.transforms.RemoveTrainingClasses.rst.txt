@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.RemoveTrainingClasses
+=================================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: RemoveTrainingClasses
+   :show-inheritance:

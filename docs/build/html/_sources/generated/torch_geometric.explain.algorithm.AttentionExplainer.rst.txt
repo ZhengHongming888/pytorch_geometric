@@ -1,0 +1,8 @@
+﻿torch\_geometric.explain.algorithm.AttentionExplainer
+=====================================================
+
+.. currentmodule:: torch_geometric.explain.algorithm
+
+.. autoclass:: AttentionExplainer
+   :show-inheritance:
+   :members:

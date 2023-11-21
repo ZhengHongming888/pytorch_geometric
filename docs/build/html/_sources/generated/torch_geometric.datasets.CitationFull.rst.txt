@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.CitationFull
+======================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: CitationFull
+   :show-inheritance:

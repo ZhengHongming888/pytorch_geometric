@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.GitHub
+================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: GitHub
+   :show-inheritance:

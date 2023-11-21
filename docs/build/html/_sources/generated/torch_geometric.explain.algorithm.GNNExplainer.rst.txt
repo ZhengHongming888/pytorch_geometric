@@ -1,0 +1,8 @@
+﻿torch\_geometric.explain.algorithm.GNNExplainer
+===============================================
+
+.. currentmodule:: torch_geometric.explain.algorithm
+
+.. autoclass:: GNNExplainer
+   :show-inheritance:
+   :members:

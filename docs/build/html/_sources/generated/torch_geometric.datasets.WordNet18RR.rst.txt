@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.WordNet18RR
+=====================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: WordNet18RR
+   :show-inheritance:

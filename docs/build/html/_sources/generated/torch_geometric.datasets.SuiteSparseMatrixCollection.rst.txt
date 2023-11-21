@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.SuiteSparseMatrixCollection
+=====================================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: SuiteSparseMatrixCollection
+   :show-inheritance:

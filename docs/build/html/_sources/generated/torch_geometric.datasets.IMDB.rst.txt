@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.IMDB
+==============================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: IMDB
+   :show-inheritance:

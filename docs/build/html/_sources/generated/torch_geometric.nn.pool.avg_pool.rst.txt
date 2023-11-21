@@ -1,0 +1,6 @@
+﻿torch\_geometric.nn.pool.avg\_pool
+==================================
+
+.. currentmodule:: torch_geometric.nn.pool
+
+.. autofunction:: avg_pool

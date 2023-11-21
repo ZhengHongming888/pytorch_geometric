@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.transforms.add_metapaths &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.transforms.add_metapaths</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.transforms.add_metapaths</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">HeteroData</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.data.datapipes</span> <span class="kn">import</span> <span class="n">functional_transform</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.transforms</span> <span class="kn">import</span> <span class="n">BaseTransform</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">EdgeType</span><span class="p">,</span> <span class="n">SparseTensor</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="n">coalesce</span><span class="p">,</span> <span class="n">degree</span>
+
+
+<div class="viewcode-block" id="AddMetaPaths"><a class="viewcode-back" href="../../../generated/torch_geometric.transforms.AddMetaPaths.html#torch_geometric.transforms.AddMetaPaths">[docs]</a><span class="nd">@functional_transform</span><span class="p">(</span><span class="s1">&#39;add_metapaths&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">AddMetaPaths</span><span class="p">(</span><span class="n">BaseTransform</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Adds additional edge types to a</span>
+<span class="sd">    :class:`~torch_geometric.data.HeteroData` object between the source node</span>
+<span class="sd">    type and the destination node type of a given :obj:`metapath`, as described</span>
+<span class="sd">    in the `&quot;Heterogenous Graph Attention Networks&quot;</span>
+<span class="sd">    &lt;https://arxiv.org/abs/1903.07293&gt;`_ paper</span>
+<span class="sd">    (functional name: :obj:`add_metapaths`).</span>
+
+<span class="sd">    Meta-path based neighbors can exploit different aspects of structure</span>
+<span class="sd">    information in heterogeneous graphs.</span>
+<span class="sd">    Formally, a metapath is a path of the form</span>
+
+<span class="sd">    .. math::</span>
+
+<span class="sd">        \mathcal{V}_1 \xrightarrow{R_1} \mathcal{V}_2 \xrightarrow{R_2} \ldots</span>
+<span class="sd">        \xrightarrow{R_{\ell-1}} \mathcal{V}_{\ell}</span>
+
+<span class="sd">    in which :math:`\mathcal{V}_i` represents node types, and :math:`R_j`</span>
+<span class="sd">    represents the edge type connecting two node types.</span>
+<span class="sd">    The added edge type is given by the sequential multiplication  of</span>
+<span class="sd">    adjacency matrices along the metapath, and is added to the</span>
+<span class="sd">    :class:`~torch_geometric.data.HeteroData` object as edge type</span>
+<span class="sd">    :obj:`(src_node_type, &quot;metapath_*&quot;, dst_node_type)`, where</span>
+<span class="sd">    :obj:`src_node_type` and :obj:`dst_node_type` denote :math:`\mathcal{V}_1`</span>
+<span class="sd">    and :math:`\mathcal{V}_{\ell}`, repectively.</span>
+
+<span class="sd">    In addition, a :obj:`metapath_dict` object is added to the</span>
+<span class="sd">    :class:`~torch_geometric.data.HeteroData` object which maps the</span>
+<span class="sd">    metapath-based edge type to its original metapath.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        from torch_geometric.datasets import DBLP</span>
+<span class="sd">        from torch_geometric.data import HeteroData</span>
+<span class="sd">        from torch_geometric.transforms import AddMetaPaths</span>
+
+<span class="sd">        data = DBLP(root)[0]</span>
+<span class="sd">        # 4 node types: &quot;paper&quot;, &quot;author&quot;, &quot;conference&quot;, and &quot;term&quot;</span>
+<span class="sd">        # 6 edge types: (&quot;paper&quot;,&quot;author&quot;), (&quot;author&quot;, &quot;paper&quot;),</span>
+<span class="sd">        #               (&quot;paper, &quot;term&quot;), (&quot;paper&quot;, &quot;conference&quot;),</span>
+<span class="sd">        #               (&quot;term, &quot;paper&quot;), (&quot;conference&quot;, &quot;paper&quot;)</span>
+
+<span class="sd">        # Add two metapaths:</span>
+<span class="sd">        # 1. From &quot;paper&quot; to &quot;paper&quot; through &quot;conference&quot;</span>
+<span class="sd">        # 2. From &quot;author&quot; to &quot;conference&quot; through &quot;paper&quot;</span>
+<span class="sd">        metapaths = [[(&quot;paper&quot;, &quot;conference&quot;), (&quot;conference&quot;, &quot;paper&quot;)],</span>
+<span class="sd">                     [(&quot;author&quot;, &quot;paper&quot;), (&quot;paper&quot;, &quot;conference&quot;)]]</span>
+<span class="sd">        data = AddMetaPaths(metapaths)(data)</span>
+
+<span class="sd">        print(data.edge_types)</span>
+<span class="sd">        &gt;&gt;&gt; [(&quot;author&quot;, &quot;to&quot;, &quot;paper&quot;), (&quot;paper&quot;, &quot;to&quot;, &quot;author&quot;),</span>
+<span class="sd">             (&quot;paper&quot;, &quot;to&quot;, &quot;term&quot;), (&quot;paper&quot;, &quot;to&quot;, &quot;conference&quot;),</span>
+<span class="sd">             (&quot;term&quot;, &quot;to&quot;, &quot;paper&quot;), (&quot;conference&quot;, &quot;to&quot;, &quot;paper&quot;),</span>
+<span class="sd">             (&quot;paper&quot;, &quot;metapath_0&quot;, &quot;paper&quot;),</span>
+<span class="sd">             (&quot;author&quot;, &quot;metapath_1&quot;, &quot;conference&quot;)]</span>
+
+<span class="sd">        print(data.metapath_dict)</span>
+<span class="sd">        &gt;&gt;&gt; {(&quot;paper&quot;, &quot;metapath_0&quot;, &quot;paper&quot;): [(&quot;paper&quot;, &quot;conference&quot;),</span>
+<span class="sd">                                                (&quot;conference&quot;, &quot;paper&quot;)],</span>
+<span class="sd">             (&quot;author&quot;, &quot;metapath_1&quot;, &quot;conference&quot;): [(&quot;author&quot;, &quot;paper&quot;),</span>
+<span class="sd">                                                      (&quot;paper&quot;, &quot;conference&quot;)]}</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        metapaths (List[List[Tuple[str, str, str]]]): The metapaths described</span>
+<span class="sd">            by a list of lists of</span>
+<span class="sd">            :obj:`(src_node_type, rel_type, dst_node_type)` tuples.</span>
+<span class="sd">        drop_orig_edge_types (bool, optional): If set to :obj:`True`, existing</span>
+<span class="sd">            edge types will be dropped. (default: :obj:`False`)</span>
+<span class="sd">        keep_same_node_type (bool, optional): If set to :obj:`True`, existing</span>
+<span class="sd">            edge types between the same node type are not dropped even in case</span>
+<span class="sd">            :obj:`drop_orig_edge_types` is set to :obj:`True`.</span>
+<span class="sd">            (default: :obj:`False`)</span>
+<span class="sd">        drop_unconnected_node_types (bool, optional): If set to :obj:`True`,</span>
+<span class="sd">            will drop node types not connected by any edge type.</span>
+<span class="sd">            (default: :obj:`False`)</span>
+<span class="sd">        max_sample (int, optional): If set, will sample at maximum</span>
+<span class="sd">            :obj:`max_sample` neighbors within metapaths. Useful in order to</span>
+<span class="sd">            tackle very dense metapath edges. (default: :obj:`None`)</span>
+<span class="sd">        weighted (bool, optional): If set to :obj:`True` compute weights for</span>
+<span class="sd">            each metapath edge and store them in :obj:`edge_weight`. The weight</span>
+<span class="sd">            of each metapath edge is computed as the number of metapaths from</span>
+<span class="sd">            the start to the end of the metapath edge.</span>
+<span class="sd">            (default :obj:`False`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">metapaths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">]],</span>
+        <span class="n">drop_orig_edge_types</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">keep_same_node_type</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">drop_unconnected_node_types</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">max_sample</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">weighted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+
+        <span class="k">if</span> <span class="s1">&#39;drop_orig_edges&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;drop_orig_edges&#39; is dprecated. Use &quot;</span>
+                          <span class="s2">&quot;&#39;drop_orig_edge_types&#39; instead&quot;</span><span class="p">)</span>
+            <span class="n">drop_orig_edge_types</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;drop_orig_edges&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="s1">&#39;drop_unconnected_nodes&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;&#39;drop_unconnected_nodes&#39; is dprecated. Use &quot;</span>
+                          <span class="s2">&quot;&#39;drop_unconnected_node_types&#39; instead&quot;</span><span class="p">)</span>
+            <span class="n">drop_unconnected_node_types</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;drop_unconnected_nodes&#39;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">metapaths</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Invalid metapath &#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="k">assert</span> <span class="nb">all</span><span class="p">([</span>
+                <span class="n">j</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot;Invalid sequence of node types in &#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">metapaths</span> <span class="o">=</span> <span class="n">metapaths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drop_orig_edge_types</span> <span class="o">=</span> <span class="n">drop_orig_edge_types</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keep_same_node_type</span> <span class="o">=</span> <span class="n">keep_same_node_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drop_unconnected_node_types</span> <span class="o">=</span> <span class="n">drop_unconnected_node_types</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_sample</span> <span class="o">=</span> <span class="n">max_sample</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weighted</span> <span class="o">=</span> <span class="n">weighted</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">HeteroData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HeteroData</span><span class="p">:</span>
+        <span class="n">edge_types</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_types</span>  <span class="c1"># save original edge types</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">metapath_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">metapath</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metapaths</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">edge_type</span> <span class="ow">in</span> <span class="n">metapath</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">_to_canonical</span><span class="p">(</span>
+                    <span class="n">edge_type</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edge_types</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">edge_type</span><span class="si">}</span><span class="s2">&#39; not present&quot;</span>
+
+            <span class="n">edge_type</span> <span class="o">=</span> <span class="n">metapath</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_edge_weight</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">edge_type</span><span class="p">)</span>
+            <span class="n">adj1</span> <span class="o">=</span> <span class="n">SparseTensor</span><span class="o">.</span><span class="n">from_edge_index</span><span class="p">(</span>
+                <span class="n">edge_index</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span>
+                <span class="n">sparse_sizes</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">edge_attr</span><span class="o">=</span><span class="n">edge_weight</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_sample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">adj1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_adj</span><span class="p">(</span><span class="n">adj1</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">edge_type</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">metapath</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+                <span class="n">edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_edge_weight</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">edge_type</span><span class="p">)</span>
+                <span class="n">adj2</span> <span class="o">=</span> <span class="n">SparseTensor</span><span class="o">.</span><span class="n">from_edge_index</span><span class="p">(</span>
+                    <span class="n">edge_index</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span>
+                    <span class="n">sparse_sizes</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">(),</span> <span class="n">edge_attr</span><span class="o">=</span><span class="n">edge_weight</span><span class="p">)</span>
+
+                <span class="n">adj1</span> <span class="o">=</span> <span class="n">adj1</span> <span class="o">@</span> <span class="n">adj2</span>
+
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_sample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">adj1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_adj</span><span class="p">(</span><span class="n">adj1</span><span class="p">)</span>
+
+            <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">edge_weight</span> <span class="o">=</span> <span class="n">adj1</span><span class="o">.</span><span class="n">coo</span><span class="p">()</span>
+            <span class="n">new_edge_type</span> <span class="o">=</span> <span class="p">(</span><span class="n">metapath</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="sa">f</span><span class="s1">&#39;metapath_</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">metapath</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">new_edge_type</span><span class="p">]</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">])</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted</span><span class="p">:</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">new_edge_type</span><span class="p">]</span><span class="o">.</span><span class="n">edge_weight</span> <span class="o">=</span> <span class="n">edge_weight</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">metapath_dict</span><span class="p">[</span><span class="n">new_edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">metapath</span>
+
+        <span class="n">postprocess</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">edge_types</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">drop_orig_edge_types</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">keep_same_node_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">drop_unconnected_node_types</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">sample_adj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">adj</span><span class="p">:</span> <span class="n">SparseTensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SparseTensor</span><span class="p">:</span>
+        <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">adj</span><span class="o">.</span><span class="n">coo</span><span class="p">()</span>
+        <span class="n">deg</span> <span class="o">=</span> <span class="n">degree</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">num_nodes</span><span class="o">=</span><span class="n">adj</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_sample</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">deg</span><span class="p">))[</span><span class="n">row</span><span class="p">]</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">prob</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">prob</span>
+        <span class="k">return</span> <span class="n">adj</span><span class="o">.</span><span class="n">masked_select_nnz</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="s1">&#39;coo&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_edge_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">HeteroData</span><span class="p">,</span>
+                         <span class="n">edge_type</span><span class="p">:</span> <span class="n">EdgeType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">weighted</span><span class="p">:</span>
+            <span class="n">edge_weight</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;edge_weight&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">edge_weight</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">edge_weight</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span>
+                    <span class="n">data</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span><span class="o">.</span><span class="n">num_edges</span><span class="p">,</span>
+                    <span class="n">device</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span><span class="o">.</span><span class="n">edge_index</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">edge_weight</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">edge_weight</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">edge_weight</span></div>
+
+
+<div class="viewcode-block" id="AddRandomMetaPaths"><a class="viewcode-back" href="../../../generated/torch_geometric.transforms.AddRandomMetaPaths.html#torch_geometric.transforms.AddRandomMetaPaths">[docs]</a><span class="nd">@functional_transform</span><span class="p">(</span><span class="s1">&#39;add_random_metapaths&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">AddRandomMetaPaths</span><span class="p">(</span><span class="n">BaseTransform</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Adds additional edge types similar to :class:`AddMetaPaths`.</span>
+<span class="sd">    The key difference is that the added edge type is given by</span>
+<span class="sd">    multiple random walks along the metapath.</span>
+<span class="sd">    One might want to increase the number of random walks</span>
+<span class="sd">    via :obj:`walks_per_node` to achieve competitive performance with</span>
+<span class="sd">    :class:`AddMetaPaths`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        metapaths (List[List[Tuple[str, str, str]]]): The metapaths described</span>
+<span class="sd">            by a list of lists of</span>
+<span class="sd">            :obj:`(src_node_type, rel_type, dst_node_type)` tuples.</span>
+<span class="sd">        drop_orig_edge_types (bool, optional): If set to :obj:`True`, existing</span>
+<span class="sd">            edge types will be dropped. (default: :obj:`False`)</span>
+<span class="sd">        keep_same_node_type (bool, optional): If set to :obj:`True`, existing</span>
+<span class="sd">            edge types between the same node type are not dropped even in case</span>
+<span class="sd">            :obj:`drop_orig_edge_types` is set to :obj:`True`.</span>
+<span class="sd">            (default: :obj:`False`)</span>
+<span class="sd">        drop_unconnected_node_types (bool, optional): If set to :obj:`True`,</span>
+<span class="sd">            will drop node types not connected by any edge type.</span>
+<span class="sd">            (default: :obj:`False`)</span>
+<span class="sd">        walks_per_node (int, List[int], optional): The number of random walks</span>
+<span class="sd">            for each starting node in a metapth. (default: :obj:`1`)</span>
+<span class="sd">        sample_ratio (float, optional): The ratio of source nodes to start</span>
+<span class="sd">            random walks from. (default: :obj:`1.0`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">metapaths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">]],</span>
+        <span class="n">drop_orig_edge_types</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">keep_same_node_type</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">drop_unconnected_node_types</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">walks_per_node</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">sample_ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
+    <span class="p">):</span>
+
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">metapaths</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Invalid metapath &#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="k">assert</span> <span class="nb">all</span><span class="p">([</span>
+                <span class="n">j</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">path</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="p">]),</span> <span class="sa">f</span><span class="s2">&quot;Invalid sequence of node types in &#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">metapaths</span> <span class="o">=</span> <span class="n">metapaths</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drop_orig_edge_types</span> <span class="o">=</span> <span class="n">drop_orig_edge_types</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keep_same_node_type</span> <span class="o">=</span> <span class="n">keep_same_node_type</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drop_unconnected_node_types</span> <span class="o">=</span> <span class="n">drop_unconnected_node_types</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample_ratio</span> <span class="o">=</span> <span class="n">sample_ratio</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">walks_per_node</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">walks_per_node</span> <span class="o">=</span> <span class="p">[</span><span class="n">walks_per_node</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">metapaths</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">walks_per_node</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">metapaths</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">walks_per_node</span> <span class="o">=</span> <span class="n">walks_per_node</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">HeteroData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HeteroData</span><span class="p">:</span>
+        <span class="n">edge_types</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_types</span>  <span class="c1"># save original edge types</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">metapath_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">metapath</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metapaths</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">edge_type</span> <span class="ow">in</span> <span class="n">metapath</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">_to_canonical</span><span class="p">(</span>
+                    <span class="n">edge_type</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edge_types</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">edge_type</span><span class="si">}</span><span class="s2">&#39; not present&quot;</span>
+
+            <span class="n">src_node</span> <span class="o">=</span> <span class="n">metapath</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">num_nodes</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">src_node</span><span class="p">]</span><span class="o">.</span><span class="n">num_nodes</span>
+            <span class="n">num_starts</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">num_nodes</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_ratio</span><span class="p">)</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">start</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randperm</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)[:</span><span class="n">num_starts</span><span class="p">]</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">walks_per_node</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">edge_type</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">metapath</span><span class="p">):</span>
+                <span class="n">edge_index</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span><span class="o">.</span><span class="n">edge_index</span>
+                <span class="n">adj</span> <span class="o">=</span> <span class="n">SparseTensor</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">col</span><span class="o">=</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                   <span class="n">sparse_sizes</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="n">edge_type</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+                <span class="n">col</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">adj</span><span class="p">,</span> <span class="n">start</span><span class="p">)</span>
+                <span class="n">row</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">col</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">col</span>
+
+            <span class="n">new_edge_type</span> <span class="o">=</span> <span class="p">(</span><span class="n">metapath</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="sa">f</span><span class="s1">&#39;metapath_</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">metapath</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">new_edge_type</span><span class="p">]</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">]))</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">metapath_dict</span><span class="p">[</span><span class="n">new_edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">metapath</span>
+
+        <span class="n">postprocess</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">edge_types</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">drop_orig_edge_types</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">keep_same_node_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">drop_unconnected_node_types</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="n">adj</span><span class="p">:</span> <span class="n">SparseTensor</span><span class="p">,</span> <span class="n">subset</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample a neighbor form :obj:`adj` for each node in :obj:`subset`.&quot;&quot;&quot;</span>
+        <span class="n">rowcount</span> <span class="o">=</span> <span class="n">adj</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">rowcount</span><span class="p">()[</span><span class="n">subset</span><span class="p">]</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">rowcount</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">subset</span><span class="p">)</span>
+        <span class="n">offset</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">adj</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">rowptr</span><span class="p">()[</span><span class="n">subset</span><span class="p">[</span><span class="n">mask</span><span class="p">]]</span>
+
+        <span class="n">rand</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">((</span><span class="n">rowcount</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">subset</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">rand</span><span class="o">.</span><span class="n">mul_</span><span class="p">(</span><span class="n">rowcount</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">rand</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">rand</span> <span class="o">=</span> <span class="n">rand</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">rand</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="n">offset</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">adj</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">col</span><span class="p">()[</span><span class="n">rand</span><span class="p">]</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">col</span><span class="p">,</span> <span class="n">mask</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(&#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;sample_ratio=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">sample_ratio</span><span class="si">}</span><span class="s1">, &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;walks_per_node=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">walks_per_node</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">postprocess</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">HeteroData</span><span class="p">,</span> <span class="n">edge_types</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">],</span>
+                <span class="n">drop_orig_edge_types</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">keep_same_node_type</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                <span class="n">drop_unconnected_node_types</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">drop_orig_edge_types</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">edge_types</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">keep_same_node_type</span> <span class="ow">and</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1"># remove nodes not connected by any edge type.</span>
+    <span class="k">if</span> <span class="n">drop_unconnected_node_types</span><span class="p">:</span>
+        <span class="n">new_edge_types</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_types</span>
+        <span class="n">node_types</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">node_types</span>
+        <span class="n">connected_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">new_edge_types</span><span class="p">:</span>
+            <span class="n">connected_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">connected_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">node_types</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">connected_nodes</span><span class="p">:</span>
+                <span class="k">del</span> <span class="n">data</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

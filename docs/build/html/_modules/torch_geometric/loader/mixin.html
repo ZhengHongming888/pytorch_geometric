@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.loader.mixin &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.loader.mixin</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.loader.mixin</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">psutil</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+
+
+<span class="k">def</span> <span class="nf">get_numa_nodes_cores</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parses numa nodes information into a dictionary.</span>
+
+<span class="sd">    ..code-block::</span>
+
+<span class="sd">        {&lt;node_id&gt;: [(&lt;core_id&gt;, [&lt;sibling_thread_id_0&gt;, &lt;sibling_thread_id_1&gt;</span>
+<span class="sd">        ...]), ...], ...}</span>
+
+<span class="sd">        # For example:</span>
+<span class="sd">        {0: [(0, [0, 4]), (1, [1, 5])], 1: [(2, [2, 6]), (3, [3, 7])]}</span>
+
+<span class="sd">    If not available, returns an empty dictionary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">numa_node_paths</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;/sys/devices/system/node/node[0-9]*&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">numa_node_paths</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{}</span>
+
+    <span class="n">nodes</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">node_path</span> <span class="ow">in</span> <span class="n">numa_node_paths</span><span class="p">:</span>
+            <span class="n">numa_node_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">node_path</span><span class="p">)[</span><span class="mi">4</span><span class="p">:])</span>
+
+            <span class="n">thread_siblings</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">cpu_dir</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">node_path</span><span class="p">,</span> <span class="s1">&#39;cpu[0-9]*&#39;</span><span class="p">)):</span>
+                <span class="n">cpu_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">cpu_dir</span><span class="p">)[</span><span class="mi">3</span><span class="p">:])</span>
+                <span class="k">if</span> <span class="n">cpu_id</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cpu_dir</span><span class="p">,</span>
+                                           <span class="s1">&#39;online&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">core_online_file</span><span class="p">:</span>
+                        <span class="n">core_online</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span>
+                            <span class="n">core_online_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">core_online</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># cpu0 is always online (special case)</span>
+                <span class="k">if</span> <span class="n">core_online</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cpu_dir</span><span class="p">,</span> <span class="s1">&#39;topology&#39;</span><span class="p">,</span>
+                                           <span class="s1">&#39;core_id&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">core_id_file</span><span class="p">:</span>
+                        <span class="n">core_id</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">core_id_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                        <span class="k">if</span> <span class="n">core_id</span> <span class="ow">in</span> <span class="n">thread_siblings</span><span class="p">:</span>
+                            <span class="n">thread_siblings</span><span class="p">[</span><span class="n">core_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cpu_id</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">thread_siblings</span><span class="p">[</span><span class="n">core_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">cpu_id</span><span class="p">]</span>
+
+            <span class="n">nodes</span><span class="p">[</span><span class="n">numa_node_id</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">k</span><span class="p">,</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+                                          <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">thread_siblings</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+
+    <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">IndexError</span><span class="p">,</span> <span class="ne">IOError</span><span class="p">):</span>
+        <span class="ne">Warning</span><span class="p">(</span><span class="s1">&#39;Failed to read NUMA info&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{}</span>
+
+    <span class="k">return</span> <span class="n">nodes</span>
+
+
+<span class="k">class</span> <span class="nc">WorkerInitWrapper</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wraps the :attr:`worker_init_fn` argument for</span>
+<span class="sd">    :class:`torch.utils.data.DataLoader` workers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker_id</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">worker_id</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="AffinityMixin"><a class="viewcode-back" href="../../../modules/loader.html#torch_geometric.loader.AffinityMixin">[docs]</a><span class="k">class</span> <span class="nc">AffinityMixin</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;A context manager to enable CPU affinity for data loader workers</span>
+<span class="sd">    (only used when running on CPU devices).</span>
+
+<span class="sd">    Affinitization places data loader workers threads on specific CPU cores.</span>
+<span class="sd">    In effect, it allows for more efficient local memory allocation and reduces</span>
+<span class="sd">    remote memory calls.</span>
+<span class="sd">    Every time a process or thread moves from one core to another, registers</span>
+<span class="sd">    and caches need to be flushed and reloaded.</span>
+<span class="sd">    This can become very costly if it happens often, and our threads may also</span>
+<span class="sd">    no longer be close to their data, or be able to share data in a cache.</span>
+
+<span class="sd">    See `here &lt;https://pytorch-geometric.readthedocs.io/en/latest/advanced/</span>
+<span class="sd">    cpu_affinity.html&gt;`__ for the accompanying tutorial.</span>
+
+<span class="sd">    .. warning::</span>
+
+<span class="sd">        To correctly affinitize compute threads (*i.e.* with OMP), please make</span>
+<span class="sd">        sure that you exclude :obj:`loader_cores` from the list of cores</span>
+<span class="sd">        available for the main process.</span>
+<span class="sd">        This will cause core oversubsription and exacerbate performance.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        loader = NeigborLoader(data, num_workers=3)</span>
+<span class="sd">        with loader.enable_cpu_affinity(loader_cores=[0, 1, 2]):</span>
+<span class="sd">            for batch in loader:</span>
+<span class="sd">                pass</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AffinityMixin.enable_cpu_affinity"><a class="viewcode-back" href="../../../modules/loader.html#torch_geometric.loader.AffinityMixin.enable_cpu_affinity">[docs]</a>    <span class="nd">@contextmanager</span>
+    <span class="k">def</span> <span class="nf">enable_cpu_affinity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loader_cores</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Enables CPU affinity.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            loader_cores ([int], optional): List of CPU cores to which data</span>
+<span class="sd">                loader workers should affinitize to.</span>
+<span class="sd">                By default, will affinitize to cores starting at :obj:`cpu0`.</span>
+<span class="sd">                (default: :obj:`node0_cores[:num_workers]`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;enable_cpu_affinity&#39; should be used with at least one &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;worker (got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">loader_cores</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">loader_cores</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;The number of loader cores (got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">loader_cores</span><span class="p">)</span><span class="si">}</span><span class="s2">) &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;in &#39;enable_cpu_affinity&#39; should match with the number &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;of workers (got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="n">worker_init_fn_old</span> <span class="o">=</span> <span class="n">WorkerInitWrapper</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">worker_init_fn</span><span class="p">)</span>
+        <span class="n">affinity_old</span> <span class="o">=</span> <span class="n">psutil</span><span class="o">.</span><span class="n">Process</span><span class="p">()</span><span class="o">.</span><span class="n">cpu_affinity</span><span class="p">()</span>
+        <span class="n">nthreads_old</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">get_num_threads</span><span class="p">()</span>
+        <span class="n">loader_cores</span> <span class="o">=</span> <span class="n">loader_cores</span><span class="p">[:]</span> <span class="k">if</span> <span class="n">loader_cores</span> <span class="k">else</span> <span class="kc">None</span>
+
+        <span class="k">def</span> <span class="nf">init_fn</span><span class="p">(</span><span class="n">worker_id</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">psutil</span><span class="o">.</span><span class="n">Process</span><span class="p">()</span><span class="o">.</span><span class="n">cpu_affinity</span><span class="p">([</span><span class="n">loader_cores</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]])</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot use CPU affinity for worker ID &quot;</span>
+                                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">worker_id</span><span class="si">}</span><span class="s2"> on CPU </span><span class="si">{</span><span class="n">loader_cores</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="n">worker_init_fn_old</span><span class="p">(</span><span class="n">worker_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">loader_cores</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="n">numa_info</span> <span class="o">=</span> <span class="n">get_numa_nodes_cores</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">numa_info</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">numa_info</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">:</span>
+                <span class="c1"># Take one thread per each node 0 core:</span>
+                <span class="n">node0_cores</span> <span class="o">=</span> <span class="p">[</span><span class="n">cpus</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">core_id</span><span class="p">,</span> <span class="n">cpus</span> <span class="ow">in</span> <span class="n">numa_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+                <span class="n">node0_cores</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">node0_cores</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">psutil</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">(</span><span class="n">logical</span><span class="o">=</span><span class="kc">False</span><span class="p">)))</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">node0_cores</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;More workers (got </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s2">) than available &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;cores (got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">node0_cores</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Set default loader core IDs:</span>
+            <span class="n">loader_cores</span> <span class="o">=</span> <span class="n">node0_cores</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="p">]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Set CPU affinity for dataloader:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">worker_init_fn</span> <span class="o">=</span> <span class="n">init_fn</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_workers</span><span class="si">}</span><span class="s2"> data loader workers are &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;assigned to CPUs </span><span class="si">{</span><span class="n">loader_cores</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">yield</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="c1"># Restore omp_num_threads and cpu affinity:</span>
+            <span class="n">psutil</span><span class="o">.</span><span class="n">Process</span><span class="p">()</span><span class="o">.</span><span class="n">cpu_affinity</span><span class="p">(</span><span class="n">affinity_old</span><span class="p">)</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">set_num_threads</span><span class="p">(</span><span class="n">nthreads_old</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">worker_init_fn</span> <span class="o">=</span> <span class="n">worker_init_fn_old</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cpu_affinity_enabled</span> <span class="o">=</span> <span class="kc">False</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+﻿torch\_geometric.explain.algorithm.PGExplainer
+==============================================
+
+.. currentmodule:: torch_geometric.explain.algorithm
+
+.. autoclass:: PGExplainer
+   :show-inheritance:
+   :members:

@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.ShapeNet
+==================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: ShapeNet
+   :show-inheritance:

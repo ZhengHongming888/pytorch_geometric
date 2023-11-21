@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.contrib.nn.models.rbcd_attack &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.contrib.nn.models.rbcd_attack</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.contrib.nn.models.rbcd_attack</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="n">coalesce</span><span class="p">,</span> <span class="n">to_undirected</span>
+
+<span class="c1"># (predictions, labels, ids/mask) -&gt; Tensor with one element</span>
+<span class="n">LOSS_TYPE</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]],</span> <span class="n">Tensor</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="PRBCDAttack"><a class="viewcode-back" href="../../../../../modules/contrib.html#torch_geometric.contrib.nn.models.PRBCDAttack">[docs]</a><span class="k">class</span> <span class="nc">PRBCDAttack</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The Projected Randomized Block Coordinate Descent (PRBCD) adversarial</span>
+<span class="sd">    attack from the `Robustness of Graph Neural Networks at Scale</span>
+<span class="sd">    &lt;https://www.cs.cit.tum.de/daml/robustness-of-gnns-at-scale&gt;`_ paper.</span>
+
+<span class="sd">    This attack uses an efficient gradient based approach that (during the</span>
+<span class="sd">    attack) relaxes the discrete entries in the adjacency matrix</span>
+<span class="sd">    :math:`\{0, 1\}` to :math:`[0, 1]` and solely perturbs the adjacency matrix</span>
+<span class="sd">    (no feature perturbations). Thus, this attack supports all models that can</span>
+<span class="sd">    handle weighted graphs that are differentiable w.r.t. these edge weights,</span>
+<span class="sd">    *e.g.*, :class:`~torch_geometric.nn.conv.GCNConv` or</span>
+<span class="sd">    :class:`~torch_geometric.nn.conv.GraphConv`. For non-differentiable models</span>
+<span class="sd">    you might need modifications, e.g., see example for</span>
+<span class="sd">    :class:`~torch_geometric.nn.conv.GATConv`.</span>
+
+<span class="sd">    The memory overhead is driven by the additional edges (at most</span>
+<span class="sd">    :attr:`block_size`). For scalability reasons, the block is drawn with</span>
+<span class="sd">    replacement and then the index is made unique. Thus, the actual block size</span>
+<span class="sd">    is typically slightly smaller than specified.</span>
+
+<span class="sd">    This attack can be used for both global and local attacks as well as</span>
+<span class="sd">    test-time attacks (evasion) and training-time attacks (poisoning). Please</span>
+<span class="sd">    see the provided examples.</span>
+
+<span class="sd">    This attack is designed with a focus on node- or graph-classification,</span>
+<span class="sd">    however, to adapt to other tasks you most likely only need to provide an</span>
+<span class="sd">    appropriate loss and model. However, we currently do not support batching</span>
+<span class="sd">    out of the box (sampling needs to be adapted).</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        For examples of using the PRBCD Attack, see</span>
+<span class="sd">        `examples/contrib/rbcd_attack.py</span>
+<span class="sd">        &lt;https://github.com/pyg-team/pytorch_geometric/blob/master/examples/</span>
+<span class="sd">        contrib/rbcd_attack.py&gt;`_</span>
+<span class="sd">        for a test time attack (evasion) or</span>
+<span class="sd">        `examples/contrib/rbcd_attack_poisoning.py</span>
+<span class="sd">        &lt;https://github.com/pyg-team/pytorch_geometric/blob/master/examples/</span>
+<span class="sd">        contrib/rbcd_attack_poisoning.py&gt;`_</span>
+<span class="sd">        for a training time (poisoning) attack.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (torch.nn.Module): The GNN module to assess.</span>
+<span class="sd">        block_size (int): Number of randomly selected elements in the</span>
+<span class="sd">            adjacency matrix to consider.</span>
+<span class="sd">        epochs (int, optional): Number of epochs (aborts early if</span>
+<span class="sd">            :obj:`mode=&#39;greedy&#39;` and budget is satisfied) (default: :obj:`125`)</span>
+<span class="sd">        epochs_resampling (int, optional): Number of epochs to resample the</span>
+<span class="sd">            random block. (default: obj:`100`)</span>
+<span class="sd">        loss (str or callable, optional): A loss to quantify the &quot;strength&quot; of</span>
+<span class="sd">            an attack. Note that this function must match the output format of</span>
+<span class="sd">            :attr:`model`. By default, it is assumed that the task is</span>
+<span class="sd">            classification and that the model returns raw predictions (*i.e.*,</span>
+<span class="sd">            no output activation) or uses :obj:`logsoftmax`. Moreover, and the</span>
+<span class="sd">            number of predictions should match the number of labels passed to</span>
+<span class="sd">            :attr:`attack`. Either pass a callable or one of: :obj:`&#39;masked&#39;`,</span>
+<span class="sd">            :obj:`&#39;margin&#39;`, :obj:`&#39;prob_margin&#39;`, :obj:`&#39;tanh_margin&#39;`.</span>
+<span class="sd">            (default: :obj:`&#39;prob_margin&#39;`)</span>
+<span class="sd">        metric (callable, optional): Second (potentially</span>
+<span class="sd">            non-differentiable) loss for monitoring or early stopping (if</span>
+<span class="sd">            :obj:`mode=&#39;greedy&#39;`). (default: same as :attr:`loss`)</span>
+<span class="sd">        lr (float, optional): Learning rate for updating edge weights.</span>
+<span class="sd">            Additionally, it is heuristically corrected for :attr:`block_size`,</span>
+<span class="sd">            budget (see :attr:`attack`) and graph size. (default: :obj:`1_000`)</span>
+<span class="sd">        is_undirected (bool, optional): If :obj:`True` the graph is</span>
+<span class="sd">            assumed to be undirected. (default: :obj:`True`)</span>
+<span class="sd">        log (bool, optional): If set to :obj:`False`, will not log any learning</span>
+<span class="sd">            progress. (default: :obj:`True`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;max_final_samples&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="s1">&#39;max_trials_sampling&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+        <span class="s1">&#39;with_early_stopping&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;eps&#39;</span><span class="p">:</span> <span class="mf">1e-7</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+        <span class="n">block_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">125</span><span class="p">,</span>
+        <span class="n">epochs_resampling</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+        <span class="n">loss</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">LOSS_TYPE</span><span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;prob_margin&#39;</span><span class="p">,</span>
+        <span class="n">metric</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">LOSS_TYPE</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">lr</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1_000</span><span class="p">,</span>
+        <span class="n">is_undirected</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block_size</span> <span class="o">=</span> <span class="n">block_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epochs</span> <span class="o">=</span> <span class="n">epochs</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">loss</span> <span class="o">==</span> <span class="s1">&#39;masked&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_masked_cross_entropy</span>
+            <span class="k">elif</span> <span class="n">loss</span> <span class="o">==</span> <span class="s1">&#39;margin&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_margin_loss</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">loss</span> <span class="o">==</span> <span class="s1">&#39;prob_margin&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_probability_margin_loss</span>
+            <span class="k">elif</span> <span class="n">loss</span> <span class="o">==</span> <span class="s1">&#39;tanh_margin&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tanh_margin_loss</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown loss `</span><span class="si">{</span><span class="n">loss</span><span class="si">}</span><span class="s1">`&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_undirected</span> <span class="o">=</span> <span class="n">is_undirected</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log</span> <span class="o">=</span> <span class="n">log</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metric</span> <span class="o">=</span> <span class="n">metric</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">epochs_resampling</span> <span class="o">=</span> <span class="n">epochs_resampling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">=</span> <span class="n">lr</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PRBCDAttack.attack"><a class="viewcode-back" href="../../../../../modules/contrib.html#torch_geometric.contrib.nn.models.PRBCDAttack.attack">[docs]</a>    <span class="k">def</span> <span class="nf">attack</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">idx_attack</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attack the predictions for the provided model and graph.</span>
+
+<span class="sd">        A subset of predictions may be specified with :attr:`idx_attack`. The</span>
+<span class="sd">        attack is allowed to flip (i.e. add or delete) :attr:`budget` edges and</span>
+<span class="sd">        will return the strongest perturbation it can find. It returns both the</span>
+<span class="sd">        resulting perturbed :attr:`edge_index` as well as the perturbations.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (torch.Tensor): The node feature matrix.</span>
+<span class="sd">            edge_index (torch.Tensor): The edge indices.</span>
+<span class="sd">            labels (torch.Tensor): The labels.</span>
+<span class="sd">            budget (int): The number of allowed perturbations (i.e.</span>
+<span class="sd">                number of edges that are flipped at most).</span>
+<span class="sd">            idx_attack (torch.Tensor, optional): Filter for predictions/labels.</span>
+<span class="sd">                Shape and type must match that it can index :attr:`labels`</span>
+<span class="sd">                and the model&#39;s predictions.</span>
+<span class="sd">            **kwargs (optional): Additional arguments passed to the GNN module.</span>
+
+<span class="sd">        :rtype: (:class:`torch.Tensor`, :class:`torch.Tensor`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">device</span>
+        <span class="k">assert</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;edge_weight&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="n">edge_weight</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edge_weight</span> <span class="o">=</span> <span class="n">edge_weight</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># For collecting attack statistics</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attack_statistics</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+        <span class="c1"># Prepare attack and define `self.iterable` to iterate over</span>
+        <span class="n">step_sequence</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prepare</span><span class="p">(</span><span class="n">budget</span><span class="p">)</span>
+
+        <span class="c1"># Loop over the epochs (Algorithm 1, line 5)</span>
+        <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">step_sequence</span><span class="p">,</span> <span class="n">disable</span><span class="o">=</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Attack&#39;</span><span class="p">):</span>
+            <span class="n">loss</span><span class="p">,</span> <span class="n">gradient</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_and_gradient</span><span class="p">(</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">idx_attack</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="n">scalars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">gradient</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">budget</span><span class="p">,</span>
+                                   <span class="n">idx_attack</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="n">scalars</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_append_statistics</span><span class="p">(</span><span class="n">scalars</span><span class="p">)</span>
+
+        <span class="n">perturbed_edge_index</span><span class="p">,</span> <span class="n">flipped_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_close</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">budget</span><span class="p">,</span> <span class="n">idx_attack</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">assert</span> <span class="n">flipped_edges</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">budget</span><span class="p">,</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;# perturbed edges </span><span class="si">{</span><span class="n">flipped_edges</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s1"> &#39;</span>
+            <span class="sa">f</span><span class="s1">&#39;exceeds budget </span><span class="si">{</span><span class="n">budget</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">perturbed_edge_index</span><span class="p">,</span> <span class="n">flipped_edges</span></div>
+
+    <span class="k">def</span> <span class="nf">_prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare attack.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_size</span> <span class="o">&lt;=</span> <span class="n">budget</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;The search space size (</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">block_size</span><span class="si">}</span><span class="s1">) must be &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;greater than the number of permutations (</span><span class="si">{</span><span class="n">budget</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+        <span class="c1"># For early stopping (not explicitly covered by pseudo code)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_metric</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-Inf&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Sample initial search space (Algorithm 1, line 3-4)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample_random_block</span><span class="p">(</span><span class="n">budget</span><span class="p">)</span>
+
+        <span class="n">steps</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">epochs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">steps</span>
+
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">gradient</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                <span class="n">budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">idx_attack</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update edge weights given gradient.&quot;&quot;&quot;</span>
+        <span class="c1"># Gradient update step (Algorithm 1, line 7)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_edge_weights</span><span class="p">(</span>
+            <span class="n">budget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">gradient</span><span class="p">)</span>
+
+        <span class="c1"># For monitoring</span>
+        <span class="n">pmass_update</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Projection to stay within relaxed `L_0` budget</span>
+        <span class="c1"># (Algorithm 1, line 8)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_project</span><span class="p">(</span><span class="n">budget</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="p">,</span>
+                                               <span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">])</span>
+
+        <span class="c1"># For monitoring</span>
+        <span class="n">scalars</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">prob_mass_after_update</span><span class="o">=</span><span class="n">pmass_update</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
+            <span class="n">prob_mass_after_update_max</span><span class="o">=</span><span class="n">pmass_update</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
+            <span class="n">prob_mass_after_projection</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
+            <span class="n">prob_mass_after_projection_nonzero_weights</span><span class="o">=</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
+            <span class="n">prob_mass_after_projection_max</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">[</span><span class="s1">&#39;with_early_stopping&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">scalars</span>
+
+        <span class="c1"># Calculate metric after the current epoch (overhead</span>
+        <span class="c1"># for monitoring and early stopping)</span>
+        <span class="n">topk_block_edge_weight</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="p">)</span>
+        <span class="n">topk_block_edge_weight</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="p">,</span>
+                                          <span class="n">budget</span><span class="p">)</span><span class="o">.</span><span class="n">indices</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_modified_adj</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span><span class="p">,</span>
+            <span class="n">topk_block_edge_weight</span><span class="p">)</span>
+        <span class="n">prediction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_weight</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">metric</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">idx_attack</span><span class="p">)</span>
+
+        <span class="c1"># Save best epoch for early stopping</span>
+        <span class="c1"># (not explicitly covered by pseudo code)</span>
+        <span class="k">if</span> <span class="n">metric</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_metric</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_metric</span> <span class="o">=</span> <span class="n">metric</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_edge_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">best_pert_edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+
+        <span class="c1"># Resampling of search space (Algorithm 1, line 9-14)</span>
+        <span class="k">if</span> <span class="n">epoch</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">epochs_resampling</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_resample_random_block</span><span class="p">(</span><span class="n">budget</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">epoch</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">epochs_resampling</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Retrieve best epoch if early stopping is active</span>
+            <span class="c1"># (not explicitly covered by pseudo code)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_block</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_edge_index</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">block_edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_pert_edge_weight</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span> <span class="o">=</span> <span class="n">block_edge_weight</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="n">scalars</span><span class="p">[</span><span class="s1">&#39;metric&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">scalars</span>
+
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+               <span class="n">idx_attack</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+               <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clean up and prepare return argument.&quot;&quot;&quot;</span>
+        <span class="c1"># Retrieve best epoch if early stopping is active</span>
+        <span class="c1"># (not explicitly covered by pseudo code)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">[</span><span class="s1">&#39;with_early_stopping&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_block</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_edge_index</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_pert_edge_weight</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Sample final discrete graph (Algorithm 1, line 16)</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">flipped_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample_final_edges</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">budget</span><span class="p">,</span> <span class="n">idx_attack</span><span class="o">=</span><span class="n">idx_attack</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">flipped_edges</span>
+
+    <span class="k">def</span> <span class="nf">_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">edge_weight</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Forward model.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_weight</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_forward_and_gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                              <span class="n">idx_attack</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                              <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Forward and update edge weights.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Retrieve sparse perturbed adjacency matrix `A \oplus p_{t-1}`</span>
+        <span class="c1"># (Algorithm 1, line 6 / Algorithm 2, line 7)</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_modified_adj</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="p">)</span>
+
+        <span class="c1"># Get prediction (Algorithm 1, line 6 / Algorithm 2, line 7)</span>
+        <span class="n">prediction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_weight</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># Calculate loss combining all each node</span>
+        <span class="c1"># (Algorithm 1, line 7 / Algorithm 2, line 8)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">idx_attack</span><span class="p">)</span>
+        <span class="c1"># Retrieve gradient towards the current block</span>
+        <span class="c1"># (Algorithm 1, line 7 / Algorithm 2, line 8)</span>
+        <span class="n">gradient</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">gradient</span>
+
+    <span class="k">def</span> <span class="nf">_get_modified_adj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">edge_weight</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                          <span class="n">block_edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                          <span class="n">block_edge_weight</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merges adjacency matrix with current block (incl. weights).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_undirected</span><span class="p">:</span>
+            <span class="n">block_edge_index</span><span class="p">,</span> <span class="n">block_edge_weight</span> <span class="o">=</span> <span class="n">to_undirected</span><span class="p">(</span>
+                <span class="n">block_edge_index</span><span class="p">,</span> <span class="n">block_edge_weight</span><span class="p">,</span> <span class="n">num_nodes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span>
+                <span class="n">reduce</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+
+        <span class="n">modified_edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">edge_index</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">),</span> <span class="n">block_edge_index</span><span class="p">),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">modified_edge_weight</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">edge_weight</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">),</span> <span class="n">block_edge_weight</span><span class="p">))</span>
+
+        <span class="n">modified_edge_index</span><span class="p">,</span> <span class="n">modified_edge_weight</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span>
+            <span class="n">modified_edge_index</span><span class="p">,</span> <span class="n">modified_edge_weight</span><span class="p">,</span>
+            <span class="n">num_nodes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Allow (soft) removal of edges</span>
+        <span class="n">is_edge_in_clean_adj</span> <span class="o">=</span> <span class="n">modified_edge_weight</span> <span class="o">&gt;</span> <span class="mi">1</span>
+        <span class="n">modified_edge_weight</span><span class="p">[</span><span class="n">is_edge_in_clean_adj</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mi">2</span> <span class="o">-</span> <span class="n">modified_edge_weight</span><span class="p">[</span><span class="n">is_edge_in_clean_adj</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">modified_edge_index</span><span class="p">,</span> <span class="n">modified_edge_weight</span>
+
+    <span class="k">def</span> <span class="nf">_filter_self_loops_in_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">with_weight</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="n">is_not_sl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="p">[</span><span class="n">is_not_sl</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span><span class="p">[:,</span> <span class="n">is_not_sl</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">with_weight</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="p">[</span><span class="n">is_not_sl</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_sample_random_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">budget</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">[</span><span class="s1">&#39;max_trials_sampling&#39;</span><span class="p">]):</span>
+            <span class="n">num_possible_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_possible_edges</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_undirected</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">num_possible_edges</span><span class="p">,</span>
+                                               <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_size</span><span class="p">,</span> <span class="p">),</span>
+                                               <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="p">,</span> <span class="nb">sorted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_undirected</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linear_to_triu_idx</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linear_to_full_idx</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_filter_self_loops_in_block</span><span class="p">(</span><span class="n">with_weight</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                                                <span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">],</span>
+                                                <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">budget</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Sampling random block was not successful. &#39;</span>
+                           <span class="s1">&#39;Please decrease `budget`.&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_resample_random_block</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="c1"># Keep at most half of the block (i.e. resample low weights)</span>
+        <span class="n">sorted_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="p">)</span>
+        <span class="n">keep_above</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span>
+                      <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">keep_above</span> <span class="o">&lt;</span> <span class="n">sorted_idx</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">keep_above</span> <span class="o">=</span> <span class="n">sorted_idx</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="n">sorted_idx</span> <span class="o">=</span> <span class="n">sorted_idx</span><span class="p">[</span><span class="n">keep_above</span><span class="p">:]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">]</span>
+
+        <span class="c1"># Sample until enough edges were drawn</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">[</span><span class="s1">&#39;max_trials_sampling&#39;</span><span class="p">]):</span>
+            <span class="n">n_edges_resample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_size</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">num_possible_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_possible_edges</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_undirected</span><span class="p">)</span>
+            <span class="n">lin_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">num_possible_edges</span><span class="p">,</span> <span class="p">(</span><span class="n">n_edges_resample</span><span class="p">,</span> <span class="p">),</span>
+                                      <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+            <span class="n">current_block</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="p">,</span> <span class="n">lin_index</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="p">,</span> <span class="n">unique_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+                <span class="n">current_block</span><span class="p">,</span> <span class="nb">sorted</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_undirected</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linear_to_triu_idx</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_linear_to_full_idx</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="p">)</span>
+
+            <span class="c1"># Merge existing weights with new edge weights</span>
+            <span class="n">block_edge_weight_prev</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="p">[</span><span class="n">sorted_idx</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                                                <span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">],</span>
+                                                <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="p">[</span>
+                <span class="n">unique_idx</span><span class="p">[:</span><span class="n">sorted_idx</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)]]</span> <span class="o">=</span> <span class="n">block_edge_weight_prev</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_undirected</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_filter_self_loops_in_block</span><span class="p">(</span><span class="n">with_weight</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_block</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">budget</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Sampling random block was not successful.&#39;</span>
+                           <span class="s1">&#39;Please decrease `budget`.&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_sample_final_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                            <span class="n">idx_attack</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="n">best_metric</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-Inf&#39;</span><span class="p">)</span>
+        <span class="n">block_edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span>
+        <span class="n">block_edge_weight</span><span class="p">[</span><span class="n">block_edge_weight</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coeffs</span><span class="p">[</span><span class="s1">&#39;max_final_samples&#39;</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># In first iteration employ top k heuristic instead of sampling</span>
+                <span class="n">sampled_edges</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">block_edge_weight</span><span class="p">)</span>
+                <span class="n">sampled_edges</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">block_edge_weight</span><span class="p">,</span>
+                                         <span class="n">budget</span><span class="p">)</span><span class="o">.</span><span class="n">indices</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sampled_edges</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bernoulli</span><span class="p">(</span><span class="n">block_edge_weight</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">sampled_edges</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">budget</span><span class="p">:</span>
+                <span class="c1"># Allowed budget is exceeded</span>
+                <span class="k">continue</span>
+
+            <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_modified_adj</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span><span class="p">,</span>
+                <span class="n">sampled_edges</span><span class="p">)</span>
+            <span class="n">prediction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_weight</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">metric</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">idx_attack</span><span class="p">)</span>
+
+            <span class="c1"># Save best sample</span>
+            <span class="k">if</span> <span class="n">metric</span> <span class="o">&gt;</span> <span class="n">best_metric</span><span class="p">:</span>
+                <span class="n">best_metric</span> <span class="o">=</span> <span class="n">metric</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span> <span class="o">=</span> <span class="n">sampled_edges</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+
+        <span class="c1"># Recover best sample</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">flipped_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_weight</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_modified_adj</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_weight</span><span class="p">)</span>
+        <span class="n">edge_mask</span> <span class="o">=</span> <span class="n">edge_weight</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">edge_index</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[:,</span> <span class="n">edge_mask</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">flipped_edges</span>
+
+    <span class="k">def</span> <span class="nf">_update_edge_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">block_edge_weight</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                             <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">gradient</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="c1"># The learning rate is refined heuristically, s.t. (1) it is</span>
+        <span class="c1"># independent of the number of perturbations (assuming an undirected</span>
+        <span class="c1"># adjacency matrix) and (2) to decay learning rate during fine-tuning</span>
+        <span class="c1"># (i.e. fixed search space).</span>
+        <span class="n">lr</span> <span class="o">=</span> <span class="p">(</span><span class="n">budget</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">/</span>
+              <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">epoch</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">epochs_resampling</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">block_edge_weight</span> <span class="o">+</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">gradient</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_project</span><span class="p">(</span><span class="n">budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-7</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Project :obj:`values`:</span>
+<span class="sd">        :math:`budget \ge \sum \Pi_{[0, 1]}(\text{values})`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">budget</span><span class="p">:</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="p">(</span><span class="n">values</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+            <span class="n">miu</span> <span class="o">=</span> <span class="n">PRBCDAttack</span><span class="o">.</span><span class="n">_bisection</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">budget</span><span class="p">)</span>
+            <span class="n">values</span> <span class="o">=</span> <span class="n">values</span> <span class="o">-</span> <span class="n">miu</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="n">eps</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">1</span> <span class="o">-</span> <span class="n">eps</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_bisection</span><span class="p">(</span><span class="n">edge_weights</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">n_pert</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                   <span class="n">eps</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mf">1e3</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Bisection search for projection.&quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">shift</span><span class="p">(</span><span class="n">offset</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">edge_weights</span> <span class="o">-</span> <span class="n">offset</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="n">n_pert</span><span class="p">)</span>
+
+        <span class="n">miu</span> <span class="o">=</span> <span class="n">a</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">max_iter</span><span class="p">)):</span>
+            <span class="n">miu</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="c1"># Check if middle point is root</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">shift</span><span class="p">(</span><span class="n">miu</span><span class="p">)</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">):</span>
+                <span class="k">break</span>
+            <span class="c1"># Decide the side to repeat the steps</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">shift</span><span class="p">(</span><span class="n">miu</span><span class="p">)</span> <span class="o">*</span> <span class="n">shift</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">b</span> <span class="o">=</span> <span class="n">miu</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">miu</span>
+            <span class="k">if</span> <span class="p">((</span><span class="n">b</span> <span class="o">-</span> <span class="n">a</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">eps</span><span class="p">):</span>
+                <span class="k">break</span>
+        <span class="k">return</span> <span class="n">miu</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_num_possible_edges</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">is_undirected</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Determine number of possible edges for graph.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">is_undirected</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># We filter self-loops later</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_linear_to_triu_idx</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">lin_idx</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Linear index to upper triangular matrix without diagonal. This is</span>
+<span class="sd">        similar to</span>
+<span class="sd">        https://stackoverflow.com/questions/242711/algorithm-for-index-numbers-of-triangular-matrix-coefficients/28116498#28116498</span>
+<span class="sd">        with number nodes decremented and col index incremented by one.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nn</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">row_idx</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span> <span class="o">*</span> <span class="n">lin_idx</span><span class="o">.</span><span class="n">double</span><span class="p">()</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">nn</span> <span class="o">-</span> <span class="mi">7</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">long</span><span class="p">()</span>
+        <span class="n">col_idx</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">lin_idx</span> <span class="o">+</span> <span class="n">row_idx</span> <span class="o">-</span> <span class="n">nn</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">div</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">row_idx</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">row_idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">rounding_mode</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_linear_to_full_idx</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">lin_idx</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Linear index to dense matrix including diagonal.&quot;&quot;&quot;</span>
+        <span class="n">row_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">lin_idx</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">rounding_mode</span><span class="o">=</span><span class="s1">&#39;floor&#39;</span><span class="p">)</span>
+        <span class="n">col_idx</span> <span class="o">=</span> <span class="n">lin_idx</span> <span class="o">%</span> <span class="n">n</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">))</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_margin_loss</span><span class="p">(</span><span class="n">score</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                     <span class="n">idx_mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                     <span class="n">reduce</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Margin loss between true score and highest non-target score.</span>
+
+<span class="sd">        .. math::</span>
+<span class="sd">            m = - s_{y} + max_{y&#39; \ne y} s_{y&#39;}</span>
+
+<span class="sd">        where :math:`m` is the margin :math:`s` the score and :math:`y` the</span>
+<span class="sd">        labels.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            score (Tensor): Some score (*e.g.*, logits) of shape</span>
+<span class="sd">                :obj:`[n_elem, dim]`.</span>
+<span class="sd">            labels (LongTensor): The labels of shape :obj:`[n_elem]`.</span>
+<span class="sd">            idx_mask (Tensor, optional): To select subset of `score` and</span>
+<span class="sd">                `labels` of shape :obj:`[n_select]`. Defaults to None.</span>
+<span class="sd">            reduce (str, optional): if :obj:`mean` the result is aggregated.</span>
+<span class="sd">                Otherwise, return element wise margin.</span>
+
+<span class="sd">        :rtype: (Tensor)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">idx_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">score</span> <span class="o">=</span> <span class="n">score</span><span class="p">[</span><span class="n">idx_mask</span><span class="p">]</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">idx_mask</span><span class="p">]</span>
+
+        <span class="n">linear_idx</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">score</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">score</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">true_score</span> <span class="o">=</span> <span class="n">score</span><span class="p">[</span><span class="n">linear_idx</span><span class="p">,</span> <span class="n">labels</span><span class="p">]</span>
+
+        <span class="n">score</span> <span class="o">=</span> <span class="n">score</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="n">score</span><span class="p">[</span><span class="n">linear_idx</span><span class="p">,</span> <span class="n">labels</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;-Inf&#39;</span><span class="p">)</span>
+        <span class="n">best_non_target_score</span> <span class="o">=</span> <span class="n">score</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">margin_</span> <span class="o">=</span> <span class="n">best_non_target_score</span> <span class="o">-</span> <span class="n">true_score</span>
+        <span class="k">if</span> <span class="n">reduce</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">margin_</span>
+        <span class="k">return</span> <span class="n">margin_</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_tanh_margin_loss</span><span class="p">(</span><span class="n">prediction</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                          <span class="n">idx_mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate tanh margin loss, a node-classification loss that focuses</span>
+<span class="sd">        on nodes next to decision boundary.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prediction (Tensor): Prediction of shape :obj:`[n_elem, dim]`.</span>
+<span class="sd">            labels (LongTensor): The labels of shape :obj:`[n_elem]`.</span>
+<span class="sd">            idx_mask (Tensor, optional): To select subset of `score` and</span>
+<span class="sd">                `labels` of shape :obj:`[n_select]`. Defaults to None.</span>
+
+<span class="sd">        :rtype: (Tensor)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">log_prob</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">log_softmax</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">margin_</span> <span class="o">=</span> <span class="n">GRBCDAttack</span><span class="o">.</span><span class="n">_margin_loss</span><span class="p">(</span><span class="n">log_prob</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">idx_mask</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">margin_</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">loss</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_probability_margin_loss</span><span class="p">(</span><span class="n">prediction</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                                 <span class="n">idx_mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate probability margin loss, a node-classification loss that</span>
+<span class="sd">        focuses  on nodes next to decision boundary. See `Are Defenses for</span>
+<span class="sd">        Graph Neural Networks Robust?</span>
+<span class="sd">        &lt;https://www.cs.cit.tum.de/daml/are-gnn-defenses-robust&gt;`_ for details.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prediction (Tensor): Prediction of shape :obj:`[n_elem, dim]`.</span>
+<span class="sd">            labels (LongTensor): The labels of shape :obj:`[n_elem]`.</span>
+<span class="sd">            idx_mask (Tensor, optional): To select subset of `score` and</span>
+<span class="sd">                `labels` of shape :obj:`[n_select]`. Defaults to None.</span>
+
+<span class="sd">        :rtype: (Tensor)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">prob</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">margin_</span> <span class="o">=</span> <span class="n">GRBCDAttack</span><span class="o">.</span><span class="n">_margin_loss</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">idx_mask</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">margin_</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_masked_cross_entropy</span><span class="p">(</span><span class="n">log_prob</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+                              <span class="n">idx_mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate masked cross entropy loss, a node-classification loss that</span>
+<span class="sd">        focuses on nodes next to decision boundary.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            log_prob (Tensor): Log probabilities of shape :obj:`[n_elem, dim]`.</span>
+<span class="sd">            labels (LongTensor): The labels of shape :obj:`[n_elem]`.</span>
+<span class="sd">            idx_mask (Tensor, optional): To select subset of `score` and</span>
+<span class="sd">                `labels` of shape :obj:`[n_select]`. Defaults to None.</span>
+
+<span class="sd">        :rtype: (Tensor)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">idx_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">log_prob</span> <span class="o">=</span> <span class="n">log_prob</span><span class="p">[</span><span class="n">idx_mask</span><span class="p">]</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">idx_mask</span><span class="p">]</span>
+
+        <span class="n">is_correct</span> <span class="o">=</span> <span class="n">log_prob</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">labels</span>
+        <span class="k">if</span> <span class="n">is_correct</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+            <span class="n">log_prob</span> <span class="o">=</span> <span class="n">log_prob</span><span class="p">[</span><span class="n">is_correct</span><span class="p">]</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">is_correct</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">nll_loss</span><span class="p">(</span><span class="n">log_prob</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_append_statistics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapping</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attack_statistics</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">()&#39;</span></div>
+
+
+<div class="viewcode-block" id="GRBCDAttack"><a class="viewcode-back" href="../../../../../modules/contrib.html#torch_geometric.contrib.nn.models.GRBCDAttack">[docs]</a><span class="k">class</span> <span class="nc">GRBCDAttack</span><span class="p">(</span><span class="n">PRBCDAttack</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The Greedy Randomized Block Coordinate Descent (GRBCD) adversarial</span>
+<span class="sd">    attack from the `Robustness of Graph Neural Networks at Scale</span>
+<span class="sd">    &lt;https://www.cs.cit.tum.de/daml/robustness-of-gnns-at-scale&gt;`_ paper.</span>
+
+<span class="sd">    GRBCD shares most of the properties and requirements with</span>
+<span class="sd">    :class:`PRBCDAttack`. It also uses an efficient gradient based approach.</span>
+<span class="sd">    However, it greedily flips edges based on the gradient towards the</span>
+<span class="sd">    adjacency matrix.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        For examples of using the GRBCD Attack, see</span>
+<span class="sd">        `examples/contrib/rbcd_attack.py</span>
+<span class="sd">        &lt;https://github.com/pyg-team/pytorch_geometric/blob/master/examples/</span>
+<span class="sd">        contrib/rbcd_attack.py&gt;`_</span>
+<span class="sd">        for a test time attack (evasion).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (torch.nn.Module): The GNN module to assess.</span>
+<span class="sd">        block_size (int): Number of randomly selected elements in the</span>
+<span class="sd">            adjacency matrix to consider.</span>
+<span class="sd">        epochs (int, optional): Number of epochs (aborts early if</span>
+<span class="sd">            :obj:`mode=&#39;greedy&#39;` and budget is satisfied) (default: :obj:`125`)</span>
+<span class="sd">        loss (str or callable, optional): A loss to quantify the &quot;strength&quot; of</span>
+<span class="sd">            an attack. Note that this function must match the output format of</span>
+<span class="sd">            :attr:`model`. By default, it is assumed that the task is</span>
+<span class="sd">            classification and that the model returns raw predictions (*i.e.*,</span>
+<span class="sd">            no output activation) or uses :obj:`logsoftmax`. Moreover, and the</span>
+<span class="sd">            number of predictions should match the number of labels passed to</span>
+<span class="sd">            :attr:`attack`. Either pass Callable or one of: :obj:`&#39;masked&#39;`,</span>
+<span class="sd">            :obj:`&#39;margin&#39;`, :obj:`&#39;prob_margin&#39;`, :obj:`&#39;tanh_margin&#39;`.</span>
+<span class="sd">            (default: :obj:`&#39;masked&#39;`)</span>
+<span class="sd">        is_undirected (bool, optional): If :obj:`True` the graph is</span>
+<span class="sd">            assumed to be undirected. (default: :obj:`True`)</span>
+<span class="sd">        log (bool, optional): If set to :obj:`False`, will not log any learning</span>
+<span class="sd">            progress. (default: :obj:`True`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;max_trials_sampling&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;eps&#39;</span><span class="p">:</span> <span class="mf">1e-7</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span>
+        <span class="n">block_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">125</span><span class="p">,</span>
+        <span class="n">loss</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">LOSS_TYPE</span><span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;masked&#39;</span><span class="p">,</span>
+        <span class="n">is_undirected</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">log</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">block_size</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="n">loss</span><span class="p">,</span>
+                         <span class="n">is_undirected</span><span class="o">=</span><span class="n">is_undirected</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="n">log</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_prepare</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">budget</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Prepare attack.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">flipped_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span><span class="o">.</span><span class="n">new_empty</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Determine the number of edges to be flipped in each attach step/epoch</span>
+        <span class="n">step_size</span> <span class="o">=</span> <span class="n">budget</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">epochs</span>
+        <span class="k">if</span> <span class="n">step_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epochs</span> <span class="o">*</span> <span class="p">[</span><span class="n">step_size</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">budget</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">epochs</span><span class="p">):</span>
+                <span class="n">steps</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">steps</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">budget</span>
+
+        <span class="c1"># Sample initial search space (Algorithm 2, line 3-4)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample_random_block</span><span class="p">(</span><span class="n">step_size</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">steps</span>
+
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">gradient</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update edge weights given gradient.&quot;&quot;&quot;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">topk_edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="n">gradient</span><span class="p">,</span> <span class="n">step_size</span><span class="p">)</span>
+
+        <span class="n">flip_edge_index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_edge_index</span><span class="p">[:,</span> <span class="n">topk_edge_index</span><span class="p">]</span>
+        <span class="n">flip_edge_weight</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">flip_edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                           <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">flipped_edges</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">flipped_edges</span><span class="p">,</span> <span class="n">flip_edge_index</span><span class="p">),</span>
+                                       <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_undirected</span><span class="p">:</span>
+            <span class="n">flip_edge_index</span><span class="p">,</span> <span class="n">flip_edge_weight</span> <span class="o">=</span> <span class="n">to_undirected</span><span class="p">(</span>
+                <span class="n">flip_edge_index</span><span class="p">,</span> <span class="n">flip_edge_weight</span><span class="p">,</span> <span class="n">num_nodes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span>
+                <span class="n">reduce</span><span class="o">=</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+        <span class="n">edge_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">),</span> <span class="n">flip_edge_index</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)),</span>
+            <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">edge_weight</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">edge_weight</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">),</span>
+                                 <span class="n">flip_edge_weight</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)))</span>
+        <span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_weight</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">edge_weight</span><span class="p">,</span>
+                                           <span class="n">num_nodes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span>
+                                           <span class="n">reduce</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+
+        <span class="n">is_one_mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">edge_weight</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span> <span class="o">=</span> <span class="n">edge_index</span><span class="p">[:,</span> <span class="n">is_one_mask</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">edge_weight</span> <span class="o">=</span> <span class="n">edge_weight</span><span class="p">[</span><span class="n">is_one_mask</span><span class="p">]</span>
+        <span class="c1"># self.edge_weight = torch.ones_like(self.edge_weight)</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_weight</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Sample initial search space (Algorithm 2, line 3-4)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample_random_block</span><span class="p">(</span><span class="n">step_size</span><span class="p">)</span>
+
+        <span class="c1"># Return debug information</span>
+        <span class="n">scalars</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;number_positive_entries_in_gradient&#39;</span><span class="p">:</span> <span class="p">(</span><span class="n">gradient</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">scalars</span>
+
+    <span class="k">def</span> <span class="nf">_close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clean up and prepare return argument.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">flipped_edges</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

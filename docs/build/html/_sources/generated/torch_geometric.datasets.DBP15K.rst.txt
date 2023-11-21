@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.DBP15K
+================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: DBP15K
+   :show-inheritance:

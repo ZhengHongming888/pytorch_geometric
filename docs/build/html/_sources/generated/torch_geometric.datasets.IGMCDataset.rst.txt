@@ -1,0 +1,7 @@
+﻿torch\_geometric.datasets.IGMCDataset
+=====================================
+
+.. currentmodule:: torch_geometric.datasets
+
+.. autoclass:: IGMCDataset
+   :show-inheritance:

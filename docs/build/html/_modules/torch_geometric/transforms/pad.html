@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.transforms.pad &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">torch_geometric.transforms.pad</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.transforms.pad</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numbers</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.data</span> <span class="kn">import</span> <span class="n">Data</span><span class="p">,</span> <span class="n">HeteroData</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.data.datapipes</span> <span class="kn">import</span> <span class="n">functional_transform</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.data.storage</span> <span class="kn">import</span> <span class="n">EdgeStorage</span><span class="p">,</span> <span class="n">NodeStorage</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.transforms</span> <span class="kn">import</span> <span class="n">BaseTransform</span>
+<span class="kn">from</span> <span class="nn">torch_geometric.typing</span> <span class="kn">import</span> <span class="n">EdgeType</span><span class="p">,</span> <span class="n">NodeType</span>
+
+
+<span class="k">class</span> <span class="nc">Padding</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;An abstract class for specifying padding values.&quot;&quot;&quot;</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">store_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">NodeType</span><span class="p">,</span> <span class="n">EdgeType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">attr_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="k">pass</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">UniformPadding</span><span class="p">(</span><span class="n">Padding</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Uniform padding independent of attribute name or node/edge type.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        value (int or float, optional): The value to be used for padding.</span>
+<span class="sd">            (default: :obj:`0.0`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected &#39;value&#39; to be an integer or float &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;(got &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">store_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">NodeType</span><span class="p">,</span> <span class="n">EdgeType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">attr_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+
+
+<span class="nd">@dataclass</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">MappingPadding</span><span class="p">(</span><span class="n">Padding</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;An abstract class for specifying different padding values.&quot;&quot;&quot;</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Padding</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">default</span><span class="p">:</span> <span class="n">UniformPadding</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Padding</span><span class="p">]],</span>
+        <span class="n">default</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected &#39;values&#39; to be a dictionary &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;(got &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">key</span><span class="p">:</span> <span class="n">UniformPadding</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="k">else</span> <span class="n">val</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="n">UniformPadding</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validate_key_value</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">validate_key_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">AttrNamePadding</span><span class="p">(</span><span class="n">MappingPadding</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Padding dependent on attribute names.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        values (dict): The mapping from attribute names to padding values.</span>
+<span class="sd">        default (int or float, optional): The padding value to use for</span>
+<span class="sd">            attribute names not specified in :obj:`values`.</span>
+<span class="sd">            (default: :obj:`0.0`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">validate_key_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected the attribute name &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; to be a &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;string (got &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">UniformPadding</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected the value of &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; to be of &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;type &#39;UniformPadding&#39; (got &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">store_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">NodeType</span><span class="p">,</span> <span class="n">EdgeType</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">attr_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="n">padding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">attr_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">padding</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">NodeTypePadding</span><span class="p">(</span><span class="n">MappingPadding</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Padding dependent on node types.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        values (dict): The mapping from node types to padding values.</span>
+<span class="sd">        default (int or float, optional): The padding value to use for node</span>
+<span class="sd">            types not specified in :obj:`values`. (default: :obj:`0.0`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">validate_key_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected the node type &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; to be a string &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;(got &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">UniformPadding</span><span class="p">,</span> <span class="n">AttrNamePadding</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected the value of &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; to be of &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;type &#39;UniformPadding&#39; or &#39;AttrNamePadding&#39; &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;(got &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">store_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NodeType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">attr_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="n">padding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">store_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">padding</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">attr_name</span><span class="o">=</span><span class="n">attr_name</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">EdgeTypePadding</span><span class="p">(</span><span class="n">MappingPadding</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Padding dependent on node types.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        values (dict): The mapping from edge types to padding values.</span>
+<span class="sd">        default (int or float, optional): The padding value to use for edge</span>
+<span class="sd">            types not specified in :obj:`values`. (default: :obj:`0.0`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">validate_key_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected the edge type &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; to be a tuple &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;(got &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected the edge type &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; to hold exactly &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;three elements (got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="n">UniformPadding</span><span class="p">,</span> <span class="n">AttrNamePadding</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected the value of &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; to be of &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;type &#39;UniformPadding&#39; or &#39;AttrNamePadding&#39; &quot;</span>
+                             <span class="sa">f</span><span class="s2">&quot;(got &#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;)&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">store_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">attr_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="n">padding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">store_type</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">padding</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">attr_name</span><span class="o">=</span><span class="n">attr_name</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Pad"><a class="viewcode-back" href="../../../generated/torch_geometric.transforms.Pad.html#torch_geometric.transforms.Pad">[docs]</a><span class="nd">@functional_transform</span><span class="p">(</span><span class="s1">&#39;pad&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Pad</span><span class="p">(</span><span class="n">BaseTransform</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Applies padding to enforce consistent tensor shapes</span>
+<span class="sd">    (functional name: :obj:`pad`).</span>
+
+<span class="sd">    This transform will pad node and edge features up to a maximum allowed size</span>
+<span class="sd">    in the node or edge feature dimension. By default :obj:`0.0` is used as the</span>
+<span class="sd">    padding value and can be configured by setting :obj:`node_pad_value` and</span>
+<span class="sd">    :obj:`edge_pad_value`.</span>
+
+<span class="sd">    In case of applying :class:`Pad` to a :class:`~torch_geometric.data.Data`</span>
+<span class="sd">    object, the :obj:`node_pad_value` value (or :obj:`edge_pad_value`) can be</span>
+<span class="sd">    either:</span>
+
+<span class="sd">    * an int, float or object of :class:`UniformPadding` class for cases when</span>
+<span class="sd">      all attributes are going to be padded with the same value;</span>
+<span class="sd">    * an object of :class:`AttrNamePadding` class for cases when padding is</span>
+<span class="sd">      going to differ based on attribute names.</span>
+
+<span class="sd">    In case of applying :class:`Pad` to a</span>
+<span class="sd">    :class:`~torch_geometric.data.HeteroData` object, the :obj:`node_pad_value`</span>
+<span class="sd">    value (or :obj:`edge_pad_value`) can be either:</span>
+
+<span class="sd">    * an int, float or object of :class:`UniformPadding` class for cases when</span>
+<span class="sd">      all attributes of all node (or edge) stores are going to be padded with</span>
+<span class="sd">      the same value;</span>
+<span class="sd">    * an object of :class:`AttrNamePadding` class for cases when padding is</span>
+<span class="sd">      going to differ based on attribute names (but not based on node or edge</span>
+<span class="sd">      types);</span>
+<span class="sd">    * an object of class :class:`NodeTypePadding` or :class:`EdgeTypePadding`</span>
+<span class="sd">      for cases when padding values are going to differ based on node or edge</span>
+<span class="sd">      types. Padding values can also differ based on attribute names for a</span>
+<span class="sd">      given node or edge type by using :class:`AttrNamePadding` objects as</span>
+<span class="sd">      values of its `values` argument.</span>
+
+<span class="sd">    Note that in order to allow for consistent padding across all graphs in a</span>
+<span class="sd">    dataset, below conditions must be met:</span>
+
+<span class="sd">    * if :obj:`max_num_nodes` is a single value, it must be greater than or</span>
+<span class="sd">      equal to the maximum number of nodes of any graph in the dataset;</span>
+<span class="sd">    * if :obj:`max_num_nodes` is a dictionary, value for every node type must</span>
+<span class="sd">      be greater than or equal to the maximum number of this type nodes of any</span>
+<span class="sd">      graph in the dataset.</span>
+
+<span class="sd">    Example below shows how to create a :class:`Pad` transform for an</span>
+<span class="sd">    :class:`~torch_geometric.data.HeteroData` object. The object is padded to</span>
+<span class="sd">    have :obj:`10` nodes of type :obj:`v0`, :obj:`20` nodes of type :obj:`v1`</span>
+<span class="sd">    and :obj:`30` nodes of type :obj:`v2`.</span>
+<span class="sd">    It is padded to have :obj:`80` edges of type :obj:`(&#39;v0&#39;, &#39;e0&#39;, &#39;v1&#39;)`.</span>
+<span class="sd">    All the attributes of the :obj:`v0` nodes are padded using a value of</span>
+<span class="sd">    :obj:`3.0`.</span>
+<span class="sd">    The :obj:`x` attribute of the :obj:`v1` node type is padded using a value</span>
+<span class="sd">    of :obj:`-1.0`, and the other attributes of this node type are padded using</span>
+<span class="sd">    a value of :obj:`0.5`.</span>
+<span class="sd">    All the attributes of node types other than :obj:`v0` and :obj:`v1` are</span>
+<span class="sd">    padded using a value of :obj:`1.0`.</span>
+<span class="sd">    All the attributes of the :obj:`(&#39;v0&#39;, &#39;e0&#39;, &#39;v1&#39;)` edge type are padded</span>
+<span class="sd">    usin a value of :obj:`3.5`.</span>
+<span class="sd">    The :obj:`edge_attr` attributes of the :obj:`(&#39;v1&#39;, &#39;e0&#39;, &#39;v0&#39;)` edge type</span>
+<span class="sd">    are padded using a value of :obj:`-1.5`, and any other attributes of this</span>
+<span class="sd">    edge type are padded using a value of :obj:`5.5`.</span>
+<span class="sd">    All the attributes of edge types other than these two are padded using a</span>
+<span class="sd">    value of :obj:`1.5`.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    .. code-block::</span>
+
+<span class="sd">        num_nodes = {&#39;v0&#39;: 10, &#39;v1&#39;: 20, &#39;v2&#39;:30}</span>
+<span class="sd">        num_edges = {(&#39;v0&#39;, &#39;e0&#39;, &#39;v1&#39;): 80}</span>
+
+<span class="sd">        node_padding = NodeTypePadding({</span>
+<span class="sd">            &#39;v0&#39;: 3.0,</span>
+<span class="sd">            &#39;v1&#39;: AttrNamePadding({&#39;x&#39;: -1.0}, default=0.5),</span>
+<span class="sd">        }, default=1.0)</span>
+
+<span class="sd">        edge_padding = EdgeTypePadding({</span>
+<span class="sd">            (&#39;v0&#39;, &#39;e0&#39;, &#39;v1&#39;): 3.5,</span>
+<span class="sd">            (&#39;v1&#39;, &#39;e0&#39;, &#39;v0&#39;): AttrNamePadding({&#39;edge_attr&#39;: -1.5},</span>
+<span class="sd">                                                default=5.5),</span>
+<span class="sd">        }, default=1.5)</span>
+
+<span class="sd">        transform = Pad(num_nodes, num_edges, node_padding, edge_padding)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        max_num_nodes (int or dict): The number of nodes after padding.</span>
+<span class="sd">            In heterogeneous graphs, may also take in a dictionary denoting the</span>
+<span class="sd">            number of nodes for specific node types.</span>
+<span class="sd">        max_num_edges (int or dict, optional): The number of edges after</span>
+<span class="sd">            padding.</span>
+<span class="sd">            In heterogeneous graphs, may also take in a dictionary denoting the</span>
+<span class="sd">            number of edges for specific edge types. (default: :obj:`None`)</span>
+<span class="sd">        node_pad_value (int or float or Padding, optional): The fill value to</span>
+<span class="sd">            use for node features. (default: :obj:`0.0`)</span>
+<span class="sd">        edge_pad_value (int or float or Padding, optional): The fill value to</span>
+<span class="sd">            use for edge features. (default: :obj:`0.0`)</span>
+<span class="sd">            The :obj:`edge_index` tensor is padded with with the index of the</span>
+<span class="sd">            first padded node (which represents a set of self-loops on the</span>
+<span class="sd">            padded node). (default: :obj:`0.0`)</span>
+<span class="sd">        mask_pad_value (bool, optional): The fill value to use for</span>
+<span class="sd">            :obj:`train_mask`, :obj:`val_mask` and :obj:`test_mask` attributes</span>
+<span class="sd">            (default: :obj:`False`).</span>
+<span class="sd">        add_pad_mask (bool, optional): If set to :obj:`True`, will attach</span>
+<span class="sd">            node-level :obj:`pad_node_mask` and edge-level :obj:`pad_edge_mask`</span>
+<span class="sd">            attributes to the output which indicates which elements in the data</span>
+<span class="sd">            are real (represented by :obj:`True`) and which were added as a</span>
+<span class="sd">            result of padding (represented by :obj:`False`).</span>
+<span class="sd">            (default: :obj:`False`)</span>
+<span class="sd">        exclude_keys ([str], optional): Keys to be removed</span>
+<span class="sd">            from the input data object. (default: :obj:`None`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">max_num_nodes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">NodeType</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span>
+        <span class="n">max_num_edges</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">node_pad_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Padding</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">edge_pad_value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Padding</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">mask_pad_value</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">add_pad_mask</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">exclude_keys</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_num_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_NumNodes</span><span class="p">(</span><span class="n">max_num_nodes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_num_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_NumEdges</span><span class="p">(</span><span class="n">max_num_edges</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_num_nodes</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_pad</span> <span class="o">=</span> <span class="n">node_pad_value</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_pad</span><span class="p">,</span> <span class="n">Padding</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">node_pad</span> <span class="o">=</span> <span class="n">UniformPadding</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_pad</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">edge_pad</span> <span class="o">=</span> <span class="n">edge_pad_value</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edge_pad</span><span class="p">,</span> <span class="n">Padding</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">edge_pad</span> <span class="o">=</span> <span class="n">UniformPadding</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edge_pad</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">node_additional_attrs_pad</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">key</span><span class="p">:</span> <span class="n">mask_pad_value</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;train_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;val_mask&#39;</span><span class="p">,</span> <span class="s1">&#39;test_mask&#39;</span><span class="p">]</span>
+        <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_pad_mask</span> <span class="o">=</span> <span class="n">add_pad_mask</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exclude_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">exclude_keys</span> <span class="ow">or</span> <span class="p">[])</span>
+
+    <span class="k">class</span> <span class="nc">_IntOrDict</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">is_number</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">)</span>
+
+        <span class="nd">@abstractmethod</span>
+        <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">pass</span>
+
+        <span class="k">def</span> <span class="nf">is_none</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span>
+
+    <span class="k">class</span> <span class="nc">_NumNodes</span><span class="p">(</span><span class="n">_IntOrDict</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)),</span> \
+                <span class="sa">f</span><span class="s1">&#39;Parameter `max_num_nodes` must be of type int or dict &#39;</span> \
+                <span class="sa">f</span><span class="s1">&#39;but is </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NodeType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_number</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Homodata case.</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> \
+                <span class="sa">f</span><span class="s1">&#39;The number of </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1"> nodes was not specified for padding.&#39;</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">class</span> <span class="nc">_NumEdges</span><span class="p">(</span><span class="n">_IntOrDict</span><span class="p">):</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="kc">None</span><span class="p">],</span>
+                     <span class="n">num_nodes</span><span class="p">:</span> <span class="s1">&#39;_NumNodes&#39;</span><span class="p">):</span>  <span class="c1"># noqa: F821</span>
+            <span class="k">assert</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)),</span> \
+                <span class="sa">f</span><span class="s1">&#39;If provided, parameter `max_num_edges` must be of type &#39;</span> \
+                <span class="sa">f</span><span class="s1">&#39;int or dict but is </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span>
+
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                    <span class="n">num_edges</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">num_edges</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                        <span class="n">src_node</span><span class="p">,</span> <span class="n">edge_type</span><span class="p">,</span> <span class="n">dst_node</span> <span class="o">=</span> <span class="n">k</span>
+                        <span class="n">num_edges</span><span class="p">[</span><span class="n">src_node</span><span class="p">,</span> <span class="n">dst_node</span><span class="p">][</span><span class="n">edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">num_nodes</span><span class="o">.</span><span class="n">is_number</span><span class="p">:</span>
+                <span class="n">num_edges</span> <span class="o">=</span> <span class="n">num_nodes</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span> <span class="o">*</span> <span class="n">num_nodes</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">num_edges</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="n">num_nodes</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">num_edges</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_number</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Homodata case.</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+            <span class="n">src_v</span><span class="p">,</span> <span class="n">edge_type</span><span class="p">,</span> <span class="n">dst_v</span> <span class="o">=</span> <span class="n">key</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">src_v</span><span class="p">,</span> <span class="n">dst_v</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">edge_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">src_v</span><span class="p">,</span> <span class="n">dst_v</span><span class="p">]:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">src_v</span><span class="p">,</span> <span class="n">dst_v</span><span class="p">][</span><span class="n">edge_type</span><span class="p">]</span>
+
+            <span class="n">max_num_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span>
+                <span class="n">src_v</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">dst_v</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">src_v</span><span class="p">,</span> <span class="n">dst_v</span><span class="p">][</span><span class="n">edge_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_num_edges</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">[</span><span class="n">src_v</span><span class="p">,</span> <span class="n">dst_v</span><span class="p">][</span><span class="n">edge_type</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__should_pad_node_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_additional_attrs_pad</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_keys</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">attr_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_keys</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">__should_pad_edge_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_num_edges</span><span class="o">.</span><span class="n">is_none</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">attr_name</span> <span class="o">==</span> <span class="s1">&#39;edge_index&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_keys</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">attr_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_keys</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">__get_node_padding</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">node_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NodeType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_additional_attrs_pad</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_additional_attrs_pad</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_pad</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">node_type</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__get_edge_padding</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">edge_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">EdgeType</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">edge_pad</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">edge_type</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Data</span><span class="p">,</span> <span class="n">HeteroData</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Data</span><span class="p">,</span> <span class="n">HeteroData</span><span class="p">]:</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">Data</span><span class="p">):</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_pad</span><span class="p">,</span> <span class="p">(</span><span class="n">UniformPadding</span><span class="p">,</span> <span class="n">AttrNamePadding</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edge_pad</span><span class="p">,</span> <span class="p">(</span><span class="n">UniformPadding</span><span class="p">,</span> <span class="n">AttrNamePadding</span><span class="p">))</span>
+
+            <span class="k">for</span> <span class="n">store</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">stores</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_keys</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__pad_edge_store</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">__cat_dim__</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__pad_node_store</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">__cat_dim__</span><span class="p">)</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_num_nodes</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">node_pad</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">UniformPadding</span><span class="p">,</span> <span class="n">AttrNamePadding</span><span class="p">,</span> <span class="n">NodeTypePadding</span><span class="p">))</span>
+            <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">edge_pad</span><span class="p">,</span>
+                <span class="p">(</span><span class="n">UniformPadding</span><span class="p">,</span> <span class="n">AttrNamePadding</span><span class="p">,</span> <span class="n">EdgeTypePadding</span><span class="p">))</span>
+
+            <span class="k">for</span> <span class="n">edge_type</span><span class="p">,</span> <span class="n">store</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">edge_items</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_keys</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+                <span class="n">src_node_type</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">dst_node_type</span> <span class="o">=</span> <span class="n">edge_type</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__pad_edge_store</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">__cat_dim__</span><span class="p">,</span>
+                                      <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">src_node_type</span><span class="p">]</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span>
+                                       <span class="n">data</span><span class="p">[</span><span class="n">dst_node_type</span><span class="p">]</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">),</span>
+                                      <span class="n">edge_type</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">node_type</span><span class="p">,</span> <span class="n">store</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">node_items</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exclude_keys</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">store</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__pad_node_store</span><span class="p">(</span><span class="n">store</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">__cat_dim__</span><span class="p">,</span> <span class="n">node_type</span><span class="p">)</span>
+                <span class="n">data</span><span class="p">[</span><span class="n">node_type</span><span class="p">]</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_num_nodes</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span>
+                    <span class="n">node_type</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="k">def</span> <span class="nf">__pad_node_store</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">:</span> <span class="n">NodeStorage</span><span class="p">,</span> <span class="n">get_dim_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+                         <span class="n">node_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+        <span class="n">attrs_to_pad</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">store</span> <span class="k">if</span> <span class="n">store</span><span class="o">.</span><span class="n">is_node_attr</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">attrs_to_pad</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">num_target_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_num_nodes</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">node_type</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">num_target_nodes</span> <span class="o">&gt;=</span> <span class="n">store</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">,</span> \
+            <span class="sa">f</span><span class="s1">&#39;The number of nodes after padding (</span><span class="si">{</span><span class="n">num_target_nodes</span><span class="si">}</span><span class="s1">) cannot &#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;be lower than the number of nodes in the data object &#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">store</span><span class="o">.</span><span class="n">num_nodes</span><span class="si">}</span><span class="s1">).&#39;</span>
+        <span class="n">num_pad_nodes</span> <span class="o">=</span> <span class="n">num_target_nodes</span> <span class="o">-</span> <span class="n">store</span><span class="o">.</span><span class="n">num_nodes</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_pad_mask</span><span class="p">:</span>
+            <span class="n">pad_node_mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">num_target_nodes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+            <span class="n">pad_node_mask</span><span class="p">[</span><span class="n">store</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">:]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">store</span><span class="o">.</span><span class="n">pad_node_mask</span> <span class="o">=</span> <span class="n">pad_node_mask</span>
+
+        <span class="k">for</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="n">attrs_to_pad</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="n">store</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span>
+            <span class="n">pad_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_node_padding</span><span class="p">(</span><span class="n">attr_name</span><span class="p">,</span> <span class="n">node_type</span><span class="p">)</span>
+            <span class="n">dim</span> <span class="o">=</span> <span class="n">get_dim_fn</span><span class="p">(</span><span class="n">attr_name</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+            <span class="n">store</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pad_tensor_dim</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">num_pad_nodes</span><span class="p">,</span>
+                                                    <span class="n">pad_value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__pad_edge_store</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">:</span> <span class="n">EdgeStorage</span><span class="p">,</span> <span class="n">get_dim_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+                         <span class="n">num_nodes</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span>
+                         <span class="n">edge_type</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">attrs_to_pad</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
+            <span class="n">attr</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">store</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">store</span><span class="o">.</span><span class="n">is_edge_attr</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__should_pad_edge_attr</span><span class="p">(</span><span class="n">attr</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">attrs_to_pad</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">num_target_edges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_num_edges</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">edge_type</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">num_target_edges</span> <span class="o">&gt;=</span> <span class="n">store</span><span class="o">.</span><span class="n">num_edges</span><span class="p">,</span> \
+            <span class="sa">f</span><span class="s1">&#39;The number of edges after padding (</span><span class="si">{</span><span class="n">num_target_edges</span><span class="si">}</span><span class="s1">) cannot &#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;be lower than the number of edges in the data object &#39;</span> \
+            <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">store</span><span class="o">.</span><span class="n">num_edges</span><span class="si">}</span><span class="s1">).&#39;</span>
+        <span class="n">num_pad_edges</span> <span class="o">=</span> <span class="n">num_target_edges</span> <span class="o">-</span> <span class="n">store</span><span class="o">.</span><span class="n">num_edges</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_pad_mask</span><span class="p">:</span>
+            <span class="n">pad_edge_mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">num_target_edges</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+            <span class="n">pad_edge_mask</span><span class="p">[</span><span class="n">store</span><span class="o">.</span><span class="n">num_edges</span><span class="p">:]</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">store</span><span class="o">.</span><span class="n">pad_edge_mask</span> <span class="o">=</span> <span class="n">pad_edge_mask</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">src_pad_value</span><span class="p">,</span> <span class="n">dst_pad_value</span> <span class="o">=</span> <span class="n">num_nodes</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">src_pad_value</span> <span class="o">=</span> <span class="n">dst_pad_value</span> <span class="o">=</span> <span class="n">num_nodes</span>
+
+        <span class="k">for</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="n">attrs_to_pad</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="n">store</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span>
+            <span class="n">dim</span> <span class="o">=</span> <span class="n">get_dim_fn</span><span class="p">(</span><span class="n">attr_name</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">attr_name</span> <span class="o">==</span> <span class="s1">&#39;edge_index&#39;</span><span class="p">:</span>
+                <span class="n">store</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pad_edge_index</span><span class="p">(</span>
+                    <span class="n">attr</span><span class="p">,</span> <span class="n">num_pad_edges</span><span class="p">,</span> <span class="n">src_pad_value</span><span class="p">,</span> <span class="n">dst_pad_value</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pad_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_edge_padding</span><span class="p">(</span><span class="n">attr_name</span><span class="p">,</span> <span class="n">edge_type</span><span class="p">)</span>
+                <span class="n">store</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pad_tensor_dim</span><span class="p">(</span>
+                    <span class="n">attr</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">num_pad_edges</span><span class="p">,</span> <span class="n">pad_value</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_pad_tensor_dim</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                        <span class="n">pad_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Pads the input tensor in the specified dim with a constant value of</span>
+<span class="sd">        the given length.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pads</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">input</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span>
+        <span class="n">pads</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">dim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">length</span>
+        <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">pads</span><span class="p">,</span> <span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="n">pad_value</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_pad_edge_index</span><span class="p">(</span><span class="nb">input</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">src_pad_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                        <span class="n">dst_pad_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Pads the edges :obj:`edge_index` feature with values specified</span>
+<span class="sd">        separately for src and dst nodes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pads</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">padded</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">pads</span><span class="p">,</span> <span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="n">src_pad_value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">src_pad_value</span> <span class="o">!=</span> <span class="n">dst_pad_value</span><span class="p">:</span>
+            <span class="n">padded</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:]</span> <span class="o">=</span> <span class="n">dst_pad_value</span>
+        <span class="k">return</span> <span class="n">padded</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(&#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;max_num_nodes=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_num_nodes</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">, &#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;max_num_edges=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">max_num_edges</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">, &#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;node_pad_value=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">node_pad</span><span class="si">}</span><span class="s1">, &#39;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;edge_pad_value=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">edge_pad</span><span class="si">}</span><span class="s1">)&#39;</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

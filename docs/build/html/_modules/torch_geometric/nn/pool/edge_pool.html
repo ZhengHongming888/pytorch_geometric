@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>torch_geometric.nn.pool.edge_pool &mdash; pytorch_geometric  documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/mytheme.css" type="text/css" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/favicon.png"/>
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/js/on_pyg_load.js"></script>
+        <script src="../../../../_static/js/version_alert.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html">
+            
+              <img src="https://raw.githubusercontent.com/pyg-team/pyg_sphinx_theme/master/pyg_sphinx_theme/static/img/pyg_logo.png" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                2.4.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Install PyG</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../install/installation.html">Installation</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Get Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../get_started/introduction.html">Introduction by Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../get_started/colabs.html">Colab Notebooks and Video Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/gnn_design.html">Design of Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/dataset.html">Working with Graph Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/application.html">Use-Cases &amp; Applications</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial/multi_gpu.html">Multi-GPU Training</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Advanced Concepts</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/batching.html">Advanced Mini-Batching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/sparse_tensor.html">Memory-Efficient Aggregations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/hgam.html">Hierarchical Neighborhood Sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/compile.html">Compiled Graph Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/jit.html">TorchScript Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/remote.html">Scaling Up GNNs via Remote Backends</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/graphgym.html">Managing Experiments with GraphGym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../advanced/cpu_affinity.html">CPU Affinity for PyG Workloads</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Package Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/root.html">torch_geometric</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/nn.html">torch_geometric.nn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/data.html">torch_geometric.data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/loader.html">torch_geometric.loader</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/sampler.html">torch_geometric.sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/datasets.html">torch_geometric.datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/transforms.html">torch_geometric.transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/utils.html">torch_geometric.utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/explain.html">torch_geometric.explain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/contrib.html">torch_geometric.contrib</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/graphgym.html">torch_geometric.graphgym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../modules/profile.html">torch_geometric.profile</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Cheatsheets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cheatsheet/gnn_cheatsheet.html">GNN Cheatsheet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../cheatsheet/data_cheatsheet.html">Dataset Cheatsheet</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">External Resources</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../external/resources.html">External Resources</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">pytorch_geometric</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+          <li class="breadcrumb-item"><a href="../pool.html">torch_geometric.nn.pool</a></li>
+      <li class="breadcrumb-item active">torch_geometric.nn.pool.edge_pool</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for torch_geometric.nn.pool.edge_pool</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="kn">from</span> <span class="nn">torch_geometric.utils</span> <span class="kn">import</span> <span class="n">coalesce</span><span class="p">,</span> <span class="n">scatter</span><span class="p">,</span> <span class="n">softmax</span>
+
+
+<span class="k">class</span> <span class="nc">UnpoolInfo</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+    <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">cluster</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">batch</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="n">new_edge_score</span><span class="p">:</span> <span class="n">Tensor</span>
+
+
+<div class="viewcode-block" id="EdgePooling"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.pool.EdgePooling.html#torch_geometric.nn.pool.EdgePooling">[docs]</a><span class="k">class</span> <span class="nc">EdgePooling</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;The edge pooling operator from the `&quot;Towards Graph Pooling by Edge</span>
+<span class="sd">    Contraction&quot; &lt;https://graphreason.github.io/papers/17.pdf&gt;`__ and</span>
+<span class="sd">    `&quot;Edge Contraction Pooling for Graph Neural Networks&quot;</span>
+<span class="sd">    &lt;https://arxiv.org/abs/1905.10990&gt;`__ papers.</span>
+
+<span class="sd">    In short, a score is computed for each edge.</span>
+<span class="sd">    Edges are contracted iteratively according to that score unless one of</span>
+<span class="sd">    their nodes has already been part of a contracted edge.</span>
+
+<span class="sd">    To duplicate the configuration from the `&quot;Towards Graph Pooling by Edge</span>
+<span class="sd">    Contraction&quot; &lt;https://graphreason.github.io/papers/17.pdf&gt;`__ paper, use</span>
+<span class="sd">    either :func:`EdgePooling.compute_edge_score_softmax`</span>
+<span class="sd">    or :func:`EdgePooling.compute_edge_score_tanh`, and set</span>
+<span class="sd">    :obj:`add_to_edge_score` to :obj:`0.0`.</span>
+
+<span class="sd">    To duplicate the configuration from the `&quot;Edge Contraction Pooling for</span>
+<span class="sd">    Graph Neural Networks&quot; &lt;https://arxiv.org/abs/1905.10990&gt;`__ paper,</span>
+<span class="sd">    set :obj:`dropout` to :obj:`0.2`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        in_channels (int): Size of each input sample.</span>
+<span class="sd">        edge_score_method (callable, optional): The function to apply</span>
+<span class="sd">            to compute the edge score from raw edge scores. By default,</span>
+<span class="sd">            this is the softmax over all incoming edges for each node.</span>
+<span class="sd">            This function takes in a :obj:`raw_edge_score` tensor of shape</span>
+<span class="sd">            :obj:`[num_nodes]`, an :obj:`edge_index` tensor and the number of</span>
+<span class="sd">            nodes :obj:`num_nodes`, and produces a new tensor of the same size</span>
+<span class="sd">            as :obj:`raw_edge_score` describing normalized edge scores.</span>
+<span class="sd">            Included functions are</span>
+<span class="sd">            :func:`EdgePooling.compute_edge_score_softmax`,</span>
+<span class="sd">            :func:`EdgePooling.compute_edge_score_tanh`, and</span>
+<span class="sd">            :func:`EdgePooling.compute_edge_score_sigmoid`.</span>
+<span class="sd">            (default: :func:`EdgePooling.compute_edge_score_softmax`)</span>
+<span class="sd">        dropout (float, optional): The probability with</span>
+<span class="sd">            which to drop edge scores during training. (default: :obj:`0.0`)</span>
+<span class="sd">        add_to_edge_score (float, optional): A value to be added to each</span>
+<span class="sd">            computed edge score. Adding this greatly helps with unpooling</span>
+<span class="sd">            stability. (default: :obj:`0.5`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">edge_score_method</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dropout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">add_to_edge_score</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">in_channels</span> <span class="o">=</span> <span class="n">in_channels</span>
+        <span class="k">if</span> <span class="n">edge_score_method</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">edge_score_method</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_edge_score_softmax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_edge_score</span> <span class="o">=</span> <span class="n">edge_score_method</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_to_edge_score</span> <span class="o">=</span> <span class="n">add_to_edge_score</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">dropout</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">in_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span>
+
+<div class="viewcode-block" id="EdgePooling.reset_parameters"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.pool.EdgePooling.html#torch_geometric.nn.pool.EdgePooling.reset_parameters">[docs]</a>    <span class="k">def</span> <span class="nf">reset_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Resets all learnable parameters of the module.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="o">.</span><span class="n">reset_parameters</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="EdgePooling.compute_edge_score_softmax"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.pool.EdgePooling.html#torch_geometric.nn.pool.EdgePooling.compute_edge_score_softmax">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">compute_edge_score_softmax</span><span class="p">(</span>
+        <span class="n">raw_edge_score</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">num_nodes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Normalizes edge scores via softmax application.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">softmax</span><span class="p">(</span><span class="n">raw_edge_score</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">num_nodes</span><span class="o">=</span><span class="n">num_nodes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EdgePooling.compute_edge_score_tanh"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.pool.EdgePooling.html#torch_geometric.nn.pool.EdgePooling.compute_edge_score_tanh">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">compute_edge_score_tanh</span><span class="p">(</span>
+        <span class="n">raw_edge_score</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">num_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Normalizes edge scores via hyperbolic tangent application.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">raw_edge_score</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EdgePooling.compute_edge_score_sigmoid"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.pool.EdgePooling.html#torch_geometric.nn.pool.EdgePooling.compute_edge_score_sigmoid">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">compute_edge_score_sigmoid</span><span class="p">(</span>
+        <span class="n">raw_edge_score</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">num_nodes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Normalizes edge scores via sigmoid application.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">raw_edge_score</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EdgePooling.forward"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.pool.EdgePooling.html#torch_geometric.nn.pool.EdgePooling.forward">[docs]</a>    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">batch</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">UnpoolInfo</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Forward pass.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (torch.Tensor): The node features.</span>
+<span class="sd">            edge_index (torch.Tensor): The edge indices.</span>
+<span class="sd">            batch (torch.Tensor): The batch vector</span>
+<span class="sd">                :math:`\mathbf{b} \in {\{ 0, \ldots, B-1\}}^N`, which assigns</span>
+<span class="sd">                each node to a specific example.</span>
+
+<span class="sd">        Return types:</span>
+<span class="sd">            * **x** *(torch.Tensor)* - The pooled node features.</span>
+<span class="sd">            * **edge_index** *(torch.Tensor)* - The coarsened edge indices.</span>
+<span class="sd">            * **batch** *(torch.Tensor)* - The coarsened batch vector.</span>
+<span class="sd">            * **unpool_info** *(UnpoolInfo)* - Information that is</span>
+<span class="sd">              consumed by :func:`EdgePooling.unpool` for unpooling.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">x</span><span class="p">[</span><span class="n">edge_index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lin</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">)</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_edge_score</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">e</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_to_edge_score</span>
+
+        <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">unpool_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_merge_edges</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">edge_index</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">unpool_info</span></div>
+
+    <span class="k">def</span> <span class="nf">_merge_edges</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">edge_index</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">batch</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">edge_score</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">UnpoolInfo</span><span class="p">]:</span>
+
+        <span class="n">cluster</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+        <span class="n">perm</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">edge_score</span><span class="p">,</span> <span class="n">descending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+        <span class="c1"># Iterate through all edges, selecting it if it is not incident to</span>
+        <span class="c1"># another already chosen edge.</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">new_edge_indices</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">edge_index_cpu</span> <span class="o">=</span> <span class="n">edge_index</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">edge_idx</span> <span class="ow">in</span> <span class="n">perm</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">edge_index_cpu</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">edge_idx</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">mask</span><span class="p">[</span><span class="n">source</span><span class="p">]):</span>
+                <span class="k">continue</span>
+
+            <span class="n">target</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">edge_index_cpu</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">edge_idx</span><span class="p">])</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="n">mask</span><span class="p">[</span><span class="n">target</span><span class="p">]):</span>
+                <span class="k">continue</span>
+
+            <span class="n">new_edge_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">edge_idx</span><span class="p">)</span>
+
+            <span class="n">cluster</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">mask</span><span class="p">[</span><span class="n">source</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="n">source</span> <span class="o">!=</span> <span class="n">target</span><span class="p">:</span>
+                <span class="n">cluster</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="n">mask</span><span class="p">[</span><span class="n">target</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># The remaining nodes are simply kept:</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="n">cluster</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="n">j</span>
+
+        <span class="c1"># We compute the new features as an addition of the old ones.</span>
+        <span class="n">new_x</span> <span class="o">=</span> <span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dim_size</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+        <span class="n">new_edge_score</span> <span class="o">=</span> <span class="n">edge_score</span><span class="p">[</span><span class="n">new_edge_indices</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">mask</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">remaining_score</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">new_ones</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">new_x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_edge_indices</span><span class="p">),</span> <span class="p">))</span>
+            <span class="n">new_edge_score</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">new_edge_score</span><span class="p">,</span> <span class="n">remaining_score</span><span class="p">])</span>
+        <span class="n">new_x</span> <span class="o">=</span> <span class="n">new_x</span> <span class="o">*</span> <span class="n">new_edge_score</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">new_edge_index</span> <span class="o">=</span> <span class="n">coalesce</span><span class="p">(</span><span class="n">cluster</span><span class="p">[</span><span class="n">edge_index</span><span class="p">],</span> <span class="n">num_nodes</span><span class="o">=</span><span class="n">new_x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="n">new_batch</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">new_empty</span><span class="p">(</span><span class="n">new_x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+        <span class="n">new_batch</span> <span class="o">=</span> <span class="n">new_batch</span><span class="o">.</span><span class="n">scatter_</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">batch</span><span class="p">)</span>
+
+        <span class="n">unpool_info</span> <span class="o">=</span> <span class="n">UnpoolInfo</span><span class="p">(</span><span class="n">edge_index</span><span class="o">=</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">cluster</span><span class="o">=</span><span class="n">cluster</span><span class="p">,</span>
+                                 <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span> <span class="n">new_edge_score</span><span class="o">=</span><span class="n">new_edge_score</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">new_x</span><span class="p">,</span> <span class="n">new_edge_index</span><span class="p">,</span> <span class="n">new_batch</span><span class="p">,</span> <span class="n">unpool_info</span>
+
+<div class="viewcode-block" id="EdgePooling.unpool"><a class="viewcode-back" href="../../../../generated/torch_geometric.nn.pool.EdgePooling.html#torch_geometric.nn.pool.EdgePooling.unpool">[docs]</a>    <span class="k">def</span> <span class="nf">unpool</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">unpool_info</span><span class="p">:</span> <span class="n">UnpoolInfo</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Unpools a previous edge pooling step.</span>
+
+<span class="sd">        For unpooling, :obj:`x` should be of same shape as those produced by</span>
+<span class="sd">        this layer&#39;s :func:`forward` function. Then, it will produce an</span>
+<span class="sd">        unpooled :obj:`x` in addition to :obj:`edge_index` and :obj:`batch`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x (torch.Tensor): The node features.</span>
+<span class="sd">            unpool_info (UnpoolInfo): Information that has been produced by</span>
+<span class="sd">                :func:`EdgePooling.forward`.</span>
+
+<span class="sd">        Return types:</span>
+<span class="sd">            * **x** *(torch.Tensor)* - The unpooled node features.</span>
+<span class="sd">            * **edge_index** *(torch.Tensor)* - The new edge indices.</span>
+<span class="sd">            * **batch** *(torch.Tensor)* - The new batch vector.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">unpool_info</span><span class="o">.</span><span class="n">new_edge_score</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">new_x</span> <span class="o">=</span> <span class="n">new_x</span><span class="p">[</span><span class="n">unpool_info</span><span class="o">.</span><span class="n">cluster</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">new_x</span><span class="p">,</span> <span class="n">unpool_info</span><span class="o">.</span><span class="n">edge_index</span><span class="p">,</span> <span class="n">unpool_info</span><span class="o">.</span><span class="n">batch</span></div>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">in_channels</span><span class="si">}</span><span class="s1">)&#39;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, PyG Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

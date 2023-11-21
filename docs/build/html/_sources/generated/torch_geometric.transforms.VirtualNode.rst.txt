@@ -1,0 +1,7 @@
+﻿torch\_geometric.transforms.VirtualNode
+=======================================
+
+.. currentmodule:: torch_geometric.transforms
+
+.. autoclass:: VirtualNode
+   :show-inheritance:

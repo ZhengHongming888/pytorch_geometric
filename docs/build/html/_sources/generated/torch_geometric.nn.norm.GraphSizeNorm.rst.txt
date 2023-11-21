@@ -1,0 +1,8 @@
+﻿torch\_geometric.nn.norm.GraphSizeNorm
+======================================
+
+.. currentmodule:: torch_geometric.nn.norm
+
+.. autoclass:: GraphSizeNorm
+   :show-inheritance:
+   :members:
