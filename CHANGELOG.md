@@ -7,6 +7,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- Added fallback code path for `segment` in case `torch-scatter` is not installed ([#8852](https://github.com/pyg-team/pytorch_geometric/pull/8852))
+- Added support for custom node labels in `visualize_graph()` ([#8816](https://github.com/pyg-team/pytorch_geometric/pull/8816))
+- Added support for graph partitioning for temporal data in `torch_geometric.distributed` ([#8718](https://github.com/pyg-team/pytorch_geometric/pull/8718), [#8815](https://github.com/pyg-team/pytorch_geometric/pull/8815))
 - Added `TreeGraph` and `GridMotif` generators ([#8736](https://github.com/pyg-team/pytorch_geometric/pull/8736))
 - Added an example for edge-level temporal sampling on a heterogenous graph ([#8383](https://github.com/pyg-team/pytorch_geometric/pull/8383))
 - Added the `num_graphs` option to the `StochasticBlockModelDataset` ([#8648](https://github.com/pyg-team/pytorch_geometric/pull/8648))
@@ -45,6 +48,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- Changed the default inference mode for `use_segment_matmul` based on benchmarking (from a heuristic-based version) ([#8615](https://github.com/pyg-team/pytorch_geometric/pull/8615))
 - Return an empty tensor from `utils.group_argsort` if its input tensor is empty ([#8752](https://github.com/pyg-team/pytorch_geometric/pull/8752))
 - GNN layers are now jittable by default ([#8745](https://github.com/pyg-team/pytorch_geometric/pull/8745))
 - Sparse node features in `NELL` and `AttributedGraphDataset` are now represented as `torch.sparse_csr_tensor` instead of `torch_sparse.SparseTensor` ([#8679](https://github.com/pyg-team/pytorch_geometric/pull/8679))
@@ -68,6 +72,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
 ### Fixed
 
+- Fixed Google Drive download issues ([#8804](https://github.com/pyg-team/pytorch_geometric/pull/8804))
 - Fixed a bug in which `InMemoryDataset` did not reconstruct the correct data class when a `pre_transform` has modified it ([#8692](https://github.com/pyg-team/pytorch_geometric/pull/8692))
 - Fixed a bug in which transforms were not applied for `OnDiskDataset` ([#8663](https://github.com/pyg-team/pytorch_geometric/pull/8663))
 - Fixed mini-batch computation in `DMoNPooing` loss function ([#8285](https://github.com/pyg-team/pytorch_geometric/pull/8285))
