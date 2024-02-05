@@ -170,8 +170,8 @@ Figure 8 it shows the scaling performance of ogbn-products dataset under partiti
         width="70%" 
         height="70%" 
         style="display: block; margin: 0 auto" />
+    Figure 8 – Scaling Performance over Partition Numbers (1/2/4/8/16)
 <p>
-<p style="text-align: center;">Figure 8 – Scaling Performance over Partition Numbers (1/2/4/8/16)</p>
 
 
 <p align="center">
