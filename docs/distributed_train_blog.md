@@ -30,16 +30,25 @@ In real life applications graphs often consists of billions of nodes that can't 
 ## Graph Partitioning
 The first step for distributed training is to split the graph into multiple smaller partitions, which can then be loaded into nodes of the cluster. This is a pre-processing step that can be done once as the resulting dataset .pt files can be reused. The Partitoner build on top of ClusterData, uses pyg-lib implementation of METIS pyg_lib.partition algorithm to perform graph partitioning in an efficient way, even on very large graphs. By default METIS always tries to balance the number of nodes of each type in each partition and minimize the amount of edges between the partitions. This guarantees that the partition provides accessibility to all neighboring local vertices, enabling samplers to perform local computations without the need for inter-communication. Through this partitioning approach, every edge receives a distinct assignment, although certain vertices may be replicated. The vertices shared between partitions are so called "halo nodes" as in Figure 2 where nodes (1, 4, 5, 10) are all halo nodes to keep the graph information perfect even after partition.
 
-![Alt text](image-2.png)
-Figure 2 – Graph Paritioning with Halo Nodes
+<p align="center">
+    <img src="image-2.png" alt="Picture" 
+        width="90%" 
+        height="90%" 
+        style="display: block; margin: 0 auto" />
+<p>
+<p style="text-align: center;">Figure 2 – Graph Paritioning with Halo Nodes</p>
 
 In our distributed training example the script partition_graph.py demonstrates the partitioning for homogenous ogbn-products,``Reddit``, and heterogenous:ogbn-mag, Movielens datasets. The Partitioner can also process temporal attributes of the nodes which is presented in the Movielens dataset partitioning. 
 
 The result of partitioning, for a two-part split of homogenous ogbn-products/ hetero ogbn-mag are as follows:
 
-![Alt text](image-3.png)
-
-Figure 3 – Two Paritions for Ogbn-Products/Ogbn-Mag dataset
+<p align="center">
+    <img src="image-3.png" alt="Picture" 
+        width="70%" 
+        height="70%" 
+        style="display: block; margin: 0 auto" />
+<p>
+<p style="text-align: center;">Figure 3 – Two Paritions for Ogbn-Products/Ogbn-Mag dataset</p>
 
 In distributed training, each node in the cluster holds a partition of the graph. Before the training starts, we will need partition the graph dataset into multiple partitions, each of which corresponds to a specific training node. 
 
@@ -67,17 +76,28 @@ torch_geometric.distributed.LocalFeatureStore is a class that serves as a node a
 - Remote feature lookup: Implements mechanisms for looking up features in both local and remote nodes during distributed training through RPC requests and evaluating PyTorch Futures. The class is designed to work seamlessly in distributed training scenarios, allowing for efficient feature handling across partitions.
 - Global identifiers: Maintains global identifiers for nodes and edges, allowing for consistent mapping across partitions.
 
-![Alt text](image-4.png)
+<p align="center">
+    <img src="image-4.png" alt="Picture" 
+        width="80%" 
+        height="80%" 
+        style="display: block; margin: 0 auto" />
+<p>
+<p style="text-align: center;">Figure 4 – Components/ APIs for LocalGraphStore/LocalFeatureStore</p>
 
-Figure 4 – Components/ APIs for LocalGraphStore/LocalFeatureStore
 
 ## DistNeigborLoader
 
 As shown in Figure 4 for distributed Neighborloader architecture, distributed loader class torch_geometric.distributed.DistLoader is used to provide a simple API for the sampling engine described above. It wraps initialization and cleanup of sampler processes with the modified function torch_geometric.distributed.DistLoader.worker_init_fn. The distributed class is integrated with standard PyG torch_geometric.loader.NodeLoader through inheritance in top-level class torch_geometric.distribued.DistNeighborLoader and PyG torch_geometric.loader.LinkLoader through torch_geometric.loader.DistLinkNeighborLoader.
 
 What makes batch generation slightly different from the single-node case is the step of local and remote feature fetching that follows node sampling. In a traditional workflow the output of iterator is passed directly to the loader, where torch_geometric.data.Data object is created using function torch_geometric.NodeLoader.filter_fn. Normally in this step node/edge attributes are assigned by performing lookup on input data object held in the loader. In distributed case, the output node indices need to pass through sampler's internal function torch_geometric.distributed.DistNeighborSampler._collate_fn that requests all partitions to return attribute values. Due to asynchronous processing of this step between all sampler sub-processes, the samplers may be forced to return output to class torch.multiprocessing.Queue, rather than directly to the output. 
-![Alt text](image-5.png)
-Figure 5 – Breakdown Structure for DistNeighborLoader
+
+<p align="center">
+    <img src="image-5.png" alt="Picture" 
+        width="50%" 
+        height="50%" 
+        style="display: block; margin: 0 auto" />
+<p>
+<p style="text-align: center;">Figure 5 – Breakdown Structure for DistNeighborLoader</p>
 
 ## DistNeighborSampler
 
@@ -107,9 +127,13 @@ Each batch of seed indices is passed to the torch_geometric.distributed.DistNeig
 
 ***Convert to Data object***: Based on the sampler output torch_geometric.sampler.SamplerOutput and the acquired node (or edge) features, a torch_geometric.data.Data object is created (or its heterogenous counterpart). This object forms a batch used in subsequent computational operations of the model. This step occurs within the loader :func:`filter_fn`.
 
-![Alt text](image-6.png)
-
-Figure 6 –  Distributed Sampler (local/ remote node sampling)
+<p align="center">
+    <img src="image-6.png" alt="Picture" 
+        width="90%" 
+        height="90%" 
+        style="display: block; margin: 0 auto" />
+<p>
+<p style="text-align: center;">Figure 6 –  Distributed Sampler (local/ remote node sampling)</p>
 
 ## Torch RPC /DDP
 
@@ -121,9 +145,13 @@ In our solution, we opted for torch.distributed.rpc over alternatives such as gR
 
 The DDP group is initialzied in a standard way in the main training script. RPC group initialization is more complicated as it needs to happen in each sampler subprocess. This can be done by modifying function torch_geometric.distributed.DistLoader.worker_init_fn that is called at the initialization step of worker processes by a PyTorch base class torch.utils.data._MultiProcessingDataLoaderIter. This functions first sets a unique class torch_geomeric.distribued.DistContext for each worker and assigns it a group and rank, subsequently it initializes a standard class torch_geomeric.sampler.NeighborSampler that provides basic functionality also for distributed data processing, and finally registers a new member in an RPC group mp_sampling_worker as shown in Figure 8. This RPC connection remains open as long as the sub-process exists. Additonally, we opt for using atexit module to register additonal cleanup behaviors that are triggered when the process is terminated.
 
-![Alt text](image-7.png)
-
-Figure 7 –  RPC group/ DDP group for distributed PyG
+<p align="center">
+    <img src="image-7.png" alt="Picture" 
+        width="70%" 
+        height="70%" 
+        style="display: block; margin: 0 auto" />
+<p>
+<p style="text-align: center;">Figure 7 –  RPC group/ DDP group for distributed PyG</p>
 
 ## Results and Performance
 
@@ -137,12 +165,22 @@ We did the benchmarking testing in below system configuration.
   
 Figure 8 it shows the scaling performance of ogbn-products dataset under partition number (1/2/4/8/16) as processing time in batch unit for our distributed PyG training. This table shows the explicit scaling benefit when the partition number is increasing and this can reduce the training time greatly when graph dataset is really big. Figure 9 it shows the training loss & test accuracy over the epochs which can guarantee the correctness of our distributed solution for PyG. 
 
-![Alt text](image-8.png)
+<p align="center">
+    <img src="image-8.png" alt="Picture" 
+        width="70%" 
+        height="70%" 
+        style="display: block; margin: 0 auto" />
+<p>
+<p style="text-align: center;">Figure 8 – Scaling Performance over Partition Numbers (1/2/4/8/16)</p>
 
-Figure 8 – Scaling Performance over Partition Numbers (1/2/4/8/16)
 
-![Alt text](image-9.png)
-Figure 9 – Training Loss & Test Accuracy for Homo Ogbn-Products dataset
+<p align="center">
+    <img src="image-9.png" alt="Picture" 
+        width="90%" 
+        height="90%" 
+        style="display: block; margin: 0 auto" />
+<p>
+<p style="text-align: center;">Figure 9 – Training Loss & Test Accuracy for Homo Ogbn-Products dataset</p>
 
 We also verfied the scaling performance for heterogeneous data, like ogbn-mag dataset. 
 
