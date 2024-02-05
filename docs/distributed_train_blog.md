@@ -36,7 +36,7 @@ The first step for distributed training is to split the graph into multiple smal
         height="90%" 
         style="display: block; margin: 0 auto" />
 </p>
-<p style="text-align: center;">Figure 2 – Graph Paritioning with Halo Nodes</p>
+<div align="center">Figure 2 – Graph Paritioning with Halo Nodes</div>
 
 In our distributed training example the script partition_graph.py demonstrates the partitioning for homogenous ogbn-products,``Reddit``, and heterogenous:ogbn-mag, Movielens datasets. The Partitioner can also process temporal attributes of the nodes which is presented in the Movielens dataset partitioning. 
 
