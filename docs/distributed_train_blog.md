@@ -147,8 +147,8 @@ The DDP group is initialzied in a standard way in the main training script. RPC 
 
 <p align="center">
     <img src="image-7.png" alt="Picture" 
-        width="60%" 
-        height="60%" 
+        width="50%" 
+        height="50%" 
         style="display: block; margin: 0 auto" />
 </p>
 <div align="center">Figure 7 –  RPC group/ DDP group for distributed PyG</div>
