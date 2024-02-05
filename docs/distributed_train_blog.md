@@ -35,7 +35,7 @@ The first step for distributed training is to split the graph into multiple smal
         width="90%" 
         height="90%" 
         style="display: block; margin: 0 auto" />
-<p>
+</p>
 <p style="text-align: center;">Figure 2 – Graph Paritioning with Halo Nodes</p>
 
 In our distributed training example the script partition_graph.py demonstrates the partitioning for homogenous ogbn-products,``Reddit``, and heterogenous:ogbn-mag, Movielens datasets. The Partitioner can also process temporal attributes of the nodes which is presented in the Movielens dataset partitioning. 
@@ -47,7 +47,7 @@ The result of partitioning, for a two-part split of homogenous ogbn-products/ he
         width="70%" 
         height="70%" 
         style="display: block; margin: 0 auto" />
-<p>
+</p>
 <p style="text-align: center;">Figure 3 – Two Paritions for Ogbn-Products/Ogbn-Mag dataset</p>
 
 In distributed training, each node in the cluster holds a partition of the graph. Before the training starts, we will need partition the graph dataset into multiple partitions, each of which corresponds to a specific training node. 
@@ -81,7 +81,7 @@ torch_geometric.distributed.LocalFeatureStore is a class that serves as a node a
         width="80%" 
         height="80%" 
         style="display: block; margin: 0 auto" />
-<p>
+</p>
 <p style="text-align: center;">Figure 4 – Components/ APIs for LocalGraphStore/LocalFeatureStore</p>
 
 
@@ -96,7 +96,7 @@ What makes batch generation slightly different from the single-node case is the 
         width="50%" 
         height="50%" 
         style="display: block; margin: 0 auto" />
-<p>
+</p>
 <p style="text-align: center;">Figure 5 – Breakdown Structure for DistNeighborLoader</p>
 
 ## DistNeighborSampler
@@ -132,7 +132,7 @@ Each batch of seed indices is passed to the torch_geometric.distributed.DistNeig
         width="90%" 
         height="90%" 
         style="display: block; margin: 0 auto" />
-<p>
+</p>
 <p style="text-align: center;">Figure 6 –  Distributed Sampler (local/ remote node sampling)</p>
 
 ## Torch RPC /DDP
@@ -150,7 +150,7 @@ The DDP group is initialzied in a standard way in the main training script. RPC 
         width="70%" 
         height="70%" 
         style="display: block; margin: 0 auto" />
-<p>
+</p>
 <p style="text-align: center;">Figure 7 –  RPC group/ DDP group for distributed PyG</p>
 
 ## Results and Performance
@@ -170,8 +170,8 @@ Figure 8 it shows the scaling performance of ogbn-products dataset under partiti
         width="70%" 
         height="70%" 
         style="display: block; margin: 0 auto" />
-    Figure 8 – Scaling Performance over Partition Numbers (1/2/4/8/16)
-<p>
+</p>
+<p style="text-align: center;">Figure 8 – Scaling Performance over Partition Numbers (1/2/4/8/16)</p>
 
 
 <p align="center">
@@ -179,7 +179,7 @@ Figure 8 it shows the scaling performance of ogbn-products dataset under partiti
         width="90%" 
         height="90%" 
         style="display: block; margin: 0 auto" />
-<p>
+</p>
 <p style="text-align: center;">Figure 9 – Training Loss & Test Accuracy for Homo Ogbn-Products dataset</p>
 
 We also verfied the scaling performance for heterogeneous data, like ogbn-mag dataset. 
