@@ -172,8 +172,7 @@ Figure 8 it shows the scaling performance of ogbn-products dataset under partiti
         style="display: block; margin: 0 auto" />
 </p>
 <div align="center">Figure 8 – Scaling Performance over Partition Numbers (1/2/4/8/16)</div>
-
-
+<p>
 <p align="center">
     <img src="image-9.jpg" alt="Picture" 
         width="90%" 
@@ -181,7 +180,7 @@ Figure 8 it shows the scaling performance of ogbn-products dataset under partiti
         style="display: block; margin: 0 auto" />
 </p>
 <div align="center">Figure 9 – Training Loss & Test Accuracy for Homo Ogbn-Products dataset</div>
-
+<p>
 We also verfied the scaling performance for heterogeneous data, like ogbn-mag dataset. 
 
 ## Future Plans
