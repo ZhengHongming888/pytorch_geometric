@@ -193,4 +193,5 @@ The ongoing distributed work for PyG and next steps are:
 
 - [PyTorch Geometric](https://github.com/pyg-team/pytorch_geometric)
 - [Readme for distributed training example for PyG](https://github.com/pyg-team/pytorch_geometric/tree/master/examples/distributed/pyg)
-- [torch_geometric.distributed components](https://github.com/pyg-team/pytorch_geometric/tree/master/torch_geometric/distributed) 
+- [Tutorial document for distributed PyG](https://github.com/pyg-team/pytorch_geometric/tree/master/docs)
+- [APIs for torch_geometric.distributed](https://github.com/pyg-team/pytorch_geometric/tree/master/torch_geometric/distributed) 
