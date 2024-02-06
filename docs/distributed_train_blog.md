@@ -159,9 +159,9 @@ We did the benchmarking testing in below system configuration.
 - Bare-Metal
   - node, 2x Intel(R) Xeon(R) Platinum 8360Y CPU @ 2.40GHz, 36 cores, HT On, Turbo On, NUMA 2, Integrated Accelerators Available [used]: DLB 0 [0], DSA 0 [0], IAA 0 [0], QAT 0 [0], Total Memory 256GB (16x16GB DDR4 3200 MT/s [3200 MT/s]), BIOS SE5C620.86B.01.01.0003.2104260124, microcode 0xd000389, 2x Ethernet Controller X710 for 10GbE SFP+, 1x MT28908 Family [ConnectX-6], 1x 894.3G INTEL SSDSC2KG96, Rocky Linux 8.8 (Green Obsidian), 4.18.0-477.21.1.el8_8.x86_64
 - Multi-nodes:
-  - 2/4/8/16 nodes each with [same as bare metal as above]
+  - 1/2/4/8/16 nodes each with [same as bare metal as above]
 - Software:
-  - Python 3.9.16 / Pytorch 2.0.1/ Pytorch Geometric 2.4/ Pytorch PyG_lib 0.2.0/ Ogbn-Products dataset/ graph-sage Model
+  - Python 3.9.16 / Pytorch 2.1.2/ Pytorch Geometric 2.4/ Pytorch PyG_lib 0.3.1/ Ogbn-Products dataset/ graph-sage Model
   
 Figure 8 it shows the scaling performance of ogbn-products dataset under partition number (1/2/4/8/16) as processing time in batch unit for our distributed PyG training. This table shows the explicit scaling benefit when the partition number is increasing and this can reduce the training time greatly when graph dataset is really big. Figure 9 it shows the training loss & test accuracy over the epochs which can guarantee the correctness of our distributed solution for PyG. 
 
